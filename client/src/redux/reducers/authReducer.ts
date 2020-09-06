@@ -62,7 +62,6 @@ export const authReducer = (state = initialState, action: Action): IAuth => {
     case types.LOGOUT:
       return {
         ...state,
-        isFakeData: true,
         isLoading: false,
         isLoggedIn: false,
         currentUser: null
