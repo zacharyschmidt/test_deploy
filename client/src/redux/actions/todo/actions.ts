@@ -145,7 +145,6 @@ export const completeTodo = (id: string, checked: boolean) => (
       );
     })
     .catch((err) => {
-      console.log(err.message);
       dispatch(catchRequestErr(err));
       dispatch(setSnackBar({ type: 'error', msg: err.response.data.message }));
     });

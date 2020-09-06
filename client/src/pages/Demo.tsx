@@ -47,6 +47,14 @@ const useStyles = makeStyles((theme: Theme) => ({
     [theme.breakpoints.down('md')]: {
       width: ' 90%'
     }
+  },
+
+  userLabel: {
+    height: '100px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '2rem'
   }
 }));
 
@@ -103,6 +111,10 @@ const Demo = () => {
     <>
       <div className={classes.demoWrapper}>
         <div className={classes.todoListWrapper}>
+          <div className={classes.userLabel}>
+            {authState.currentUser?.email &&
+              `Hi, ${authState.currentUser?.email}`}
+          </div>
           <div className={classes.title}>Your Todo List</div>
           <div className={classes.formWrapper}>
             <form className={classes.form} onSubmit={onAddTodo}>

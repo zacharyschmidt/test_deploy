@@ -26,7 +26,7 @@ const AuthLinks = () => {
           </Link>
         </>
       ) : (
-        <LogoutPrivateComp>
+        <LogoutPrivateComp fallback="Auth error">
           <Link to="/" onClick={logoutHandler}>
             Logout
           </Link>

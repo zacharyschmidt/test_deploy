@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import { setSnackBar } from '../ui/actions';
 import { setFake } from '../../fake/fakeActions';
-import { resetTodos } from '../todo/actions';
 
 const createGetProfile = () => {
   return {
@@ -69,6 +68,7 @@ export const login = (creds: UserCreds) => (dispatch: Dispatch<any>) => {
       axios.defaults.headers.common[
         'Autorization'
       ] = `Bearer ${res.data.token}`;
+
       dispatch(loginSuccess(res.data));
     })
     .catch((err) => {
@@ -89,10 +89,12 @@ export const register = (creds: UserCreds) => (dispatch: Dispatch<any>) => {
       axios.defaults.headers.common[
         'Autorization'
       ] = `Bearer ${res.data.token}`;
+
       localStorage.setItem(
         process.env.REACT_APP_LOCAL_TOKEN as string,
         res.data.token
       );
+
       dispatch(registerSuccess(res.data));
     })
     .catch((err) => {
@@ -120,6 +122,7 @@ export const getProfile = () => (dispatch: Dispatch<any>) => {
         dispatch(getProfileSuccess(res.data));
       })
       .catch((err) => {
+        dispatch(catchAuthRequestErr(err.response.data.message));
         console.error(err.response.data.message);
       });
   } else {

@@ -18,6 +18,13 @@ export type TodosTableHeader = {
   minWidth: number;
 };
 
+export type CurrentUser = {
+  id: string;
+  createdOn: Date;
+  email: string;
+  token?: string;
+};
+
 export type AlertType = 'success' | 'info' | 'warning' | 'error' | undefined;
 
 export type SnackBarAlert = {
@@ -51,7 +58,7 @@ export interface IUiState {
 
 export interface IAuth {
   isFakeData: boolean;
-  currentUser: any;
+  currentUser: CurrentUser | null;
   err: any;
   isLoading: boolean;
   isLoggedIn: boolean;

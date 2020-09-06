@@ -6,7 +6,7 @@ const initialState: IAuth = {
   isFakeData: false,
   isLoading: true,
   isLoggedIn: false,
-  currentUser: {},
+  currentUser: null,
   err: ''
 };
 
@@ -65,7 +65,7 @@ export const authReducer = (state = initialState, action: Action): IAuth => {
         isFakeData: true,
         isLoading: false,
         isLoggedIn: false,
-        currentUser: {}
+        currentUser: null
       };
     case SET_FAKE:
       return {

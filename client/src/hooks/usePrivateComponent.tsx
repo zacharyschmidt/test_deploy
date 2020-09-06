@@ -7,7 +7,7 @@ export const usePrivateComponent = () => {
     const authState = useSelector((state: IStore) => state.auth);
     return authState.isLoggedIn
       ? (children as NonNullable<any>)
-      : fallback || null;
+      : (!authState.isLoading && fallback) || null;
   };
 
   return Comp;
