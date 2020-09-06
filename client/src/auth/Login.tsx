@@ -37,7 +37,7 @@ const Login = () => {
     dispatch(authActions.login(creds));
   };
 
-  return !authState.isLoggedIn ? (
+  return !authState.isLoggedIn && authState.isFakeData ? (
     <div
       style={{
         height: '100%',
@@ -110,7 +110,7 @@ const Login = () => {
       </form>
     </div>
   ) : (
-    <Redirect to="/demo" />
+    (!authState.isLoading && <Redirect to="/demo" />) || null
   );
 };
 

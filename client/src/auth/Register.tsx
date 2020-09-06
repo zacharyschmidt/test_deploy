@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@material-ui/core';
-import { Link, useHistory, Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { UserCreds, IStore } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as authActions from '../redux/actions/auth/actions';
 
 const Register = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
   const authState = useSelector((state: IStore) => state.auth);
 
   const [creds, setCreds] = useState<UserCreds>({
@@ -37,7 +36,7 @@ const Register = () => {
     dispatch(authActions.register(creds));
   };
 
-  return !authState.isLoggedIn ? (
+  return !authState.isLoggedIn && authState.isFakeData ? (
     <div
       style={{
         height: '100%',
@@ -105,7 +104,7 @@ const Register = () => {
       </form>
     </div>
   ) : (
-    <Redirect to="/demo" />
+    (!authState.isLoading && <Redirect to="/demo" />) || null
   );
 };
 
