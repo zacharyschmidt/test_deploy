@@ -45,13 +45,10 @@ project-name
             tsconfig.json
             package.json
     |
-    |---/ database
-            .env
-            initdb.sql
-            .gitignore
     |---/ server
+            |---/ database
             |
-            |---/src
+            |---/ src
             |
             ormconfig.json
             .dockerignore
