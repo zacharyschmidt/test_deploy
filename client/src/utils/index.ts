@@ -5,7 +5,7 @@ export const setAxiosDefaultAutorization = (token: string) => {
 };
 
 export const setLocalStorageAuthToken = (token: string) => {
-  localStorage.setItem(process.env.REACT_APP_LOCAL_STORAGE as string, token);
+  localStorage.setItem(process.env.REACT_APP_LOCAL_TOKEN as string, token);
 };
 
 export const getLocalStorageAuthToken = () => {

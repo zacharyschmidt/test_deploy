@@ -148,7 +148,9 @@ const Demo = () => {
             /**
              *
              */
-            headerStyle={{ background: 'black' }}
+            headerStyle={{
+              background: 'rgba(0,0,0,0.8)'
+            }}
             /**
              *
              */
