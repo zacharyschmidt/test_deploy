@@ -12,9 +12,9 @@ import { verify } from 'jsonwebtoken';
 export class AuthGuard implements CanActivate {
   canActivate = async (context: ExecutionContext): Promise<boolean> => {
     const request = context.switchToHttp().getRequest();
-    if (!request.headers.autorization) return false;
+    if (!request.headers.authorization) return false;
 
-    request.user = await this.verifyToken(request.headers.autorization);
+    request.user = await this.verifyToken(request.headers.authorization);
     return true;
   };
 

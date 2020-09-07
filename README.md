@@ -46,8 +46,8 @@ project-name
             package.json
     |
     |---/ server
-            |---/ database
             |
+            |---/ database
             |---/ src
             |
             ormconfig.json
@@ -78,7 +78,7 @@ demo can be started in development mode and in production mode as well.
 Clone this repo to your local machine
 
 ```
-git clone https://github.com/nadavpodjarski/postgres-express-react-typescript-boilerplate.git project-name
+git clone https://github.com/nadavpodjarski/postgres-nest-react-typescript-boilerplate.git project-name
 ```
 
 Before we run our container lets calm down our editor and npm install dependecies locally.

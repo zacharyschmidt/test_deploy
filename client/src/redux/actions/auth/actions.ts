@@ -108,7 +108,7 @@ export const getProfile = () => (dispatch: Dispatch<any>) => {
       method: 'GET',
       url: '/api/profile',
       headers: {
-        Autorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`
       }
     })
       .then((res) => {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, makeStyles, Theme } from '@material-ui/core';
 import TodosTable from '../containers/TodosTable';
 import AddButton from '../components/add-button/AddButton';
-
+import githubForkRibbon from '../assets/github-corner-right.svg';
 import { IStore } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as todoActions from '../redux/actions/todo/actions';
@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) => ({
     height: '100px',
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
     fontSize: '2rem'
   }
 }));
@@ -112,8 +112,7 @@ const Demo = () => {
       <div className={classes.demoWrapper}>
         <div className={classes.todoListWrapper}>
           <div className={classes.userLabel}>
-            {authState.currentUser?.email &&
-              `Hi, ${authState.currentUser?.email}`}
+            {`Hi, ${authState.currentUser?.email || 'Stranger'}`}
           </div>
           <div className={classes.title}>Your Todo List</div>
           <div className={classes.formWrapper}>
