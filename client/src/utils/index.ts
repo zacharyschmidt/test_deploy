@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const setAxiosDefaultAutorization = (token: string) => {
-  axios.defaults.headers.common['Autorization'] = `Bearer ${token}`;
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };
 
 export const setLocalStorageAuthToken = (token: string) => {
