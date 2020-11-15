@@ -1,8 +1,8 @@
 {
   "type": "postgres",
   "host": "postgres_db",
-  "username": "admin",
-  "password": "admin",
+  "username": "postgres",
+  "password": "postgres",
   "synchronize": true,
   "logging": true,
   "database": "demo",
