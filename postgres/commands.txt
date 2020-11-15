@@ -1,0 +1,16 @@
+postgres EIA dump:
+
+pg_dump -U postgres -h localhost -p 5432 -d eia --no-owner | gzip -9 > init.sql.gz
+
+needed "no-owner" to avoid permission issue, -O flag didn't work. then I needed to change
+the user specified in the dockerfile, docker-compose file and ormconfig file to be postgres
+(what if I had wanted the user to be something else? could I have specified this in the pg_dump)
+
+then I needed to make sure that I connedcted to the database specified in the dockerfile, 
+docker-compose file and ormconfig file.
+
+the ormconfig files need to match so that the server app can connect to the database as well.
+
+see top n rows of zipped file:
+
+gzcat < init.sql.gz | head -n 20
