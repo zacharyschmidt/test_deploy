@@ -2,7 +2,7 @@ import { RouteComponentProps } from "@reach/router";
 
 export type Dispatch = React.Dispatch<IAction>;
 
-export interface IState {
+export interface IEIA {
   series: Array<ISeries>;
   selected: Array<ISeries>;
   seriesData: Array<ISeriesData>;
@@ -38,9 +38,9 @@ export interface ISeries {
 
 export interface ISeriesProps {
   series: Array<ISeries>;
-  store: { state: IState; dispatch: Dispatch };
+  store: { state: IEIA; dispatch: Dispatch };
   toggleSelectAction: (
-    state: IState,
+    state: IEIA,
     dispatch: any,
     series: ISeries
   ) => IAction;

@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { Store } from './Store';
-import { fetchDataAction, clearSearchAction } from './Actions';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchDataAction,
+  clearSearchAction
+} from './redux/actions/eia/actions';
+import { IStore } from './types';
 
 type FormElem = React.FormEvent<HTMLFormElement>;
 
 export default function SearchBar(): JSX.Element {
-  const { state, dispatch } = React.useContext(Store);
+  const dispatch = useDispatch();
+  const state = useSelector((state: IStore) => state.eia);
 
   const [value, setValue] = useState<string>('');
   // const [region, setRegion]

@@ -1,6 +1,6 @@
 import React from 'react';
 import DataCard from './DataCard';
-import { ISeries } from './redux/actions/eia/interfaces';
+import { ISeries } from './types';
 
 export default function SelectedList(props: any): Array<JSX.Element> {
   const { series, toggleSelectAction, selected, store } = props;

@@ -1,14 +1,21 @@
 import React from 'react';
 import SearchBar from './SearchBar';
 import SimpleMenu from './Menu';
-import { ISeriesProps } from './redux/actions/eia/interfaces';
+import { ISeriesProps, IStore } from './types';
 import { Store } from './Store';
-import { fetchDataAction, toggleSelectAction } from './Actions';
+import {
+  fetchDataAction,
+  toggleSelectAction
+} from './redux/actions/eia/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function HomePage() {
-  const { state, dispatch } = React.useContext(Store);
+  const dispatch = useDispatch();
+  const state = useSelector((state: IStore) => state.eia);
+  //const { state, dispatch } = React.useContext(Store);
+
   // React.useEffect(() => {
   //   state.treeCats.length === 0 && fetchTreeCatsAction(dispatch, "371");
   //   console.log(state)
@@ -195,7 +202,7 @@ export default function HomePage() {
     toggleSelectAction,
     selected: state.selected
   };
-
+  console.log(props);
   console.log(state.treeSeries);
   return (
     <React.Fragment>

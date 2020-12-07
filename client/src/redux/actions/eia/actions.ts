@@ -1,4 +1,4 @@
-import { IAction, ISeries, IState } from "./interfaces";
+import { IAction, ISeries, IEIA } from "./interfaces";
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 const key = "d329ef75e7dfe89a10ea25326ada3c43";
@@ -553,7 +553,7 @@ export const fetchDataAction = async (
 export const fetchDataSeriesAction = async (
   dispatch: any,
   series_id: string,
-  state: IState
+  state: IEIA
 ) => {
   // if (
   //   state.seriesData.filter((series: any) => series.series_id === series_id)
@@ -599,7 +599,7 @@ export const setFilterAction = (dispatch: any, filter: any) => {
 };
 
 export const toggleSelectAction = (
-  state: IState,
+  state: IEIA,
   dispatch: any,
   series: ISeries | any
 ): IAction => {

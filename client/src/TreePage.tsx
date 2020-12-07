@@ -2,9 +2,12 @@ import React from 'react';
 import SearchBar from './SearchBar';
 import Tree from './Tree';
 import SimpleMenu from './Menu';
-import { ISeriesProps } from './redux/actions/eia/interfaces';
+import { ISeriesProps } from './types';
 import { Store } from './Store';
-import { fetchDataAction, toggleSelectAction } from './Actions';
+import {
+  fetchDataAction,
+  toggleSelectAction
+} from './redux/actions/eia/actions';
 
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
