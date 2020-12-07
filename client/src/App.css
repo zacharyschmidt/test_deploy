@@ -44,3 +44,82 @@
     transform: rotate(360deg);
   }
 }
+
+.series-layout {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 100vh;
+
+}
+
+.series-box {
+  padding: .5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  padding: .5rem;
+  position: sticky;
+  top: 0;
+}
+
+.search-area {
+  border-bottom: 1px solid black;
+  display: flex;
+  flex-direction: row;
+}
+
+.card-container {
+  width: 250px;
+  border: 1px solid rgba(0, 0, .125);
+  margin: 0 auto;
+  border-radius: 5px;
+  overflow: hidden;
+  padding: .5rem;
+}
+
+.treeAndSeries {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  grid-template-rows: 150px 1fr;
+}
+
+.menu-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.sub-menu {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(0, 0, .125);
+}
+
+.data-table {
+  display: flex;
+  flex-wrap: wrap;
+  min-width: 150vh;
+
+}
+
+.chartAndtable {
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  grid-template-rows: 150px 1fr;
+  gap: 20px;
+}
+
+.download-button {
+  grid-row-start: 2;
+  grid-row-end: 3;
+}
+
+
+.search-bar {
+
+  float: left;
+
+}
+
