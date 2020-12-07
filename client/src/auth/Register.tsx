@@ -4,6 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { UserCreds, IStore } from '../types';
 import { useDispatch, useSelector } from 'react-redux';
 import * as authActions from '../redux/actions/auth/actions';
+import Navbar from '../containers/Navbar';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -47,6 +48,7 @@ const Register = () => {
         flexDirection: 'column'
       }}
     >
+      <Navbar />
       <div
         style={{
           margin: '30px 0'

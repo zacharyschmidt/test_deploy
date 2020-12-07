@@ -5,6 +5,7 @@ import { Link, Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import * as authActions from '../redux/actions/auth/actions';
 import { IStore } from '../types';
+import Navbar from '../containers/Navbar';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ const Login = () => {
         flexDirection: 'column'
       }}
     >
+      <Navbar />
       <div
         style={{
           margin: '30px 0',

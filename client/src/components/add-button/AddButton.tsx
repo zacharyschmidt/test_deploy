@@ -1,14 +1,34 @@
 import React, { FC, CSSProperties } from 'react';
 import { Button, Typography } from '@material-ui/core';
+import DownloadLink from 'react-download-link';
+//import testRIS from '../../..public/files/test.ris';
 
-const AddButton: FC<{
+// move this to a new file--need to figure out type declarations for typescript
+let testRIS = `TY  - DATA
+DA  - 2014///
+ID  - temp_id_379229159811
+LB  - temp_id_379229159811
+N1  - The Annual Energy Outlook (AEO) from EIA.gov provides long term foreca
+ sts (25 years) of U.S. energy production, consumption, and trade for 
+t he United Stated of electricity, petroleum, natural gas, coal, nucle
+ar , and renewable sources.
+PB  - U.S. Energy Information Administration
+TI  - Annual Energy Outlook 2014
+UR  - http://api.eia.gov/bulk/AEO2014.zip
+ER  - `;
+interface Props {
   style?: CSSProperties;
-}> = ({ style = {} }) => {
+  onClick?: () => void;
+}
+
+const AddButton: FC<Props> = ({ style = {}, onClick }) => {
+  console.log(onClick);
   return (
     <Button
       type="submit"
+      //onClick={onClick}
       style={{
-        background: '#FF0083',
+        background: '#3374ff',
         color: 'white',
         padding: '1rem',
         fontSize: '1rem',
@@ -16,7 +36,13 @@ const AddButton: FC<{
         ...style
       }}
     >
-      <Typography>ADD</Typography>
+      <DownloadLink
+        label="Download RIS"
+        filename="Test.ris"
+        exportFile={() => testRIS}
+      >
+        <Typography>Download RIS</Typography>
+      </DownloadLink>
     </Button>
   );
 };

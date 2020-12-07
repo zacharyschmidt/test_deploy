@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Navbar from '../containers/Navbar';
 
 const Home = () => {
   const [welcomeMsg, setWelcomeMsg] = useState<string>('');
@@ -12,6 +13,7 @@ const Home = () => {
 
   return (
     <div className="App-header">
+      <Navbar />
       <p>{welcomeMsg}</p>
     </div>
   );

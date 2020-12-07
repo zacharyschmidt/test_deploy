@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import Home from './pages/Home';
 import Demo from './pages/Demo';
 import Navbar from './containers/Navbar';
-import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import IndexData from './IndexData';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import SnackBar from './components/snackbar/SnackBar';
 import Login from './auth/Login';
 import Register from './auth/Register';
@@ -22,15 +23,14 @@ function App() {
   return (
     <>
       <div className="App">
-        <BrowserRouter>
-          <Navbar />
+        <Router>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/demo" component={Demo} />
+            <Route path="/demo" component={IndexData} />
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
           </Switch>
-        </BrowserRouter>
+        </Router>
       </div>
       <SnackBar
         position={{ vertical: 'bottom', horizontal: 'left' }}
