@@ -1,7 +1,4 @@
-import { FilterSharp } from '@material-ui/icons';
-import React, { ReactElement, ReactComponentElement } from 'react';
-
-import { IEIA, IAction } from './types';
+import { IEIA, IAction } from '../../types';
 
 const initialState: IEIA = {
   series: [],
@@ -17,9 +14,7 @@ const initialState: IEIA = {
   }
 };
 
-export const Store = React.createContext<IEIA | any>(initialState);
-
-function reducer(state: IEIA, action: IAction): IEIA {
+export const eiaReducer = (state=initialState, action: IAction): IEIA => {
   switch (action.type) {
     case 'FETCH_DATA':
       return { ...state, series: action.payload };
@@ -46,14 +41,4 @@ function reducer(state: IEIA, action: IAction): IEIA {
     default:
       return state;
   }
-}
-
-export function StoreProvider({
-  children
-}: JSX.ElementChildrenAttribute): JSX.Element {
-  const [state, dispatch] = React.useReducer(reducer, initialState);
-  console.log(state);
-  return (
-    <Store.Provider value={{ state, dispatch }}>{children}</Store.Provider>
-  );
-}
+};

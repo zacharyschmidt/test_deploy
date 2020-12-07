@@ -7,7 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { Store } from "./Store";
 
-import { setFilterAction } from './Actions';
+import { setFilterAction } from './redux/actions/eia/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {

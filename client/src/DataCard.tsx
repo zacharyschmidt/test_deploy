@@ -1,5 +1,5 @@
 import React from 'react';
-import { ISeries } from './redux/actions/eia/interfaces';
+import { ISeries } from './types';
 import { Link } from 'react-router-dom';
 
 export default function DataCard(props: any) {

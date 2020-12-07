@@ -1,7 +1,7 @@
 import React from 'react';
 import { Store } from './Store';
-import { ISeriesProps } from './redux/actions/eia/interfaces';
-import { toggleSelectAction } from './Actions';
+import { ISeriesProps } from './types';
+import { toggleSelectAction } from './redux/actions/eia/actions';
 
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 

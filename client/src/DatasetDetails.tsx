@@ -1,15 +1,18 @@
 import React from 'react';
 import { Store } from './Store';
-import { DatasetDetailsProps } from './redux/actions/eia/interfaces';
-import { fetchDataSeriesAction } from './Actions';
+import { DatasetDetailsProps } from './types';
+import { fetchDataSeriesAction } from './redux/actions/eia/actions';
 import LineChart from './LineChart';
 import DataTable from './DataTable';
 import AddButton from './components/add-button/AddButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { IStore } from './types';
 
 const DatasetDetails = (props: any): JSX.Element => {
   console.log(props.match.params.series_id);
   const series_id = props.match.params.series_id;
-  const { state, dispatch } = React.useContext(Store);
+  const dispatch = useDispatch();
+  const state = useSelector((state: IStore) => state.eia);
   console.log(state);
   // problem: state seriesData array is getting to many versions of the dataset.
   //move logic to check for multiple selections of same dataseries in here
