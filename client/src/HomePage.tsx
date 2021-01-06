@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import SearchBar from './SearchBar';
 import SimpleMenu from './Menu';
+import RecordsPerPage from './components/pagination/RecordsPerPage';
+import {Pagination} from './components/pagination/Pagination'
 import { ISeriesProps, IStore } from './types';
-import { Store } from './Store';
+
 import {
   fetchDataAction,
   toggleSelectAction
@@ -14,7 +16,9 @@ const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 export default function HomePage() {
   const dispatch = useDispatch();
   const state = useSelector((state: IStore) => state.eia);
+;
   //const { state, dispatch } = React.useContext(Store);
+
 
   // React.useEffect(() => {
   //   state.treeCats.length === 0 && fetchTreeCatsAction(dispatch, "371");
@@ -263,6 +267,9 @@ export default function HomePage() {
             />
             <SimpleMenu filter={'Last Updated'} options={['dummy']} />
           </div>
+          <div>
+            <RecordsPerPage/>
+          </div>
 
           <br />
           <br />
@@ -275,6 +282,7 @@ export default function HomePage() {
           <SeriesList {...props} />
         </section>
       </React.Suspense>
+      <Pagination/>
     </React.Fragment>
   );
 }

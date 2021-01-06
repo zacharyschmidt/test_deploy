@@ -4,7 +4,7 @@ import TreeView from "@material-ui/lab/TreeView";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import TreeItem from "@material-ui/lab/TreeItem";
-import { Store } from "./Store";
+import { useSelector, useDispatch } from "react-redux";
 import {setTreeSeriesAction} from "./Actions"
 
 const useStyles = makeStyles({
@@ -21,8 +21,8 @@ const key = "d329ef75e7dfe89a10ea25326ada3c43"
 export default function Tree() {
   const classes = useStyles();
 
-const { state, dispatch } = React.useContext(Store);
-
+const state = useSelector((state) => state.eia)
+const dispatch = useDispatch()
 //const tree = state.tree
 
 const initialTree = {

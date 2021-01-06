@@ -112,7 +112,7 @@ const Login = () => {
       </form>
     </div>
   ) : (
-    (!authState.isLoading && <Redirect to="/demo" />) || null
+    (!authState.isLoading && <Redirect to="/todo" />) || null
   );
 };
 

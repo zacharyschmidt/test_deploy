@@ -58,10 +58,14 @@ export interface IStore {
 }
 
 export interface IEIA {
-series: Array<ISeries>;
+  searchTerm: string;
+  series: Array<ISeries>;
+  seriesCount: number;
   selected: Array<ISeries>;
   seriesData: Array<ISeriesData>;
   treeSeries: Array<ISeries>;
+  page: number,
+  limit: number
   filters: any
 }
 
@@ -69,7 +73,7 @@ export type Dispatch = React.Dispatch<IAction>;
 
 
 export interface ISeriesData {
-  series_id: string;
+  seriesID: string;
   name: string;
   units: string;
   f: string;
@@ -90,7 +94,7 @@ export interface IAction {
 }
 
 export interface ISeries {
-  series_id: number;
+  seriesID: number;
   name: string;
 }
 
@@ -106,7 +110,7 @@ export interface ISeriesProps {
 }
 
 export interface DatasetDetailsProps extends RouteComponentProps {
-  series_id?: string;
+  seriesID?: string;
 }
 
 export interface IUIEIA {

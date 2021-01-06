@@ -65,6 +65,19 @@ const Navbar = () => {
             Demo
           </Button>
         </Link>
+        <Link to="/todo">
+          <Button
+            style={{
+              background: 'black',
+              color: 'white',
+              textDecoration: 'none',
+              height: '48px',
+              width: '80px'
+            }}
+          >
+            Todo
+          </Button>
+        </Link>
       </div>
       <div className={classes.authLinks}>
         <AuthLinks />

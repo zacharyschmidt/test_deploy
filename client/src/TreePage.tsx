@@ -2,8 +2,9 @@ import React from 'react';
 import SearchBar from './SearchBar';
 import Tree from './Tree';
 import SimpleMenu from './Menu';
-import { ISeriesProps } from './types';
-import { Store } from './Store';
+import { ISeriesProps, IStore} from './types';
+import {useSelector, useDispatch} from 'react-redux';
+
 import {
   fetchDataAction,
   toggleSelectAction
@@ -12,7 +13,8 @@ import {
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function TreePage() {
-  const { state, dispatch } = React.useContext(Store);
+  const state = useSelector((state: IStore) => state.eia);
+  const dispatch = useDispatch();
 
   const props: ISeriesProps = {
     series: state.treeSeries.flat(),

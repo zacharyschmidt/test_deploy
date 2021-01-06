@@ -4,8 +4,9 @@ import { ISeries } from './types';
 
 export default function SelectedList(props: any): Array<JSX.Element> {
   const { series, toggleSelectAction, selected, store } = props;
-  console.log(series);
+
   const { state, dispatch } = store;
+  console.log(state);
   return series.map((singleSeries: ISeries) => {
     return (
       <DataCard
