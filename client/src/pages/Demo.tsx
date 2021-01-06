@@ -123,7 +123,7 @@ const Demo = () => {
                 value={newTodo}
                 onChange={onChange}
               />
-              <AddButton />
+              <AddButton text="Add" filename="" />
             </form>
           </div>
 

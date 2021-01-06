@@ -1,0 +1,32 @@
+in DatasetDetails I need a reliable way to make sure the series has correct order
+must account for different timesteps
+ 
+refactor fetchdataaction (in eia/actions) so that the logic to create the query happens
+outside of the action creator. 
+
+make it so that search results remain in the store and reload after I navigate back to main
+page. then add button to clear search results?(low priority)
+
+RIS download button doesn't work--button component should accept render props to 
+display either 'download csv' or 'download RIS' and then the function to perform 
+correct action.
+
+filters don't work right now--build these. Do I need to add any columns to the database?
+
+pagination
+
+full text search
+
+add indexes for speed
+
+
+right now we are sending meta data and data when search is used (to populate results), 
+and then we get same data again onclick for dataset details. should send only meta data 
+on search
+
+
+should selecting filters send a query (so that data appears)?
+______________________________________________________
+later: build ability to search and download Categories ('collections'?)
+output format should be data container
+should we call to eia api in order to get data (just hold metadate in database) (faster or space constriants to consider)

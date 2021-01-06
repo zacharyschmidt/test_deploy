@@ -1,0 +1,15 @@
+utility to create typeorm entities from preexisting tables
+
+
+https://github.com/Kononnable/typeorm-model-generator
+
+
+TODO:
+right now the database returns all data for each series when user searches. 
+each series and full data is stored in Redux store under 'series'. Should 
+search only return metadata to populate the datacards, then we make a second 
+database request to get the series data for Dataset Details?
+
+searching 'description' column is not enough to find relevant series.
+
+database queries are too slow--how to speed up?

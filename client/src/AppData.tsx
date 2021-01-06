@@ -1,11 +1,11 @@
 import React from 'react';
-import { Store } from './Store';
 import { Link } from 'react-router-dom';
 import { AppBar, IconButton, Toolbar } from '@material-ui/core';
-
+import { useSelector } from 'react-redux';
+import { IStore } from './types';
 import Button from '@material-ui/core/Button/Button';
 export default function App(props: any): JSX.Element {
-  const { state } = React.useContext(Store);
+  const state = useSelector((state: IStore) => state.eia);
 
   return (
     <React.Fragment>
@@ -38,6 +38,8 @@ export default function App(props: any): JSX.Element {
       <div></div>
 
       {/* </header> */}
+      {/* this is where we render the home page thate is passes as a child through 
+      the router in IndexData */}
       {props.children}
     </React.Fragment>
   );

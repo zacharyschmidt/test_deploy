@@ -1,13 +1,14 @@
 import React from 'react';
-import { Store } from './Store';
-import { ISeriesProps } from './types';
+import { ISeriesProps, IStore } from './types';
 import { toggleSelectAction } from './redux/actions/eia/actions';
-
+import { useDispatch, useSelector } from 'react-redux';
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function SelectedPage(): JSX.Element {
-  const { state, dispatch } = React.useContext(Store);
+  const dispatch = useDispatch();
+  const state = useSelector((state: IStore) => state.eia);
 
+  console.log(state);
   const props: ISeriesProps = {
     series: state.selected,
     store: { state, dispatch },

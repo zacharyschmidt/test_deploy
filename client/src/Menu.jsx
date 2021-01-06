@@ -4,8 +4,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-import { Store } from "./Store";
+import Menu from '@material-ui/core/Menu'; 
+import { useSelector, useDispatch } from 'react-redux';
+import { IStore } from './types';
+
+
 
 import { setFilterAction } from './redux/actions/eia/actions';
 
@@ -20,7 +23,8 @@ export default function SimpleMenu(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const { state, dispatch } = React.useContext(Store);
+  const state = useSelector((state) => state.eia);
+  const dispatch = useDispatch();
 
   const options = props.options;
 

@@ -1,4 +1,5 @@
-import { IAction, ISeries, IEIA } from "./interfaces";
+import { IAction, ISeries, IEIA } from "../../../types";
+import axios from 'axios';
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 const key = "d329ef75e7dfe89a10ea25326ada3c43";
@@ -6,7 +7,10 @@ const key = "d329ef75e7dfe89a10ea25326ada3c43";
 export const fetchDataAction = async (
   dispatch: any,
   searchTerm: string,
-  filters: any
+  filters: any,
+  page: number, 
+  limit: number,
+
 ) => {
   // put this on the server to hide the api key
   //const URL = "https://api.eia.gov/search/?search_term=series_id&search_value=%22ELEC.CONS*%22&rows_per_page=1000"
@@ -518,41 +522,58 @@ export const fetchDataAction = async (
 
   console.log(filters);
   console.log(units);
-  const URL = `https://api.eia.gov/search/?search_term=name&search_value="${searchTerm}"&rows_per_page=1000&page_num=0${combinedRegion}${frequency}${dataset}${units}`;
-  console.log(URL);
-  const data = await fetch(URL);
-  const dataJSON = await data.json();
-  console.log(dataJSON);
-  if (dataJSON.response.numFound === 0) {
-    alert("No Data Series Found");
+
+  //const URL = `https://api.eia.gov/search/?search_term=name&search_value="${searchTerm}"&rows_per_page=1000&page_num=0${combinedRegion}${frequency}${dataset}${units}`;
+  //const URL = `/api/series/search:${searchTerm}`
+
+  //console.log(URL);
+  //const data = await fetch(URL);
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: 'api/series/search',
+      params: { 
+        page: page,
+        limit: limit,
+        searchTerm: searchTerm, }
+    })
+    //const dataJSON = await data.json();
+    console.log(response);
+    if (response.data.length === 0) {
+      alert("No Data Series Found");
+    }
+    // this might not work, because it will only look at first 1000 series. How to
+    // specify ID? or DATA SET?---better
+    //&data_set=AEO  Does this include non-projections?
+    // const filteredJSON = (dataJSON: any, filters: any) => {
+    //   if (filters.histOrProj === "Forecast") {
+    //     console.log("projection");
+    //     return dataJSON.response.docs.filter(
+    //       (series: any) => "lastHistoricalPeriod" in series
+    //     );
+    //   } else if (filters.histOrProj === "Historical") {
+    //     console.log("historical");
+    //     return dataJSON.response.docs.filter(
+    //       (series: any) => !("lastHistoricalPeriod" in series)
+    //     );
+    //   }
+    // };
+    // const filteredSeries = filteredJSON(dataJSON, filters);
+    // console.log(filteredSeries);
+    return dispatch({
+      type: "FETCH_DATA",
+      payload: {
+        series: response.data.series,
+        count: response.data.totalCount, }
+    });
+  } catch (error) {
+    console.log(error);
   }
-  // this might not work, because it will only look at first 1000 series. How to
-  // specify ID? or DATA SET?---better
-  //&data_set=AEO  Does this include non-projections?
-  // const filteredJSON = (dataJSON: any, filters: any) => {
-  //   if (filters.histOrProj === "Forecast") {
-  //     console.log("projection");
-  //     return dataJSON.response.docs.filter(
-  //       (series: any) => "lastHistoricalPeriod" in series
-  //     );
-  //   } else if (filters.histOrProj === "Historical") {
-  //     console.log("historical");
-  //     return dataJSON.response.docs.filter(
-  //       (series: any) => !("lastHistoricalPeriod" in series)
-  //     );
-  //   }
-  // };
-  // const filteredSeries = filteredJSON(dataJSON, filters);
-  // console.log(filteredSeries);
-  return dispatch({
-    type: "FETCH_DATA",
-    payload: dataJSON.response.docs,
-  });
 };
 
 export const fetchDataSeriesAction = async (
   dispatch: any,
-  series_id: string,
+  seriesID: string,
   state: IEIA
 ) => {
   // if (
@@ -560,21 +581,31 @@ export const fetchDataSeriesAction = async (
   //     .length === 0
   // ) {
   // put this on the server to hide the api key
-  const URL = `https://api.eia.gov/series/?api_key=${key}&series_id=${series_id}`;
+  try {
 
-  const data = await fetch(URL);
-  const dataJSON = await data.json();
+    //const URL = `https://api.eia.gov/series/?api_key=${key}&series_id=${seriesID}`;
 
-  return dispatch({
-    type: "FETCH_DATA_SERIES",
-    payload: dataJSON.series[0],
-  });
-  // } else {
-  //   return dispatch({
-  //     type: "FETCH_DATA_SERIES",
-  //     payload: null,
-  //   });
-  // }
+    const response = await axios({
+      method: 'GET',
+      url: '/api/series/dataset',
+      params: { seriesID }
+    })
+
+    console.log(response);
+
+    return dispatch({
+      type: "FETCH_DATA_SERIES",
+      payload: response.data,
+    });
+    // } else {
+    //   return dispatch({
+    //     type: "FETCH_DATA_SERIES",
+    //     payload: null,
+    //   });
+    // }
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 export const clearSearchAction = (dispatch: any) => {
@@ -598,6 +629,34 @@ export const setFilterAction = (dispatch: any, filter: any) => {
   });
 };
 
+export const setSearchTermAction = (dispatch: any, searchTerm: string) => {
+  return dispatch({
+    type: 'SET_SEARCH_TERM',
+    payload: searchTerm,
+  })
+}
+
+export const setPageAction = (dispatch: any, page: number) => {
+  return dispatch({
+    type: "SET_PAGE",
+    payload: page,
+  });
+};
+
+export const resetPageAction = (dispatch: any) => {
+  return dispatch({
+    type: "RESET_PAGE",
+
+  })
+}
+
+export const setLimitAction = (dispatch: any, limit: number) => {
+  return dispatch({
+    type: "SET_LIMIT",
+    payload: limit,
+  });
+};
+
 export const toggleSelectAction = (
   state: IEIA,
   dispatch: any,
@@ -611,7 +670,7 @@ export const toggleSelectAction = (
   };
   if (seriesInSel) {
     const selWithoutSeries = state.selected.filter(
-      (select: ISeries) => select.series_id !== series.series_id
+      (select: ISeries) => select.seriesID !== series.seriesID
     );
     dispatchObj = {
       type: "REMOVE_SEL",

@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
-import { Store } from './Store';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchDataAction,
-  clearSearchAction
+  clearSearchAction, 
+  setSearchTermAction
 } from './redux/actions/eia/actions';
 import { IStore } from './types';
 
 type FormElem = React.FormEvent<HTMLFormElement>;
-
+// add page number and limit (records per page) to IStore state.eia
+// create actions to update these two variables and add them to reducer
 export default function SearchBar(): JSX.Element {
   const dispatch = useDispatch();
   const state = useSelector((state: IStore) => state.eia);
 
-  const [value, setValue] = useState<string>('');
+  const [value, setValue] = useState<string>(state.searchTerm);
   // const [region, setRegion]
   // const [frequency, setFrequency]
   // const [hist, setHist]
@@ -22,7 +24,8 @@ export default function SearchBar(): JSX.Element {
 
   const handleSubmit = (e: FormElem): void => {
     e.preventDefault();
-    fetchDataAction(dispatch, value, state.filters);
+    setSearchTermAction(dispatch, value);
+    fetchDataAction(dispatch, value, state.filters, 1, state.limit);
     // setValue("");
   };
 
