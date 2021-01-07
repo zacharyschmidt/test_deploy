@@ -535,7 +535,8 @@ export const fetchDataAction = async (
       params: { 
         page: page,
         limit: limit,
-        searchTerm: searchTerm, }
+        searchTerm: searchTerm,
+        ...filters, }
     })
     //const dataJSON = await data.json();
     console.log(response);

@@ -29,7 +29,7 @@ export default function SearchBar(): JSX.Element {
     // setValue("");
   };
 
-  const handleReset = () => {
+  const handleReset = () => { 
     setValue('');
     clearSearchAction(dispatch);
   };

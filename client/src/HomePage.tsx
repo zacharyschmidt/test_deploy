@@ -252,7 +252,7 @@ export default function HomePage() {
               ]}
             />
             <SimpleMenu
-              filter={'DataSet'}
+              filter={'DataSet Name'}
               options={[
                 'All',
                 'Annual Energy Outlook',
@@ -265,10 +265,15 @@ export default function HomePage() {
                 'Petroleum'
               ]}
             />
-            <SimpleMenu filter={'Last Updated'} options={['dummy']} />
+            <SimpleMenu filter={'Historical/Projection'} options={['All','Historical', 'Projection']} />
+            <SimpleMenu
+              filter={'Supply/Demand'}
+              options={['All','Supply', 'Demand']}
+            />
+            <SimpleMenu filter={'Last Updated'} options={['All','After 2021-01-01','After 2020-12-01','After 2020-11-01','After 2020-10-01',  ]} />
           </div>
           <div>
-            <RecordsPerPage/>
+            <RecordsPerPage />
           </div>
 
           <br />
@@ -282,7 +287,7 @@ export default function HomePage() {
           <SeriesList {...props} />
         </section>
       </React.Suspense>
-      <Pagination/>
+      <Pagination />
     </React.Fragment>
   );
 }
