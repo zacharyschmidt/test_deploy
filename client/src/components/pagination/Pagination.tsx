@@ -47,7 +47,7 @@ export const Pagination = () => {
         <div className="table-footer d-flex justify-content-between align-items-center">
           <div className="records-count d-sm-block d-none text-secondary">
             Showing {(state.page - 1) * state.limit} to {state.page * state.limit} of{' '}
-            {'totalCount'} records
+            {state.seriesCount} records
           </div>
           <nav className="pages">
             <ul className="pagination">

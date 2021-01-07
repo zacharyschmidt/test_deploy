@@ -13,8 +13,12 @@ const initialState: IEIA = {
     Region: 'All',
     SubRegion: 'None',
     Frequency: 'All',
+    Units: 'All',
     DataSet: 'All',
-    Units: 'All'
+    HistorProj: 'All',
+    SuppDemand: 'All',
+    LastUpdate: 'All',
+    
   }
 };
 

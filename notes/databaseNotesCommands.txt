@@ -1,0 +1,7 @@
+alter table "series" add column "search_text" text;
+
+update series set "search_text" = concat(name, descripti
+on)
+
+alter table "series" add column "search_vec" TSVECTOR;
+update series s1 set search_vec = to_tsvector(s1.search_text) from series s2;
