@@ -1,5 +1,4 @@
 export type SeriesSO = {
- 
   seriesID: string;
   name: string;
   units: string;
@@ -14,4 +13,5 @@ export type SeriesSO = {
   lastUpdated: Date;
   geosetID: string;
   data: any;
+  dataset_name: string;
 };

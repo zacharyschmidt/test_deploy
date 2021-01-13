@@ -30,15 +30,17 @@ services:
       - database
     ports:
       - 5500:5500
+      # for debugging
+      - 9229:9229
     environment:
       - SECRET="¯\_(ツ)_/¯"
     volumes:
       - ./server/node_modules:/app/node_modules
       - ./server/src:/app/src
     depends_on:
-      - postgres_db
+      - postgres_db 
     restart: always
-    command: ['./wait-for-it.sh', 'postgres_db:5432', '--', 'nodemon']
+    command: ['./wait-for-it.sh', postgres_db:5432', '--', 'nodemon']
     container_name: server
   #############
   ## CLIENT ##

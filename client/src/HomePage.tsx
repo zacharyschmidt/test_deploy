@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import SimpleMenu from './Menu';
+import AddButton from './components/add-button/AddButton';
 import RecordsPerPage from './components/pagination/RecordsPerPage';
-import {Pagination} from './components/pagination/Pagination'
+import { Pagination } from './components/pagination/Pagination';
 import { ISeriesProps, IStore } from './types';
 
 import {
@@ -16,9 +17,7 @@ const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 export default function HomePage() {
   const dispatch = useDispatch();
   const state = useSelector((state: IStore) => state.eia);
-;
   //const { state, dispatch } = React.useContext(Store);
-
 
   // React.useEffect(() => {
   //   state.treeCats.length === 0 && fetchTreeCatsAction(dispatch, "371");
@@ -252,10 +251,16 @@ export default function HomePage() {
               ]}
             />
             <SimpleMenu
-              filter={'DataSet Name'}
+              filter={'DataSet'}
               options={[
                 'All',
-                'Annual Energy Outlook',
+                'Annual Energy Outlook 2014',
+                'Annual Energy Outlook 2015',
+                'Annual Energy Outlook 2016',
+                'Annual Energy Outlook 2017',
+                'Annual Energy Outlook 2018',
+                'Annual Energy Outlook 2019',
+                'Annual Energy Outlook 2020',
                 'Electricity',
                 'International Energy Data',
                 'State Energy Data System',
@@ -265,13 +270,26 @@ export default function HomePage() {
                 'Petroleum'
               ]}
             />
-            <SimpleMenu filter={'Historical/Projection'} options={['All','Historical', 'Projection']} />
+            <SimpleMenu
+              filter={'Historical/Projection'}
+              options={['All', 'Historical', 'Projection']}
+            />
             <SimpleMenu
               filter={'Supply/Demand'}
-              options={['All','Supply', 'Demand']}
+              options={['All', 'Supply', 'Demand']}
             />
-            <SimpleMenu filter={'Last Updated'} options={['All','After 2021-01-01','After 2020-12-01','After 2020-11-01','After 2020-10-01',  ]} />
+            <SimpleMenu
+              filter={'Last Updated'}
+              options={[
+                'All',
+                'After 2021-01-01',
+                'After 2020-12-01',
+                'After 2020-11-01',
+                'After 2020-10-01'
+              ]}
+            />
           </div>
+
           <div>
             <RecordsPerPage />
           </div>
@@ -279,7 +297,15 @@ export default function HomePage() {
           <br />
           <br />
         </div>
-
+        <div>
+          <AddButton
+            onClick={function () {
+              console.log('function');
+            }}
+            text="Series"
+            filename=""
+          />
+        </div>
         <br />
         <br />
 

@@ -2,7 +2,6 @@ import React, { FC, CSSProperties } from 'react';
 import { Button, Typography } from '@material-ui/core';
 import DownloadLink from 'react-download-link';
 
-
 //import testRIS from '../../..public/files/test.ris';
 
 // move this to a new file--need to figure out type declarations for typescript
@@ -18,10 +17,6 @@ PB  - U.S. Energy Information Administration
 TI  - Annual Energy Outlook 2014
 UR  - http://api.eia.gov/bulk/AEO2014.zip
 ER  - `;
-
-
-
-
 
 interface Props {
   style?: CSSProperties;
@@ -48,6 +43,7 @@ const AddButton: FC<Props> = ({ style = {}, onClick, text, filename = '' }) => {
       {/* <DownloadLink label={text} filename={filename} exportFile={() => new_workbook}>
         <Typography>Download RIS</Typography>
       </DownloadLink> */}
+      {text}
     </Button>
   );
 };
