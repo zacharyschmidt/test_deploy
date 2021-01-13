@@ -1,8 +1,8 @@
-import { SeriesSO } from "./series.dto";
+import { SeriesSO } from './series.dto';
 
 export class PaginatedSeriesResultDto {
-    series: SeriesSO[]
-    page: number
-    limit: number
-    totalCount: number
+  series: SeriesSO[];
+  page: number;
+  limit: number;
+  totalCount: number;
 }

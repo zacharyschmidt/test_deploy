@@ -4,4 +4,112 @@ update series set "search_text" = concat(name, descripti
 on)
 
 alter table "series" add column "search_vec" TSVECTOR;
-update series s1 set search_vec = to_tsvector(s1.search_text) from series s2;
+
+alter table "series" add column "dataset_name" text
+alter table "categories" add column "dataset_name" text
+
+I need to specify english when vectorizing. after that I don't need to
+specify english when making the query or the index (if I store the vectors in a column )
+update series set search_vec = to_tsvector('english',search_text);
+
+--should not work-- update series set search_vec = to_tsvector(search_text);
+
+
+from this resource:
+https://austingwalters.com/fast-full-text-search-in-postgresql/
+
+
+CREATE INDEX series_vec_index ON series USING gin(search_vec);
+
+
+SELECT "series"."series_id" AS "series_series_id", "series"."name" AS "series_name", "series"."units" AS "series_units", "series"."f" AS "series_f", "series"."description" AS "series_description", "series"."copyright" AS "series_copyright", "series"."source" AS "series_source", "series"."iso3166" AS "series_iso3166", "series"."geography" AS "series_geography", "series"."start" AS "series_start", "series"."end" AS "series_end", "series"."last_updated" AS "series_last_updated", "series"."geoset_id" AS "series_geoset_id", "series"."data" AS "series_data" FROM "public"."series" "series" WHERE series.search_vec @@ to_tsquery(%Electricity%)
+
+--these are the dataset category id's
+
+with recursive datasets 
+    as (select category_id, parent_category_id, name from categories where category_id 
+    in (964165,1370522,2102233,2227112,2641361,3161918,3604304,3535005,717234,2123635,0,
+        2251604,2631064,2134384,714804,2889994,714755,1292190,40203,829714,711224) 
+    union select c.category_id, c.parent_category_id, d.name 
+    from categories c inner join datasets d on d.category_id = c.parent_category_id) 
+    update categories set dataset_name = dsets.name 
+    from (select parent_category_id, category_id, name from datasets ) as dsets 
+    where categories.category_id = dsets.category_id;
+
+
+
+****************************** DON'T NEED TO RUN THIS, JUST FOR ILLUSTRATION *************************************
+gets table expanded from childseries array--on element from array per row matched with name and id
+select elem, name, category_id, dataset_name from (select * from categories limit 50) as sub_cat , jsonb_array_elements(childseries)
+as elem;
+******************************************************************************************************
+
+
+    
+      
+with cats 
+    as (select substr(cast(childseries_id as text), 2,length(cast(childseries_id as text)) - 2) childseries_id, name, category_id, dataset_name 
+    from (select * from categories) as sub_cat ,jsonb_array_elements(childseries) as childseries_id) 
+    update series
+        set dataset_name = selectcats.dataset_name
+        from ( select dataset_name, childseries_id from cats ) as selectcats
+    where series.series_id = selectcats.childseries_id
+
+*************************************** TEST returns 0 rows *******************************************************
+with cats
+    as (select childseries_id, name, category_id, dataset_name
+    from (select * from categories limit 50) as sub_cat , jsonb_array_elements(childseries) as childseries_id) select c.dataset_name, c.childseries_id, s.series_id from cats c join series s on cast(c.childseries_id as text) = s.series_id;
+
+update series 
+    set dataset_name = cast(subquery.name as text)
+        from (select childseries_id, name, category_id, dataset_name 
+            from (select * from categories limit 50) as sub_cat , jsonb_array_elements(childseries) as childseries_id) 
+                as subquery where series.series_id = cast(subquery.childseries_id as text);
+
+
+Drop index series_vec_index
+alter table "series" drop column "search_text";
+alter table "series" add column "search_text" text;
+
+might need to run this again because text is concatenated without space 
+update series set "search_text" = concat(name, ' ', description, ' ',dataset_name);
+
+alter table "series" drop column "search_vec";
+alter table "series" add column "search_vec" TSVECTOR;
+
+update series set search_vec = to_tsvector('english',search_text);
+CREATE INDEX series_vec_index ON series USING gin(search_vec);
+
+EXPLAIN ANALYZE results (before building vectors with 'english'--so I think that the index is not usable)
+--query searching for electricity with limit 50 does not use index (seq scan) and is fast. 
+--query searching for electricity with no limit does not use index and is slow
+--query searching for 'aeo' limit 50 uses index (how can it get the index--I thought it can't access because I didn't use
+'english' when I build the vector) and is fast and returns no results. maybe it uses the index because it knows from statistics
+that 'aeo' probably doesn't exist, therefore index overhead is worthwhile.
+
+What about phrase search? 
+
+what about weighting the colums? name + description from series gets more weight than category . . .?
+right now search pulls series.data, but I don't need that--considger pulling thousands of jsonbs out, 
+that is very expensive . . .
+
+
+might need to join series with datasets to get expanded titles
+start with dataset id--this is the root. then recursively join all categories, matching 
+'parent_category' first with root dataset id, then walking down the tree. this should 
+give me all categories that fall under the root dataset (AEO2014, for example). then
+get all the series belonging to all the categories in my current set (child_series). 
+each of those child series then need to have the 'name' of the root dataset added to 
+its seach_text, then needs to be revectorized.
+
+NOTE! users searching for the name (or keywords contained in name) of a top level dataset
+might not want to get all series returned--too much noise. we should implement a 'category' 
+search that will return categories.
+
+And connect search with the tree structure so that a user can walk down the tree hierachy
+and then search everything below. Should we implement this query with joins? will it be to 
+slow? right now categories have pointers to series, but not the other way. Should I add a 
+'parent category' field to each series? 
+
+--maybe there is a reason EIA did not implement this. series are not meant to be searched,
+we should stop at the lowest leaf category . . . 
