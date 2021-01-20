@@ -78,7 +78,19 @@ alter table "series" drop column "search_vec";
 alter table "series" add column "search_vec" TSVECTOR;
 
 update series set search_vec = to_tsvector('english',search_text);
-CREATE INDEX series_vec_index ON series USING gin(search_vec);
+CREATE INDEX series_vec_index ON series USING gin(search_vec); 
+
+Make indexes for filters (use pattern for left-anchored wildcards):
+
+create index frequency_index on series(f text_pattern_ops); 
+create index units_index on series(units text_pattern_ops);
+create index dataset_name_index on series(dataset_name text_pattern_ops);
+create index geography_index on series(geography text_pattern_ops);
+
+
+I need to select only a few columns when I do select, and make sure that
+these columns have indexes. That way the whole table does not need to be 
+transferred to memory when I query.
 
 EXPLAIN ANALYZE results (before building vectors with 'english'--so I think that the index is not usable)
 --query searching for electricity with limit 50 does not use index (seq scan) and is fast. 
@@ -87,7 +99,10 @@ EXPLAIN ANALYZE results (before building vectors with 'english'--so I think that
 'english' when I build the vector) and is fast and returns no results. maybe it uses the index because it knows from statistics
 that 'aeo' probably doesn't exist, therefore index overhead is worthwhile.
 
-What about phrase search? 
+What about phrase search?
+
+should impement a trigger to handle inserting or updating data
+--will this make it so I don't have to rebuild the index each time?
 
 what about weighting the colums? name + description from series gets more weight than category . . .?
 right now search pulls series.data, but I don't need that--considger pulling thousands of jsonbs out, 
@@ -113,3 +128,13 @@ slow? right now categories have pointers to series, but not the other way. Shoul
 
 --maybe there is a reason EIA did not implement this. series are not meant to be searched,
 we should stop at the lowest leaf category . . . 
+
+select * from series 
+WHERE search_vec @@ phraseto_tsquery('test') AND f LIKE '%' AND units LIKE '%' AND dataset_name LIKE 'Annual Energy Outlook 2014' AND geography LIKE '%' LIMIT 50;
+
+.andWhere('COALESCE(COALESCE(series.id, :string) IN childseries, TRUE)'
+    , {
+        childSeries: childseries,
+        string: '',
+      })
+

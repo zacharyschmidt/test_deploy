@@ -28,6 +28,14 @@ export class SeriesService {
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
     console.log('TEST');
     console.log(paginationDto);
+    // I believe this logic should go in the UI--display terms may change more
+    // frequently in the UI, and terms are changed more easily there than in the
+    // database (for example, changeing 'D' in the database takes thousands of operations,
+    // but changing 'Daily' in the UI takes only on). Therefore logic for
+    // converting from UI term to database term should go in the UI,
+    // because if a change occurs, most likely it will be to UI term,
+    // then I make two changes to the UI, not one to the UI and one to the
+    // back end code (below)
     let frequency;
     switch (paginationDto.Frequency) {
       case 'Daily':
@@ -53,10 +61,10 @@ export class SeriesService {
       default:
         units = paginationDto.Units;
     }
-    let dataset;
-    switch (paginationDto.DataSet) {
+    let geography;
+    switch (paginationDto.Region) {
       case 'All':
-        dataset = '%';
+        geography = '%';
         break;
     }
     let histProj;
@@ -85,25 +93,46 @@ export class SeriesService {
       default:
         dataset_name = paginationDto.DataSet;
     }
-    let region = 'USA';
-    console.log('the data is: ' + paginationDto.DataSet);
 
     // const totalCount = await this.seriesRepository.count()
     const totalCount = 1000;
     const series = await this.seriesRepository
       .createQueryBuilder('series')
       // change this to vector query
-      .where('series.search_vec @@ phraseto_tsquery(:term)', {
-        term: '%' + paginationDto.searchTerm + '%',
+
+      .where('COALESCE(series.f, :string) LIKE :frequency', {
+        frequency: frequency,
+        string: '',
       })
+      .andWhere(
+        paginationDto.treeSeries && paginationDto.treeSeries.length > 0
+          ? 'series.series_id IN (:...tree_series)'
+          : '1=1',
+        { tree_series: paginationDto.treeSeries }
+      )
+      .andWhere(
+        paginationDto.searchTerm
+          ? 'series.search_vec @@ phraseto_tsquery(:term)'
+          : '1=1',
+        {
+          term: paginationDto.searchTerm,
+        }
+      )
       // then put in region and subregion filters
-      .andWhere('series.f LIKE :frequency', { frequency: frequency })
+
       // need to check units--maybe not matching with data in column
-      .andWhere('series.units LIKE :units', { units: units })
-      .andWhere('series.dataset_name LIKE :dataset_name', {
-        dataset_name: dataset_name,
+      .andWhere('COALESCE(series.units, :string) LIKE :units', {
+        units: units,
+        string: '',
       })
-      //.andWhere('series.geography LIKE :region', { region: region })
+      .andWhere('COALESCE(series.dataset_name, :string) LIKE :dataset_name', {
+        dataset_name: dataset_name,
+        string: '',
+      })
+      .andWhere('COALESCE(series.geography, :string) LIKE :geography', {
+        geography: geography,
+        string: '',
+      })
       // must make catname column (join with categories . . . ).andWhere("series.catname LIKE :catname"), {catname: dataset})
       // make this too .andWhere("series.histProj LIKE :histProj", {histProj: histProj})
       // how to make this? .andWhere("series.SuppDemand LIKE suppDemand")

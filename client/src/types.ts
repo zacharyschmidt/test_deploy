@@ -1,8 +1,7 @@
 import { CSSProperties } from 'react';
 
 //this might be a problem
-import { RouteComponentProps } from "@reach/router";
-
+import { RouteComponentProps } from '@reach/router';
 
 export type UserCreds = {
   email: string;
@@ -54,7 +53,7 @@ export interface IStore {
   todo: ITodoState;
   ui: IUIEIA;
   auth: IAuth;
-  eia: IEIA; 
+  eia: IEIA;
 }
 
 export interface IEIA {
@@ -64,13 +63,16 @@ export interface IEIA {
   selected: Array<ISeries>;
   seriesData: Array<ISeriesData>;
   treeSeries: Array<ISeries>;
-  page: number,
-  limit: number
-  filters: any
+  treeCategories: {};
+  treeLeaves: [];
+  categories: Array<ICategories>;
+  catSeriesFlag: string;
+  page: number;
+  limit: number;
+  filters: any;
 }
 
 export type Dispatch = React.Dispatch<IAction>;
-
 
 export interface ISeriesData {
   seriesID: string;
@@ -98,14 +100,16 @@ export interface ISeries {
   name: string;
 }
 
+export interface ICategories {
+  categoryID: number;
+  name: string;
+  childSeries: Array<number>;
+}
+
 export interface ISeriesProps {
   series: Array<ISeries>;
   store: { state: IEIA; dispatch: Dispatch };
-  toggleSelectAction: (
-    state: IEIA,
-    dispatch: any,
-    series: ISeries
-  ) => IAction;
+  toggleSelectAction: (state: IEIA, dispatch: any, series: ISeries) => IAction;
   selected: Array<ISeries>;
 }
 

@@ -4,10 +4,47 @@ import axios from 'axios';
 //const key = process.env.REACT_APP_EIA_API_KEY;
 const key = 'd329ef75e7dfe89a10ea25326ada3c43';
 
+export const fetchCategoriesAction = async (
+  dispatch: any,
+  searchTerm: string,
+  filters: any,
+  page: number,
+  limit: number
+) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: 'api/categories/search',
+      params: {
+        page: page,
+        limit: limit,
+        searchTerm: searchTerm,
+        ...filters
+      }
+    });
+    //const dataJSON = await data.json();
+    console.log(response);
+    if (response.data.length === 0) {
+      alert('No Categories Found');
+    }
+
+    return dispatch({
+      type: 'FETCH_CATS',
+      payload: {
+        series: response.data.categories,
+        count: response.data.totalCount
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const fetchDataAction = async (
   dispatch: any,
   searchTerm: string,
   filters: any,
+  treeSeries: any,
   page: number,
   limit: number
 ) => {
@@ -16,28 +53,39 @@ export const fetchDataAction = async (
   // https://api.eia.gov/search/?search_term=name&search_value=%22*%22&rows_per_page=100&page_num=0&data_set=ELEC&frequency=M&region=USA&units=thousand%20mcf&last_updated=2020-03-23T18:31:14Z
   // if hist is true, then filter out outlooks. if proj is true only include outlooks. They must have consistent unique
   // pattern in id or name . . . IOE, SOE, AOE
-
+  console.log('TREESERIES' + treeSeries);
   const regionFilter = (filters: any) => {
     var optionCall;
     switch (filters.Region) {
       case 'United States': {
-        optionCall = "('USA')";
+        optionCall = 'USA';
         break;
       }
-      case 'OECD': {
-        optionCall =
-          // need to replace "+" with "%2B"
-          //"&region=AUS+AUT+BEL+CAN+CHE+CHL+CSK+CZE+DDR+DEU+DEUW+DNK+ESP+EST+FIN+FRA+GBR+GRC+GUM+HITZ+HUN+IRL+ISL+ISR+ITA+JPN+KOR+LTU+LUX+LVA+MEX+MNP+NLD+NOR+NZL+POL+PRI+PRT+SVK+SVN+SWE+TUR+USA+USOH+VIR";
-          '&region=AUS%2BAUT%2BBEL%2BCAN%2BCHE%2BCHL%2BCSK%2BCZE%2BDDR%2BDEU%2BDEUW%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGBR%2BGRC%2BGUM%2BHITZ%2BHUN%2BIRL%2BISL%2BISR%2BITA%2BJPN%2BKOR%2BLTU%2BLUX%2BLVA%2BMEX%2BMNP%2BNLD%2BNOR%2BNZL%2BPOL%2BPRI%2BPRT%2BSVK%2BSVN%2BSWE%2BTUR%2BUSA%2BUSOH%2BVIR';
-        //"&region=BRB";
+      case 'OECD':
+        {
+          optionCall = 'OECD';
+        }
         break;
-      }
-      default: {
-        optionCall = '';
-      }
+      default:
+        optionCall = filters.Region;
     }
     return optionCall;
   };
+
+  //     case 'OECD': {
+  //       optionCall =
+  //         // need to replace "+" with "%2B"
+  //         //"&region=AUS+AUT+BEL+CAN+CHE+CHL+CSK+CZE+DDR+DEU+DEUW+DNK+ESP+EST+FIN+FRA+GBR+GRC+GUM+HITZ+HUN+IRL+ISL+ISR+ITA+JPN+KOR+LTU+LUX+LVA+MEX+MNP+NLD+NOR+NZL+POL+PRI+PRT+SVK+SVN+SWE+TUR+USA+USOH+VIR";
+  //         '&region=AUS%2BAUT%2BBEL%2BCAN%2BCHE%2BCHL%2BCSK%2BCZE%2BDDR%2BDEU%2BDEUW%2BDNK%2BESP%2BEST%2BFIN%2BFRA%2BGBR%2BGRC%2BGUM%2BHITZ%2BHUN%2BIRL%2BISL%2BISR%2BITA%2BJPN%2BKOR%2BLTU%2BLUX%2BLVA%2BMEX%2BMNP%2BNLD%2BNOR%2BNZL%2BPOL%2BPRI%2BPRT%2BSVK%2BSVN%2BSWE%2BTUR%2BUSA%2BUSOH%2BVIR';
+  //       //"&region=BRB";
+  //       break;
+  //     }
+  //     default: {
+  //       optionCall = '';
+  //     }
+  //   }
+  //   return optionCall;
+  // };
   const USAdict = {
     'United States': 'USA',
     Alabama: 'USA-AL',
@@ -45,11 +93,12 @@ export const fetchDataAction = async (
     Arizona: 'USA-AZ',
     Arkansas: 'USA-AR'
   };
-  const subRegionFilter = (filters: any) => {
+  const subRegionFilterOld = (filters: any) => {
     var optionCall;
     switch (filters.SubRegion) {
       case 'All': {
         optionCall = "('USA',USA-AL,USA-AK,USA-AZ ";
+        break;
       }
       case 'Alabama': {
         optionCall = '&region=USA-AL';
@@ -370,13 +419,31 @@ export const fetchDataAction = async (
     }
     return optionCall;
   };
+  console.log(filters);
+  const subRegionFilter = (filters: any) => {
+    var optionCall;
+    switch (filters.SubRegion) {
+      case 'All': {
+        optionCall = '%';
+        break;
+      }
+      case 'None': {
+        optionCall = '';
+        break;
+      }
+      default:
+        optionCall = '';
+    }
+    return optionCall;
+  };
 
   const combineRegions = (filters: any, region: any, subregion: any) => {
-    if (filters.SubRegion === 'None') {
-      return region;
-    } else {
-      return subregion;
-    }
+    // if (filters.SubRegion === 'None') {
+    //   return region;
+    // } else {
+    //   return subregion;
+    // }
+    return region + subregion;
   };
   const frequencyFilter = (filters: any) => {
     var optionCall;
@@ -523,7 +590,7 @@ export const fetchDataAction = async (
   const region = regionFilter(filters);
   const subregion = subRegionFilter(filters);
   const combinedRegion = combineRegions(filters, region, subregion);
-  console.log(combinedRegion);
+  console.log(subregion);
   const frequency = frequencyFilter(filters);
   const dataset = datasetFilter(filters);
   const units = unitsFilter(filters);
@@ -544,7 +611,9 @@ export const fetchDataAction = async (
         page: page,
         limit: limit,
         searchTerm: searchTerm,
-        ...filters
+        treeSeries: treeSeries,
+        ...filters,
+        Region: combinedRegion
       }
     });
     //const dataJSON = await data.json();
@@ -625,7 +694,46 @@ export const clearSearchAction = (dispatch: any) => {
   });
 };
 
-export const setTreeSeriesAction = (dispatch: any, treeSeries: {}) => {
+export const setTreeStructureAction = async (
+  dispatch: any,
+  category_id: number
+) => {
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: 'api/categories/search',
+      params: {
+        page: 1,
+        limit: 1000,
+        searchTerm: '',
+        Region: 'All',
+        SubRegion: 'None',
+        Frequency: 'All',
+        Units: 'All',
+        DataSet: 'All',
+        HistorProj: 'All',
+        SuppDemand: 'All',
+        LastUpdate: 'All',
+        parent_category_id: category_id
+      }
+    });
+    console.log(response);
+    if (response.data.length === 0) {
+      alert('No Categories Found');
+    }
+    return dispatch({
+      type: 'SET_TREE_STRUCTURE',
+      payload: {
+        tree_leaves: response.data.categories,
+        node_id: category_id
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const setTreeSeriesAction = (dispatch: any, treeSeries: []) => {
   return dispatch({
     type: 'SET_TREE_SERIES',
     payload: treeSeries
@@ -646,6 +754,13 @@ export const setSearchTermAction = (dispatch: any, searchTerm: string) => {
   });
 };
 
+export const toggleCatSeriesAction = (dispatch: any, selection: string) => {
+  console.log(selection);
+  return dispatch({
+    type: 'TOGGLE_CATSERIES',
+    payload: selection
+  });
+};
 export const setPageAction = (dispatch: any, page: number) => {
   return dispatch({
     type: 'SET_PAGE',

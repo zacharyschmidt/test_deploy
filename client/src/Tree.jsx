@@ -1,11 +1,15 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import TreeView from "@material-ui/lab/TreeView";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import TreeItem from "@material-ui/lab/TreeItem";
-import { useSelector, useDispatch } from "react-redux";
-import {setTreeSeriesAction} from "./Actions"
+import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import TreeView from '@material-ui/lab/TreeView';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import TreeItem from '@material-ui/lab/TreeItem';
+import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import {
+  setTreeSeriesAction,
+  setTreeStructureAction,
+  fetchDataAction
+} from './redux/actions/eia/actions';
 
 const useStyles = makeStyles({
   root: {
@@ -17,108 +21,131 @@ const useStyles = makeStyles({
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 
-const key = "d329ef75e7dfe89a10ea25326ada3c43"
 export default function Tree() {
   const classes = useStyles();
 
-const state = useSelector((state) => state.eia)
-const dispatch = useDispatch()
-//const tree = state.tree
+  const state = useSelector((state) => state.eia, shallowEqual);
+  const dispatch = useDispatch();
+  //const tree = state.tree
+  console.log(state);
+  // const initialTree = {
+  //   root: []
+  //   // 1: []
+  // };
 
-const initialTree = {
-    root:  []
-    // 1: []
-  };
+  // should use store instead of state
+  // const [treeOld, setTree] = useState(initialTree);
+  const tree = state.treeCategories;
+  const [childSeries, setSeries] = useState({});
 
-
-
-const [tree, setTree] = useState(initialTree)
-
-const [childSeries, setSeries] = useState({})
-
-React.useEffect(() => {
-  
+  //will I still need useEffect with redux?
+  React.useEffect(() => {
     //if (state.treeCats.length === 0) {
-      const fetchInitialTree = async (category_id) => {
-      const URL = `https://api.eia.gov/category/?api_key=${key}&category_id=${category_id}`;
-      const data = await fetch(URL);
-      const dataJSON = await data.json();
-      console.log(dataJSON)
-  const treeData = dataJSON.category.childcategories.map(cat => {
-    return {id: String(cat.category_id),
-            label: cat.name}}) 
-    console.log(treeData)
-  
-  
+    // change these api calls to Actions. In the action
+    // I will make call to my api
+    // then in the categories service I will need a query that
+    // gets all categories with parent_category_id matching the
+    // selected node.
+    // const fetchInitialTree = async (category_id) => {
+    //   const URL = `https://api.eia.gov/category/?api_key=${key}&category_id=${category_id}`;
+    //   const data = await fetch(URL);
+    //   const dataJSON = await data.json();
+    //   console.log(dataJSON);
+    //   const treeData = dataJSON.category.childcategories.map((cat) => {
+    //     return { id: String(cat.category_id), label: cat.name };
+    //   });
+    //   console.log(treeData);
 
+    //   // how to set state?
 
-    // how to set state?
-    
-    setTree(
-      {root: treeData
-      //1: []
-    })
-    };
-   fetchInitialTree('371');
-  },[]);
-console.log(state)
+    //   setTree({
+    //     root: treeData
+    //     //1: []
+    //   });
+    // };
+    //fetchInitialTree('371');
+    setTreeStructureAction(dispatch, 371);
+    console.log(state);
+  }, []);
 
-
-
-console.log(tree)  
-
-
-
+  console.log(tree);
 
   const handleChange = (event, nodeID) => {
-    console.log(nodeID)
-    
+    console.log(nodeID);
+
     // check if childseries have already been fetched
-    if (!(nodeID[0] in tree)) {
-    nodeID = nodeID[0]
-console.log(nodeID)
-    const updateTree = async (nodeID) => {
-      const URL = `https://api.eia.gov/category/?api_key=${key}&category_id=${nodeID}`;
-      const data = await fetch(URL);
-      const dataJSON = await data.json();
-      console.log(dataJSON)
-      //if dataJSON has childseries, send that to the store. Then homepage should send those childseries to 
-      // SeriesList to be rendered, unless there is search data to render.
-  var treeData = dataJSON.category.childcategories.map(cat => {
-    return {id: String(cat.category_id),
-            label: cat.name}}) 
-    console.log(treeData)
+    // if (!(nodeID[0] in tree)) {
+    nodeID = nodeID[0];
 
-    
-    
-      const newTree = {
-        ...tree,
-        [nodeID]: treeData
-      };
-     
-      const Series = dataJSON.category.childseries
-      setSeries({...childSeries, [nodeID]: Series})
+    setTreeStructureAction(dispatch, nodeID);
+    setTreeSeriesAction(dispatch, []);
+    console.log(state);
 
-      setTree(newTree);
-      console.log(Series)
-      console.log(childSeries)
-      setTreeSeriesAction(dispatch, Series) 
-    }; 
-     updateTree(nodeID)
-      
-    } else {
-     setTreeSeriesAction(dispatch, childSeries[nodeID[0]]) 
+    // const updateTree = async (nodeID) => {
+    //   const URL = `https://api.eia.gov/category/?api_key=${key}&category_id=${nodeID}`;
+    //   const data = await fetch(URL);
+    //   const dataJSON = await data.json();
+    //   console.log(dataJSON);
+    //   //if dataJSON has childseries, send that to the store. Then homepage should send those childseries to
+    //   // SeriesList to be rendered, unless there is search data to render.
+    //   var treeData = dataJSON.category.childcategories.map((cat) => {
+    //     return { id: String(cat.category_id), label: cat.name };
+    //   });
+    //   console.log(treeData);
+
+    //   const newTree = {
+    //     ...tree,
+    //     [nodeID]: treeData
+    //   };
+
+    //   const Series = dataJSON.category.childseries;
+    //   setSeries({ ...childSeries, [nodeID]: Series });
+
+    //   setTree(newTree);
+    //   console.log(Series);
+    //   console.log(childSeries);
+    //
+    // };
+    //updateTree(nodeID);
+    let Series = state.treeLeaves.filter(function (leaf) {
+      return leaf.category_id == Number(nodeID);
+    });
+    console.log(Series);
+    Series = Series.length > 0 ? Series[0]['childseries'] : null;
+    console.log(Series);
+    // make a new field in the store to hold an array of leaf nodes and query this to
+    //find childseries. Than means the setTreeStructure action will write to this part
+    // of the store as well.
+    // console.log(flattenObject(state.treeCategories));
+    if (Series && Series.length > 0) {
+      setTreeSeriesAction(dispatch, Series);
     }
-    
-   // this might cause bug
-    //console.log(childSeries[nodeID[0]])
-  }  
-    // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
-console.log(childSeries)
-console.log(state)
+    if (Series && Series.lenght > 0) {
+      fetchDataAction(
+        dispatch,
+        state.searchTerm,
+        state.filters,
+        state.treeSeries,
+        state.page,
+        state.limit
+      );
+    }
+    // } else {
+    //   setTreeSeriesAction(
+    //     dispatch,
+    //     state.treeCategories[nodeID[0]].childseries
+    //   );
+    // }
 
-  const renderTree = children => {
-    return children.map(child => {
+    // this might cause bug
+    //console.log(childSeries[nodeID[0]])
+  };
+  // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
+  console.log(childSeries);
+  console.log(state);
+
+  const renderTree = (children) => {
+    return children.map((child) => {
       const childrenNodes =
         tree[child.id] && tree[child.id].length > 0
           ? renderTree(tree[child.id])
@@ -131,7 +158,7 @@ console.log(state)
       );
     });
   };
-console.log(tree)
+  console.log(tree[371]);
   return (
     <TreeView
       className={classes.root}
@@ -139,7 +166,7 @@ console.log(tree)
       defaultExpandIcon={<ChevronRightIcon />}
       onNodeToggle={handleChange}
     >
-      {renderTree(tree.root)}
+      {renderTree(state.treeCategories[371])}
     </TreeView>
   );
-  }
+}

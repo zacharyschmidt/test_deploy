@@ -20,19 +20,25 @@ ER  - `;
 
 interface Props {
   style?: CSSProperties;
-  onClick?: () => void;
+  onClick?: any; //() => void;
   text: string;
   filename: string;
+  dispatch?: any;
 }
 
-const AddButton: FC<Props> = ({ style = {}, onClick, text, filename = '' }) => {
+const AddButton: FC<Props> = ({
+  style = {},
+  onClick,
+  text,
+  filename = '',
+  dispatch
+}) => {
   console.log(onClick);
   return (
     <Button
       type="submit"
-      onClick={onClick}
+      onClick={() => onClick(dispatch, text)}
       style={{
-        background: '#3374ff',
         color: 'white',
         padding: '1rem',
         fontSize: '1rem',
