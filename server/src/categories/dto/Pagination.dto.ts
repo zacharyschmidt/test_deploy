@@ -2,9 +2,8 @@ export class PaginationDto {
   page: number;
 
   limit: number;
-
+  parent_category_id: number;
   searchTerm: string;
-  treeSeries: string[];
   Region: string;
   SubRegion: string;
   Frequency: string;

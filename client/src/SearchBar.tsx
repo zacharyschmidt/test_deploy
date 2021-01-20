@@ -1,9 +1,11 @@
+import { stat } from 'fs';
 import React, { useState } from 'react';
 
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchDataAction,
-  clearSearchAction, 
+  fetchCategoriesAction,
+  clearSearchAction,
   setSearchTermAction
 } from './redux/actions/eia/actions';
 import { IStore } from './types';
@@ -24,12 +26,24 @@ export default function SearchBar(): JSX.Element {
 
   const handleSubmit = (e: FormElem): void => {
     e.preventDefault();
+    console.log(state);
     setSearchTermAction(dispatch, value);
-    fetchDataAction(dispatch, value, state.filters, 1, state.limit);
+    if (state.catSeriesFlag == 'Series') {
+      fetchDataAction(
+        dispatch,
+        value,
+        state.filters,
+        state.treeSeries,
+        1,
+        state.limit
+      );
+    } else {
+      fetchCategoriesAction(dispatch, value, state.filters, 1, state.limit);
+    }
     // setValue("");
   };
 
-  const handleReset = () => { 
+  const handleReset = () => {
     setValue('');
     clearSearchAction(dispatch);
   };

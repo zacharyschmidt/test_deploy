@@ -3,51 +3,55 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../types';
 import { paginationService } from './PaginationService';
 
-
-import { fetchDataAction, setPageAction} from '../../redux/actions/eia/actions';
-
+import {
+  fetchDataAction,
+  setPageAction
+} from '../../redux/actions/eia/actions';
 
 export const Pagination = () => {
- 
   //const [pager, setPager] = useState({} as any);
 
   const setPagination = (
-      totalCount: number,
-      pageNumber: number,
-      recordsPerPage: number
-    ) => {
-      const pData = paginationService.getPager(
-        totalCount,
-        pageNumber,
-        recordsPerPage
-      );
-      return pData
-      //setPager({ ...pData });
-    };
+    totalCount: number,
+    pageNumber: number,
+    recordsPerPage: number
+  ) => {
+    const pData = paginationService.getPager(
+      totalCount,
+      pageNumber,
+      recordsPerPage
+    );
+    return pData;
+    //setPager({ ...pData });
+  };
   /*
    * Fetch data from API
    * Append query params if any
    * API call with GET
    */
-  const state = useSelector((state: IStore) => state.eia)
-  const pager = setPagination(state.seriesCount, state.page, state.limit) 
-  let totalRecordsPage = Math.ceil(state.seriesCount / state.limit)
+  const state = useSelector((state: IStore) => state.eia);
+  const pager = setPagination(state.seriesCount, state.page, state.limit);
+  let totalRecordsPage = Math.ceil(state.seriesCount / state.limit);
   const dispatch = useDispatch();
   const handleClick = (page: number): void => {
-    
-    setPageAction(dispatch, page)
-    fetchDataAction(dispatch, state.searchTerm, state.filters, state.page, state.limit);
-   
+    setPageAction(dispatch, page);
+    fetchDataAction(
+      dispatch,
+      state.searchTerm,
+      state.filters,
+      state.treeSeries,
+      state.page,
+      state.limit
+    );
   };
-
 
   return (
     <div>
       {state.seriesCount > 0 && (
         <div className="table-footer d-flex justify-content-between align-items-center">
           <div className="records-count d-sm-block d-none text-secondary">
-            Showing {(state.page - 1) * state.limit} to {state.page * state.limit} of{' '}
-            {state.seriesCount} records
+            Showing {(state.page - 1) * state.limit} to{' '}
+            {state.page * state.limit} of {state.seriesCount} records
           </div>
           <nav className="pages">
             <ul className="pagination">
@@ -61,8 +65,7 @@ export const Pagination = () => {
                   className="page-link"
                   onClick={(e) => {
                     e.preventDefault();
-                    handleClick(state.page - 1)
-                    
+                    handleClick(state.page - 1);
                   }}
                 >
                   Previous
@@ -84,7 +87,7 @@ export const Pagination = () => {
                         href="#!"
                         onClick={(e) => {
                           e.preventDefault();
-                          handleClick(page)
+                          handleClick(page);
                         }}
                       >
                         {page}

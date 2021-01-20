@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import SimpleMenu from './Menu';
+import Tree from './Tree';
 import AddButton from './components/add-button/AddButton';
 import RecordsPerPage from './components/pagination/RecordsPerPage';
 import { Pagination } from './components/pagination/Pagination';
@@ -8,7 +9,8 @@ import { ISeriesProps, IStore } from './types';
 
 import {
   fetchDataAction,
-  toggleSelectAction
+  toggleSelectAction,
+  toggleCatSeriesAction
 } from './redux/actions/eia/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -181,15 +183,15 @@ export default function HomePage() {
       // that get sent to sub-region menu. query is created by region
       // filter in Actions--this handles all Region and Sub region filters.
       case 'United States': {
-        subRegOption = ['All'].concat(states);
+        subRegOption = ['None', 'All'].concat(states);
         break;
       }
       case 'OECD': {
-        subRegOption = ['All'].concat(OECDnations);
+        subRegOption = ['None', 'All'].concat(OECDnations);
         break;
       }
       default: {
-        subRegOption = ['None'].concat(states).concat(OECDnations);
+        subRegOption = ['None', 'All'].concat(states).concat(OECDnations);
       }
     }
     return subRegOption;
@@ -299,12 +301,22 @@ export default function HomePage() {
         </div>
         <div>
           <AddButton
-            onClick={function () {
-              console.log('function');
-            }}
+            onClick={toggleCatSeriesAction}
             text="Series"
             filename=""
+            style={{ background: '#3374ff' }}
+            dispatch={dispatch}
           />
+          <AddButton
+            onClick={toggleCatSeriesAction}
+            text="Categories"
+            filename=""
+            style={{ background: '#DC143C' }}
+            dispatch={dispatch}
+          />
+        </div>
+        <div>
+          <Tree />
         </div>
         <br />
         <br />
