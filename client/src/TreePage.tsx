@@ -2,8 +2,8 @@ import React from 'react';
 import SearchBar from './SearchBar';
 import Tree from './Tree';
 import SimpleMenu from './Menu';
-import { ISeriesProps, IStore} from './types';
-import {useSelector, useDispatch} from 'react-redux';
+import { ISeriesProps, IStore } from './types';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
   fetchDataAction,
@@ -22,8 +22,6 @@ export default function TreePage() {
     toggleSelectAction,
     selected: state.selected
   };
-  console.log(state.treeSeries);
-
   return (
     <React.Fragment>
       <React.Suspense fallback={<div>loading...</div>}>

@@ -27,7 +27,7 @@ export default function Tree() {
   const state = useSelector((state) => state.eia, shallowEqual);
   const dispatch = useDispatch();
   //const tree = state.tree
-  console.log(state);
+
   // const initialTree = {
   //   root: []
   //   // 1: []
@@ -65,22 +65,15 @@ export default function Tree() {
     // };
     //fetchInitialTree('371');
     setTreeStructureAction(dispatch, 371);
-    console.log(state);
   }, []);
 
-  console.log(tree);
-
   const handleChange = (event, nodeID) => {
-    console.log(nodeID);
-
     // check if childseries have already been fetched
     // if (!(nodeID[0] in tree)) {
     nodeID = nodeID[0];
 
     setTreeStructureAction(dispatch, nodeID);
     setTreeSeriesAction(dispatch, []);
-    console.log(state);
-
     // const updateTree = async (nodeID) => {
     //   const URL = `https://api.eia.gov/category/?api_key=${key}&category_id=${nodeID}`;
     //   const data = await fetch(URL);
@@ -107,6 +100,11 @@ export default function Tree() {
     //
     // };
     //updateTree(nodeID);
+
+    //treeSeries will rely on Series, which relies on treeLeaves. But treeLeaves
+    // gets set to empty array once I get down to an node with only series, because
+    // Leaves are categories
+
     let Series = state.treeLeaves.filter(function (leaf) {
       return leaf.category_id == Number(nodeID);
     });
@@ -120,12 +118,12 @@ export default function Tree() {
     if (Series && Series.length > 0) {
       setTreeSeriesAction(dispatch, Series);
     }
-    if (Series && Series.lenght > 0) {
+    if (Series && Series.length > 0) {
       fetchDataAction(
         dispatch,
         state.searchTerm,
         state.filters,
-        state.treeSeries,
+        Series,
         state.page,
         state.limit
       );
@@ -141,9 +139,6 @@ export default function Tree() {
     //console.log(childSeries[nodeID[0]])
   };
   // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
-  console.log(childSeries);
-  console.log(state);
-
   const renderTree = (children) => {
     return children.map((child) => {
       const childrenNodes =
@@ -158,7 +153,7 @@ export default function Tree() {
       );
     });
   };
-  console.log(tree[371]);
+
   return (
     <TreeView
       className={classes.root}

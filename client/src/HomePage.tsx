@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import SearchBar from './SearchBar';
 import SimpleMenu from './Menu';
-import Tree from './Tree';
+import FinderTree from './FinderTree';
 import AddButton from './components/add-button/AddButton';
 import RecordsPerPage from './components/pagination/RecordsPerPage';
 import { Pagination } from './components/pagination/Pagination';
-import { ISeriesProps, IStore } from './types';
+import { ISeriesProps, ICategoriesProps, IStore } from './types';
 
 import {
   fetchDataAction,
@@ -25,9 +25,6 @@ export default function HomePage() {
   //   state.treeCats.length === 0 && fetchTreeCatsAction(dispatch, "371");
   //   console.log(state)
   // });
-  console.log('home');
-  console.log(state);
-
   const states = [
     'Alabama',
 
@@ -198,7 +195,7 @@ export default function HomePage() {
   };
 
   const subRegion = subRegions(state, states, OECDnations);
-  console.log(subRegion);
+
   // build props to send to SeriesList. If there are series from search (state.series), send that,
   // otherwise send tree series from tree navigation.
   const props: ISeriesProps = {
@@ -207,8 +204,13 @@ export default function HomePage() {
     toggleSelectAction,
     selected: state.selected
   };
-  console.log(props);
-  console.log(state.treeSeries);
+  const cat_props: ICategoriesProps = {
+    categories: state.categories,
+    store: { state, dispatch },
+    toggleSelectAction,
+    selected: state.selected
+  };
+
   return (
     <React.Fragment>
       <React.Suspense fallback={<div>loading...</div>}>
@@ -315,17 +317,22 @@ export default function HomePage() {
             dispatch={dispatch}
           />
         </div>
-        <div>
-          <Tree />
-        </div>
-        <br />
-        <br />
 
-        <section className="series-layout">
-          <SeriesList {...props} />
+        <br />
+        <br />
+        <div>
+          <FinderTree />
+        </div>
+        <section className="treeAndSeries">
+          <div>
+            <div className="series-layout">
+              {/* changed from props to cat_props to send categories */}
+              <SeriesList {...cat_props} />
+            </div>
+            <Pagination />
+          </div>
         </section>
       </React.Suspense>
-      <Pagination />
     </React.Fragment>
   );
 }

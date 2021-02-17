@@ -1,18 +1,24 @@
 import React from 'react';
 import DataCard from './DataCard';
-import { ISeries } from './types';
+import CatCard from './CatCard';
+import { ISeries, ICategories } from './types';
+import { fetchParentCatsAction } from './redux/actions/eia/actions';
 
 export default function SelectedList(props: any): Array<JSX.Element> {
-  const { series, toggleSelectAction, selected, store } = props;
+  const { categories, toggleSelectAction, selected, store } = props;
 
   const { state, dispatch } = store;
-  console.log(state);
-  return series.map((singleSeries: ISeries) => {
+
+  // change to render categories
+  return categories.map((singleCat: ICategories) => {
     return (
-      <DataCard
-        toggle={() => toggleSelectAction(state, dispatch, singleSeries)}
-        singleSeries={singleSeries}
+      <CatCard
+        toggle={() => toggleSelectAction(state, dispatch, singleCat)}
+        singleCat={singleCat}
         selected={selected}
+        dispatch={dispatch}
+        fetchParentCats={fetchParentCatsAction}
+        filters={state.filters}
       />
     );
   });

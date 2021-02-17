@@ -1,8 +1,63 @@
 import { IAction, ISeries, IEIA } from '../../../types';
 import axios from 'axios';
+import { RestorePageRounded } from '@material-ui/icons';
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
-const key = 'd329ef75e7dfe89a10ea25326ada3c43';
+
+export const setSelectedTreeNodeAction = (dispatch: any, treeNode: number) => {
+  console.log('executing set treenode action')
+  console.log(treeNode)
+  return dispatch({
+    type: 'SET SELECTED_TREENODE',
+    payload: treeNode,
+  });
+}
+export const fetchParentCatsAction = async (dispatch: any, id: number, filters: {
+    Region?: string,
+    SubRegion?: string,
+    Frequency?: string,
+    Units?: string,
+    DataSet?: string,
+    HistorProj?: string,
+    SuppDemand?: string,
+    LastUpdate?: string
+  }) => {
+    async function buildTree(ancestors: [number]) {
+      const j = ancestors.length
+      for (let i = 0; i < j; i++) {
+        console.log(ancestors[i])
+        await setTreeStructureAction(dispatch, ancestors[i], filters)
+      }
+    }
+  try {
+    console.log(id);
+    const response = await axios({
+      method: 'GET',
+      url: 'api/categories/parents',
+      params: {
+        category_id: id
+      }
+    });
+    console.log(response.data);
+    buildTree(response.data[0].ancestors)
+    // response.data[0].ancestors.map((ancestor: number) => {
+    //   console.log(ancestor)
+    //   setTreeStructureAction(dispatch, ancestor, filters)
+    // })
+    // for await (const ancestor of response.data[0].ancestors) {
+    //   console.log(ancestor)
+    //   setTreeStructureAction(dispatch, ancestor, filters)
+    // }
+    setSelectedTreeNodeAction(dispatch, id);
+
+    
+    // return dispatch({
+    //   type: 'GET_PARENT_CATS',
+    //   payload: { parents: response.data }
+    // });
+  } catch (error) {}
+};
+
 
 export const fetchCategoriesAction = async (
   dispatch: any,
@@ -23,7 +78,6 @@ export const fetchCategoriesAction = async (
       }
     });
     //const dataJSON = await data.json();
-    console.log(response);
     if (response.data.length === 0) {
       alert('No Categories Found');
     }
@@ -35,9 +89,7 @@ export const fetchCategoriesAction = async (
         count: response.data.totalCount
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const fetchDataAction = async (
@@ -53,7 +105,7 @@ export const fetchDataAction = async (
   // https://api.eia.gov/search/?search_term=name&search_value=%22*%22&rows_per_page=100&page_num=0&data_set=ELEC&frequency=M&region=USA&units=thousand%20mcf&last_updated=2020-03-23T18:31:14Z
   // if hist is true, then filter out outlooks. if proj is true only include outlooks. They must have consistent unique
   // pattern in id or name . . . IOE, SOE, AOE
-  console.log('TREESERIES' + treeSeries);
+
   const regionFilter = (filters: any) => {
     var optionCall;
     switch (filters.Region) {
@@ -419,7 +471,7 @@ export const fetchDataAction = async (
     }
     return optionCall;
   };
-  console.log(filters);
+
   const subRegionFilter = (filters: any) => {
     var optionCall;
     switch (filters.SubRegion) {
@@ -590,13 +642,9 @@ export const fetchDataAction = async (
   const region = regionFilter(filters);
   const subregion = subRegionFilter(filters);
   const combinedRegion = combineRegions(filters, region, subregion);
-  console.log(subregion);
   const frequency = frequencyFilter(filters);
   const dataset = datasetFilter(filters);
   const units = unitsFilter(filters);
-
-  console.log(filters);
-  console.log(units);
 
   //const URL = `https://api.eia.gov/search/?search_term=name&search_value="${searchTerm}"&rows_per_page=1000&page_num=0${combinedRegion}${frequency}${dataset}${units}`;
   //const URL = `/api/series/search:${searchTerm}`
@@ -646,9 +694,7 @@ export const fetchDataAction = async (
         count: response.data.totalCount
       }
     });
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const fetchDataSeriesAction = async (
@@ -669,8 +715,6 @@ export const fetchDataSeriesAction = async (
       url: '/api/series/dataset',
       params: { seriesID }
     });
-
-    console.log(response);
 
     return dispatch({
       type: 'FETCH_DATA_SERIES',
@@ -696,7 +740,8 @@ export const clearSearchAction = (dispatch: any) => {
 
 export const setTreeStructureAction = async (
   dispatch: any,
-  category_id: number
+  category_id: number,
+  filters: any
 ) => {
   try {
     const response = await axios({
@@ -706,21 +751,28 @@ export const setTreeStructureAction = async (
         page: 1,
         limit: 1000,
         searchTerm: '',
-        Region: 'All',
+        ...filters,
+        Region: 'ALL',
         SubRegion: 'None',
-        Frequency: 'All',
-        Units: 'All',
-        DataSet: 'All',
-        HistorProj: 'All',
-        SuppDemand: 'All',
-        LastUpdate: 'All',
+        // Frequency: 'All',
+        // Units: 'All',
+        // // changed from 'all' to reduce data for development
+        // DataSet: 'Annual Energy Outlook%',
+        // HistorProj: 'All',
+        // SuppDemand: 'All',
+        // LastUpdate: 'All',
         parent_category_id: category_id
       }
     });
-    console.log(response);
+
     if (response.data.length === 0) {
       alert('No Categories Found');
     }
+    // make sure the state is getting set correctly--then maybe the issue is with 
+    // the tree parsing program in Finderjs (does one exist?) 
+    console.log('inside set tree structure')
+    console.log(category_id)
+    console.log(response.data.categories)
     return dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
@@ -755,7 +807,6 @@ export const setSearchTermAction = (dispatch: any, searchTerm: string) => {
 };
 
 export const toggleCatSeriesAction = (dispatch: any, selection: string) => {
-  console.log(selection);
   return dispatch({
     type: 'TOGGLE_CATSERIES',
     payload: selection
@@ -777,9 +828,10 @@ export const resetPageAction = (dispatch: any) => {
 export const setLimitAction = (dispatch: any, limit: number) => {
   return dispatch({
     type: 'SET_LIMIT',
-    payload: limit
+    payload: limit,
   });
 };
+
 
 export const toggleSelectAction = (
   state: IEIA,

@@ -63,8 +63,10 @@ export interface IEIA {
   selected: Array<ISeries>;
   seriesData: Array<ISeriesData>;
   treeSeries: Array<ISeries>;
-  treeCategories: {};
+  treeCategories: Array<ICategories>;
+  treeNodes: Array<number>;
   treeLeaves: [];
+  selectedTreeNode: number|null;
   categories: Array<ICategories>;
   catSeriesFlag: string;
   page: number;
@@ -103,7 +105,9 @@ export interface ISeries {
 export interface ICategories {
   categoryID: number;
   name: string;
+  childCategories: Array<ICategories>;
   childSeries: Array<number>;
+  dataset_name: string;
 }
 
 export interface ISeriesProps {
@@ -111,6 +115,12 @@ export interface ISeriesProps {
   store: { state: IEIA; dispatch: Dispatch };
   toggleSelectAction: (state: IEIA, dispatch: any, series: ISeries) => IAction;
   selected: Array<ISeries>;
+}
+export interface ICategoriesProps {
+  categories: Array<ICategories>;
+  store: { state: IEIA; dispatch: Dispatch };
+  toggleSelectAction?: (state: IEIA, dispatch: any, series: ISeries) => IAction;
+  selected?: Array<ISeries>;
 }
 
 export interface DatasetDetailsProps extends RouteComponentProps {

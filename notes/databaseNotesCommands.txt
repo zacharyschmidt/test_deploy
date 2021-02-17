@@ -80,6 +80,10 @@ alter table "series" add column "search_vec" TSVECTOR;
 update series set search_vec = to_tsvector('english',search_text);
 CREATE INDEX series_vec_index ON series USING gin(search_vec); 
 
+
+needed to delect duplicate international energy outlook 2019 with no child categories:
+delete from categories where category_id = 3535005;
+
 Make indexes for filters (use pattern for left-anchored wildcards):
 
 create index frequency_index on series(f text_pattern_ops); 
@@ -87,6 +91,9 @@ create index units_index on series(units text_pattern_ops);
 create index dataset_name_index on series(dataset_name text_pattern_ops);
 create index geography_index on series(geography text_pattern_ops);
 
+# datasets that I imported into the categories table have childseries as null instead
+of empty array []. need to change this for check when rendering the tree.
+update categories set childseries = '[]' where childseries is null;
 
 I need to select only a few columns when I do select, and make sure that
 these columns have indexes. That way the whole table does not need to be 
@@ -128,6 +135,12 @@ slow? right now categories have pointers to series, but not the other way. Shoul
 
 --maybe there is a reason EIA did not implement this. series are not meant to be searched,
 we should stop at the lowest leaf category . . . 
+
+need to check capitalization, phrases in full text search.
+might need to add parent category name to series search_text
+
+query for filters 'Annual Energy Outlook 2014' and 'quads' took very long time. Finally returned no 
+records. why did it take so long? 
 
 select * from series 
 WHERE search_vec @@ phraseto_tsquery('test') AND f LIKE '%' AND units LIKE '%' AND dataset_name LIKE 'Annual Energy Outlook 2014' AND geography LIKE '%' LIMIT 50;
