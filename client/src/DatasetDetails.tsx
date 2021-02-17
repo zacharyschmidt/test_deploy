@@ -10,11 +10,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from './types';
 
 const DatasetDetails = (props: any): JSX.Element => {
-  console.log(props.match.params.seriesID);
   const seriesID = props.match.params.seriesID;
   const dispatch = useDispatch();
   const state = useSelector((state: IStore) => state.eia);
-  console.log(state);
+
   // problem: state seriesData array is getting to many versions of the dataset.
   //move logic to check for multiple selections of same dataseries in here
   React.useEffect(() => {
@@ -22,18 +21,17 @@ const DatasetDetails = (props: any): JSX.Element => {
       state.seriesData.filter((series: any) => series.seriesID === seriesID)
         .length === 0
     ) {
+      console.log('FETCHNG DATA FROM DETAILS PAGE');
       fetchDataSeriesAction(dispatch, props.match.params.seriesID, state);
     }
   });
-  console.log(state);
+
   const dataset = state.seriesData.filter(
     (series: any) => series.seriesID === seriesID
   );
-  console.log(dataset);
 
   const series = (dataset: any) => {
     if (dataset.length > 0) {
-
       // need to figure out a better way to test order of series
       // some series are quarterly, some are annual? what about others?
       if (parseInt(dataset[0].data[1][0]) < parseInt(dataset[0].data[5][0])) {
@@ -50,8 +48,7 @@ const DatasetDetails = (props: any): JSX.Element => {
     }
   };
   const correctedSeries = series(dataset);
-  console.log(correctedSeries);
-  //console.log(series);
+
   const data =
     dataset.length > 0 ? [['x', `${dataset[0].name}`], ...correctedSeries] : [];
   // if (parseInt(dataset[1][0]) > parseInt(dataset[2][0])) {
@@ -67,29 +64,33 @@ const DatasetDetails = (props: any): JSX.Element => {
   const columns = (dataset: any) => {
     if (dataset.length > 0) {
       var utc = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
-      const header = [['series id', dataset[0].seriesID],
-      ['name', dataset[0].name],
-      ['units', dataset[0].units],
-      ['frequency', dataset[0].f],
-      ['notes', dataset[0].description],
-      ['last updated', dataset[0].updated],
-      ['', ''],
-      ['file generated', utc],
-      ['Contact: Zachary Schmidt, Koomey Analytics, zacharym.schmidt@gmail.com', '']]
+      const header = [
+        ['series id', dataset[0].seriesID],
+        ['name', dataset[0].name],
+        ['units', dataset[0].units],
+        ['frequency', dataset[0].f],
+        ['notes', dataset[0].description],
+        ['last updated', dataset[0].updated],
+        ['', ''],
+        ['file generated', utc],
+        [
+          'Contact: Zachary Schmidt, Koomey Analytics, zacharym.schmidt@gmail.com',
+          ''
+        ]
+      ];
       return header;
+    } else {
+      return [];
     }
-    else {
-      return []
-    }
-  }
-  const header = columns(dataset)
+  };
+  const header = columns(dataset);
   var worksheet = XLSX.utils.aoa_to_sheet(header.concat(correctedSeries));
   var new_workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(new_workbook, worksheet, "Sheet1");
+  XLSX.utils.book_append_sheet(new_workbook, worksheet, 'Sheet1');
 
   const handleClickXL: any = () => {
-    XLSX.writeFile(new_workbook, `${dataset[0].name}.xlsx`)
-  }
+    XLSX.writeFile(new_workbook, `${dataset[0].name}.xlsx`);
+  };
 
   const handleClickRIS: any = () => {
     let testRIS = `TY  - DATA
@@ -104,8 +105,7 @@ const DatasetDetails = (props: any): JSX.Element => {
       TI  - Annual Energy Outlook 2014
       UR  - http://api.eia.gov/bulk/AEO2014.zip
       ER  - `;
-    
-  }
+  };
 
   // const styles: { [key: string]: React.CSSProperties } = {
   //   downloadButton: {
@@ -145,9 +145,7 @@ const DatasetDetails = (props: any): JSX.Element => {
               filename="Test.xlsx"
             />
           </section>
-          <section>
-
-          </section>
+          <section></section>
         </section>
       </section>
     </section>

@@ -66,6 +66,8 @@ export class SeriesService {
       case 'All':
         geography = '%';
         break;
+      default:
+        geography = paginationDto.Region;
     }
     let histProj;
     switch (paginationDto.HistorProj) {

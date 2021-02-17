@@ -26,7 +26,6 @@ export default function SearchBar(): JSX.Element {
 
   const handleSubmit = (e: FormElem): void => {
     e.preventDefault();
-    console.log(state);
     setSearchTermAction(dispatch, value);
     if (state.catSeriesFlag == 'Series') {
       fetchDataAction(
@@ -47,7 +46,6 @@ export default function SearchBar(): JSX.Element {
     setValue('');
     clearSearchAction(dispatch);
   };
-  console.log(state);
   return (
     <div>
       <form onSubmit={handleSubmit} onReset={handleReset}>

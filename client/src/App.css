@@ -28,7 +28,7 @@
   color: white;
 }
 
-.navbar > * {
+.navbar>* {
   margin: 0 1rem;
 }
 
@@ -40,6 +40,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -48,6 +49,7 @@
 .series-layout {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-between;
   min-width: 100vh;
 
 }
@@ -130,6 +132,7 @@
 .pagination li {
   float: left;
 }
+
 .pagination a {
   color: black;
   float: left;
@@ -145,4 +148,3 @@
 .pagination a:hover:not(.active) {
   background-color: #ddd;
 }
-

@@ -33,4 +33,9 @@ export class CategoryController {
   getCategorybyID(@Query('category_ID') category_ID: number) {
     return this.categoryService.getCategorybyID(category_ID);
   }
+
+  @Get('parents')
+  getParentCats(@Query('category_id') category_ID: number) {
+    return this.categoryService.getParentCats(category_ID);
+  }
 }

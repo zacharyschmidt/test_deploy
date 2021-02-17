@@ -67,13 +67,15 @@ export class CategoryService {
       // need to check units--maybe not matching with data in column
 
       .andWhere(
-        'COALESCE(categories.parent_category_id, :id) = :parent_category_id',
+        paginationDto.parent_category_id
+          ? 'COALESCE(categories.parent_category_id, :id) = :parent_category_id'
+          : '1=1',
         {
           id: 371,
           parent_category_id: parent_category_id,
         }
       )
-      // .andWhere('series.geography LIKE :region', { region: region })
+      //.andWhere('series.geography LIKE :region', { region: region })
       // must make catname column (join with categories . . . ).andWhere("series.catname LIKE :catname"), {catname: dataset})
       // make this too .andWhere("series.histProj LIKE :histProj", {histProj: histProj})
       // how to make this? .andWhere("series.SuppDemand LIKE suppDemand")
@@ -98,5 +100,45 @@ export class CategoryService {
       .getOne();
 
     return categories;
+  };
+
+  getParentCats = async (
+    categoryID: number
+  ): Promise<PaginatedCategoryResultDto> => {
+    //
+    console.log(categoryID);
+    const currentCat = await this.categoryRepository
+      .createQueryBuilder('category')
+      .where('category.category_id = :categoryID', { categoryID: categoryID })
+      .getOne();
+
+    let ancestors;
+    try {
+      ancestors = await this.categoryRepository.query(
+        `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
+            SELECT category_id, '{}'::integer[], 0, FALSE
+            FROM categories WHERE parent_category_id IS NULL
+          UNION ALL
+            SELECT
+              n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
+              n.parent_category_id = ANY(t.ancestors)
+            FROM categories n, tree t
+            WHERE n.parent_category_id = t.category_id
+            AND NOT t.cycle
+        ) SELECT ancestors FROM categories n INNER JOIN tree USING (category_id)
+        WHERE $1 = category_id`,
+        [currentCat.category_id]
+      );
+      // .createQueryBuilder('category')
+      // .where('category.category_id = :parent', {
+      //   parent: currentCat.parent_category_id,
+      // })
+      // .getOne();
+      // findAncestors(parentCats);
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(ancestors[0].ancestors);
+    return ancestors;
   };
 }
