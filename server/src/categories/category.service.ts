@@ -25,6 +25,37 @@ export class CategoryService {
   getSearchedCategories = async (
     paginationDto: PaginationDto
   ): Promise<PaginatedCategoryResultDto> => {
+
+    let descendants = []
+    console.log(paginationDto.treeNode)
+    if (paginationDto.treeNode) {
+     try {
+      descendants = await this.categoryRepository.query(
+        `SELECT category_id from categories
+        where $1 = any(ancestors)`,
+        [paginationDto.treeNode]);
+      //   `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
+      //       SELECT category_id, '{}'::integer[], 0, FALSE
+      //       FROM categories WHERE parent_category_id IS NULL
+      //     UNION ALL
+      //       SELECT
+      //         n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
+      //         n.parent_category_id = ANY(t.ancestors)
+      //       FROM categories n, tree t
+      //       WHERE n.parent_category_id = t.category_id
+      //       AND NOT t.cycle
+      //   ) SELECT category_id FROM categories n INNER JOIN tree USING (category_id)
+      //   WHERE $1 = any(ancestors)`,
+      //   [paginationDto.treeNode]
+      // );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+    console.log(paginationDto.treeNode)
+    console.log('DESCENDANTS')
+    descendants = descendants.map((descendant) => descendant.category_id);
+    console.log(descendants)
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
     console.log('TEST');
     console.log(paginationDto);
@@ -75,6 +106,13 @@ export class CategoryService {
           parent_category_id: parent_category_id,
         }
       )
+      .andWhere(
+       descendants.length > 0 ?
+        'categories.category_id IN (:...descendants)' : 
+        '1=1',
+         
+        {descendants: descendants}
+      )
       //.andWhere('series.geography LIKE :region', { region: region })
       // must make catname column (join with categories . . . ).andWhere("series.catname LIKE :catname"), {catname: dataset})
       // make this too .andWhere("series.histProj LIKE :histProj", {histProj: histProj})
@@ -111,34 +149,29 @@ export class CategoryService {
       .createQueryBuilder('category')
       .where('category.category_id = :categoryID', { categoryID: categoryID })
       .getOne();
+    return currentCat
 
-    let ancestors;
-    try {
-      ancestors = await this.categoryRepository.query(
-        `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
-            SELECT category_id, '{}'::integer[], 0, FALSE
-            FROM categories WHERE parent_category_id IS NULL
-          UNION ALL
-            SELECT
-              n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
-              n.parent_category_id = ANY(t.ancestors)
-            FROM categories n, tree t
-            WHERE n.parent_category_id = t.category_id
-            AND NOT t.cycle
-        ) SELECT ancestors FROM categories n INNER JOIN tree USING (category_id)
-        WHERE $1 = category_id`,
-        [currentCat.category_id]
-      );
-      // .createQueryBuilder('category')
-      // .where('category.category_id = :parent', {
-      //   parent: currentCat.parent_category_id,
-      // })
-      // .getOne();
-      // findAncestors(parentCats);
-    } catch (error) {
-      console.log(error);
-    }
-    console.log(ancestors[0].ancestors);
-    return ancestors;
+    // let ancestors;
+    // try {
+    //   ancestors = await this.categoryRepository.query(
+    //     `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
+    //         SELECT category_id, '{}'::integer[], 0, FALSE
+    //         FROM categories WHERE parent_category_id IS NULL
+    //       UNION ALL
+    //         SELECT
+    //           n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
+    //           n.parent_category_id = ANY(t.ancestors)
+    //         FROM categories n, tree t
+    //         WHERE n.parent_category_id = t.category_id
+    //         AND NOT t.cycle
+    //     ) SELECT ancestors FROM categories n INNER JOIN tree USING (category_id)
+    //     WHERE $1 = category_id`,
+    //     [currentCat.category_id]
+    //   );
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    // console.log(ancestors[0].ancestors);
+    // return ancestors;
   };
 }

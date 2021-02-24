@@ -12,13 +12,13 @@ import {
   toggleSelectAction,
   toggleCatSeriesAction
 } from './redux/actions/eia/actions';
-import { useDispatch, useSelector } from 'react-redux';
+import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function HomePage() {
   const dispatch = useDispatch();
-  const state = useSelector((state: IStore) => state.eia);
+  const state = useSelector((state: IStore) => state.eia, shallowEqual);
   //const { state, dispatch } = React.useContext(Store);
 
   // React.useEffect(() => {

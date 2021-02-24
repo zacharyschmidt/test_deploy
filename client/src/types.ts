@@ -67,6 +67,7 @@ export interface IEIA {
   treeNodes: Array<number>;
   treeLeaves: [];
   selectedTreeNode: number|null;
+  selectedSearchNode: number|null;
   categories: Array<ICategories>;
   catSeriesFlag: string;
   page: number;

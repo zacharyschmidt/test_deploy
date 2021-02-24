@@ -31,13 +31,20 @@ export default function SearchBar(): JSX.Element {
       fetchDataAction(
         dispatch,
         value,
+        state.selectedSearchNode,
         state.filters,
-        state.treeSeries,
         1,
-        state.limit
+        state.limit,
       );
     } else {
-      fetchCategoriesAction(dispatch, value, state.filters, 1, state.limit);
+      fetchCategoriesAction(
+        dispatch,
+        value,
+        state.selectedSearchNode,
+        state.filters,
+        1,
+        state.limit,
+      );
     }
     // setValue("");
   };

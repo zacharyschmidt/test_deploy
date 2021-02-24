@@ -31,6 +31,9 @@ export class CategoryEntity {
   @Column('text', { name: 'dataset_name', nullable: true })
   dataset_name: string | null;
 
+  @Column('jsonb', {name: 'ancestors', nullable: true  })
+  ancestors: number[] | null;
+
   @ManyToOne(
     () => CategoryEntity,
     categories => categories.categories,

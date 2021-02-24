@@ -5,13 +5,20 @@ import { RestorePageRounded } from '@material-ui/icons';
 //const key = process.env.REACT_APP_EIA_API_KEY;
 
 export const setSelectedTreeNodeAction = (dispatch: any, treeNode: number) => {
-  console.log('executing set treenode action')
-  console.log(treeNode)
+ 
   return dispatch({
-    type: 'SET SELECTED_TREENODE',
+    type: 'SET_SELECTED_TREENODE',
     payload: treeNode,
-  });
-}
+  });}
+
+export const setSearchNodeAction = (dispatch: any, searchNode: number) => {
+  console.log("SET SEARCH NODE")
+  return dispatch({
+    type: 'SET_SEARCH_NODE',
+    payload: searchNode
+  })
+   }
+
 export const fetchParentCatsAction = async (dispatch: any, id: number, filters: {
     Region?: string,
     SubRegion?: string,
@@ -22,13 +29,13 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
     SuppDemand?: string,
     LastUpdate?: string
   }) => {
-    async function buildTree(ancestors: [number]) {
-      const j = ancestors.length
-      for (let i = 0; i < j; i++) {
-        console.log(ancestors[i])
-        await setTreeStructureAction(dispatch, ancestors[i], filters)
-      }
+  async function buildTree(ancestors: [number]) {
+    const j = ancestors.length
+    for (let i = 0; i < j; i++) {
+      console.log(ancestors[i])
+      await setTreeStructureAction(dispatch, ancestors[i], filters)
     }
+  }
   try {
     console.log(id);
     const response = await axios({
@@ -39,7 +46,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
       }
     });
     console.log(response.data);
-    buildTree(response.data[0].ancestors)
+    buildTree(response.data.ancestors)
     // response.data[0].ancestors.map((ancestor: number) => {
     //   console.log(ancestor)
     //   setTreeStructureAction(dispatch, ancestor, filters)
@@ -62,6 +69,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
 export const fetchCategoriesAction = async (
   dispatch: any,
   searchTerm: string,
+  selectedTreeNode: number|null,
   filters: any,
   page: number,
   limit: number
@@ -74,6 +82,7 @@ export const fetchCategoriesAction = async (
         page: page,
         limit: limit,
         searchTerm: searchTerm,
+        treeNode: selectedTreeNode,
         ...filters
       }
     });
