@@ -95,6 +95,28 @@ create index geography_index on series(geography text_pattern_ops);
 of empty array []. need to change this for check when rendering the tree.
 update categories set childseries = '[]' where childseries is null;
 
+add array of ancestory categories to category records:
+
+alter table categories add column ancestors integer[];
+
+
+WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
+            SELECT category_id, '{}'::integer[], 0, FALSE
+            FROM categories WHERE parent_category_id IS NULL
+          UNION ALL
+            SELECT
+              n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
+              n.parent_category_id = ANY(t.ancestors)
+            FROM categories n, tree t
+            WHERE n.parent_category_id = t.category_id
+            AND NOT t.cycle
+        )
+        UPDATE categories
+            SET ancestors = q.ancestors
+            FROM ( SELECT t.ancestors, t.category_id FROM tree t) as q
+            WHERE categories.category_id = q.category_id;
+       
+
 I need to select only a few columns when I do select, and make sure that
 these columns have indexes. That way the whole table does not need to be 
 transferred to memory when I query.

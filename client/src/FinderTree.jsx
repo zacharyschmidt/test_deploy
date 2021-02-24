@@ -6,16 +6,18 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   setTreeSeriesAction,
   setTreeStructureAction,
   fetchDataAction, 
   setSelectedTreeNodeAction,
+  setSearchNodeAction,
 } from './redux/actions/eia/actions';
 
 import ReactFinder from 'react-finderjs';
 import './finderjs.css';
-import { ContactSupportOutlined } from '@material-ui/icons';
+import { ContactSupportOutlined, LocalConvenienceStoreOutlined } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
 
 const useStyles = makeStyles({
@@ -28,13 +30,26 @@ const useStyles = makeStyles({
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 
-export default function FinderTree() {
+// memoize function so it will not rerender when 
+// homepage rerenders. I could also change the homepage
+// so it doesn't grab all of the state with it's Selector 
+// hook--actuall, I shoud do this second option for performance
+// reasons, but perhaps it is not high on optimization list
+export default React.memo(function FinderTree() {
   const classes = useStyles();
 
-  const state = useSelector((state) => state.eia, shallowEqual);
+  const nodeVal = useSelector((state) => state.eia.selectedTreeNode, shallowEqual);
+  const treeCategories = useSelector((state) => state.eia.treeCategories, shallowEqual)
+  const filters = useSelector((state) => state.eia.filters, shallowEqual) 
+  const treeLeaves = useSelector((state) => state.eia.treeLeaves, shallowEqual)
+  const searchTerm = useSelector((state) => state.eia.searchTerm, shallowEqual)
+  const page = useSelector((state) => state.eia.page, shallowEqual)
+  const limit = useSelector((state) => state.eia.limit, shallowEqual)
+  //const searchVal = useSelector((state) => state.eia.selectedSearchNode, shallowEqual)
   const dispatch = useDispatch();
   // should use store instead of state
-  const nodeVal = state.selectedTreeNode;
+  // const nodeVal = state.selectedTreeNode;
+  //const searchVal = state.selectedSearchNode;
   
 
   //   if cat has no childCategories, return object1;
@@ -79,9 +94,9 @@ export default function FinderTree() {
   // renaming the members of each category in treeCategories so the FinderJS tree
   // can process them childCategories -> children
 
-  const tree = state.treeCategories.map((cat) => recursiveMap(cat));
-
-  const [childSeries, setSeries] = useState({});
+  const tree = treeCategories.map((cat) => recursiveMap(cat));
+  let searchRoot = nodeVal
+  //const [searchRoot, setSearchRoot] = useState(nodeVal);
 
   //will I still need useEffect with redux?
   React.useEffect(() => {
@@ -110,28 +125,33 @@ export default function FinderTree() {
     // };
     //fetchInitialTree('371');
 
-    setTreeStructureAction(dispatch, 371, state.filters);
-  }, [state.filters]);
+    setTreeStructureAction(dispatch, 371, filters);
+  }, [filters]);
 
   const handleChange = (item) => {
+    console.log("In ON LEAF SELECTED")
     console.log(item);
-    if (item.id === nodeVal) {
+    if ((item.id === nodeVal)) {
+      console.log("EXITING ON LEAF SELECTED NODEVAL == ITEM.ID")
       return;
     }
     if (item.dispaly === 1) {
       return;
     }
-
+    console.log("IN ON LEAF SELECTED--CONTINUING TO SET NODE AND TREE STRUCTURE")
     // check if childseries have already been fetched
     // if (!(nodeID[0] in tree)) {
-    let nodeID = item.id;
-    setSelectedTreeNodeAction(dispatch, nodeID);
+    //setSearchRoot(nodeID)
+  
+    setSelectedTreeNodeAction(dispatch, item.id);
+    //setSearchNodeAction(dispatch, item.id)
+    
 
-    setTreeStructureAction(dispatch, nodeID, state.filters);
+    setTreeStructureAction(dispatch, item.id, filters);
     setTreeSeriesAction(dispatch, []);
 
-    let Series = state.treeLeaves.filter(function (leaf) {
-      return leaf.category_id == Number(nodeID);
+    let Series = treeLeaves.filter(function (leaf) {
+      return leaf.category_id == Number(item.id);
     });
 
     Series = Series.length > 0 ? Series[0]['childseries'] : null;
@@ -146,11 +166,11 @@ export default function FinderTree() {
     if (Series && Series.length > 0) {
       fetchDataAction(
         dispatch,
-        state.searchTerm,
-        state.filters,
+        searchTerm,
+        filters,
         Series,
-        state.page,
-        state.limit
+        page,
+        limit
       );
     }
     // } else {
@@ -165,6 +185,31 @@ export default function FinderTree() {
 
     // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
   };
+  const itemSelected = (item) => { 
+        // if ((item.id === searchVal)) {
+        //   console.log("EXITING ON ITEM SELECTED SEARCHVAL == ITEM.ID")
+        //   return;}
+            // if (item.id === nodeVal) {
+            //   console.log('ITEM ID = NODEVAL')
+            // }
+            // if ((item.id !== nodeVal)){ 
+            // console.log('IN onITEMSELECTED')
+            setSearchNodeAction(dispatch, item.id)
+           
+            console.log("ITEM ID")
+            console.log(item.id)
+            console.log(item)
+            console.log('nodeVal OnItemSelected')
+            console.log(nodeVal)
+            console.log('searchVal OnItemSelected')
+            //console.log(searchVal)
+           
+            //setSearchRoot(item.id)
+         
+            // }
+            
+
+  }
   const renderTree = (config, item) => {
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
@@ -176,29 +221,32 @@ export default function FinderTree() {
         let a = document.createElement('a');
         ul.appendChild(a);
         a.innerHTML += series;
-        a.href = `/demo/details/${series}`;
+        // a.href = `/demo/details/${series}`;
       });
       let parent = document.getElementsByClassName('fjs-col');
+      console.log(parent)
 
       setTimeout(() => {
         console.log(parent.length);
         console.log(
           parent.item(parent.length - 1).childNodes[0].childNodes[0]
             .childNodes[0]
-        );
-        let replacement = document.createElement('a');
-        parent
-          .item(parent.length - 1)
-          .childNodes[0].childNodes[0].childNodes[0].replaceWith(replacement);
-        console.log(parent);
-      }, 100);
+              );
+            parent.item(parent.length - 1).childNodes[0].childNodes[0]
+            .childNodes[0].href = `/demo/details/${item.childseries[0]}`})
+    //     let replacement = document.createElement('a');
+    //     parent
+    //       .item(parent.length - 1)
+    //       .childNodes[0].childNodes[0].childNodes[0].replaceWith(replacement);
+    //     console.log(parent);
+    //   }, 100);
+    // }
     }
-
     div.appendChild(ul);
 
     return div;
   };
-  console.log(tree);
+  // console.log(tree);
   // const renderTree = (children) => {
   //   return children.map((child) => {
   //     const childrenNodes =
@@ -216,17 +264,20 @@ export default function FinderTree() {
   console.log('TREE')
   console.log(tree)
   console.log('STATE')
-  console.log(state)
+ 
   console.log("CURRENT TREE NODE")
   console.log(nodeVal)
+  console.log("SEARCH Val")
+  
+  //console.log(searchVal)
   
   return (
     <ReactFinder
       className=""
       data={tree}
-      onItemSelected={() => {}}
+      onItemSelected={itemSelected}
       onLeafSelected={handleChange}
-      createItemContent={renderTree}
+      // createItemContent={renderTree}
       value={{ id: nodeVal }}
     />
   );
@@ -240,4 +291,4 @@ export default function FinderTree() {
   //
   //     </TreeView>
   //   );
-}
+})

@@ -12,6 +12,7 @@ const initialState: IEIA = {
   treeNodes: [],
   treeLeaves: [],
   selectedTreeNode: null,
+  selectedSearchNode: null,
   categories: [],
   catSeriesFlag: 'Series',
   page: 1,
@@ -36,13 +37,18 @@ function hasKey<O>(obj: O, key: keyof any): key is keyof O {
 }
 
 export const eiaReducer = (state = initialState, action: IAction): IEIA => {
+  console.log('REDUCER CALLED')
+  console.log(action)
   switch (action.type) {
     case 'SET_SEARCH_TERM':
       return { ...state, searchTerm: action.payload };
-    case 'SET SELECTED_TREENODE':
-      console.log("Setting Treenode")
-      console.log(action.payload)
+    case 'SET_SELECTED_TREENODE':
       return { ...state, selectedTreeNode: action.payload}
+    case 'SET_SEARCH_NODE':
+      console.log('IN SET SEARCH NODE')
+      console.log(action.payload)
+      return { ...state, selectedSearchNode: action.payload}
+
     case 'TOGGLE_CATSERIES':
       return {
         ...state,
