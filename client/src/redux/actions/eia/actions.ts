@@ -74,6 +74,8 @@ export const fetchCategoriesAction = async (
   page: number,
   limit: number
 ) => {
+  console.log('FETCH CATEGORIES')
+  console.log(selectedTreeNode)
   try {
     const response = await axios({
       method: 'GET',
@@ -661,6 +663,8 @@ export const fetchDataAction = async (
   //console.log(URL);
   //const data = await fetch(URL);
   try {
+    console.log('SERIES SEARCH')
+    console.log(searchTerm)
     const response = await axios({
       method: 'GET',
       url: 'api/series/search',
@@ -753,6 +757,7 @@ export const setTreeStructureAction = async (
   filters: any
 ) => {
   try {
+    console.log("SET TREE STRUCTURE ACTION")
     const response = await axios({
       method: 'GET',
       url: 'api/categories/search',
@@ -761,7 +766,6 @@ export const setTreeStructureAction = async (
         limit: 1000,
         searchTerm: '',
         ...filters,
-        Region: 'ALL',
         SubRegion: 'None',
         // Frequency: 'All',
         // Units: 'All',

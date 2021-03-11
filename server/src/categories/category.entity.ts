@@ -26,7 +26,7 @@ export class CategoryEntity {
   notes: string | null;
 
   @Column('jsonb', { name: 'childseries', nullable: true })
-  childseries: object | null;
+  childSeries: object | null;
 
   @Column('text', { name: 'dataset_name', nullable: true })
   dataset_name: string | null;
@@ -53,4 +53,69 @@ export class CategoryEntity {
     categories => categories.parentCategory
   )
   categories: CategoryEntity[];
+}
+
+
+
+@Entity('temp_cats', { schema: 'public' })
+export class TempCatsEntity {
+  @Column('text', {primary: true, name: 'series_id'})
+  series_id: string
+
+  @Column('integer', { name: 'category_id' })
+  category_id: number;
+
+  @Column('text', { name: 'name', nullable: true })
+  name: string | null;
+
+  @Column('jsonb', {name: 'ancestors', nullable: true  })
+  ancestors: number[] | null;
+
+
+  @Column('text', {name: 'f', nullable: true })
+  f: string | null;
+
+  @Column('text', {name: 'geography', nullable: true })
+  geography: string | null;
+}
+
+@Entity('frequency_filter', { schema: 'public' })
+export class FrequencyFilterEntity {
+  
+  @Column('integer', {primary: true, name: 'id'})
+  id: number
+
+  @Column('integer', { name: 'category_id' })
+  category_id: number;
+
+  @Column('text', {name: 'f', nullable: true })
+  f: string | null;
+
+}
+
+@Entity('geography_filter', { schema: 'public' })
+export class GeographyFilterEntity {
+  @Column('integer', {primary: true, name: 'id'})
+  id: number
+
+  @Column('integer', { name: 'category_id' })
+  category_id: number;
+
+  @Column('text', {name: 'geography', nullable: true })
+  f: string | null;
+
+}
+
+@Entity('leaf_category_lookup', { schema: 'public' })
+export class LeafCategoryLookupEntity {
+  
+  @Column('integer', {primary: true, name: 'id'})
+  id: number
+
+  @Column('integer', { name: 'leaf_category' })
+  leaf_category: number;
+
+  @Column('integer', {name: 'ancestors', nullable: true })
+  ancestors: number
+
 }

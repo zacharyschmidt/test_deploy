@@ -1,0 +1,431 @@
+units,series_id,name,dataset_name
+$/short ton,COAL.SHIPMENT_PRICE.504591-1769-BIT.Q,Coal shipment price : Bowie No 2 Mine (504591) to Presque Isle(1769) : Bituminous : quarterly,Coal
+1000 metric tons,INTL.81-1-CAF-MT.A,"Biodiesel production, Central African Republic, Annual",International Energy Data
+1982=1.00,AEO.2018.ANWR_RPMR.ECI_INDX_NA_NA_WHP_INDCOM_NA_IDX82EQ1.A,"Macroeconomic Indicators : Wholesale Price Index : Industrial Commodities Excluding Energy, Mean ANWR, AEO2018",Annual Energy Outlook 2018
+1982-84=1.00,AEO.2016.LOWPRICE.ECI_INDX_NA_NA_CPI_ENE_NA_IDX82TO84EQ1.A,"Macroeconomic Indicators : Consumer Price Index : Energy Commodities and Services, Low price, AEO2016",Annual Energy Outlook 2016
+1987 $/mi,AEO.2020.LOWMACRO.ECI_COD_TRN_NA_NA_NA_NA_87DLRPMII.A,"Light-Duty Vehicle Miles Traveled : Price Effects : Real Cost of Driving per Mile, Low growth, AEO2020",Annual Energy Outlook 2020
+1987 $/mile,AEO.2015.REF2015.ECI_COD_TRN_NA_NA_NA_NA_87DLRPMII.A,"Light-Duty Vehicle Miles Traveled : Price Effects : Real Cost of Driving per Mile, Reference, AEO2015",Annual Energy Outlook 2015
+1987 $/mill Btu,AEO.2014.RLNGLOW20.PRCE_NA_TRN_NA_MGS_NA_NA_87DLRPMBTU.A,"Light-Duty Vehicle Miles Traveled : Price Effects : Motor Gasoline Price, Low rail LNG, AEO2014",Annual Energy Outlook 2014
+1987 $/MMBtu,AEO.2020.AEO2019REF.PRCE_FUL_AIRT_NA_NA_NA_NA_87DLRPMBTU.A,"Air Travel : Fuel Cost, AEO2019, AEO2020",Annual Energy Outlook 2020
+1996 C,AEO.2014.LOWVMT.PRCE_TKT_AIRT_DMS_NA_NA_USA_96CNT.A,"Air Travel : Ticket Price: Domestic, Low VMT, AEO2014",Annual Energy Outlook 2014
+1996 cents,AEO.2016.HIGHMACRO.PRCE_TKT_AIRT_DMS_NA_NA_USA_96CNT.A,"Air Travel : Ticket Price : Domestic, High growth, AEO2016",Annual Energy Outlook 2016
+2005=1.00,AEO.2014.LOWRESOURCE.ECI_NFLP_NA_NA_NA_NA_NA_Y05EQ1D2Z.A,"Macroeconomic Indicators : Key Labor Indicators: Nonfarm Labor Productivity, Low resource, AEO2014",Annual Energy Outlook 2014
+2005=1.000,AEO.2014.EXTENDED.ECI_GDPD_NA_NA_NA_NA_NA_Y05EQ1D3Z.A,"Macroeconomic Indicators : Price Indices: GDP Chain-type Price Index, Extended policies, AEO2014",Annual Energy Outlook 2014
+2009=1.00,AEO.2014.EXTENDED.EFF_BSE_RES_SPC_NCO_NA_NA_Y09EQ1.A,"Residential Equipment : Building Shell Efficiency Index: Space Cooling: New Construction, Extended policies, AEO2014",Annual Energy Outlook 2014
+2009=1.000,AEO.2016.LOWPRICE.ECI_INDX_NA_NA_GDP_NA_NA_Y09EQ1D3Z.A,"Macroeconomic Indicators : Price Indices : GDP Chain-type Price Index, Low price, AEO2016",Annual Energy Outlook 2016
+2010$/person,IEO.2019.REFERENCE.GDPPPPPERCAP_NNN_B2010DOLPERCAP.A,"GDP (purchasing power parity) : Non-OECD : Total Non-OECD, Reference, IEO2019",International Energy Outlook
+2012 $/bbl,AEO.2014.HIGHVMT.PRCE_NA_CMM_NA_RFO_NA_USA_Y12DLRPBBL.A,"Real Petroleum Prices : Commercial: Residual Fuel Oil, High VMT, AEO2014",Annual Energy Outlook 2014
+2012 $/gallon,AEO.2014.ESICA.PRCE_WHL_TRN_NA_ETH_NA_USA_Y12DLRPGLN.A,"Real Petroleum Prices : Transportation: Ethanol Wholesale Price, ESICA, AEO2014",Annual Energy Outlook 2014
+2012 $/mill Btu,AEO.2014.NOSUNSET.PRCE_APTU_TEN_NA_DFO_NA_MDATL_Y12DLRPMMBTU.A,"Energy Prices : Average Price to All Users: Distillate Fuel Oil, Middle Atlantic, No sunset, AEO2014",Annual Energy Outlook 2014
+2012 $/mmBtu,AEO.2014.HCLONUC.PRCE_RLP_TEN_NA_HHP_NA_USA_Y12DLRPMMBTU.A,"Total Energy : Real Prices: Gas Price at Henry Hub, Low nuclear and coal, AEO2014",Annual Energy Outlook 2014
+2012 $/short ton,AEO.2014.LOWRESOURCE.PRCE_NA_CMM_NA_CL_NA_NA_Y12DLRPTN.A,"Coal Supply : Delivered Prices: Commercial and Institutional, Low resource, AEO2014",Annual Energy Outlook 2014
+2012 $/thous cu ft,AEO.2014.BESTTECH.PRCE_SUP_NA_NA_NG_NA_WETCOT_Y12DLRPMCF.A,"Natural Gas : Supply Prices : Lower 48 Onshore : West Coast, Best available technology, AEO2014",Annual Energy Outlook 2014
+2012 $/ton,AEO.2014.FLAT.PRCE_RLP_TEN_NA_CMN_NA_USA_Y12DLRPTN.A,"Total Energy : Real Prices: Coal at Minemouth, Low electricity demand, AEO2014",Annual Energy Outlook 2014
+2012=1.00,AEO.2020.LOWPRICE.ECI_LP_NOFM_NA_NA_NA_NA_Y09EQ1.A,"Macroeconomic Indicators : Key Labor Indicators : Nonfarm Labor Productivity, Low price, AEO2020",Annual Energy Outlook 2020
+2012=1.000,AEO.2020.LOWPRICE.ECI_INDX_NA_NA_GDP_NA_NA_Y09EQ1D3Z.A,"Macroeconomic Indicators : Price Indices : GDP Chain-type Price Index, Low price, AEO2020",Annual Energy Outlook 2020
+2012 = 1.00000,TOTAL.GDPDIUS.A,"U.S. Gross Domestic Product Implicit Price Deflator, Annual",Total Energy
+2012 C/kwh,AEO.2014.ALTLOWNUC14.PRCE_NA_ELEP_DSE_ELC_NA_NPCCLI_Y12CNTPKWH.A,"Electricity : Prices by Service Category: Distribution, Northeast Power Coordinating Council / Long Island, Low nuclear, AEO2014",Annual Energy Outlook 2014
+2012 C/Kwh,AEO.2014.LOWRESOURCE.PRCE_RLP_TEN_NA_ELC_NA_USA_Y12CNTPKWH.A,"Total Energy : Real Prices: Electricity, Low resource, AEO2014",Annual Energy Outlook 2014
+2013 $/b,AEO.2015.AEO2014FULL.PRCE_MARK_NA_NA_CR_NA_USA_Y13DLRPBBL.A,"Real Petroleum Prices : Crude Oil : Brent vs. WTI Price Spread, AEO2014 Reference, AEO2015",Annual Energy Outlook 2015
+2013 $/gal,AEO.2015.HIGHMACRO.PRCE_NA_NA_NA_JFL_NA_ENC_Y13DLRPGLN.A,"Price Components : Jet Fuel : End-User Price, East North Central, High growth, AEO2015",Annual Energy Outlook 2015
+2013 $/Mcf,AEO.2015.LOWPRICE.PRCE_NA_RES_NA_NG_NA_NA_Y13DLRPMCF.A,"Natural Gas Delivered : Residential : Average, Low price, AEO2015",Annual Energy Outlook 2015
+2013 $/MMBtu,AEO.2015.REF2015.PRCE_NA_NA_NA_CL_MNMTH_NA_Y13DLRPMMBTU.A,"Coal Supply : Average Minemouth Price, Reference, AEO2015",Annual Energy Outlook 2015
+2013 $/short ton,AEO.2015.AEO2014FULL.PRCE_NA_NA_NA_CL_NA_NA_Y13DLRPTN.A,"Coal Supply : Delivered Prices : Average, AEO2014 Reference, AEO2015",Annual Energy Outlook 2015
+2013 $/ton,AEO.2015.REF2015.PRCE_RLP_TEN_NA_CMN_NA_USA_Y13DLRPTN.A,"Total Energy : Real Prices : Coal at Minemouth, Reference, AEO2015",Annual Energy Outlook 2015
+2013 cents/kWh,AEO.2015.LOWMACRO.PRCE_NA_NA_NA_ELC_NA_WECCCA_Y13CNTPKWH.A,"Electricity : End-Use Prices : All Sectors Average, Western Electricity Coordinating Council / California, Low growth, AEO2015",Annual Energy Outlook 2015
+2015 $/b,AEO.2016.REF_ALLOW_GEN.PRCE_NA_IDAL_NA_RFO_NA_USA_Y13DLRPBBL.A,"Real Petroleum Prices : Industrial : Residual Fuel Oil, CPP generators, AEO2016",Annual Energy Outlook 2016
+2015 $/gal,AEO.2016.REF2016.PRCE_COMP_NA_NA_JFL_STAX_MTN_Y13DLRPGLN.A,"Price Components : Jet Fuel : End-User Price : State Taxes, Mountain, Reference, AEO2016",Annual Energy Outlook 2016
+2015 $/Mcf,AEO.2016.REF_TRADE.PRCE_NA_NA_NA_NG_NA_WNC_Y13DLRPMCF.A,"Natural Gas Delivered : All Sectors : West North Central, CPP trading, AEO2016",Annual Energy Outlook 2016
+2015 $/MMBtu,AEO.2016.REF2016.PRCE_REAL_IDAL_NA_CLTLQ_NA_WSC_Y13DLRPMMBTU.A,"Energy Prices : Industrial : Coal to Liquids, West South Central, Reference, AEO2016",Annual Energy Outlook 2016
+2015 $/st,AEO.2016.HIGHRT.PRCE_MNMTH_NA_NA_CL_NA_WEMT_Y13DLRPTN.A,"Coal Minemouth Prices : Western Montana, High resource, AEO2016",Annual Energy Outlook 2016
+2015 $/ton,AEO.2016.REF_HYBRID.PRCE_RLP_TEN_NA_CMN_NA_USA_Y13DLRPTN.A,"Total Energy : Real Prices : Coal at Minemouth, CPP hybrid, AEO2016",Annual Energy Outlook 2016
+2015=1.00,AEO.2019.HIGHMACRO.EFI_BSE_RESD_SPH_NCO_NA_NA_Y15EQ1.A,"Residential Equipment : Building Shell Efficiency Index: Space Heating : New Construction, High growth, AEO2019",Annual Energy Outlook 2019
+2015 cents/kWh,AEO.2016.LOWMACRO.PRCE_NA_NA_NA_ELC_NA_WECCRKS_Y13CNTPKWH.A,"Electricity : End-Use Prices : All Sectors Average, Western Electricity Coordinating Council / Rockies, Low growth, AEO2016",Annual Energy Outlook 2016
+2016 $/b,AEO.2017.LOWRT.PRCE_NA_COMM_NA_RFO_NA_USA_Y13DLRPBBL.A,"Real Petroleum Prices : Commercial : Residual Fuel Oil, Low resource, AEO2017",Annual Energy Outlook 2017
+2016 $/gal,AEO.2017.HIGHMACRO.PRCE_COMP_RES_NA_DSTL_WHP_NEENGL_Y13DLRPGLN.A,"Price Components : Residential Distillate : End-User Price : Wholesale Price, New England, High growth, AEO2017",Annual Energy Outlook 2017
+2016 $/Mcf,AEO.2017.HIGHPRICE.PRCE_NA_COMM_NA_NG_NA_USA_Y13DLRPMCF.A,"Natural Gas : Delivered Prices : Commercial, High price, AEO2017",Annual Energy Outlook 2017
+2016 $/MMBtu,AEO.2017.HIGHMACRO.PRCE_REAL_IDAL_NA_CLTLQ_NA_WNC_Y13DLRPMMBTU.A,"Energy Prices : Industrial : Coal to Liquids, West North Central, High growth, AEO2017",Annual Energy Outlook 2017
+2016 $/st,AEO.2017.REF2017.PRCE_NA_CKPL_NA_CL_NA_NA_Y13DLRPTN.A,"Coal Supply : Delivered Prices : Coke Plants, Reference, AEO2017",Annual Energy Outlook 2017
+2016 $/ton,AEO.2017.HIGHPRICE.PRCE_RLP_TEN_NA_CMN_NA_USA_Y13DLRPTN.A,"Total Energy : Real Prices : Coal at Minemouth, High price, AEO2017",Annual Energy Outlook 2017
+2016 cents/kWh,AEO.2017.HIGHMACRO.PRCE_NA_RES_NA_ELC_NA_SWPPSO_Y13CNTPKWH.A,"Electricity : End-Use Prices : Residential, Southwest Power Pool / South, High growth, AEO2017",Annual Energy Outlook 2017
+2017 $/b,AEO.2018.ANWR_RPHR.PRCE_NA_IDAL_NA_RFO_NA_USA_Y13DLRPBBL.A,"Real Petroleum Prices : Industrial : Residual Fuel Oil, High ANWR, AEO2018",Annual Energy Outlook 2018
+2017 $/gal,AEO.2018.HP_CPP.PRCE_COMP_NA_NA_MGS_FTAX_MTN_Y13DLRPGLN.A,"Price Components : Motor Gasoline : End-User Price : Federal Taxes, Mountain, High price, CPP, AEO2018",Annual Energy Outlook 2018
+2017 $/Mcf,AEO.2018.HR_CPP.PRCE_NA_TRN_NA_NG_NA_MATL_Y13DLRPMCF.A,"Natural Gas Delivered : Transportation : Middle Atlantic, High resource, CPP, AEO2018",Annual Energy Outlook 2018
+2017 $/MMBtu,AEO.2018.HIGHRT.PRCE_NA_ELEP_NA_CL_NA_SERCSOES_Y13DLRPMMBTU.A,"Electricity : Fuel Prices : Coal, SERC Reliability Corporation / Southeastern, High resource, AEO2018",Annual Energy Outlook 2018
+2017 $/st,AEO.2018.CO2FEE15.PRCE_MNMTH_NA_NA_CL_WST_NA_Y13DLRPTN.A,"Coal Prices : Waste Coal, $15 carbon fee, AEO2018",Annual Energy Outlook 2018
+2017 $/ton,AEO.2018.HRNUC_PLUS20.PRCE_RLP_TEN_NA_CMN_NA_USA_Y13DLRPTN.A,"Total Energy : Real Prices : Coal at Minemouth, High resource, plus 20%, AEO2018",Annual Energy Outlook 2018
+2017 cents/kWh,AEO.2018.AEO2017CPP.PRCE_NA_IDAL_NA_ELC_NA_RFCWT_Y13CNTPKWH.A,"Electricity : End-Use Prices : Industrial, Reliability First Corporation / West, AEO2017, CPP, AEO2018",Annual Energy Outlook 2018
+2018 $/b,AEO.2019.LOWMACRO.PRCE_NA_ONS_NA_CR_WLHD_GLFCT_Y13DLRPBBL.A,"Crude Oil : Wellhead Prices : Lower 48 Onshore : Gulf Coast, Low growth, AEO2019",Annual Energy Outlook 2019
+2018 $/gal,AEO.2019.REF2019.PRCE_NA_COMM_NA_DFO_NA_USA_Y13DLRPGLN.A,"Real Petroleum Prices : Commercial : Distillate Fuel Oil, Reference, AEO2019",Annual Energy Outlook 2019
+2018 $/Mcf,AEO.2019.LOWMACRO.PRCE_NA_IDAL_NA_NG_NA_NENGL_Y13DLRPMCF.A,"Natural Gas Delivered : Industrial : New England, Low growth, AEO2019",Annual Energy Outlook 2019
+2018 $/MMBtu,AEO.2019.HIGHPRICE.PRCE_REAL_ELEP_NA_RFO_NA_SOATL_Y13DLRPMMBTU.A,"Energy Prices : Electric Power : Residual Fuel Oil, South Atlantic, High price, AEO2019",Annual Energy Outlook 2019
+2018 $/st,AEO.2019.LOWPRICE.PRCE_MNMTH_NA_NA_CL_NA_NA_Y13DLRPTN.A,"Coal Minemouth Prices : United States Average, Low price, AEO2019",Annual Energy Outlook 2019
+2018 $/ton,AEO.2019.LOWMACRO.PRCE_RLP_TEN_NA_CMN_NA_USA_Y13DLRPTN.A,"Total Energy : Real Prices : Coal at Minemouth, Low growth, AEO2019",Annual Energy Outlook 2019
+2018 cents/kWh,AEO.2019.HIGHRT.PRCE_NA_TRN_NA_ELC_NA_SERCCNT_Y13CNTPKWH.A,"Electricity : End-Use Prices : Transportation, SERC Reliability Corporation / Central, High resource, AEO2019",Annual Energy Outlook 2019
+2019 $/b,AEO.2020.LOWMACRO.PRCE_RLP_TEN_NA_WTI_NA_USA_Y13DLRPBBL.A,"Total Energy : Real Prices : West Texas Intermediate, Low growth, AEO2020",Annual Energy Outlook 2020
+2019 $/gal,AEO.2020.HIGHMACRO.PRCE_COMP_NA_NA_JFL_ATAX_MTN_Y13DLRPGLN.A,"Price Components : Jet Fuel : End-User Price : Tax/Allowance, Mountain, High growth, AEO2020",Annual Energy Outlook 2020
+2019 $/Mcf,AEO.2020.HIGHOGS.PRCE_NA_ELEP_NA_NG_NA_PCF_Y13DLRPMCF.A,"Natural Gas Delivered : Electric Power : Pacific, High oil and gas supply, AEO2020",Annual Energy Outlook 2020
+2019 $/MMBtu,AEO.2020.LOWMACRO.PRCE_NA_ELEP_NA_DSTL_NA_SWPPNO_Y13DLRPMMBTU.A,"Electricity : Fuel Prices : Distillate Fuel Oil, Southwest Power Pool / North, Low growth, AEO2020",Annual Energy Outlook 2020
+2019 $/st,AEO.2020.LOWPRICE.PRCE_MNMTH_NA_NA_CL_LOSULBIT_SAPP_Y13DLRPTN.A,"Coal Minemouth Prices : Southern Appalachia : Low Sulfur Bituminous, Low price, AEO2020",Annual Energy Outlook 2020
+2019 $/ton,AEO.2020.HIGHOGS.PRCE_RLP_TEN_NA_CMN_NA_USA_Y13DLRPTN.A,"Total Energy : Real Prices : Coal at Minemouth, High oil and gas supply, AEO2020",Annual Energy Outlook 2020
+2019 cents/kWh,AEO.2020.HIGHOGS.PRCE_NA_ELEP_TRE_ELC_NA_MCW_Y13CNTPKWH.A,"Electricity : Prices by Service Category : Transmission, Midcontinent / West, High oil and gas supply, AEO2020",Annual Energy Outlook 2020
+AFUE,AEO.2014.LCCST14.EFF_STKE_RES_MSHR_DFR_NA_NA_AFUE.A,"Residential Equipment : Stock Average Efficiency: Main Space Heaters: Distillate Furnace, Low coal cost, AEO2014",Annual Energy Outlook 2014
+"available ton-miles/day, thousands",STEO.RMZTPUS.A,"Air Travel Capacity, Annual",Short-Term Energy Outlook
+barrels,ELEC.PLANT.CONS_TOT.7462-DFO-ALL.Q,Fuel consumption quantity : Angoon (7462) : distillate fuel oil : all primemovers : quarterly,Electricity
+Barrels,SEDS.PATPP.PA.A,"All petroleum products total consumption per capita, Pennsylvania",State Energy Data System (SEDS)
+Barrels per Calendar Day,PET.8_NA_8DO_SNM_4.A,"New Mexico Refinery Annual Operating Atmospheric Crude Oil Distillation Capacity as of January 1, Annual",Petroleum
+Barrels per Stream Day,PET.8_NA_8D0_SMI_5.A,"Michigan Refinery Annual Operable Atmospheric Crude Oil Distillation Capacity as of January 1, Annual",Petroleum
+Bcf,AEO.2016.REF_RATE.QUN_FLW_FR_MNT_NG_NA_WNC_BLNCF.A,"Natural Gas : Flows : Into West North Central from : Mountain, CPP rate, AEO2016",Annual Energy Outlook 2016
+bill,AEO.2014.HIGHPRICE.ECI_FTM_TRN_DMT_NA_NA_NA_BLN.A,"Freight : Domestic Shipping: Ton Miles Shipping, High price, AEO2014",Annual Energy Outlook 2014
+bill 2005  $,AEO.2014.LCCST14.ECI_NA_NA_NA_GDP_RCNSP_NA_BLNY05DLR.A,"Macroeconomic Indicators : Components of Gross Domestic Product: Real Consumption, Low coal cost, AEO2014",Annual Energy Outlook 2014
+bill 2005 $,AEO.2014.HCCST14.ECI_VOS_MANF_PCLO_NA_NA_NA_BLNY05DLR.A,"Industrial Macroeconomic : Manufacturing: Petroleum and Coal: Other Petroleum & Coal Products, High coal cost, AEO2014",Annual Energy Outlook 2014
+bill 2010 $,IEO.2017.REFERENCE.GDPMER_MXC_B2010DOL.A,"GDP (exchange rate) : OECD : OECD Americas : Mexico and Chile, Reference, IEO2017",International Energy Outlook
+bill 2012 $,AEO.2014.HIGHTECH.EXPD_NRN_IDAL_NA_NRN_NA_WSC_BLNY12DLR.A,"Energy Expenditures : Non-Renewable Industrial, West South Central, High technology, AEO2014",Annual Energy Outlook 2014
+bill bbls,AEO.2014.HCCSTOM.RSV_NA_ONS_NA_CO_NA_L48_BLNBBL.A,"Lower 48 Reserves : Crude Oil: Onshore, Coal retirements, AEO2014",Annual Energy Outlook 2014
+bill cu ft/year,AEO.2014.CO2FEE10HR.QUN_FLW_ENC_NA_NG_NA_SATL_BLNCF.A,"Natural Gas : Into South Atlantic from: East North Central, GHG10 with low gas price, AEO2014",Annual Energy Outlook 2014
+billion 2009  $,AEO.2017.HIGHRT.ECI_NA_NA_NA_GDP_RINV_NA_BLNY09DLR.A,"Macroeconomic Indicators : Components of Gross Domestic Product : Real Investment, High resource, AEO2017",Annual Energy Outlook 2017
+billion 2009 $,AEO.2018.LOWRT.KEI_GDP_NA_NA_NA_NA_SOATL_BLNY09DLR.A,"Energy Use & Related Statistics : Gross Domestic Product, South Atlantic, Low resource, AEO2018",Annual Energy Outlook 2018
+(billion 2010 dollars),IEO.2019.LOWMACRO.GDPMER_WOR_B2010DOL.A,"GDP (exchange rate) : Total World, Low economic growth, IEO2019",International Energy Outlook
+billion 2012  $,AEO.2020.LOWOGS.ECI_NA_NA_NA_GDP_RIMP_NA_BLNY09DLR.A,"Macroeconomic Indicators : GDP Components : Real Imports, Low oil and gas supply, AEO2020",Annual Energy Outlook 2020
+billion 2012 $,AEO.2020.HIGHPRICE.ECI_VOS_MANF_PRP_NA_NA_NA_BLNY09DLR.A,"Macro Indicators : Shipments : Industrial : Manufacturing : Plastics and Rubber Products, High price, AEO2020",Annual Energy Outlook 2020
+billion 2013 $,AEO.2015.HIGHMACRO.EXPD_REAL_RES_NA_NRN_NA_PCF_BLNY13DLR.A,"Energy Expenditures : Non-Renewable Residential, Pacific, High growth, AEO2015",Annual Energy Outlook 2015
+billion 2015 $,AEO.2016.REF_TRADE.EXPD_REAL_IDAL_NA_NRN_NA_WNC_BLNY13DLR.A,"Energy Expenditures : Non-Renewable Industrial, West North Central, CPP trading, AEO2016",Annual Energy Outlook 2016
+billion 2016 $,AEO.2017.LOWPRICE.EXPD_REAL_IDAL_NA_NRN_NA_PCF_BLNY13DLR.A,"Energy Expenditures : Non-Renewable Industrial, Pacific, Low price, AEO2017",Annual Energy Outlook 2017
+billion 2017 $,AEO.2018.ANWR_RPHR.EXPD_REAL_TRN_NA_NRN_NA_NA_BLNY13DLR.A,"Energy Expenditures : Non-Renewable Transportation, United States, High ANWR, AEO2018",Annual Energy Outlook 2018
+billion 2018 $,AEO.2019.AEO2018NO.EXPD_REAL_TRN_NA_NRN_NA_ESC_BLNY13DLR.A,"Energy Expenditures : Non-Renewable Transportation, East South Central, AEO2018, no CPP, AEO2019",Annual Energy Outlook 2019
+billion 2019 $,AEO.2020.HIGHMACRO.EXPD_REAL_TRN_NA_NRN_NA_NA_BLNY13DLR.A,"Energy Expenditures : Non-Renewable Transportation, United States, High growth, AEO2020",Annual Energy Outlook 2020
+billion b,AEO.2015.LOWMACRO.RSV_NA_OFS_NA_CR_NA_L48_BLNBBL.A,"Lower 48 Reserves : Crude Oil : Offshore, Low growth, AEO2015",Annual Energy Outlook 2015
+billion barrels,INTL.57-6-WP24-BB.A,"Crude oil including lease condensate reserves, Other Non-OECD - Europe and Eurasia, Annual",International Energy Data
+billion Btu,ELEC.RECEIPTS_BTU.BIT-IL-2.M,Receipts of fossil fuels by electricity plants (Btu) : bituminous coal : Illinois : electric utility non-cogen : monthly,Electricity
+Billion Btu,SEDS.EMCCB.CA.A,"Fuel ethanol, excluding denaturant, consumed by the commercial sector , California",State Energy Data System (SEDS)
+billion chained 2009 dollars (seasonally-adjusted annual rate),STEO.CGSP_MAC.M,"Real Gross State Product Middle Atlantic, Monthly",Short-Term Energy Outlook
+Billion chained (2012) dollars,TOTAL.GDPRXUS.A,"U.S. Gross Domestic Product, Real, Annual",Total Energy
+billion chained 2012 dollars (seasonally-adjusted annual rate),STEO.KRDRXUS.A,"Business Inventory Change, Annual",Short-Term Energy Outlook
+billion cubic feet,INTL.26-1-TUV-BCF.A,"Dry natural gas production, Tuvalu, Annual",International Energy Data
+Billion Cubic Feet,NG.RES_EPG0_R5304_SAK_BCF.A,"Alaska (with Total Offshore) Shale Proved Reserves Revision Decreases, Annual",Natural Gas
+"billion cubic feet, end-of-period",STEO.NGWG_AK.M,"Natural Gas Working Inventory Alaska, Monthly",Short-Term Energy Outlook
+billion cubic feet per day,STEO.NGMP48NGOM.M,"Natural Gas Lower 48 States (excl GOM) Marketed Production, Monthly",Short-Term Energy Outlook
+billion cubic meters,INTL.26-4-KEN-BCM.A,"Dry natural gas exports, Kenya, Annual",International Energy Data
+Billion Dollars,TOTAL.GDPRVUS.A,"U.S. Gross Domestic Product, Nominal, Annual",Total Energy
+billion dollars at purchasing power parities,INTL.4701-34-ESP-BDOLPPP.A,"GDP at purchasing power parities, Spain, Annual",International Energy Data
+billion kilowatthours,INTL.2-3-PSE-BKWH.A,"Electricity imports, Palestinian Territories, Annual",International Energy Data
+billion kilowatthours per day,STEO.RFEPTOT.M,"Electric Power Sector Generation from Residual Fuel Oil, Monthly",
+billion kWh,AEO.2015.HIGHMACRO.SAL_CHP_IDAL_MET_STG_NA_NA_BLNKWH.A,"Metal Based Durables : Combined Heat and Power : Net Generation : Sales to the Grid, High growth, AEO2015",Annual Energy Outlook 2015
+billion miles,AEO.2018.HRNUC_LESS20.ECI_VMT_ALF1_FLTR_PI40GH_NA_NA_BLNMLS.A,"Fleet Vehicle Miles Traveled : Alternative-Fuel Light Trucks : Plug-in 40 Gasoline Hybrid, High resource, minus 20%, AEO2018",Annual Energy Outlook 2018
+billion nom $,AEO.2018.RFNUC_PLUS20.EXPD_NOM_IDAL_NA_NRN_NA_ESC_BLNNOMDLR.A,"Energy Expenditures : Nominal : Non-Renewable Industrial, East South Central, Reference, plus 20%, AEO2018",Annual Energy Outlook 2018
+billion passenger mi,AEO.2020.LORENCST._TRV_TRN_NA_RLP_NA_NA_BPM.A,"Transportation : Travel Indicators : Passenger Rail, Low renewable cost, AEO2020",Annual Energy Outlook 2020
+billion revenue-passenger-miles,IEO.2019.REFERENCE.TR_AIRREVPASSENGER_NEA_DOM_BREVMILES.A,"Passenger air travel : Northeast Asia : Domestic, Reference, IEO2019",International Energy Outlook
+billion revenue-ton-miles,IEO.2017.REFERENCE.TR_AIRREVFREIGHT_AFR_BREVMILES.A,"Freight air transport : Africa, Reference, IEO2017",International Energy Outlook
+billions,AEO.2017.LOWRT.ECI_FTM_TRN_DMT_NA_NA_NA_BLN.A,"Freight : Domestic Shipping : Ton Miles Shipping, Low resource, AEO2017",Annual Energy Outlook 2017
+billion seat miles,AEO.2020.LOWOGS.KEI_TRV_TRN_NA_AIR_NA_NA_BLNSEATMLS.A,"Transportation : Travel Indicators : Air, Low oil and gas supply, AEO2020",Annual Energy Outlook 2020
+billion seat-miles,IEO.2017.REFERENCE.TR_AIRPASSENGER_USA_BSEATMILES.A,"Passenger air travel : United States, Reference, IEO2017",International Energy Outlook
+billion sq ft,AEO.2019.LOWRT.KEI_FLR_COMM_HLC_NA_NA_NA_BLNSQFT.A,"Commercial : Floorspace : Health Care, Low resource, AEO2019",Annual Energy Outlook 2019
+billion ton miles,AEO.2019.REF2019.KEI_TRV_TRN_NA_RAIL_NA_NA_BLNTNMLS.A,"Transportation : Travel Indicators : Rail, Reference, AEO2019",Annual Energy Outlook 2019
+billion vehicle mile,AEO.2018.EFFRELAXALL._TRV_TRN_NA_BST_NA_NA_BLNVEHMLS.A,"Transportation : Travel Indicators : Bus, No new efficiency requirements, AEO2018",Annual Energy Outlook 2018
+billion vehicle miles,AEO.2015.AEO2014FULL.KEI_TRV_TRN_NA_CML_NA_NA_BLNVEHMLS.A,"Transportation : Travel Indicators : Commercial Light Trucks, AEO2014 Reference, AEO2015",Annual Energy Outlook 2015
+bill kwh,AEO.2014.NOGHGCONCERN.CNSM_NA_IDAL_NA_ELC_NA_FLRC_BLNKWH.A,"Electricity : Electricity Demand: Industrial, Florida Reliability Coordinating Council, No GHG concern, AEO2014",Annual Energy Outlook 2014
+bill kWh,IEO.2017.REFERENCE.PGGEN_LIQ_RUS_BKWH.A,"Net liquids-fired electricity generation : Non-OECD : Non-OECD Europe and Eurasia : Russia, Reference, IEO2017",International Energy Outlook
+bill miles,AEO.2014.LOWMACRO.ECI_RTM_AIRT_NA_NA_NA_EUR_BLNMLS.A,"Air Travel : Travel Demand: Revenue Ton Miles: Freight: Europe, Low growth, AEO2014",Annual Energy Outlook 2014
+bill nom $,AEO.2014.LCCST14.EXPD_NOM_TRN_NA_RNW_NA_MTN_BLNNOMDLR.A,"Energy Expenditures : Nominal: Renewable Transportation, Mountain, Low coal cost, AEO2014",Annual Energy Outlook 2014
+bill seat miles,AEO.2014.FLAT.KEI_TRV_TRN_NA_AIR_NA_NA_BLNSEATMLS.A,"Transportation : Travel Indicators: Air, Low electricity demand, AEO2014",Annual Energy Outlook 2014
+bill sq ft,AEO.2014.LOWRESOURCE.KEI_FLR_CMM_FSC_NA_NA_NA_BLNSQFT.A,"Commercial : Floorspace: Food Service, Low resource, AEO2014",Annual Energy Outlook 2014
+bill ton miles,AEO.2014.HCCSTOM.KEI_TRV_TRN_NA_DMT_NA_NA_BLNTNMLS.A,"Transportation : Travel Indicators: Domestic Shipping, Coal retirements, AEO2014",Annual Energy Outlook 2014
+bill vehicle miles,AEO.2014.HIGHVMT.KEI_TRV_TRN_NA_CML_NA_NA_BLNVEHMLS.A,"Transportation : Travel Indicators: Commercial Light Trucks, High VMT, AEO2014",Annual Energy Outlook 2014
+BkWh,AEO.2016.CPPREPBASIC.GEN_NA_ENUS_NA_NA_NA_SERCCNT_BLNKWH.A,"Renewable Energy : End-Use Sector : Electricity Generation : Total, SERC Reliability Corporation / Central, CPP Report, AEO2016",Annual Energy Outlook 2016
+Btu/kwh,AEO.2014.LOWRESOURCE.CNF_NA_NA_NA_ELC_NA_NA_BTUPKWH.A,"Conversion Factors : Electricity, Low resource, AEO2014",Annual Energy Outlook 2014
+Btu/kWh,AEO.2015.LOWMACRO.CNF_NA_NA_NA_ELC_NA_NA_BTUPKWH.A,"Conversion Factors : Electricity, Low growth, AEO2015",Annual Energy Outlook 2015
+Btu/lb,COAL.SHIPMENT_HEAT.4604670-1723-TOT.Q,Coal shipment heat content : Hobet Mine (4604670) to J R Whiting(1723) : All : quarterly,Coal
+Btu Out/Btu In,AEO.2014.FROZTECH.EFF_STKE_CMM_REFR_ELC_NA_NA_BTUOTPBTUIN.A,"Commercial : Stock Average Efficiency : Refrigeration: Electricity, 2013 technology, AEO2014",Annual Energy Outlook 2014
+Btu per Cubic Foot,TOTAL.NGTXKUS.A,"Natural Gas Consumption, End-Use Sectors Heat Content, Annual",Total Energy
+BTU per Cubic Foot,NG.NGA_EPG0_VGTH_SCO_BTUCF.M,"Colorado Heat Content of Natural Gas Deliveries to Consumers, Monthly",Natural Gas
+Btu per Kilowatthour,TOTAL.NGETKUS.A,"Electricity Net Generation, Natural Gas Plants Heat Rate, Annual",Total Energy
+CDD,AEO.2020.LORENCST.KEI_NA_COMM_NA_NA_NA_ESC_CDD.A,"Commercial : Cooling Degree Days : East South Central, Low renewable cost, AEO2020",Annual Energy Outlook 2020
+cents per gallon,STEO.MGRARP3.A,"Gasoline Regular Grade Retail Price Incl Taxes, PADD 3 (Gulf Coast), Annual",Short-Term Energy Outlook
+cents per kilowatt hour,STEO.ESRCU_HAK.A,"Retail Price of Electricity in Residential Sector, Alaska and Hawaii, Annual",Short-Term Energy Outlook
+cents per kilowatthour,ELEC.PRICE.NEW-IND.A,Average retail price of electricity : New England (total) : industrial : annual,Electricity
+"Cents per Kilowatthour,  Including Taxes",TOTAL.ESOTUUS.M,"Average Retail Price of Electricity, Other, Monthly",Total Energy
+COP,AEO.2017.HIGHMACRO.EFI_STK_RES_SPHR_GEHP_NA_NA_COP.A,"Residential Equipment : Stock Average Efficiency : Main Space Heaters : Geothermal Heat Pumps, High growth, AEO2017",Annual Energy Outlook 2017
+Cost,NG.NA1140_SIL_9.A,"Illinois Imputed Wellhead Value of Marketed Production, Annual",Natural Gas
+Count,NG.NGA_EPG0_SA3_SCA_COUNT.A,"California Natural Gas Number of Underground Storage Acquifers, Annual",Natural Gas
+cu ft/min/Btu,AEO.2015.HIGHRESOURCE.EFF_STKE_COMM_VNTC_ELC_NA_NA_CUFTPMINPBTU.A,"Commercial : Stock Average Efficiency : Ventilation : Electricity, High resource, AEO2015",Annual Energy Outlook 2015
+cu ft/minute/Btu,AEO.2018.AEO2017NO.EFF_STKE_COMM_VNTC_ELC_NA_NA_CUFTPMINPBTU.A,"Commercial : Stock Average Efficiency : Ventilation : Electricity, AEO2017, no CPP, AEO2018",Annual Energy Outlook 2018
+Days,PET.M_EPC0_VSI_NUS_DAYS.M,"U.S. SPR Stocks as Days of Supply of Total Petroleum Net Imports, Monthly",Petroleum
+Degree,PET.MCRAP3B2.A,"Texas Gulf Coast Refinery District API Gravity (Weighted Average) of Crude Oil Input to Refineries, Annual",Petroleum
+dollars,STEO.NYWFUTR.M,"NYMEX futures price, Monthly",
+Dollars,SEDS.TETPV.WI.A,"Total energy expenditures per capita, Wisconsin",State Energy Data System (SEDS)
+dollars per barrel,STEO.RAIMUUS.Q,"Imported  Crude Oil Price, Quarterly",Short-Term Energy Outlook
+Dollars per Barrel,PET.I000000408.M,"U.S. Landed Costs of Crude with API Gravity 35.1 to 40.0 degrees, Monthly",Petroleum
+dollars per barrels,ELEC.COST.PEL-OR-98.A,Average cost of fossil fuels for electricity generation : petroleum liquids : Oregon : electric power (total) : annual,Electricity
+Dollars per Foot,PET.E_ERTW0_XWPR_NUS_DF.A,"U.S. Real Cost per Foot of Crude Oil, Natural Gas, and Dry Wells Drilled, Annual",Petroleum
+dollars per gallon,STEO.MGRARUS_$.M,"Gasoline retail price incl taxes, U.S. average, Monthly",
+Dollars per Gallon,PET.EMA_EPMRX_PTC_R50_DPG.A,"West Coast (PADD 5) Oxygenated Gasoline Regular Through Company Outlets Price by All Sellers, Annual",Petroleum
+Dollars per Gallon Excluding Taxes,TOTAL.KSTCUUS.A,"Average Refiner Price of Kerosene to End Users, Annual",Total Energy
+Dollars per Gallon Including Taxes,TOTAL.RLUCUUS.A,"Leaded Regular Gasoline, U.S. City Average Retail Price, Annual",Total Energy
+dollars per mcf,ELEC.COST.NG-NJ-99.M,Average cost of fossil fuels for electricity generation : natural gas : New Jersey : all sectors : monthly,Electricity
+dollars per megawatthour,STEO.ELWHU_NW.M,"Wholesale Electricity Price, Northwest index, Mid-Columbia hub, Monthly",Short-Term Energy Outlook
+dollars per million Btu,ELEC.COST_BTU.NG-UT-1.Q,Average cost of fossil fuels for electricity generation (per Btu) : natural gas : Utah : electric utility : quarterly,Electricity
+Dollars per million Btu,SEDS.CLOCD.NV.A,"Coal price in the industrial sector other than coke plants, Nevada",State Energy Data System (SEDS)
+Dollars per Million Btu,NG.RNGWHHD.W,"Henry Hub Natural Gas Spot Price, Weekly",Natural Gas
+"Dollars per Million Btu, Including Taxes",TOTAL.PCERDUS.M,"Average Cost of Petroleum Coke Receipts at Electric Generating Plants, Monthly",Total Energy
+Dollars per Pound Uranium Oxide,TOTAL.URDPDUS.A,"Average Price of Domestic Purchases, Annual",Total Energy
+dollars per thousand cubic feet,STEO.NGICU_WSC.Q,"Retail Price of Natural Gas in Industrial Sector, W. S. Central, Quarterly",Short-Term Energy Outlook
+Dollars per Thousand Cubic Feet,NG.N3050NV3.A,"Natural Gas Citygate Price in Nevada, Annual",Natural Gas
+dollars per tons,ELEC.COST.LIG-MTN-1.M,Average cost of fossil fuels for electricity generation : lignite coal : Mountain (total) : electric utility : monthly,Electricity
+EER,AEO.2016.HIGHINNOVATE.EFI_STK_RES_SPC_RAC_NA_NA_EER.A,"Residential Equipment : Stock Average Efficiency : Space Cooling : Room Air Conditioners, High incentive, AEO2016",Annual Energy Outlook 2016
+EF,AEO.2015.HIGHRESOURCE.EFI_STK_RES_WHT_ELE_NA_NA_EF.A,"Residential Equipment : Stock Average Efficiency : Water Heaters : Electric, High resource, AEO2015",Annual Energy Outlook 2015
+Feet per Well,PET.E_ERTWD_XWDD_NUS_FW.A,"U.S. Average Depth of Dry Holes Developmental Wells Drilled, Annual",Petroleum
+frac,AEO.2014.HIGHMACRO.MKS_ADVTP_AIRT_LAFC_NA_NA_USA_FRAC.A,"Air Travel : Advanced Technology Penetration: Laminar Flow Control, High growth, AEO2014",Annual Energy Outlook 2014
+fraction,AEO.2018.ANWR_RPLR.MKS_TP_AIRT_ADAR_NA_NA_USA_FRAC.A,"Air Travel : Advanced Technology Penetration : Advanced Aerodynamics, Low ANWR, AEO2018",Annual Energy Outlook 2018
+Gallons per Vehicle,TOTAL.MVFCRUS.A,"All Motor Vehicles Fuel Consumption, Annual",Total Energy
+gasoline equiv mpg,AEO.2015.HIGHPRICE.EFI_NA_FGHT_RADN_TOT_NA_NA_GSLEQMPG.A,"Freight : New Trucks : Heavy : Average, High price, AEO2015",Annual Energy Outlook 2015
+gasoline equiv MPG,AEO.2014.NOGHGCONCERN.EFI_NA_FGHT_RAD_PROP_NA_NA_GSLEQMPG.A,"Freight : Existing Trucks: Fuel Efficiency: Heavy: Propane, No GHG concern, AEO2014",Annual Energy Outlook 2014
+GCOP,AEO.2014.FROZTECH.EFF_STKE_RES_SPC_NHU_NA_NA_GCOP.A,"Residential Equipment : Stock Average Efficiency : Space Cooling: Natural Gas Heat Pumps, 2013 technology, AEO2014",Annual Energy Outlook 2014
+gigawatts,IEO.2019.REFERENCE.PGCAP_SL_OAA_GW.A,"Installed solar generating capacity : OECD : OECD Asia, Reference, IEO2019",International Energy Outlook
+GW,AEO.2020.LOWMACRO.CAP_NA_ELEP_NA_NUC_NA_PJMD_GW.A,"Electricity Capacity : PJM / Dominion : Nuclear, Low growth, AEO2020",Annual Energy Outlook 2020
+HDD,AEO.2016.PHASEII.KEI_NA_COMM_NA_NA_NA_USA_HDD.A,"Commercial : Heating Degree Days : United States, Phase 2, AEO2016",Annual Energy Outlook 2016
+hours,COAL.MINE.LABOR_HOURS.1518937-BIT-SUR.A,"Coal mine labor hours : Freedom Fuels, Llc (1518937) : bituminous : surface : annual",Coal
+HP,AEO.2019.REF2019.ATT_HP_CNV_NLT_SCUV_NA_NA_HP.A,"New Vehicle Attributes : Horsepower : Conventional Light Trucks : Small Crossover, Reference, AEO2019",Annual Energy Outlook 2019
+HSPF,AEO.2014.HCCST14.EFF_STKE_RES_MSHR_EHP_NA_NA_HSPF.A,"Residential Equipment : Stock Average Efficiency: Main Space Heaters: Electric Heat Pumps, High coal cost, AEO2014",Annual Energy Outlook 2014
+"Index, 1982=1.00",STEO.WPCPIUS.M,"Producer Price Index: All Commodities, Monthly",Short-Term Energy Outlook
+Index 1982-1984 = 100,TOTAL.CPUCIUS.A,"Consumer Price Index (Urban), Annual",Total Energy
+"Index, 1982-1984=1.00",STEO.CICPIUS.A,"Consumer Price Index (all urban consumers), Annual",Short-Term Energy Outlook
+"Index, 1982-1984=100",STEO.ACTKFUS.Q,"Airline Ticket Price Index, Quarterly",Short-Term Energy Outlook
+"Index, 2012 = 100",STEO.GDPDIUS.A,"GDP Implicit Price Deflator, Annual",Short-Term Energy Outlook
+"Index, 2012=100",STEO.IPMFG_NEC.A,"Industrial Output, Manufacturing, New England, Annual",Short-Term Energy Outlook
+"Index, 2012=100 (seasonally adjusted)",STEO.ZO311IUS.M,"Food and Kindred Products Production Index, Monthly",Short-Term Energy Outlook
+"Index, 2015 Q1 = 100",STEO.RGDPQ_NONOECD.A,"Non-OECD Real Gross Domestic Product, Annual",Short-Term Energy Outlook
+"Index, January 2010 = 100",STEO.FOREX_WORLD.A,"Real U.S. Dollar Exchange Rate, Annual",Short-Term Energy Outlook
+Kilograms of CO2 per million Btu,EMISS.CO2-C-MGICB-FL.A,"Coefficient for industrial carbon dioxide emissions, motor gasoline, Florida",CO2 Emissions
+kilowatthours,STEO.EXRCH_PAC.Q,"Average Residential Electricity Usage Per Customer, Pacific Contiguous, Quarterly",Short-Term Energy Outlook
+Kilowatthours,SEDS.ESTPP.MO.A,"Electricity total consumption (i.e., retail sales) per capita, Missouri",State Energy Data System (SEDS)
+kWh,AEO.2018.LRNUC_PLUS20.EFI_STK_RESD_OTAR_FRZ_NA_NA_KWH.A,"Residential Equipment : Stock Average Efficiency : Other Appliances : Freezers, Low resource, plus 20%, AEO2018",Annual Energy Outlook 2018
+kwh/year,AEO.2014.LOWRESOURCE.EFF_STKE_RES_OTAR_FRZ_NA_NA_KWH.A,"Residential Equipment : Stock Average Efficiency : Other Appliances : Freezers, Low resource, AEO2014",Annual Energy Outlook 2014
+lb,AEO.2018.ANWR_RPHR.ATT_WGT_CNV_NLC_TOT_NA_NA_LBS.A,"New Vehicle Attributes : Weight : Conventional Cars : Average, High ANWR, AEO2018",Annual Energy Outlook 2018
+lumens/watt,AEO.2015.REF2015.EFF_STKE_COMM_LGHTNG_ELC_NA_NA_LMNPWATT.A,"Commercial : Stock Average Efficiency : Lighting Efficacy : Electricity, Reference, AEO2015",Annual Energy Outlook 2015
+MBtu/$ GDP,AEO.2015.LOWMACRO.INY_NA_NA_NA_TEN_NA_NA_THBTUPDLRGDP.A,"Macroeconomic Indicators : Energy Intensity : Total Energy, Low growth, AEO2015",Annual Energy Outlook 2015
+MBtu/2009 $,AEO.2015.HIGHRESOURCE.INY_NA_IDAL_BCH_FSK_LPG_NA_THBTUPY05DLR.A,"Bulk Chemical : Energy Use per Unit Output : Feedstock : Liquefied Petroleum Gases, High resource, AEO2015",Annual Energy Outlook 2015
+MBtu/b,AEO.2015.HIGHPRICE.INY_NA_IDAL_PRI_NG_NA_NA_THBTUPBRL.A,"Refining Industry : Refinery Only Energy : Use per Unit of Refinery Input : Natural Gas, High price, AEO2015",Annual Energy Outlook 2015
+MBtu/cu ft,AEO.2015.HIGHRESOURCE.CNF_NA_EXP_NA_NG_NA_NA_BTUPCUFT.A,"Conversion Factors : Natural Gas : Exports, High resource, AEO2015",Annual Energy Outlook 2015
+MBtu/sq ft,AEO.2015.AEO2014FULL.INY_HHD_RES_DELE_NA_NA_USA_THBTUPSQFT.A,"Residential : Energy Intensity per Square Foot : Delivered Energy Use, AEO2014 Reference, AEO2015",Annual Energy Outlook 2015
+mcf,ELEC.PLANT.CONS_TOT.3291-NG-ALL.Q,Fuel consumption quantity : Parr GT (3291) : natural gas : all primemovers : quarterly,Electricity
+megawatthours,ELEC.PLANT.GEN.58657-WND-WT.M,"Net generation : Odell Wind Farm (58657) : wind : wind turbine, onshore : monthly",Electricity
+megawatts,STEO.WWCHCAP_US.Q,"Comm. and Indus. Sectors Wood Biomass Net Summer Capacity, Quarterly",Short-Term Energy Outlook
+Megawatts,NUC_STATUS.CAP.6036-1.D,"Nuclear generating capacity for generator 1 at Catawba, daily",U.S. Nuclear Outages
+Metric Tons Carbon Dioxide,TOTAL.CDTPRUS.A,"Total Energy CO2 Emissions per Capita, Annual",Total Energy
+Metric Tons Carbon Dioxide per Million Chained (2012) Dollars,TOTAL.CDEGRUS.A,"Total Energy CO2 Emissions per Real Dollar of GDP, Annual",Total Energy
+metric tons CO2,EMISS.CO2-V-DFACB-NY.A,"Transportation carbon dioxide emissions, distillate fuel, New York",CO2 Emissions
+(Metric tons per billion Btu),IEO.2019.REFERENCE.CO2INT_EUR_TONNEPBBTU.A,"Carbon dioxide intensity of energy use : OECD Europe, Reference, IEO2019",International Energy Outlook
+miles,AEO.2017.HR_NO_CPP.VHR_LDTY_MINI_NA_DSLELE_NA_NA_MLS.A,"New Light-Duty Vehicle Range : Diesel-Electric Hybrid : Mini-compact Cars, High resource, no CPP, AEO2017",Annual Energy Outlook 2017
+miles/gallon,AEO.2014.HIGHMACRO.EFI_NLDV_2SEA_NA_GSLPLG40_NA_NA_MLSPGLN.A,"New Light-Duty Vehicle : Plug-in 40 Gasoline Hybrid: Two Seater Cars, High growth, AEO2014",Annual Energy Outlook 2014
+Miles per Gallon,TOTAL.MVFRRUS.A,"All Motor Vehicles Fuel Economy, Annual",Total Energy
+Miles per Vehicle,TOTAL.PCMIRUS.A,"Light-Duty Vehicles, Short Wheelbase Mileage, Annual",Total Energy
+mill,AEO.2014.HIGHTECH.DMG_LIC_TRN_NA_NA_NA_NA_MILL.A,"Light-Duty Vehicle Miles Traveled : VMT Equation Components : Driving Population, High technology, AEO2014",Annual Energy Outlook 2014
+mill 2012 $,AEO.2014.EXTENDED.KEI_FPW_ELEP_GDSE_SAL_NA_USA_MILLY12DLR.A,"Electricity Trade : Gross Domestic Sales: Firm Power, Extended policies, AEO2014",Annual Energy Outlook 2014
+mill bbl/day,AEO.2014.BESTTECH.SUP_PRD_INTA_NA_PET_CO_WRLD_MILLBRLPDY.A,"International Liquids : Production : Selected : Petroleum : Crude Oil : Tight Oil, Best available technology, AEO2014",Annual Energy Outlook 2014
+mill b/d oil eq,AEO.2014.RLNGHIGH20.CNSM_NA_TRN_NA_USE_NA_NA_MILLBRLPDYOEQ.A,"Transportation : Energy Use by Mode: Total, High rail LNG, AEO2014",Annual Energy Outlook 2014
+mill Btu/bbl,AEO.2014.LCCST14.CNF_NA_NA_NA_BDL_BDL_NA_MILLBTUPBRL.A,"Conversion Factors : Liquids: Biodiesel, Low coal cost, AEO2014",Annual Energy Outlook 2014
+mill Btu/household,AEO.2014.FLAT.INY_HHD_RES_TEN_NA_NA_USA_MILLBTUPHOSD.A,"Residential : Household Energy Intensity: Total Energy Use, Low electricity demand, AEO2014",Annual Energy Outlook 2014
+mill Btu/ton,AEO.2014.LCR_2014.CNF_NA_NA_NA_PRD_NA_EOM_MILLBTUPTON.A,"Conversion Factors : Coal: Production: East of the Mississippi, Low cost renewable, AEO2014",Annual Energy Outlook 2014
+million 2013 $,AEO.2015.LOWPRICE.KEI_ECN_ELEP_GDSE_SAL_NA_USA_MILLY13DLR.A,"Electricity Trade : Gross Domestic Sales : Economy, Low price, AEO2015",Annual Energy Outlook 2015
+million 2015 $,AEO.2016.REF_ALLOW_GEN.KEI_TOT_ELEP_GDSE_SAL_NA_USA_MILLY13DLR.A,"Electricity Trade : Gross Domestic Sales : Total, CPP generators, AEO2016",Annual Energy Outlook 2016
+million 2016 $,AEO.2017.LOWMACRO.KEI_FPW_ELEP_GDSE_SAL_NA_USA_MILLY13DLR.A,"Electricity Trade : Gross Domestic Sales : Firm Power, Low growth, AEO2017",Annual Energy Outlook 2017
+million 2017 $,AEO.2018.CO2FEE25.KEI_ECN_ELEP_GDSE_SAL_NA_USA_MILLY13DLR.A,"Electricity Trade : Gross Domestic Sales : Economy, $25 carbon fee, AEO2018",Annual Energy Outlook 2018
+million 2018 $,AEO.2019.LOWMACRO.KEI_ECN_ELEP_GDSE_SAL_NA_USA_MILLY13DLR.A,"Electricity Trade : Gross Domestic Sales : Economy, Low growth, AEO2019",Annual Energy Outlook 2019
+million 2019 $,AEO.2020.CARBONFEE35.KEI_TOT_ELEP_GDSE_SAL_NA_USA_MILLY13DLR.A,"Electricity Trade : Gross Domestic Sales : Total, $35 carbon fee, AEO2020",
+million barrels,STEO.PASC_US.Q,"U.S. End-of-period Commercial Crude Oil and Other Liquids Inventory, Quarterly",
+Million Barrels,PET.RCRR04RTX03_1.A,"Texas - RRC District 3 Onshore Crude Oil Reserves Revision Decreases, Annual",Petroleum
+"million barrels, end-of-period",STEO.C3PSPP3.Q,"Propane PADD 3 (Gulf Coast) Inventory, Quarterly",Short-Term Energy Outlook
+million barrels per day,STEO.PCTCPUS.Q,"Petroleum Coke Product Supplied, Quarterly",Short-Term Energy Outlook
+million barres per day,STEO.COPC_GB.Q,"Gabon Crude Oil Production Capacity, Quarterly",
+million barrles per day,STEO.COPR_GB.A,"Crude Oil Production, Gabon, Annual",Short-Term Energy Outlook
+million b/d,IEO.2017.REFERENCE.CNSM_LIQP_NNN_MBPD.A,"Liquids consumption : Non-OECD : Total Non-OECD, Reference, IEO2017",International Energy Outlook
+million b/d oil eq,AEO.2015.LOWMACRO.CNSM_NA_TRN_RLP_USE_NA_NA_MILLBPDYOEQ.A,"Transportation : Energy Use by Mode : Rail, Passenger, Low growth, AEO2015",Annual Energy Outlook 2015
+Million Btu,SEDS.NGTPB.CA.A,"Natural gas total consumption per capita, California",State Energy Data System (SEDS)
+Million Btu per barrel,SEDS.COPRK.TN.A,"Factor for converting crude oil production from physical units to Btu, Tennessee",State Energy Data System (SEDS)
+Million Btu per Barrel,TOTAL.COIMKUS.A,"Crude Oil Imports Heat Content, Annual",Total Energy
+million Btu per person,INTL.47-33-EURA-MBTUPP.A,"Energy consumption per capita, Eurasia, Annual",International Energy Data
+Million Btu per short ton,SEDS.CLOCK.LA.A,"Factor for converting coal consumed by industrial users other than coke plants from physical units to Btu, Louisiana",State Energy Data System (SEDS)
+Million Btu per Short Ton,TOTAL.CCIEKUS.A,"Coal Coke Imports and Exports Heat Content, Annual",Total Energy
+Million chained (2012) dollars,SEDS.GDPRX.NY.A,"Real gross domestic product, New York",State Energy Data System (SEDS)
+Million cubic feet,SEDS.NGCCP.PA.A,"Natural gas consumed by (delivered to) the commercial sector, Pennsylvania",State Energy Data System (SEDS)
+Million Cubic Feet,NG.N9012MO2.A,"Missouri Natural Gas Gross Withdrawals from Oil Wells, Annual",Natural Gas
+Million Cubic Feet per Day,NG.NGM_EPG0_FGW_SIN_MMCFD.M,"Indiana Natural Gas Gross Withdrawals, Monthly",Natural Gas
+million dollars,ELEC.REV.PCN-OTH.A,Revenue from retail sales of electricity : Pacific Noncontiguous (total) : other : annual,Electricity
+Million dollars,SEDS.GDPRV.KS.A,"Current-dollar gross domestic product, Kansas",State Energy Data System (SEDS)
+Million Dollars,TOTAL.TENIVUS.M,"Energy Balance, Monthly",Total Energy
+Million Gallons,PET.M_EPOOBD_8BDPC_SNH_MMGL.M,"New Hampshire Biodiesel Production Capacity, Monthly",
+million kilowatthours,ELEC.SALES.OR-TRA.M,Retail sales of electricity : Oregon : transportation : monthly,Electricity
+Million kilowatthours,SEDS.NUETP.WI.A,"Nuclear electricity total net generation, Wisconsin",State Energy Data System (SEDS)
+Million Kilowatthours,TOTAL.ELNIPUS.A,"Electricity Net Imports, Annual",Total Energy
+million kilowatthours per day,STEO.EXCCP_MTN.M,"Retail Sales of Electricity in Commercial Sector, Mountain, Monthly",
+million kilowatts,INTL.29-7-DEUW-MK.A,"Renewable electricity installed capacity, Germany, West, Annual",International Energy Data
+Million Kilowatts,TOTAL.NUGBPUS.M,"Nuclear Generating Units, Net Summer Capacity, End of Period, Monthly",Total Energy
+million kWh,AEO.2016.REF_TRADE.GEN_NA_COMM_CHP_TOT_NA_NA_MILLKWH.A,"Residential : Combined Heat and Power : Net Generation : Total, CPP trading, AEO2016",Annual Energy Outlook 2016
+million metric tonnes carbon dioxide,INTL.5-8-ECU-MMTCD.A,"Petroleum and other liquids CO2 emissions, Ecuador, Annual",International Energy Data
+million metric tons,STEO.PATCCO2.M,"Carbon Dioxide Emissions from Petroleum and Other Liquid Fuels, Monthly",Short-Term Energy Outlook
+million metric tons CO2,EMISS.CO2-TOTV-TC-CO-TN.A,"Transportation carbon dioxide emissions, coal, Tennessee",CO2 Emissions
+Million Metric Tons of Carbon Dioxide,TOTAL.MMTCEUS.M,"Motor Gasoline, Excluding Ethanol, CO2 Emissions, Monthly",Total Energy
+million metric tons of oil equivalent,INTL.81-1-BWA-MTOE.A,"Biodiesel production, Botswana, Annual",International Energy Data
+million miles/day,STEO.MVVMPUS.A,"Vehicle Miles Traveled, Annual",Short-Term Energy Outlook
+million MMBtu,ELEC.CONS_UTO_BTU.NG-OK-5.A,Consumption for useful thermal output (Btu) : natural gas : Oklahoma : commercial cogen : annual,Electricity
+Million Nominal Dollars,TOTAL.TETCVUS.A,"Energy Expenditures, Annual",Total Energy
+Million people,TOTAL.TPOPPWO.A,"Total Resident Population, World, Annual",Total Energy
+Million Pounds,PET.8_NA_8FS0_R40_B.A,"Rocky Mountain (PADD 4) Purchased Steam Consumed at Refineries, Annual",Petroleum
+Million Pounds Uranium Oxide,TOTAL.UREXPUS.A,"Export Sales, Annual",Total Energy
+millions,AEO.2015.LOWPRICE.EQNR_STK_RES_WHT_PROP_NA_NA_MILL.A,"Residential Equipment : Equipment Stock : Water Heaters : Propane, Low price, AEO2015",Annual Energy Outlook 2015
+millions barrels,INTL.5-5-NLD-MBBL.A,"Petroleum and other liquids stocks, Netherlands, Annual",International Energy Data
+million short tons,INTL.7-6-GRL-MST.A,"Coal reserves, Greenland, Annual",International Energy Data
+"million short tons, end-of-period",STEO.CLSDPUS.Q,"Coal Primary Inventories, Quarterly",Short-Term Energy Outlook
+million short tons per day,STEO.RSPRPUS.M,"Total Raw Steel Production, Monthly",Short-Term Energy Outlook
+millions (seasonally-adjusted annual rate),STEO.HSTCXUS.A,"Housing Starts, Annual",Short-Term Energy Outlook
+million tons,AEO.2015.HIGHMACRO.EMI_CRB_ELEP_NA_NA_NA_WECCCA_MILLTON.A,"Electricity : Emissions : Total Carbon, Western Electricity Coordinating Council / California, High growth, AEO2015",Annual Energy Outlook 2015
+mill short tons,AEO.2014.FROZTECH.SUP_EXPT_EURO_NA_CL_NA_WRLD_MILLTON.A,"World Total : Total Coal Exports to Europe: Total, 2013 technology, AEO2014",Annual Energy Outlook 2014
+mill tonnes CO2,AEO.2014.HIGHRESOURCE.ENV_CDE_TEN_NA_OTH_NA_NEENGL_MILLMETNCO2.A,"Carbon Dioxide : Total by Fuel: Other, New England, High resource, AEO2014",Annual Energy Outlook 2014
+mill tons,AEO.2014.LCCST14.ENV_CARBE_ELEP_NA_NA_NA_SERCVC_MILLTON.A,"Electricity : Emissions: Total Carbon, SERC Reliability Corporation / Virginia-Carolina, Low coal cost, AEO2014",Annual Energy Outlook 2014
+mill units,AEO.2014.LOWRESOURCE.EQNR_STK_RES_MSHR_EHP_NA_NA_MILL.A,"Residential Equipment : Equipment Stock: Main Space Heaters: Electric Heat Pumps, Low resource, AEO2014",Annual Energy Outlook 2014
+MMb/d,AEO.2016.LOWRT.TRAD_NA_LFL_NA_GIM_NA_USA_MILLBRLPDY.A,"Liquid Fuels : Crude Oil : Gross Imports, Low resource, AEO2016",Annual Energy Outlook 2016
+MMb/d oil eq,AEO.2016.LOWMACRO.CNSM_NA_TRN_NA_USE_NA_NA_MILLBPDYOEQ.A,"Transportation : Energy Use by Mode : Total, Low growth, AEO2016",Annual Energy Outlook 2016
+MMBtu,ELEC.PLANT.CONS_EG_BTU.539-WAT-HY.A,Electric fuel consumption MMBtu : Rocky River (CT) (539) : conventional hydroelectric : hydraulic turbine : annual,Electricity
+MMBtu/b,AEO.2016.HIGHMACRO.CNF_NA_EXP_NA_PET_PPE_NA_MILLBTUPBRL.A,"Conversion Factors : Petroleum Products : Petroleum Product Exports, High growth, AEO2016",Annual Energy Outlook 2016
+MMBtu/household,AEO.2019.REF2019.INY_HHD_RESD_DELE_NA_NA_USA_MILLBTUPHOSD.A,"Residential : Household Energy Intensity : Delivered Energy Use, Reference, AEO2019",Annual Energy Outlook 2019
+MMBtu per barrels,ELEC.PLANT.AVG_HEAT.54816-DFO-ALL.M,MMBtu per unit : Riverwood 100 Building (54816) : distillate fuel oil : all primemovers : monthly,Electricity
+MMBtu per mcf,ELEC.PLANT.AVG_HEAT.55611-BFG-ST.M,MMBtu per unit : Mingo Junction Energy Center (55611) : blast furnace gas : steam turbine : monthly,Electricity
+MMBtu per tons,ELEC.PLANT.AVG_HEAT.10560-BLQ-ALL.A,MMBtu per unit : Jesup Plant (10560) : black liquour : all primemovers : annual,Electricity
+MMBtu/ton,AEO.2018.LP_CPP.CNF_NA_NA_NA_PRD_NA_NA_MILLBTUPTON.A,"Conversion Factors : Coal : Production, Low price, CPP, AEO2018",Annual Energy Outlook 2018
+MMmt,IEO.2019.LOWOILPRICE.EMI_CO2_FOSSIL_BRZ_MTONNE.A,"Carbon dioxide emissions : Non-OECD : Non-OECD Americas : Brazil, Low oil price, IEO2019",International Energy Outlook
+MMmt CO2,AEO.2018.RFNUC_PLUS20.EMI_CO2_TRN_FGHT_NA_NA_NA_MILLMETNCO2.A,"Carbon Dioxide : Transportation : Freight Trucks, Reference, plus 20%, AEO2018",Annual Energy Outlook 2018
+MMmtCO2,AEO.2016.LOWRT.EMI_CO2_NA_NA_NA_NA_SOATL_MILLMTCO2EQ.A,"Energy Use & Related Statistics : Carbon Dioxide Emissions, South Atlantic, Low resource, AEO2016",Annual Energy Outlook 2016
+MMmt CO2/capita,AEO.2015.LOWPRICE.EMI_CO2_NA_NA_NA_NA_NA_MILLMTCO2PP.A,"Carbon Dioxide : Per-Capita Carbon Dioxide Emissions, United States, Low price, AEO2015",Annual Energy Outlook 2015
+MMmtCO2/capita,AEO.2020.LOWOGS.EMI_CO2_NA_NA_NA_NA_WSC_MILLMTCO2PP.A,"Carbon Dioxide : Per-Capita Carbon Dioxide Emissions, West South Central, Low oil and gas supply, AEO2020",Annual Energy Outlook 2020
+MMst,AEO.2016.LOWPRICE.SUP_EXPT_AMER_NA_CL_NA_CHN_MILLTON.A,"World Coal Exports to America : China, Low price, AEO2016",Annual Energy Outlook 2016
+mmtCO2,AEO.2014.LCCST14.ENV_CDE_NA_NA_NA_NA_WNC_MILLMETNCO2EQ.A,"Energy Use & Related Statistics : Carbon Dioxide Emissions, West North Central, Low coal cost, AEO2014",Annual Energy Outlook 2014
+mmtCO2/capita,AEO.2014.LOWPRICE.ENV_CDE_NA_NA_NA_NA_ENC_MILLMETNCO2PCAP.A,"Carbon Dioxide : Per-Capita Carbon Dioxide Emissions, East North Central, Low price, AEO2014",Annual Energy Outlook 2014
+mpg,AEO.2016.REF_EXTEND.EFI_LDTY_LPKT_NA_FUC_GSL_NA_MLSPGLN.A,"New Light-Duty Vehicle : Fuel Cell Gasoline : Large Pickup, CPP extended, AEO2016",Annual Energy Outlook 2016
+MPG,AEO.2014.RLNGHIGH20.EFI_NA_FGHT_LITEMED_MGS_NA_NA_MPG.A,"Freight : Existing Trucks: Fuel Efficiency: Light Medium : Motor Gasoline, High rail LNG, AEO2014",Annual Energy Outlook 2014
+mpg diesel equiv,AEO.2018.LOWPRICE.EFI_NA_FGHT_LITEMEDS_ELE_NA_NA_MPGDSEQ.A,"Freight : Truck Stock : Fuel Efficiency : Light Medium : Electric, Low price, AEO2018",Annual Energy Outlook 2018
+mpg gas equiv,AEO.2020.LORENCST.EFI_NA_FGHT_LITEMEDS_MGS_NA_NA_MPGGASEQ.A,"Freight : Truck Stock : Fuel Efficiency : Light Medium : Motor Gasoline, Low renewable cost, AEO2020",Annual Energy Outlook 2020
+mpg gasoline equiv,AEO.2014.ESICA.EFI_NLDV_CNV_CAR_TDS_NA_NA_MPGGASEQ.A,"Light-Duty Fuel Economy : Conventional Cars: TDI Diesel, ESICA, AEO2014",Annual Energy Outlook 2014
+MW,AEO.2018.HIGHPRICE.CAP_NA_COMM_CHP_FCL_NA_NA_MW.A,"Residential : Combined Heat and Power : Generating Capacity : Fuel Cells, High price, AEO2018",Annual Energy Outlook 2018
+nom $/b,AEO.2019.AEO2018NO.PRCE_NA_INTA_NA_LFL_WTI_NA_NDLRPBRL.A,"International Liquids : Crude Oil Prices : West Texas Intermediate, AEO2018, no CPP, AEO2019",Annual Energy Outlook 2019
+nom $/bbl,AEO.2014.LOWNUC14.PRCE_NA_NA_NA_CO_WTI_USA_NDLRPBRL.A,"Nominal Petroleum Prices : Crude Oil : West Texas Intermediate Spot, Nuclear retirements, AEO2014",Annual Energy Outlook 2014
+nom $/gal,AEO.2017.HIGHRT.PRCE_NA_COMM_NA_RFO_NA_USA_NDLRPGLN.A,"Nominal Petroleum Prices : Commercial : Residual Fuel Oil, High resource, AEO2017",Annual Energy Outlook 2017
+nom $/gallon,AEO.2014.FROZTECH.PRCE_NA_NA_NA_DFO_NA_USA_NDLRPGLN.A,"Nominal Petroleum Prices : Refined Petroleum Product Prices: Distillate Fuel Oil, 2013 technology, AEO2014",Annual Energy Outlook 2014
+nom $/Mcf,AEO.2017.LOWRT.PRCE_DELV_COMM_NA_NG_NA_USA_NDLRPMCF.A,"Natural Gas : Delivered Prices : Commercial, Low resource, AEO2017",Annual Energy Outlook 2017
+nom $/mill Btu,AEO.2014.FULL2013FULL.PRCE_NOM_IDAL_NA_PROP_NA_SOATL_NDLRPMBTU.A,"Energy Prices : Nominal: Industrial: Propane, South Atlantic, AEO2013 Reference, AEO2014",Annual Energy Outlook 2014
+nom $/mmBtu,AEO.2014.HIGHRESOURCE.PRCE_NOMP_TEN_NA_HHP_NA_USA_NDLRPMBTU.A,"Total Energy : Nominal Prices: Gas Price at Henry Hub, High resource, AEO2014",Annual Energy Outlook 2014
+nom $/MMBtu,AEO.2018.LP_CPP.PRCE_NOM_COMM_NA_ELC_NA_PCF_NDLRPMBTU.A,"Energy Prices : Nominal : Commercial : Electricity, Pacific, Low price, CPP, AEO2018",Annual Energy Outlook 2018
+nom $/short ton,AEO.2014.FLAT.PRCE_NA_ELEP_NA_CL_NA_NA_NDLRPTON.A,"Coal Supply : Delivered Prices: Electric Power, Low electricity demand, AEO2014",Annual Energy Outlook 2014
+nom $/st,AEO.2020.LOWPRICE.PRCE_NA_EXP_NA_CL_NA_NA_NDLRPTON.A,"Coal Supply : Delivered Prices : Exports, Low price, AEO2020",Annual Energy Outlook 2020
+nom $/thous cu ft,AEO.2014.HIGHMACRO.PRCE_DELV_TRN_NA_NG_NA_USA_NDLRPMCF.A,"Natural Gas : Delivered Prices: Transportation, High growth, AEO2014",Annual Energy Outlook 2014
+nom $/ton,AEO.2018.REF_CPP.PRCE_NOMP_TEN_NA_CAM_NA_USA_NDLRPTON.A,"Total Energy : Nominal Prices : Coal at Minemouth, CPP, AEO2018",Annual Energy Outlook 2018
+nom cents/kWh,AEO.2018.SUNSET.PRCE_NA_TRN_NA_ELC_NA_SERCGW_NCNTPKWH.A,"Electricity : End-Use Prices : Transportation, SERC Reliability Corporation / Gateway, Early PTC/ITC sunset, AEO2018",Annual Energy Outlook 2018
+nom C/kwh,AEO.2014.HIGHTECH.PRCE_NA_RES_NA_ELC_NA_SERCCNT_NCNTPKWH.A,"Electricity : End-Use Prices: Residential, SERC Reliability Corporation / Central, High technology, AEO2014",Annual Energy Outlook 2014
+nom C/Kwh,AEO.2014.CO2FEE10.PRCE_NOMP_TEN_NA_ELC_NA_USA_NCNTPKWH.A,"Total Energy : Nominal Prices: Electricity, GHG10, AEO2014",Annual Energy Outlook 2014
+"%, nominal",AEO.2014.CO2FEE10.ECI_TNR10_NA_NA_NA_NA_NA_PCNTN.A,"Macroeconomic Indicators : Interest Rates : 10-Year Treasury Note, GHG10, AEO2014",Annual Energy Outlook 2014
+Nominal Dollars,TOTAL.TETCHUS.A,"Energy Expenditures per Capita, Annual",Total Energy
+Nominal Dollars per Thousand Cubic Feet,NG.NGA_EPG0_PML_RNGM-NEG_DMCF.A,"Price of Northeast Gateway Natural Gas LNG Imports from Egypt, Annual",Natural Gas
+Number,TOTAL.ZWHDPC4.A,"Heating Degree-Days, West North Central, Annual",Total Energy
+number of customers,ELEC.CUSTOMERS.IL-TRA.A,Number of customer accounts : Illinois : transportation : annual,Electricity
+Number of Days,PET.W_EPLLPZ_VSD_NUS_DAYS.W,"U.S. Days of Supply of Propane/Propylene, Weekly",Petroleum
+Number of Elements,NG.NA1392_NUS_8.A,"U.S. Natural Gas Number of Underground Storage Acquifers Capacity, Annual",Natural Gas
+number of employees,COAL.MINE.AVERAGE_EMPLOYEES.4609545-BIT-SUR.A,Coal mine average employees : Cam Highwall Miner (4609545) : bituminous : surface : annual,Coal
+Number of Rigs,TOTAL.OGNRPUS.M,"Crude Oil and Natural Gas Rotary Rigs in Operation, Total, Monthly",Total Energy
+Number of Wells,TOTAL.OGEWPUS.M,"Wells Drilled, Exploratory, Total, Monthly",Total Energy
+Operating Factor,STEO.ORUTCUS.Q,"Refinery Distillation Utilization Factor , Quarterly",Short-Term Energy Outlook
+people in thousands,INTL.4702-33-FLK-THP.A,"Population, Falkland Islands, Annual",International Energy Data
+percent,COAL.SHIPMENT_SULFUR.1512682-2727-TOT.A,Coal shipment sulfur content : Crockett (1512682) to Marshall (NC)(2727) : All : annual,Coal
+Percent,NG.NA1504_STN_4.M,"Tennessee Natural Gas % of Total Residential - Sales, Monthly",Natural Gas
+percent change from prior year,STEO.QHALLC_US_PCT.M,"U.S. Households, Monthly",
+Percent change from prior year,STEO.ZOMNIUS_PCT.A,"Manufacturing Production Index, Annual",
+"percent, nominal",AEO.2016.LOWPRICE.ECI_AAUTR_NA_NA_NA_NA_NA_PCNTN.A,"Macroeconomic Indicators : Interest Rates : AA Utility Bond Rate, Low price, AEO2016",Annual Energy Outlook 2016
+pounds,AEO.2014.REF2014.ATT_SWGT_CNV_TRK_NA_NA_NA_LBS.A,"New Vehicle Attributes : Average Weight : Stock : Conventional Light Trucks, Reference, AEO2014",Annual Energy Outlook 2014
+quad Btu,AEO.2014.FROZTECH.CNSM_ENU_RES_NA_TOT_NA_MTN_QBTU.A,"Energy Use : Residential: Total, Mountain, 2013 technology, AEO2014",Annual Energy Outlook 2014
+quadrillion Btu,INTL.63-2-KAZ-QBTU.A,"Jet fuel consumption, Kazakhstan, Annual",International Energy Data
+Quadrillion Btu,TOTAL.PFNFBUS.M,"Petrochemical Feedstocks Non-Combustion Consumption, Monthly",Total Energy
+quads,AEO.2016.LOWPRICE.CNSM_NA_RES_OTHU_DFO_NA_USA_QBTU.A,"Residential : Distillate Fuel Oil : Other Uses, Low price, AEO2016",Annual Energy Outlook 2016
+ratio,AEO.2014.HIGHVMT.EFI_DGRD_CAR_NA_NA_NA_NA_RATIO.A,"New Vehicle Attributes : Degradation Factors : Cars, High VMT, AEO2014",Annual Energy Outlook 2014
+Real (1982-1984) Cents per Kilowatthour,TOTAL.ESRCOUS.M,"Average Cost of Residential Electricity, Monthly",Total Energy
+Real (1982-1984) Dollars per Gallon,TOTAL.D2RCOUS.M,"Average Cost of Residential Heating Oil, Monthly",Total Energy
+Real (1982-1984) Dollars per Million Btu,TOTAL.NGRCAUS.M,"Average Cost of Residential Natural Gas, Monthly",Total Energy
+Real (1982-1984) Dollars per Thousand Cubic Feet,TOTAL.NGRCOUS.M,"Average Cost of Residential Natural Gas, Monthly",Total Energy
+real dollars per barrel,STEO.RAIMUUS_RP.A,"Imported  Crude Oil Real Price, Annual",
+real dollars per gallon,STEO.MGRARUS_RP_$.M,"Gasoline Regular Grade Retail Real Price Incl Taxes, U.S. Average,, Monthly",
+"revenue ton-miles/day, thousands",STEO.RMZZPUS.M,"Aircraft Utilization, Monthly",Short-Term Energy Outlook
+seat miles/gallon,AEO.2014.LCR_2014.EFI_NA_TRN_NA_AIRC_NA_NA_SEATMPG.A,"Transportation : Energy Efficiency Indicators: Aircraft, Low cost renewable, AEO2014",Annual Energy Outlook 2014
+seat-miles per gallon,IEO.2017.REFERENCE.TR_AIREFF_SEATMPG_NRW_STK_SEATMPG.A,"Aircraft efficiency : Narrow body aircraft : Stock, Reference, IEO2017",International Energy Outlook
+seat mpg,AEO.2016.LOWPRICE.EFI_STK_AIRT_NBTR_NA_NA_USA_SEATMPG.A,"Air Travel : Aircraft Stock Efficiency : Narrow Body Aircraft, Low price, AEO2016",Annual Energy Outlook 2016
+SEER,AEO.2016.REF_ALLOW_GEN.EFI_STK_RES_SPC_CAC_NA_NA_SEER.A,"Residential Equipment : Stock Average Efficiency : Space Cooling : Central Air Conditioners, CPP generators, AEO2016",Annual Energy Outlook 2016
+short tons,COAL.SHIPMENT_QTY.1506733-1740-BIT.A,Coal shipment quantity : Coal Essence Prep Plant (1506733) to River Rouge(1740) : Bituminous : annual,Coal
+short tons/labor hour,COAL.PRODUCTIVITY.OH-SUR.A,Aggregate coal mine productivity : Ohio : surface : annual,Coal
+Short Tons per Day,PET.8_NA_8PS_R20_S.A,"Midwest (PADD 2) Refinery Sulfur Production Capacity as of January 1, Annual",Petroleum
+sq ft,AEO.2015.HIGHPRICE.KEI_HHD_RES_NA_NA_NA_USA_SQFT.A,"Residential : Key Indicators : Average House Square Footage, High price, AEO2015",Annual Energy Outlook 2015
+st,AEO.2018.REF2018.EMI_MER_ELEP_NA_NA_NA_NPCCNE_TON.A,"Electricity : Emissions : Mercury, Northeast Power Coordinating Council / Northeast, Reference, AEO2018",Annual Energy Outlook 2018
+TBtu,AEO.2015.AEO2014FULL.CNSM_NA_IDAL_EEI_NG_NA_NA_TRLBTU.A,"Metal Based Durables : Electrical Equipment : Use : Natural Gas, AEO2014 Reference, AEO2015",Annual Energy Outlook 2015
+Tcf,AEO.2016.REF2016.PRD_NA_OFS_NA_NG_ST_ATLN_TRLCF.A,"Natural Gas : Dry Production : Lower 48 Offshore : Atlantic : State, Reference, AEO2016",Annual Energy Outlook 2016
+terajoules,INTL.33-12-WP21-TJ.A,"Hydroelectricity net generation, IEO OECD - Europe, Annual",International Energy Data
+Thouand Barrels per Day,PET.M_EPPG_YPB_R2A_MBBLD.A,"Refining District Indiana-Illinois-Kentucky Blender Net Production Processing Gain, Annual",Petroleum
+thous 2012 $,AEO.2014.LOWVMT.PRCE_NLDV_2SEA_NA_GSLPLG40_NA_NA_THY12DLR.A,"New Light-Duty Vehicle Prices : Plug-in 40 Gasoline Hybrid: Two Seater Cars, Low VMT, AEO2014",Annual Energy Outlook 2014
+Thousand,SEDS.TPOPP.MT.A,"Resident population including Armed Forces, Montana",State Energy Data System (SEDS)
+thousand 2013 $,AEO.2015.REF2015.PRCE_LDTY_SUT_NA_FUC_GSL_NA_THY13DLR.A,"New Light-Duty Vehicle Prices : Fuel Cell Gasoline : Small Utility, Reference, AEO2015",Annual Energy Outlook 2015
+thousand 2015 $,AEO.2016.REF_ALLOW_GEN.PRCE_LDTY_SCOM_NA_GSLEL_NA_NA_THY13DLR.A,"New Light-Duty Vehicle Prices : Gasoline-Electric Hybrid : Subcompact Cars, CPP generators, AEO2016",Annual Energy Outlook 2016
+thousand 2016 $,AEO.2017.HIGHPRICE.PRCE_LDTY_LPKT_NA_ETHF_NA_NA_THY13DLR.A,"New Light-Duty Vehicle Prices : Ethanol Flex: Large Pickup, High price, AEO2017",Annual Energy Outlook 2017
+thousand 2017 $,AEO.2018.AUTO_EV.PRCE_LDTY_COMC_NA_DSLELE_NA_NA_THY13DLR.A,"New Light-Duty Vehicle Prices : Diesel-Electric Hybrid : Compact Cars, Autonomous battery electric vehicle, AEO2018",Annual Energy Outlook 2018
+thousand 2018 $,AEO.2019.LOWMACRO.PRCE_LDTY_CMPT_CAR_NG_BIFUEL_NA_THY13DLR.A,"New Light-Duty Vehicle Prices : Natural Gas Bi-Fuel : Compact Car, Low growth, AEO2019",Annual Energy Outlook 2019
+thousand 2019 $,AEO.2020.AEO2019REF.PRCE_LDTY_LUTT_LTK_DSLELE_NA_NA_THY13DLR.A,"New Light-Duty Vehicle Prices : Diesel-Electric Hybrid : Large Utility, AEO2019, AEO2020",Annual Energy Outlook 2020
+thousand barrels,PET_IMPORTS.CTY_AG-RS_WA-HSW.A,"Imports of heavy sweet crude oil from Algeria to refineries in Washington, Annual",Crude Oil Imports
+Thousand barrels,SEDS.AVTXP.WY.A,"Aviation gasoline total end-use consumption, Wyoming",State Energy Data System (SEDS)
+Thousand Barrels,PET.M_EP00_EEX_R30-NSC_1.M,"Gulf Coast (PADD 3) Exports to Saint Kitts and Nevis of Crude Oil and Petroleum Products, Monthly",
+Thousand Barrels per Calendar Day,PET.W_NA_YRL_R40_MBBLD.4,"Rocky Mountains (PADD 4) Operable Crude Oil Distillation Capacity, 4 Week Avg",Petroleum
+thousand barrels per day,INTL.57-1-NAM-TBPD.Q,"Crude oil including lease condensate production, Namibia, Quarterly",International Energy Data
+Thousand Barrels  per Day,PET.M_EPOORDO_IM0_R50-NSN_MBBLD.A,"West Coast (PADD 5) Imports from Singapore of Other Renewable Diesel Fuel, Annual",Petroleum
+Thousand Barrels per Day,PET.M_EPPL_EEX_R20-NBA_2.M,"Midwest (PADD 2) Exports to Bahrain of Lubricants, Monthly",
+thousand Btu/$ GDP,AEO.2016.CPPREPBASIC.INY_NA_NA_NA_DELE_NA_NA_THBTUPDLRGDP.A,"Macroeconomic Indicators : Energy Intensity : Delivered Energy, CPP Report, AEO2016",Annual Energy Outlook 2016
+thousand Btu/2009 $,AEO.2016.LOWMACRO.INY_NA_IDAL_AAP_DFO_NA_NA_THBTUPY05DLR.A,"Aluminum Industry : Energy Use per Unit of Output : Distillate Fuel Oil, Low growth, AEO2016",Annual Energy Outlook 2016
+thousand Btu/2012 $,AEO.2020.HIRENCST.INY_NA_IDAL_NA_NFS_NA_USA_THBTUPY05DLR.A,"Industrial : Energy Use per dollar of Shipment : Natural Gas Feedstock, High renewable cost, AEO2020",Annual Energy Outlook 2020
+thousand Btu/b,AEO.2018.REF2018.INY_NA_IDAL_REF_PCK_NA_NA_THBTUPBRL.A,"Refining Industry : Refinery Only Energy : Use per Unit of Refinery Input : Petroleum Coke, Reference, AEO2018",Annual Energy Outlook 2018
+thousand Btu/cu ft,AEO.2017.LOWMACRO.CNF_NA_ELEP_NA_NG_NA_NA_BTUPCUFT.A,"Conversion Factors : Natural Gas : Use : Electric Power Sector, Low growth, AEO2017",Annual Energy Outlook 2017
+(Thousand Btu per 2010$ of GDP),IEO.2019.REFERENCE.ENERGYINT_NNN_KBTUPERGDPPPPB2010DOL.A,"Energy intensity : Non-OECD : Total Non-OECD, Reference, IEO2019",International Energy Outlook
+(Thousand Btu per 2010 dollar of GDP),IEO.2017.REFERENCE.ENERGYINT_OOO_KBTUPERGDPPPPB2010DOL.A,"Energy intensity : Total OECD, Reference, IEO2017",International Energy Outlook
+Thousand Btu per chained (2012) dollar,SEDS.TETGR.WI.A,"Total energy consumed per dollar of real gross domestic product, Wisconsin",State Energy Data System (SEDS)
+Thousand Btu per Chained (2012) Dollar,TOTAL.TETGRUS.A,"Total Primary Energy Consumption per Real Dollar of GDP, Annual",Total Energy
+Thousand Btu per cubic feet,SEDS.NGMPK.WA.A,"Conversion factor for natural gas marketed production, Washington",State Energy Data System (SEDS)
+Thousand Btu per cubic foot,SEDS.NGTXK.NV.A,"Factor for converting natural gas consumed by all sectors other than electric power from physical units to Btu, Nevada",State Energy Data System (SEDS)
+Thousand Btu per kilowatthour,SEDS.NUETK.US.A,"Factor for converting electricity generated from nuclear power from physical units to Btu, United States only, United States",State Energy Data System (SEDS)
+thousand Btu per USD at purchasing power parities,INTL.47-34-KAZ-TBTUUSDPP.A,"Energy consumption per GDP, Kazakhstan, Annual",International Energy Data
+thousand Btu/sq ft,AEO.2018.HRNUC_PLUS20.INY_HHD_RESD_DELE_NA_NA_USA_THBTUPSQFT.A,"Residential : Energy Intensity per Square Foot : Delivered Energy Use, High resource, plus 20%, AEO2018",Annual Energy Outlook 2018
+Thousand cubic feet,SEDS.NGTPP.CT.A,"Natural gas total consumption per capita, Connecticut",State Energy Data System (SEDS)
+Thousand Cubic Feet,NG.NA1561_SID_10.A,"Idaho Natural Gas Average Annual Consumption per Industrial Consumer, Annual",Natural Gas
+thousand customers,STEO.ELCUS_PAC.Q,"Number of Residential Customers, Pacific Contiguous, Quarterly",Short-Term Energy Outlook
+Thousand Dollars,NG.NA_EPG0_FWC_SNV_COST.A,"Nevada Imputed Wellhead Value of Marketed Production, Annual",Natural Gas
+Thousand Dollars per Well,NG.E_ERTW0_XWWN_NUS_MDW.A,"U.S. Nominal Cost per Crude Oil, Natural Gas, and Dry Well Drilled, Annual",Natural Gas
+Thousand Feet,PET.E_ERTWO_XWFD_NUS_MF.A,"U.S. Footage Drilled for Crude Oil Developmental Wells, Annual",Petroleum
+Thousand Gallons,PET.KDRVAISAK1.A,"Alaska Kerosene Adj Sales/Deliveries to Industrial Consumers, Annual",Petroleum
+Thousand Gallons per Day,PET.A163713451.M,"South Carolina Conventional Gasoline Wholesale/Resale Volume by Refiners, Monthly",Petroleum
+thousand mcf,ELEC.RECEIPTS.NG-FL-94.M,Receipts of fossil fuels by electricity plants : natural gas : Florida : independent power producers (total) : monthly,Electricity
+thousand Mcf,ELEC.CONS_TOT.NG-SC-1.Q,Total consumption : natural gas : South Carolina : electric utility : quarterly,Electricity
+thousand megawatthours,ELEC.GEN.COW-WY-6.M,Net generation : coal : Wyoming : industrial non-cogen : monthly,Electricity
+thousand miles,AEO.2018.LM_CPP.DMG_NA_TRN_VMT_NA_NA_NA_THMLS.A,"Light-Duty Vehicle Miles Traveled : VMT Equation Components : VMT/Driving Population, Low growth, CPP, AEO2018",Annual Energy Outlook 2018
+thousands,AEO.2014.CO2FEE25.ECI_LDVS_CNV_CAR_GSL_NA_NEENGL_TH.A,"Light-Duty Vehicle Sales : Conventional Cars: Gasoline, New England, GHG25, AEO2014",Annual Energy Outlook 2014
+thousand short tons,INTL.12-2-WP24-TST.A,"Bituminous consumption, Other Non-OECD - Europe and Eurasia, Annual",International Energy Data
+Thousand short tons,SEDS.CLICP.GA.A,"Coal consumed by the industrial sector, Georgia",State Energy Data System (SEDS)
+Thousand Short Tons,TOTAL.CLI3PUS.M,"Coal Consumption for Electricity Generation and Useful Thermal Output, Industrial Sector, Monthly",Total Energy
+thousand tons,ELEC.CONS_EG.PC-ESC-2.M,Consumption for electricity generation : petroleum coke : East South Central (total) : electric utility non-cogen : monthly,Electricity
+thous Btu/$ GDP,AEO.2014.LOWMACRO.INY_NA_NA_NA_TEN_NA_NA_THBTUPDLRGDP.A,"Macroeconomic Indicators : Energy Intensity: Total Energy, Low growth, AEO2014",Annual Energy Outlook 2014
+thous Btu/2005 $,AEO.2014.LCCST14.INY_NA_IDAL_CEM_PCK_NA_NA_THBTUPY05DLR.A,"Cement Industry : Energy Use per Unit of Output: Petroleum Coke, Low coal cost, AEO2014",Annual Energy Outlook 2014
+thous Btu/bbl,AEO.2014.NOGHGCONCERN.INY_NA_IDAL_PRI_LPG_NA_NA_THBTUPBRL.A,"Refining Industry : Refinery Only Energy: Use per Unit of Refinery Input: Liquefied Petroleum Gases, No GHG concern, AEO2014",Annual Energy Outlook 2014
+thous Btu/cu ft,AEO.2014.ALTLOWNUC14.CNF_NA_IMP_NA_NG_NA_NA_BTUPCUFT.A,"Conversion Factors : Natural Gas: Imports, Low nuclear, AEO2014",Annual Energy Outlook 2014
+thous Btu/sq ft,AEO.2014.NOGHGCONCERN.INY_HHD_RES_DELE_NA_NA_USA_THBTUPSQFT.A,"Residential : Energy Intensity per Square Foot: Delivered Energy Use, No GHG concern, AEO2014",Annual Energy Outlook 2014
+thous miles,AEO.2014.HCCST14.DMG_LDVMD_TRN_NA_NA_NA_NA_THMLS.A,"Light-Duty Vehicle Miles Traveled : VMT Equation Components : VMT/Driving Population, High coal cost, AEO2014",Annual Energy Outlook 2014
+ton miles/MBtu,AEO.2015.HIGHRESOURCE.EFI_NA_TRN_RAIL_NA_NA_NA_TONMLPTHBTU.A,"Freight : Railroads : Fuel Efficiency, High resource, AEO2015",Annual Energy Outlook 2015
+ton miles/thousand B,AEO.2019.AEO2018NO.EFI_NA_TRN_RAIL_NA_NA_NA_TONMLPTHBTU.A,"Freight : Railroads : Fuel Efficiency, AEO2018, no CPP, AEO2019",Annual Energy Outlook 2019
+ton miles/thous Btu,AEO.2014.LCR_2014.EFI_NA_TRN_RAIL_NA_NA_NA_TONMLPTHBTU.A,"Freight : Railroads: Fuel Efficiency, Low cost renewable, AEO2014",Annual Energy Outlook 2014
+tons,AEO.2014.CO2FEE10HR.ENV_HGE_ELEP_NA_NA_NA_SERCDLT_TON.A,"Electricity : Emissions: Mercury, SERC Reliability Corporation / Delta, GHG10 with low gas price, AEO2014",Annual Energy Outlook 2014
+tons per hour,STEO.CLMRHUS.A,"Coal Miner Productivity, Annual",Short-Term Energy Outlook
+total degree days,STEO.ZWHD_WSC.Q,"Heating Degree Days W. S. Central, Quarterly",Short-Term Energy Outlook
+tril Btu,AEO.2014.LOWVMT.CNSM_NA_IDAL_WDP_REB_NA_NA_TRLBTU.A,"Other Manufacturing : Wood Products : Use : Renewables, Low VMT, AEO2014",Annual Energy Outlook 2014
+tril cu ft,AEO.2014.HCCST14.CNSM_NA_RES_NA_NG_NA_SATL_TRLCF.A,"Natural Gas Use : Residential: South Atlantic, High coal cost, AEO2014",Annual Energy Outlook 2014
+trillion Btu,AEO.2018.AEO2017NO.CNSM_NA_IDAL_ISM_NCI_NA_NA_TRLBTU.A,"Iron and Steel : Energy Use : Net Coke Imports, AEO2017, no CPP, AEO2018",Annual Energy Outlook 2018
+Trillion Btu,TOTAL.SOT8BUS.A,"Distributed Solar Energy Consumption for Heat:  Total, Annual",Total Energy
+trillion cubic feet,INTL.3-6-TCA-TCF.A,"Natural gas reserves, Turks and Caicos Islands, Annual",International Energy Data
+units,AEO.2018.HIGHMACRO.ECI_AIRS_AIRT_REGJ_NA_NA_AFR_UNIT.A,"Air Travel : Aircraft Sales : Africa : Regional Jets, High growth, AEO2018",Annual Energy Outlook 2018
+,AEO.2020.LOWMACRO.EFI_NA_FGHT_RADS_NA_NA_NA_NA.A,"Freight : Truck Stock : Fuel Efficiency : Heavy : Average, Low growth, AEO2020",Annual Energy Outlook 2020

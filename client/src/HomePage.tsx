@@ -222,15 +222,244 @@ export default function HomePage() {
             <div className="sub-menu">
               <SimpleMenu
                 filter={'Region'}
-                options={['All', 'United States', 'OECD']}
+                options={['USA','ABW',
+'AFG',
+'AGO',
+'ALB',
+'ARE',
+'ARG',
+'ARM',
+'ASM',
+'ATA',
+'ATG',
+'AUS',
+'AUT',
+'AZE',
+'BDI',
+'BEL',
+'BEN',
+'BFA',
+'BGD',
+'BGR',
+'BHR',
+'BHS',
+'BIH',
+'BLR',
+'BLZ',
+'BMU',
+'BOL',
+'BRA',
+'BRB',
+'BRN',
+'BTN',
+'BWA',
+'CAF',
+'CAN',
+'CHE',
+'CHL',
+'CHN',
+'CIV',
+'CMR',
+'COD',
+'COG',
+'COK',
+'COL',
+'COM',
+'CPV',
+'CRI',
+'CSK',
+'CUB',
+'CYM',
+'CYP',
+'CZE',
+'DDR',
+'DEU',
+'DEUW',
+'DJI',
+'DMA',
+'DNK',
+'DOM',
+'DZA',
+'ECU',
+'EGY',
+'ERI',
+'ESH',
+'ESP',
+'EST',
+'ETH',
+'FIN',
+'FJI',
+'FLK',
+'FRA',
+'FRO',
+'FSM',
+'GAB',
+'GBR',
+'GEO',
+'GHA',
+'GIB',
+'GIN',
+'GLP',
+'GMB',
+'GNB',
+'GNQ',
+'GRC',
+'GRD',
+'GRL',
+'GTM',
+'GUF',
+'GUM',
+'GUY',
+'HITZ',
+'HKG',
+'HND',
+'HRV',
+'HTI',
+'HUN',
+'IDN',
+'IRL',
+'IRN',
+'IRQ',
+'ISL',
+'ISR',
+'ITA',
+'JAM',
+'JOR',
+'JPN',
+'KAZ',
+'KEN',
+'KGZ',
+'KHM',
+'KIR',
+'KNA',
+'KWT',
+'LAO',
+'LBN',
+'LBR',
+'LBY',
+'LCA',
+'LKA',
+'LSO',
+'LTU',
+'LUX',
+'LVA',
+'MAC',
+'MAR',
+'MDA',
+'MDG',
+'MDV',
+'MEX',
+'MKD',
+'MLI',
+'MLT',
+'MMR',
+'MNE',
+'MNG',
+'MNP',
+'MOZ',
+'MRT',
+'MSR',
+'MTQ',
+'MUS',
+'MWI',
+'MYS',
+'NAM',
+'NCL',
+'NER',
+'NGA',
+'NIC',
+'NIU',
+'NLDA',
+'NLD',
+'NOR',
+'NPL',
+'NRU',
+'NZL',
+'OMN',
+'VEN',
+'PAK',
+'PAN',
+'PER',
+'PHL',
+'PNG',
+'POL',
+'PRI',
+'PRK',
+'PRT',
+'PRY',
+'PSE',
+'PYF',
+'QAT',
+'REU',
+'ROU',
+'RWA',
+'SAU',
+'SCG',
+'SDN',
+'SEN',
+'SGP',
+'SHN',
+'SLB',
+'SLE',
+'SLV',
+'SOM',
+'SPM',
+'SRB',
+'SSD',
+'STP',
+'SUN',
+'SUR',
+'SVK',
+'SVN',
+'SWE',
+'SWZ',
+'SYC',
+'SYR',
+'TCA',
+'TCD',
+'TGO',
+'THA',
+'TJK',
+'TKM',
+'TLS',
+'TON',
+'TTO',
+'TUN',
+'TUR',
+'TUV',
+'TWN',
+'TZA',
+'UGA',
+'UKR',
+'URY',
+'USIQ',
+'USOH',
+'UZB',
+'VCT',
+'VGB',
+'VIR',
+'VNM',
+'VUT',
+'WAK',
+'WLD',
+'IND',
+'RUS',
+'KOR',
+'WSM',
+'XKS',
+'YEM',
+'YUG',
+'ZAF',
+'ZMB',
+'ZWE',]}
               />
-              <SimpleMenu filter={'SubRegion'} options={subRegion} />
+              {/* <SimpleMenu filter={'SubRegion'} options={subRegion} /> */}
             </div>
-            <SimpleMenu
+            {/* <SimpleMenu
               filter={'Frequency'}
               options={['All', 'Annual', 'Monthly', 'Daily']}
-            />
-            <SimpleMenu
+            /> */}
+            {/* <SimpleMenu
               filter={'Units'}
               options={[
                 'All',
@@ -252,8 +481,8 @@ export default function HomePage() {
                 'million MMBtu',
                 '2019 C/kwh',
                 '2017 $/MMBtu'
-              ]}
-            />
+              ]} 
+            />*/}
             <SimpleMenu
               filter={'DataSet'}
               options={[
@@ -274,15 +503,15 @@ export default function HomePage() {
                 'Petroleum'
               ]}
             />
-            <SimpleMenu
+            {/* <SimpleMenu
               filter={'Historical/Projection'}
               options={['All', 'Historical', 'Projection']}
-            />
-            <SimpleMenu
+            /> */}
+            {/* <SimpleMenu
               filter={'Supply/Demand'}
               options={['All', 'Supply', 'Demand']}
-            />
-            <SimpleMenu
+            /> */}
+            {/* <SimpleMenu
               filter={'Last Updated'}
               options={[
                 'All',
@@ -291,7 +520,7 @@ export default function HomePage() {
                 'After 2020-11-01',
                 'After 2020-10-01'
               ]}
-            />
+            /> */}
           </div>
 
           <div>
@@ -300,22 +529,6 @@ export default function HomePage() {
 
           <br />
           <br />
-        </div>
-        <div>
-          <AddButton
-            onClick={toggleCatSeriesAction}
-            text="Series"
-            filename=""
-            style={{ background: '#3374ff' }}
-            dispatch={dispatch}
-          />
-          <AddButton
-            onClick={toggleCatSeriesAction}
-            text="Categories"
-            filename=""
-            style={{ background: '#DC143C' }}
-            dispatch={dispatch}
-          />
         </div>
 
         <br />

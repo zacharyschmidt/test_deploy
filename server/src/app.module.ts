@@ -6,6 +6,7 @@ import { TodoModule } from './todo/todo.module';
 import { UserModule } from './user/user.module';
 import { SeriesModule } from './series/series.module';
 import { CategoryModule } from './categories/category.module';
+import { DownloadModule } from './download/download.module';
 
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -20,6 +21,7 @@ import { ValidationPipe } from './shared/validation.pipe';
     UserModule,
     SeriesModule,
     CategoryModule,
+    DownloadModule,
   ],
   controllers: [AppController],
   providers: [

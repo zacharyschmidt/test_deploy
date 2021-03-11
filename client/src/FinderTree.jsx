@@ -6,13 +6,14 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { shallowEqual, useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import {
   setTreeSeriesAction,
   setTreeStructureAction,
   fetchDataAction, 
   setSelectedTreeNodeAction,
   setSearchNodeAction,
+  fetchCategoriesAction
 } from './redux/actions/eia/actions';
 
 import ReactFinder from 'react-finderjs';
@@ -33,9 +34,11 @@ const useStyles = makeStyles({
 // memoize function so it will not rerender when 
 // homepage rerenders. I could also change the homepage
 // so it doesn't grab all of the state with it's Selector 
-// hook--actuall, I shoud do this second option for performance
+// hook (but then I cant see the search val in hompage)
+//--actually, I shoud do this second option for performance
 // reasons, but perhaps it is not high on optimization list
 export default React.memo(function FinderTree() {
+  let history = useHistory();
   const classes = useStyles();
 
   const nodeVal = useSelector((state) => state.eia.selectedTreeNode, shallowEqual);
@@ -57,6 +60,7 @@ export default React.memo(function FinderTree() {
   //   if there are nested children, call this function on that cat
   const recursiveMap = (cat) => {
     if (cat.childCategories.length === 0) {
+      console.log(cat)
       if (cat.childSeries.length > 0) {
         return {
           id: cat.categoryID,
@@ -94,7 +98,12 @@ export default React.memo(function FinderTree() {
   // renaming the members of each category in treeCategories so the FinderJS tree
   // can process them childCategories -> children
 
-  const tree = treeCategories.map((cat) => recursiveMap(cat));
+  const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
+                                            if (a.label > b.label) {
+                                              return 1
+                                            }
+                                            return -1
+  });
   let searchRoot = nodeVal
   //const [searchRoot, setSearchRoot] = useState(nodeVal);
 
@@ -126,16 +135,40 @@ export default React.memo(function FinderTree() {
     //fetchInitialTree('371');
 
     setTreeStructureAction(dispatch, 371, filters);
+    // fetchCategoriesAction(
+    //     dispatch,
+    //     searchTerm,
+    //     371,
+    //     filters,
+    //     1,
+    //     limit,
+    //   );
   }, [filters]);
 
   const handleChange = (item) => {
     console.log("In ON LEAF SELECTED")
     console.log(item);
+    if (item.display) {
+      console.log('Display Node')
+      console.log(item)
+      history.push(`/demo/details/${item.id}`)
+      return;
+    }
+    
     if ((item.id === nodeVal)) {
       console.log("EXITING ON LEAF SELECTED NODEVAL == ITEM.ID")
       return;
     }
-    if (item.dispaly === 1) {
+    // Won't be able to update search when walking back up the tree
+    fetchCategoriesAction(
+        dispatch,
+        searchTerm,
+        item.id,
+        filters,
+        1,
+        limit,
+      );
+    if (item.display === 1) {
       return;
     }
     console.log("IN ON LEAF SELECTED--CONTINUING TO SET NODE AND TREE STRUCTURE")
@@ -149,6 +182,7 @@ export default React.memo(function FinderTree() {
 
     setTreeStructureAction(dispatch, item.id, filters);
     setTreeSeriesAction(dispatch, []);
+    
 
     let Series = treeLeaves.filter(function (leaf) {
       return leaf.category_id == Number(item.id);
@@ -164,6 +198,7 @@ export default React.memo(function FinderTree() {
       setTreeSeriesAction(dispatch, Series);
     }
     if (Series && Series.length > 0) {
+      console.log('FETCH DATA FROM FINDER TREE')
       fetchDataAction(
         dispatch,
         searchTerm,
@@ -277,7 +312,7 @@ export default React.memo(function FinderTree() {
       data={tree}
       onItemSelected={itemSelected}
       onLeafSelected={handleChange}
-      // createItemContent={renderTree}
+      createItemContent={renderTree}
       value={{ id: nodeVal }}
     />
   );

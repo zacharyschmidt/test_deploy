@@ -14,13 +14,13 @@ const initialState: IEIA = {
   selectedTreeNode: null,
   selectedSearchNode: null,
   categories: [],
-  catSeriesFlag: 'Series',
+  catSeriesFlag: 'Categories',
   page: 1,
   limit: 50,
   filters: {
-    Region: 'All',
+    Region: 'USA',
     SubRegion: 'None',
-    Frequency: 'All',
+    Frequency: 'A',
     Units: 'All',
     DataSet: 'All',
     HistorProj: 'All',
@@ -88,7 +88,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
           categoryID: leaf.category_id,
           name: leaf.name,
           childCategories: [],
-          childSeries: leaf.childseries
+          childSeries: leaf.childSeries
         };
       });
       console.log('INPUT TO REDUCER')
