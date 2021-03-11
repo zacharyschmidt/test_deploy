@@ -115,11 +115,103 @@ WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
             SET ancestors = q.ancestors
             FROM ( SELECT t.ancestors, t.category_id FROM tree t) as q
             WHERE categories.category_id = q.category_id;
-       
+
+elect * from categories where 'USA' in (select geography from temp_cats where temp_cats.category_id = 1372273);
+*** NOT USED
+CREATE TABLE cat_series_filters AS
+SELECT c.name, c.category_id, c.ancestors, s.f, s.geography  
+FROM 
+    categories c
+    JOIN series s
+        ON s.series_id IN 
+            (SELECT 
+                jsonb_array_elements_text(c.childseries));
+********
+select * from categories where parent_category_id = 2804614
+AND 'A' IN (SELECT f from temp_cats where temp_cats.category_id = 2804614);
+
+CREATE TABLE temp_cats AS
+SELECT c.name, c.category_id, c.ancestors, jsonb_array_elements_text(c.childseries) as series_id
+from categories c;
+
+ALTER TABLE temp_cats
+ADD COLUMN f character varying(120),
+ADD COLUMN geography text;
+
+UPDATE temp_cats SET f = series.f, geography = series.geography
+FROM series 
+WHERE temp_cats.series_id = series.series_id;
+
+UPDATE temp_cats SET geography = 'USA' 
+WHERE series_id LIKE 'AEO%';
+
+---some series have no geography. I filled in usa for the AEOs, but total energy,
+coal, and natural gas also have some unidentified records
+
+UPDATE series SET geography = 'USA' 
+WHERE series_id LIKE 'AEO%';
+
+CREATE TABLE interior_treenode_filters AS
+SELECT c.name, c.category_id, unnest(c.ancestors) as ancestors, c.series_id, c.f, c.geography
+from temp_cats c;
+
+create index category_id_index on temp_cats(category_id);
+create index ancestor_index on interior_treenode_filters(ancestors);
+create index geography_filter_index on interior_treenode_filters(geography);
+
+INSERT INTO interior_treenode_filters (name, ancestors, series_id, f, geography)
+SELECT name, category_id, series_id, f, geography from interior_treenode_filters;
+
+
+
+create table frequency_filter as
+SELECT DISTINCT ancestors as category_id, f from interior_treenode_filters;
+
+create table geography_filter as
+SELECT DISTINCT ancestors as category_id, geography from interior_treenode_filters;
+
+
+*** Drop unused indexes!!! ***
+
+CREATE INDEX geography_filter_index on geography_filter(geography);
+CREATE INDEX frequency_filter_index on frequency_filter(f);
+
+ALTER TABLE geography_filter ADD COLUMN id SERIAL PRIMARY KEY;
+ALTER TABLE frequency_filter ADD COLUMN id SERIAL PRIMARY KEY;
+
+create table category_leaf_lookup as
+select category_id as leaf_category, unnest(ancestors) as ancestors from categories where jsonb_array_length(childseries) > 0;
+ALTER TABLE category_leaf_lookup ADD COLUMN id SERIAL PRIMARY KEY;
+
+CREATE INDEX leaf_category_index on category_leaf_lookup(leaf_category);
+
+\copy (SELECT DISTINCT ON (units) units, series_id, name, dataset_name from series) to 'units.csv' csv header
+
+*** category_id is 'data_group' id ***
+
+
+Nested Loop  (cost=0.00..166024843973.85 rows=202718509838 width=126)
+   Join Filter: (SubPlan 1)
+   ->  Seq Scan on categories c  (cost=0.00..39782.49 rows=145249 width=699)
+   ->  Materialize  (cost=0.00..1538293.86 rows=2791324 width=59)
+         ->  Seq Scan on series s  (cost=0.00..1494352.24 rows=2791324 width=59)
+   SubPlan 1
+     ->  ProjectSet  (cost=0.00..0.52 rows=100 width=32)
+           ->  Result  (cost=0.00..0.01 rows=1 width=0)
+ JIT:
+   Functions: 13
+   Options: Inlining true, Optimization true, Expressions true, Deforming true
+(11 rows)
+
+
+
 
 I need to select only a few columns when I do select, and make sure that
 these columns have indexes. That way the whole table does not need to be 
 transferred to memory when I query.
+
+Looks like coal and petroleum (maybe some others have no geography data. They will be
+excluded from all queries. May have to look into this later)
 
 EXPLAIN ANALYZE results (before building vectors with 'english'--so I think that the index is not usable)
 --query searching for electricity with limit 50 does not use index (seq scan) and is fast. 

@@ -65,7 +65,7 @@ export interface IEIA {
   treeSeries: Array<ISeries>;
   treeCategories: Array<ICategories>;
   treeNodes: Array<number>;
-  treeLeaves: [];
+  treeLeaves: Array<ICategories>;
   selectedTreeNode: number|null;
   selectedSearchNode: number|null;
   categories: Array<ICategories>;
@@ -107,8 +107,9 @@ export interface ICategories {
   categoryID: number;
   name: string;
   childCategories: Array<ICategories>;
-  childSeries: Array<number>;
+  childSeries: Array<string>;
   dataset_name: string;
+  ancestors?: Array<number>;
 }
 
 export interface ISeriesProps {

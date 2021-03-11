@@ -7,6 +7,7 @@ import { UserEntity } from 'src/user/user.entity';
 
 import { PaginationDto } from './dto/Pagination.dto';
 import { PaginatedSeriesResultDto } from './dto/PaginatedSeriesResult.dto';
+import { async } from 'rxjs';
 
 @Injectable()
 export class SeriesService {
@@ -159,5 +160,20 @@ export class SeriesService {
       .getOne();
 
     return series;
+  };
+
+  getManySeries = async (seriesIDs: Array<string>, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
+    console.log('SERIES SERVICE')
+    console.log(frequency, geography)
+    const manySeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...seriesIDs)', {seriesIDs: seriesIDs})
+      .andWhere('series.f = :frequency', {frequency: frequency})
+      .andWhere(
+        // (geography = 'All') ? '1=1' : 
+        'series.geography = :geography', {geography: geography})
+      .getMany()
+      //console.log(manySeries)
+    return manySeries;
   };
 }

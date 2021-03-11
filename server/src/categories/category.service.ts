@@ -1,6 +1,6 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { CategoryEntity } from './category.entity';
 import { CategorySO } from './dto/category.dto';
 import { UserEntity } from 'src/user/user.entity';
@@ -12,7 +12,8 @@ import { PaginatedCategoryResultDto } from './dto/PaginatedCategoryResult.dto';
 export class CategoryService {
   constructor(
     @InjectRepository(CategoryEntity)
-    private categoryRepository: Repository<CategoryEntity>
+    private categoryRepository: Repository<CategoryEntity>,
+    
   ) {}
 
   //   private responseOject = (series: SeriesEntity): SeriesSO => {
@@ -27,13 +28,26 @@ export class CategoryService {
   ): Promise<PaginatedCategoryResultDto> => {
 
     let descendants = []
-    console.log(paginationDto.treeNode)
+    console.log('PAGINATION DTO IN GET SEARCHED CATEGORIES ACTION')
+    console.log('DOES IT HAVE A PARENT CATGEGORY ID?')
+    console.log(paginationDto)
     if (paginationDto.treeNode) {
      try {
+       console.log('SEARCHING CATEGORIES TO GET DESCENDANTS')
+       console.log('Treenode = 371?')
+       console.log(Number(paginationDto.treeNode) === 371)
       descendants = await this.categoryRepository.query(
+        Number(paginationDto.treeNode) === 371 ?
+       `SELECT category_id from categories
+        WHERE jsonb_array_length(childseries) > 0
+        AND $1 = $1`
+        :
         `SELECT category_id from categories
-        where $1 = any(ancestors)`,
+        where $1 = any(ancestors)
+        AND jsonb_array_length(childseries) > 0`,
         [paginationDto.treeNode]);
+      console.log(paginationDto.treeNode)
+      console.log(descendants)
       //   `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
       //       SELECT category_id, '{}'::integer[], 0, FALSE
       //       FROM categories WHERE parent_category_id IS NULL
@@ -55,12 +69,14 @@ export class CategoryService {
     console.log(paginationDto.treeNode)
     console.log('DESCENDANTS')
     descendants = descendants.map((descendant) => descendant.category_id);
-    console.log(descendants)
+    //console.log(descendants)
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
     console.log('TEST');
-    console.log(paginationDto);
+  
 
     let dataset_name;
+    console.log('DATASET')
+    console.log(paginationDto.DataSet)
     switch (paginationDto.DataSet) {
       case 'All':
         dataset_name = '%';
@@ -69,6 +85,10 @@ export class CategoryService {
         dataset_name = paginationDto.DataSet;
     }
     let region = 'USA';
+    let searchTerm = '';
+    if (paginationDto.searchTerm) {
+      searchTerm = paginationDto.searchTerm
+    }
     console.log('the data is: ' + paginationDto.DataSet);
     let parent_category_id;
     if (paginationDto.parent_category_id) {
@@ -78,6 +98,11 @@ export class CategoryService {
     }
     // const totalCount = await this.seriesRepository.count()
     const totalCount = 1000;
+    // const tempCats = await this.tempCatsRepository
+    //   .createQueryBuilder('temp_cats')
+    //   .select('temp_cats.geography')
+    //   .where('temp_cats.category_id = :category_id', {category_id: })
+    //   .where
     let categories = await this.categoryRepository
       .createQueryBuilder('categories')
       .where('categories.dataset_name LIKE :dataset_name', {
@@ -85,11 +110,11 @@ export class CategoryService {
       })
 
       .andWhere(
-        paginationDto.searchTerm
+        searchTerm.length > 0
           ? 'categories.search_vec @@ phraseto_tsquery(:term)'
           : '1=1',
         {
-          term: paginationDto.searchTerm,
+          term: searchTerm,
         }
       )
 
@@ -97,6 +122,11 @@ export class CategoryService {
 
       // need to check units--maybe not matching with data in column
 
+      // this reduces to 1=1 if there is not paginationDto.parent_category_id (no parent category
+      // id means we are doing keyword search, not set tree structure). if there is 
+      // a parent_category id but it is null then we use 371 (coalesce function)
+      // -- parent category id set to be 371 if paginationDto.parent category id does
+      // not exist. don't check plain parent category id to see if this is keyword search
       .andWhere(
         paginationDto.parent_category_id
           ? 'COALESCE(categories.parent_category_id, :id) = :parent_category_id'
@@ -107,12 +137,71 @@ export class CategoryService {
         }
       )
       .andWhere(
-       descendants.length > 0 ?
-        'categories.category_id IN (:...descendants)' : 
-        '1=1',
-         
-        {descendants: descendants}
+       paginationDto.parent_category_id 
+       //&& paginationDto.parent_category_id != 371
+        ? 'categories.category_id IN (SELECT category_id from frequency_filter where frequency_filter.f = :frequency)' 
+        //':frequency IN (SELECT f from temp_cats where :parent_category_id = any(temp_cats.ancestors))' 
+        : '1=1',
+        {
+         frequency: paginationDto.Frequency,
+         parent_category_id: parent_category_id}
       )
+      .andWhere(
+       paginationDto.parent_category_id 
+       //&& paginationDto.parent_category_id != 371
+        ? 'categories.category_id IN (SELECT category_id from geography_filter where geography_filter.geography = :geography)'
+        //':geography IN (SELECT geography from temp_cats where :parent_category_id = any(temp_cats.ancestors))' : 
+        // category_id IN (select ancestor from temp_cats where :geography = geography)
+        //`category_id = any((Select ancestors from temp_cats where :geograpy = geography))` :
+        : '1=1',
+        {geography: paginationDto.Region,
+         parent_category_id: parent_category_id}
+      )
+      // this runs if we have prefilled the descendants array, based on seleted treenode
+      // This is a keyword search
+      .andWhere(
+       paginationDto.treeNode ?
+       'categories.category_id IN (SELECT leaf_category from category_leaf_lookup WHERE category_leaf_lookup.ancestors = :treeNode)' 
+        // 'categories.category_id IN (:...descendants)' : 
+        : '1=1',
+         
+        {treeNode: paginationDto.treeNode}
+      )
+     //these are slow 
+      .andWhere(
+        paginationDto.treeNode ? 
+        ':freq IN (SELECT f from frequency_filter where frequency_filter.category_id = :selected_treeNode)'
+        // ':freq IN (SELECT f from temp_cats where temp_cats.category_id IN (:...descendants))'
+        : '1=1',
+      {freq: paginationDto.Frequency,
+       selected_treeNode: Number(paginationDto.treeNode),
+       descendants: descendants})
+       .andWhere(
+        paginationDto.treeNode ? 
+        ':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
+        //':geo IN (SELECT geography from temp_cats where temp_cats.category_id IN (:...descendants))'
+        : '1=1',
+      {geo: paginationDto.Region,
+       selected_treeNode: Number(paginationDto.treeNode)})
+
+
+
+
+      //.andWhere(qb => {
+        //const subQuery = qb.subQuery().select("temp_cats.geography").from(TempCats, "temp_cats")
+        //.where("temp_cats.g")
+      //}:geograpy in (select geography from temp_cats 
+              //where category_id = paginationDto.category_id))
+
+
+      //.andWhere(:frequency in (select f from temp cats 
+          // where category ))
+
+          //or use CTE? (put index on temp_cats category_id)
+      //.andWhere(:frequency in CTE.f and :region in CTE.geograpy) 
+      //with CTE as (select f, geograpy form temp_cats where category_id = category_id)
+
+
       //.andWhere('series.geography LIKE :region', { region: region })
       // must make catname column (join with categories . . . ).andWhere("series.catname LIKE :catname"), {catname: dataset})
       // make this too .andWhere("series.histProj LIKE :histProj", {histProj: histProj})
@@ -122,7 +211,7 @@ export class CategoryService {
       .skip(skippedItems)
       .take(paginationDto.limit)
       .getMany();
-
+    //console.log(categories[1])
     return {
       totalCount,
       page: paginationDto.page,

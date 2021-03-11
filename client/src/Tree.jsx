@@ -125,7 +125,7 @@ export default function Tree() {
         state.filters,
         Series,
         state.page,
-        state.limit
+        state.limit,
       );
     }
     // } else {

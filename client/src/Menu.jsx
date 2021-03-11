@@ -24,16 +24,18 @@ export default function SimpleMenu(props) {
   const state = useSelector((state) => state.eia);
   const dispatch = useDispatch();
 
+  console.log('RENDERING MENU')
   const options = props.options;
   useEffect(() => {
-    fetchDataAction(
-      dispatch,
-      state.searchTerm,
-      state.filters,
-      state.treeSeries,
-      state.page,
-      state.limit
-    );
+    console.log('FETCH DATA FROM MENU')
+    // fetchDataAction(
+    //   dispatch,
+    //   state.searchTerm,
+    //   state.filters,
+    //   state.treeSeries,
+    //   state.page,
+    //   state.limit,
+    // );
   }, [selectedIndex]);
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);

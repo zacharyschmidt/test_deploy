@@ -3,6 +3,6 @@ export type CategorySO = {
   parent_cat_id?: number;
   name: string;
   notes: string;
-  childseries: any;
+  childSeries: any;
   dataset_name: string;
 };
