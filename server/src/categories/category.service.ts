@@ -27,7 +27,7 @@ export class CategoryService {
     paginationDto: PaginationDto
   ): Promise<PaginatedCategoryResultDto> => {
 
-    let descendants = []
+ 
     console.log('PAGINATION DTO IN GET SEARCHED CATEGORIES ACTION')
     console.log('DOES IT HAVE A PARENT CATGEGORY ID?')
     console.log(paginationDto)
@@ -36,18 +36,7 @@ export class CategoryService {
        console.log('SEARCHING CATEGORIES TO GET DESCENDANTS')
        console.log('Treenode = 371?')
        console.log(Number(paginationDto.treeNode) === 371)
-      descendants = await this.categoryRepository.query(
-        Number(paginationDto.treeNode) === 371 ?
-       `SELECT category_id from categories
-        WHERE jsonb_array_length(childseries) > 0
-        AND $1 = $1`
-        :
-        `SELECT category_id from categories
-        where $1 = any(ancestors)
-        AND jsonb_array_length(childseries) > 0`,
-        [paginationDto.treeNode]);
-      console.log(paginationDto.treeNode)
-      console.log(descendants)
+      
       //   `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
       //       SELECT category_id, '{}'::integer[], 0, FALSE
       //       FROM categories WHERE parent_category_id IS NULL
@@ -67,8 +56,7 @@ export class CategoryService {
     }
   }
     console.log(paginationDto.treeNode)
-    console.log('DESCENDANTS')
-    descendants = descendants.map((descendant) => descendant.category_id);
+    
     //console.log(descendants)
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
     console.log('TEST');
@@ -174,8 +162,7 @@ export class CategoryService {
         // ':freq IN (SELECT f from temp_cats where temp_cats.category_id IN (:...descendants))'
         : '1=1',
       {freq: paginationDto.Frequency,
-       selected_treeNode: Number(paginationDto.treeNode),
-       descendants: descendants})
+       selected_treeNode: Number(paginationDto.treeNode)})
        .andWhere(
         paginationDto.treeNode ? 
         ':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
