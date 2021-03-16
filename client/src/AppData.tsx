@@ -21,19 +21,20 @@ export default function App(props: any): JSX.Element {
           <Button color="inherit">
             <Link to="/demo">Home</Link>
           </Button>
-          <Button>
+          {/* <Button>
             <Link to="/demo/selected"> Selected: {state.selected.length}</Link>
           </Button>
           <Button>
             <Link to="/demo/tree"> Tree </Link>
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
 
       <div>
-        <h1>EIA Search</h1>
+        <h1>EIA Data Exploration Tool</h1>
         <br />
-        <p>Search EIA Data</p>
+       
+        
       </div>
       <div></div>
 

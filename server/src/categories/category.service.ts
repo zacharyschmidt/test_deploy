@@ -88,9 +88,14 @@ export class CategoryService {
     const totalCount = 1000;
     // const tempCats = await this.tempCatsRepository
     //   .createQueryBuilder('temp_cats')
-    //   .select('temp_cats.geography')
+    //   .select('temp_cats.geography') 
     //   .where('temp_cats.category_id = :category_id', {category_id: })
     //   .where
+    let excluded_list = [3604312, 3604307, 3604309, 3604310, 3604306, 3604311, 3604314, 3604308, //AEO 2020 
+    1019945, 1019952, 1019936, 1019950, 964167, 1019955, 1019937, 1019940, 1019943, 1019944, 1019951, 1019956, 
+      1019953, 1019957, 1019946, 1019960, 1019935, 1019938, 1019961, 1019934, 1019939, 1019959, 1019958, 1019954, 
+        964168, 1019942, 964169, 1019933 // AEO 214
+      ]
     let categories = await this.categoryRepository
       .createQueryBuilder('categories')
       .where('categories.dataset_name LIKE :dataset_name', {
@@ -145,6 +150,12 @@ export class CategoryService {
         {geography: paginationDto.Region,
          parent_category_id: parent_category_id}
       )
+      .andWhere( 
+        paginationDto.parent_category_id
+        ? 'categories.category_id NOT IN (:...excluded_list)'
+        : '1=1',
+        {excluded_list: excluded_list}
+      )
       // this runs if we have prefilled the descendants array, based on seleted treenode
       // This is a keyword search
       .andWhere(
@@ -158,18 +169,26 @@ export class CategoryService {
      //these are slow 
       .andWhere(
         paginationDto.treeNode ? 
-        ':freq IN (SELECT f from frequency_filter where frequency_filter.category_id = :selected_treeNode)'
+        'category_id IN (SELECT category_id from frequency_filter where f = :freq)'
+        //':freq IN (SELECT f from frequency_filter where frequency_filter.category_id = :selected_treeNode)'
         // ':freq IN (SELECT f from temp_cats where temp_cats.category_id IN (:...descendants))'
         : '1=1',
       {freq: paginationDto.Frequency,
        selected_treeNode: Number(paginationDto.treeNode)})
        .andWhere(
         paginationDto.treeNode ? 
-        ':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
+        'category_id IN (SELECT category_id from geography_filter where geography = :geo)'
+        //':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
         //':geo IN (SELECT geography from temp_cats where temp_cats.category_id IN (:...descendants))'
         : '1=1',
       {geo: paginationDto.Region,
        selected_treeNode: Number(paginationDto.treeNode)})
+       .andWhere(
+         paginationDto.treeNode ?
+         'category_id not in (SELECT leaf_category FROM category_leaf_lookup WHERE ancestors IN (:...excluded_list))'
+         : '1=1',
+         {excluded_list: excluded_list}
+       )
 
 
 
@@ -207,23 +226,23 @@ export class CategoryService {
     };
   };
 
-  getCategorybyID = async (categoryID: number): Promise<CategorySO> => {
+  getCategorybyID = async (category_id: number): Promise<CategorySO> => {
     const categories = await this.categoryRepository
       .createQueryBuilder('category')
-      .where('category.category_id = :categoryID', { categoryID: categoryID })
+      .where('category.category_id = :category_id', { category_id: category_id })
       .getOne();
 
     return categories;
   };
 
   getParentCats = async (
-    categoryID: number
+    category_id: number
   ): Promise<PaginatedCategoryResultDto> => {
     //
-    console.log(categoryID);
+    console.log(category_id);
     const currentCat = await this.categoryRepository
       .createQueryBuilder('category')
-      .where('category.category_id = :categoryID', { categoryID: categoryID })
+      .where('category.category_id = :category_id', { category_id: category_id })
       .getOne();
     return currentCat
 

@@ -68,7 +68,7 @@
 }
 
 .search-area {
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   display: flex;
   flex-direction: row;
 }
@@ -96,7 +96,7 @@
 .sub-menu {
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(0, 0, .125);
+  /* border: 1px solid rgba(0, 0, .125); */
 }
 
 .data-table {
@@ -122,7 +122,7 @@
 .search-bar {
 
   float: left;
-
+  flex-direction: column;
 }
 
 .pagination {

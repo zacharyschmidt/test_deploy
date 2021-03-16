@@ -104,7 +104,7 @@ export interface ISeries {
 }
 
 export interface ICategories {
-  categoryID: number;
+  category_id: number;
   name: string;
   childCategories: Array<ICategories>;
   childSeries: Array<string>;

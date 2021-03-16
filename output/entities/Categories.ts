@@ -7,11 +7,11 @@ import {
   OneToMany,
 } from "typeorm";
 
-@Index("categories_pkey", ["categoryId"], { unique: true })
+@Index("categories_pkey", ["category_id"], { unique: true })
 @Entity("categories", { schema: "public" })
 export class Categories {
   @Column("integer", { primary: true, name: "category_id" })
-  categoryId: number;
+  category_id: number;
 
   @Column("text", { name: "name", nullable: true })
   name: string | null;
@@ -26,7 +26,7 @@ export class Categories {
     onDelete: "CASCADE",
   })
   @JoinColumn([
-    { name: "parent_category_id", referencedColumnName: "categoryId" },
+    { name: "parent_category_id", referencedColumnName: "category_id" },
   ])
   parentCategory: Categories;
 

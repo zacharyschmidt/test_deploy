@@ -106,8 +106,8 @@ export class GeographyFilterEntity {
 
 }
 
-@Entity('leaf_category_lookup', { schema: 'public' })
-export class LeafCategoryLookupEntity {
+@Entity('category_leaf_lookup', { schema: 'public' })
+export class CategoryLeafLookupEntity {
   
   @Column('integer', {primary: true, name: 'id'})
   id: number

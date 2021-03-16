@@ -40,7 +40,7 @@ export default function SearchBar(): JSX.Element {
       fetchCategoriesAction(
         dispatch,
         value,
-        state.selectedSearchNode,
+        state.selectedSearchNode ? state.selectedSearchNode : 371,
         state.filters,
         1,
         state.limit,
@@ -54,7 +54,7 @@ export default function SearchBar(): JSX.Element {
     clearSearchAction(dispatch);
   };
   return (
-    <div>
+    <div className="search-bar">
       <form onSubmit={handleSubmit} onReset={handleReset}>
         <input
           type="text"
