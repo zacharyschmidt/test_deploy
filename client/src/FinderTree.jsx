@@ -10,7 +10,7 @@ import { Link, useHistory } from 'react-router-dom';
 import {
   setTreeSeriesAction,
   setTreeStructureAction,
-  fetchDataAction, 
+  fetchDataAction,  
   setSelectedTreeNodeAction,
   setSearchNodeAction,
   fetchCategoriesAction
@@ -63,12 +63,12 @@ export default React.memo(function FinderTree() {
       console.log(cat)
       if (cat.childSeries.length > 0) {
         return {
-          id: cat.categoryID,
+          id: cat.category_id,
           label: cat.name,
           childseries: cat.childSeries,
           children: [
             {
-              id: cat.categoryID,
+              id: cat.category_id,
               label: cat.name,
               childseries: cat.childSeries,
               display: 1,
@@ -77,7 +77,7 @@ export default React.memo(function FinderTree() {
         };
       }
       return {
-        id: cat.categoryID,
+        id: cat.category_id,
         label: cat.name,
         childseries: cat.childSeries
         // if the category is a leaf,
@@ -89,7 +89,7 @@ export default React.memo(function FinderTree() {
     }
 
     return {
-      id: cat.categoryID,
+      id: cat.category_id,
       label: cat.name,
       childseries: cat.childSeries,
       children: cat.childCategories.map((cat) => recursiveMap(cat))
@@ -145,7 +145,7 @@ export default React.memo(function FinderTree() {
     //   );
   }, [filters]);
 
-  const handleChange = (item) => {
+  const onLeafSelected = (item) => {
     console.log("In ON LEAF SELECTED")
     console.log(item);
     if (item.display) {
@@ -230,6 +230,14 @@ export default React.memo(function FinderTree() {
             // if ((item.id !== nodeVal)){ 
             // console.log('IN onITEMSELECTED')
             setSearchNodeAction(dispatch, item.id)
+            fetchCategoriesAction(
+              dispatch,
+              searchTerm,
+              item.id,
+              filters,
+              1,
+              limit,
+              );
            
             console.log("ITEM ID")
             console.log(item.id)
@@ -246,6 +254,8 @@ export default React.memo(function FinderTree() {
 
   }
   const renderTree = (config, item) => {
+    console.log('RENDER TREE')
+    console.log(item)
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
     let ul = document.createElement('ul');
@@ -311,7 +321,7 @@ export default React.memo(function FinderTree() {
       className=""
       data={tree}
       onItemSelected={itemSelected}
-      onLeafSelected={handleChange}
+      onLeafSelected={onLeafSelected}
       createItemContent={renderTree}
       value={{ id: nodeVal }}
     />

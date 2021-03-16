@@ -216,12 +216,13 @@ export default function HomePage() {
       <React.Suspense fallback={<div>loading...</div>}>
         <div className="search-area">
           <div className="search-bar">
-            <SearchBar />
-          </div>
+            <h4>Search EIA Data</h4>
           <div className="menu-area">
+            
             <div className="sub-menu">
+              
               <SimpleMenu
-                filter={'Region'}
+                filter={'Country'}
                 options={['USA','ABW',
 'AFG',
 'AGO',
@@ -484,7 +485,7 @@ export default function HomePage() {
               ]} 
             />*/}
             <SimpleMenu
-              filter={'DataSet'}
+              filter={'Top-Level Category'}
               options={[
                 'All',
                 'Annual Energy Outlook 2014',
@@ -502,7 +503,9 @@ export default function HomePage() {
                 'Total Energy',
                 'Petroleum'
               ]}
+              
             />
+            
             {/* <SimpleMenu
               filter={'Historical/Projection'}
               options={['All', 'Historical', 'Projection']}
@@ -522,17 +525,25 @@ export default function HomePage() {
               ]}
             /> */}
           </div>
-
-          <div>
+            
+          {/* <div>
             <RecordsPerPage />
+          </div> */}
+          
+         
+          <div>
+             <SearchBar />
           </div>
-
-          <br />
-          <br />
+        <br></br>
         </div>
-
-        <br />
-        <br />
+          
+          </div>
+          <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
+        <p>Search Results appear below the Category Tree.</p>
+        <p>Click on a 'DataGroup' card to open the tree and find data.</p>
+        <p>Filter selections will restrict search results and the available categories in the tree.</p>
+        <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
+        <p>Data can be accessed from source here: https://www.eia.gov/opendata/qb.php?category=371</p>
         <div>
           <FinderTree />
         </div>

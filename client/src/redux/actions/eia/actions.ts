@@ -1,6 +1,7 @@
-import { IAction, ISeries, IEIA } from '../../../types';
 import axios from 'axios';
-import { RestorePageRounded } from '@material-ui/icons';
+import { ContactSupportOutlined, RestorePageRounded } from '@material-ui/icons';
+import  store  from '../../store/store';
+import { IAction, ISeries, IEIA, IStore } from '../../../types';
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 
@@ -710,6 +711,31 @@ export const fetchDataAction = async (
   } catch (error) {}
 };
 
+export const fetchChildSeriesAction = async (
+  dispatch: any,
+  category_id: number,
+  geography: string, 
+  frequency: string,
+) => {
+  console.log(category_id)
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: '/api/series/childseries',
+      params: { category_id, geography, frequency },
+    });
+    console.log('RECIEVED RESPONSE')
+    console.log(response.data)
+  
+    return dispatch({
+      type: 'FETCH_DATA_SERIES',
+      payload: response.data
+    });
+  } catch(error) {
+    console.log(error);
+  }
+};
+
 export const fetchDataSeriesAction = async (
   dispatch: any,
   seriesID: string,
@@ -728,7 +754,7 @@ export const fetchDataSeriesAction = async (
       url: '/api/series/dataset',
       params: { seriesID }
     });
-
+    
     return dispatch({
       type: 'FETCH_DATA_SERIES',
       payload: response.data
@@ -789,7 +815,12 @@ export const setTreeStructureAction = async (
     return dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
-        tree_leaves: response.data.categories,
+        tree_leaves: response.data.categories.sort((a:any, b:any) => {
+                                            if (a.name > b.name) {
+                                              return 1
+                                            }
+                                            return -1
+  }),
         node_id: category_id
       }
     });

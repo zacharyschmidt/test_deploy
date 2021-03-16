@@ -28,7 +28,13 @@ export class SeriesController {
       //limit: paginationDto.limit > 10 ? 10 : paginationDto.limit
     });
   }
-
+  @Get('childseries')
+  getManySeries(@Query('category_id') category_id: number,
+    @Query('frequency') frequency: string, @Query('geography') geography: string) {
+    const series = this.seriesService.getManySeries(category_id, frequency, geography);
+    console.log(series);
+    return series;
+  }
   @Get('dataset')
   getSeriesbyID(@Query('seriesID') seriesID: string) {
     return this.seriesService.getSeriesbyID(seriesID);

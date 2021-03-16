@@ -185,6 +185,36 @@ ALTER TABLE category_leaf_lookup ADD COLUMN id SERIAL PRIMARY KEY;
 
 CREATE INDEX leaf_category_index on category_leaf_lookup(leaf_category);
 
+INSERT INTO category_leaf_lookup (leaf_category, ancestors)
+SELECT DISTINCT on (leaf_category) leaf_category, 371 from category_leaf_lookup;
+
+UPDATE series SET geography = '' WHERE dataset_name LIKE 'Annual Energy%' 
+    AND series_id NOT LIKE '%USA%';
+
+ALTER TABLE categories ADD COLUMN parent_name text;
+
+UPDATE categories c1
+SET parent_name = c2.name
+FROM categories c2 
+WHERE c2.category_id = c1.parent_category_id;
+
+
+
+'AEO.2020.LORENCST.EMI_CO2_COMM_NA_CL_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_COMM_NA_ELC_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_COMM_NA_NA_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_COMM_NA_NG_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_COMM_NA_PET_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_ELEP_NA_CL_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_ELEP_NA_NA_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_ELEP_NA_NG_NA_ENC_MILLMO2_ELEP_NA_PET_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_IDAL_NA_CL_NA_ENC_MILLMETNCO2.A','AEO.2020.LORENCST.EMI_CO2_IDAL_NA_ELC_NA_ENC_MILLMETNCO2.A'
+*** NOT USED. THESE RECORDS WERE MISSING BECUASE THEY HAD NO CHILDSERIES (MISSING DATA ***
+
+INSERT INTO leaf_category_lookup (category_id, ancestors)
+SELECT category_id, 3625142 from categories where 3625142 = any(ancestors) and jsonb_array_length(childseries) > 0; 
+**************************************************
+
+for tree builder --
+where category_id not in (...excluded_array)
+for keyword search -- 
+where not exists (select ancestors from leaf_category_lookup where category_id = :treeNode)
+intersect (...excluded_array)
+where category_id not in (select category_id from leaf_category_lookup 
+        where ancestors in (:...excluded_array))
+
 \copy (SELECT DISTINCT ON (units) units, series_id, name, dataset_name from series) to 'units.csv' csv header
 
 *** category_id is 'data_group' id ***

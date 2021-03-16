@@ -67,7 +67,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'REMOVE_SEL':
       return { ...state, selected: action.payload };
     case 'FETCH_DATA_SERIES':
-      return { ...state, seriesData: [...state.seriesData, action.payload] };
+      return { ...state, seriesData: action.payload };
     case 'FETCH_CATS':
       return { ...state, categories: action.payload.series };
     case 'SET_TREE_STRUCTURE':
@@ -85,7 +85,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
       // });
       const treeData = action.payload.tree_leaves.map((leaf: any) => {
         return {
-          categoryID: leaf.category_id,
+          category_id: leaf.category_id,
           name: leaf.name,
           childCategories: [],
           childSeries: leaf.childSeries
@@ -100,7 +100,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
         newTree = treeData;
       } else {
         const testNode = (cat: ICategories) => {
-          if (cat.categoryID == node_id) {
+          if (cat.category_id == node_id) {
             cat.childCategories = treeData;
             return cat;
           }

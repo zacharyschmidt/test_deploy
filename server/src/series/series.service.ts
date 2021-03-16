@@ -162,12 +162,13 @@ export class SeriesService {
     return series;
   };
 
-  getManySeries = async (seriesIDs: Array<string>, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
+  getManySeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
     console.log('SERIES SERVICE')
     console.log(frequency, geography)
     const manySeries = await this.seriesRepository
       .createQueryBuilder('series')
-      .where('series.series_id IN (:...seriesIDs)', {seriesIDs: seriesIDs})
+      .where('series.series_id = any(SELECT jsonb_array_elements_text(childseries) FROM categories WHERE category_id = :category_id)', 
+        {category_id: category_id})
       .andWhere('series.f = :frequency', {frequency: frequency})
       .andWhere(
         // (geography = 'All') ? '1=1' : 

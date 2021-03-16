@@ -64,7 +64,7 @@ export class DownloadController {
         //console.log(cat.childSeries)
         console.log(paginationDto)
         console.log(paginationDto.Frequency, paginationDto.Region)
-        const series = await this.seriesService.getManySeries(cat.childSeries,
+        const series = await this.seriesService.getManySeries(cat.category_id,
             paginationDto.Frequency, paginationDto.Region);
         console.log(series)
         let workbook = new Excel.Workbook()

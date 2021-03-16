@@ -19,7 +19,7 @@ export default function IndexData(props: any): JSX.Element {
             <Route exact path="/demo" component={HomePage} />
             <Route path="/demo/selected" component={SelectedPage} />
             <Route path="/demo/tree" component={TreePage} />
-            <Route path="/demo/details/:categoryID" component={CategoryDetails} />
+            <Route path="/demo/details/:category_id" component={CategoryDetails} />
           </Switch>
         </AppData>
       </Router>
