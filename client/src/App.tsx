@@ -30,7 +30,7 @@ function App() {
             <Route path="/login" component={Login} />
             <Route path="/register" component={Register} />
           </Switch>
-        </Router>
+        </Router> 
       </div>
       <SnackBar
         position={{ vertical: 'bottom', horizontal: 'left' }}
