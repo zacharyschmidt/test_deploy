@@ -4,6 +4,7 @@ import { AppBar, IconButton, Toolbar } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { IStore } from './types';
 import Button from '@material-ui/core/Button/Button';
+import './App.css';
 export default function App(props: any): JSX.Element {
   const state = useSelector((state: IStore) => state.eia);
 
