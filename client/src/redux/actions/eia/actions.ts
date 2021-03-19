@@ -41,7 +41,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
     console.log(id);
     const response = await axios({
       method: 'GET',
-      url: 'api/categories/parents',
+      url: '/api/categories/parents',
       params: {
         category_id: id
       }
@@ -80,7 +80,7 @@ export const fetchCategoriesAction = async (
   try {
     const response = await axios({
       method: 'GET',
-      url: 'api/categories/search',
+      url: '/api/categories/search',
       params: {
         page: page,
         limit: limit,
@@ -668,7 +668,7 @@ export const fetchDataAction = async (
     console.log(searchTerm)
     const response = await axios({
       method: 'GET',
-      url: 'api/series/search',
+      url: '/api/series/search',
       params: {
         page: page,
         limit: limit,
@@ -786,7 +786,7 @@ export const setTreeStructureAction = async (
     console.log("SET TREE STRUCTURE ACTION")
     const response = await axios({
       method: 'GET',
-      url: 'api/categories/search',
+      url: '/api/categories/search',
       params: {
         page: 1,
         limit: 1000,

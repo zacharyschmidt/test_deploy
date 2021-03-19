@@ -214,6 +214,11 @@ export default function HomePage() {
   return (
     <React.Fragment>
       <React.Suspense fallback={<div>loading...</div>}>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
         <div className="search-area">
           <div className="search-bar">
             <h4>Search EIA Data</h4>

@@ -1,4 +1,4 @@
-export const REGITSER = 'REGISTER';
+export const REGISTER = 'REGISTER';
 export const LOGIN = 'LOGIN';
 
 export const REGISTER_SUCCESS = 'REGISTER_SUCCESS';

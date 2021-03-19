@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, makeStyles } from '@material-ui/core';
-import AuthLinks from '../auth/AuthLinks';
+import AuthLinks from '../components/auth-links/AuthLinks';
 
 const useStyles = makeStyles(() => ({
   navbar: {
@@ -39,6 +39,8 @@ const Navbar = () => {
 
   return (
     <div className={classes.navbar}>
+      
+
       <div className={classes.navLinks}>
         <Link to="/">
           <Button
@@ -59,13 +61,13 @@ const Navbar = () => {
               color: 'white',
               textDecoration: 'none',
               height: '48px',
-              width: '80px'
+              width: '150px'
             }}
           >
-            Demo
+            DataExchange
           </Button>
         </Link>
-        <Link to="/todo">
+        {/* <Link to="/todo">
           <Button
             style={{
               background: 'black',
@@ -77,11 +79,15 @@ const Navbar = () => {
           >
             Todo
           </Button>
-        </Link>
+        </Link> */}
+        
+        
       </div>
+       <h1 style={{textAlign: 'center'}}>EIA Data Exploration Tool</h1>
       <div className={classes.authLinks}>
         <AuthLinks />
       </div>
+     
     </div>
   );
 };

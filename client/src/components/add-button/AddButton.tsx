@@ -21,8 +21,8 @@ ER  - `;
 interface Props {
   style?: CSSProperties;
   onClick?: any; //() => void;
-  text: string;
-  filename: string;
+  text?: string;
+  filename?: string;
   dispatch?: any;
 }
 

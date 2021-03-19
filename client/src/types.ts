@@ -51,7 +51,7 @@ export interface ITodoState {
 
 export interface IStore {
   todo: ITodoState;
-  ui: IUIEIA;
+  ui: IUiState;
   auth: IAuth;
   eia: IEIA;
 }
@@ -129,16 +129,14 @@ export interface DatasetDetailsProps extends RouteComponentProps {
   seriesID?: string;
 }
 
-export interface IUIEIA {
+export interface IUiState {
   snackbar: SnackBarAlert;
 }
 
 export interface IAuth {
-  isFakeData: boolean;
   currentUser: CurrentUser | null;
   err: any;
   isLoading: boolean;
-  isLoggedIn: boolean;
 }
 
 export interface ITodoTable {

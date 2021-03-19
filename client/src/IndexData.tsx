@@ -19,15 +19,15 @@ const IndexData: React.FunctionComponent = (props: any) => {
   // }
   return (
     
-      
-        <AppData>
-          <Switch>
-            <Route exact path="/demo" component={HomePage} />
-            <Route path="/demo/selected" component={SelectedPage} />
-            <Route path="/demo/tree" component={TreePage} />
-            <Route path="/demo/details/:category_id" component={CategoryDetails} />
-          </Switch>
-        </AppData>
+      <div>index Data</div>
+        // <AppData>
+        //   <Switch>
+        //     <Route exact path="/demo" component={HomePage} />
+        //     <Route path="/demo/selected" component={SelectedPage} />
+        //     <Route path="/demo/tree" component={TreePage} />
+        //     <Route path="/demo/details/:category_id" component={CategoryDetails} />
+        //   </Switch>
+        // </AppData>
       
   
   );
