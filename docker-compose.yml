@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   #############
   ## SERVER ##
@@ -14,7 +14,7 @@ services:
     environment:
       - SECRET='¯\_(ツ)_/¯'
     restart: always
-    command: ['./wait-for-it.sh', 'postgres_db:5432', '--', 'node', 'main.js']
+    command: ["./wait-for-it.sh", "postgres_db:5432", "--", "node", "main.js"]
     container_name: server
   #############
   ## CLIENT ##
@@ -31,12 +31,16 @@ services:
   ##############
   ## POSTGRES ##
   postgres_db:
+    # Added build section from docker-compose-dev
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile.dev
     image: postgres
     networks:
       - database
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=demo
     volumes:
       - ./server/database/data/prod:/var/lib/postgresql/data/
