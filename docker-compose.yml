@@ -43,7 +43,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=demo
     volumes:
-      - ./server/database/data/prod:/var/lib/postgresql/data/
+      - /mnt/volume_sfo3_01:/var/lib/postgresql/data/
     restart: always
     container_name: postgres_db
 
