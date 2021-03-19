@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button } from '@material-ui/core';
-import { Link, Redirect } from 'react-router-dom';
-
-import { useDispatch, useSelector } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { UserCreds } from '../types';
+import { useDispatch } from 'react-redux';
 import * as authActions from '../redux/actions/auth/actions';
-import { IStore } from '../types';
-import Navbar from '../containers/Navbar';
 
-const Login = () => {
-  const dispatch = useDispatch();
-  const authState = useSelector((state: IStore) => state.auth);
-  const [creds, setCreds] = useState({
+const Register = () => {
+  const [creds, setCreds] = useState<UserCreds>({
     email: '',
     password: ''
   });
+
+  const dispatch = useDispatch();
+  const hisotry = useHistory();
 
   useEffect(() => {
     setCreds({
@@ -35,10 +34,10 @@ const Login = () => {
 
   const onSubmitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(authActions.login(creds));
+    dispatch(authActions.register(creds, hisotry));
   };
 
-  return !authState.isLoggedIn && authState.isFakeData ? (
+  return (
     <div
       style={{
         height: '100%',
@@ -49,24 +48,20 @@ const Login = () => {
         flexDirection: 'column'
       }}
     >
-      <Navbar />
       <div
         style={{
-          margin: '30px 0',
-          width: '350px',
-          display: 'flex',
-          flexDirection: 'column'
+          margin: '30px 0'
         }}
       >
-        <h1>Log In</h1>
+        <h1>Create an Account</h1>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div>New member?</div>
+          <div>Already have an account?</div>
           <div>
             <Link
               style={{ textDecoration: 'none', marginLeft: '0.5rem' }}
-              to="/register"
+              to="/login"
             >
-              Create an account
+              Login
             </Link>
           </div>
         </div>
@@ -77,9 +72,7 @@ const Login = () => {
         style={{ display: 'flex', flexDirection: 'column', width: '350px' }}
       >
         <TextField
-          style={{
-            margin: '0.5rem 0'
-          }}
+          style={{ margin: '0.5rem 0' }}
           variant="outlined"
           id="email"
           type="email"
@@ -111,9 +104,7 @@ const Login = () => {
         </Button>
       </form>
     </div>
-  ) : (
-    (!authState.isLoading && <Redirect to="/todo" />) || null
   );
 };
 
-export default Login;
+export default Register;

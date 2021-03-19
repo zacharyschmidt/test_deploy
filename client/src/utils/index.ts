@@ -1,23 +1,16 @@
 import axios from 'axios';
 
-export const setAxiosDefaultAutorization = (token: string) => {
-  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+export const setLocalStorageToken = (token: string) => {
+  return localStorage.setItem(
+    process.env.REACT_APP_LOCAL_TOKEN as string,
+    token
+  );
 };
 
-export const setLocalStorageAuthToken = (token: string) => {
-  localStorage.setItem(process.env.REACT_APP_LOCAL_TOKEN as string, token);
-};
-
-export const getLocalStorageAuthToken = () => {
+export const getLocalStorageToken = () => {
   return localStorage.getItem(process.env.REACT_APP_LOCAL_TOKEN as string);
 };
 
-export const removeAuthToken = () => {
-  localStorage.removeItem(process.env.REACT_APP_LOCAL_TOKEN as string);
-  delete axios.defaults.headers.common['Authorization'];
-};
-
-export const setAuthToken = (token: string) => {
-  setAxiosDefaultAutorization(token);
-  setLocalStorageAuthToken(token);
+export const setAxiosAuthToken = (token: string) => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 };

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Navbar from '../containers/Navbar';
 
 const Home = () => {
   const [welcomeMsg, setWelcomeMsg] = useState<string>('');
+
   useEffect(() => {
     (async () => {
       const res = await axios.get('/api/start');
@@ -13,8 +13,9 @@ const Home = () => {
 
   return (
     <div className="App-header">
-      <Navbar />
-      <p>{welcomeMsg}</p>
+      <p>Welcome to the DataExchange</p>
+      <p>Login to explore EIA data</p>
+      {/* <p>{welcomeMsg}</p> */}
     </div>
   );
 };

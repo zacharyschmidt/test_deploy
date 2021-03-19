@@ -1,11 +1,11 @@
-import { Action, IUIEIA } from '../../types';
+import { Action, IUiState } from '../../types';
 import * as types from '../actions/ui/types';
 
-const initialState: IUIEIA = {
-  snackbar: { type: undefined, msg: '' }
+const initialState: IUiState = {
+  snackbar: { type: undefined, msg: '' },
 };
 
-export const uiReducer = (state = initialState, action: Action): IUIEIA => {
+export const uiReducer = (state = initialState, action: Action): IUiState => {
   switch (action.type) {
     case types.SET_SNACKBAR:
       return {
