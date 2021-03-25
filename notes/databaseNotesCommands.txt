@@ -271,7 +271,8 @@ ON a.series_id = b.series_id
 AND a.category_id = b.category_id
 ORDER BY a.series_id
 
-
+to insert default user
+INSERT INTO public.user VALUES ('2d8a7e18-4567-46f5-9079-e8438e6d756b', 'demo@demo.com', '$2a$08$Rk2FjkKnztNIyw4HBkOVsu7YAXUT9YUhiVBnQnDew1jsInmxAfYbu', '2021-03-19 04:45:56.177355')
 
 I need to select only a few columns when I do select, and make sure that
 these columns have indexes. That way the whole table does not need to be 
