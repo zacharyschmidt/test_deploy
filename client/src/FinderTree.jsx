@@ -132,8 +132,8 @@ export default React.memo(function FinderTree() {
     //   });
     // };
     //fetchInitialTree('371');
-
-    setTreeStructureAction(dispatch, 371, filters);
+    const node = nodeVal ? nodeVal : 371
+    setTreeStructureAction(dispatch, node, filters);
     // fetchCategoriesAction(
     //     dispatch,
     //     searchTerm,

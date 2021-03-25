@@ -188,11 +188,11 @@ SELECT DISTINCT ancestors as category_id, f from interior_treenode_filters;
 create table geography_filter as
 SELECT DISTINCT ancestors as category_id, geography from interior_treenode_filters;
 
-****CORRECTION TO AEO USA geography issue*******
+****CORRECTION TO AEO USA geography issue*******THIS DIDN'T WORK! HAD TO RECREATE TABLE
 UPDATE geography_filter SET geography = i.geography 
 FROM interior_treenode_filters i 
 WHERE 
-i.category_id = geography_filter.category_id;
+geography_filter.category_id = i.ancestors;
 
 
 *** Drop unused indexes!!! ***
