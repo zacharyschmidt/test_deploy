@@ -12,7 +12,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { getProfile } from './redux/actions/auth/actions';
+import { getProfile, userLoggedOut } from './redux/actions/auth/actions';
 import { IStore } from './types';
 
 
@@ -26,6 +26,8 @@ function App() {
   const { currentUser, isLoading } = useSelector((state: IStore) => state.auth);
 
   useEffect(() => {
+    console.log('FIRST RENDER OF APP')
+    dispatch(userLoggedOut());
     dispatch(getProfile(history));
   }, []);
 

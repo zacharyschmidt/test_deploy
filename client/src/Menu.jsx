@@ -44,9 +44,20 @@ export default function SimpleMenu(props) {
   const handleMenuItemClick = async (event, index) => {
     setSelectedIndex(index);
     setAnchorEl(null);
+    let filter;
+    switch (props.filter) {
+      case "Country":
+        filter = "Region"
+        break;
+      case "Top-Level Category":
+        filter = "DataSet"
+        break;
+      default: 
+        filter = props.filter;
+    }
 
     setFilterAction(dispatch, {
-      filter: props.filter,
+      filter: filter,
       option: options[index]
     });
   };

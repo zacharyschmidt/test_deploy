@@ -55,6 +55,8 @@ with cats
         from ( select dataset_name, childseries_id from cats ) as selectcats
     where series.series_id = selectcats.childseries_id
 
+
+
 *************************************** TEST returns 0 rows *******************************************************
 with cats
     as (select childseries_id, name, category_id, dataset_name
@@ -142,18 +144,34 @@ UPDATE temp_cats SET f = series.f, geography = series.geography
 FROM series 
 WHERE temp_cats.series_id = series.series_id;
 
+*******THIS WAS A MISTAKE (corrected below)*********
 UPDATE temp_cats SET geography = 'USA' 
 WHERE series_id LIKE 'AEO%';
+
+*********CORRECTION**********
+UPDATE temp_cats SET geography = '' WHERE series_id like 'AEO%' 
+AND series_id not like '%USA%';
 
 ---some series have no geography. I filled in usa for the AEOs, but total energy,
 coal, and natural gas also have some unidentified records
 
+****THIS WAS A MISTAKE (Corrected below)*****
 UPDATE series SET geography = 'USA' 
 WHERE series_id LIKE 'AEO%';
+
+*******CORRECTION*******
+UPDATE series SET geography = '' WHERE dataset_name LIKE 'Annual Energy%' 
+    AND series_id NOT LIKE '%USA%';
+
 
 CREATE TABLE interior_treenode_filters AS
 SELECT c.name, c.category_id, unnest(c.ancestors) as ancestors, c.series_id, c.f, c.geography
 from temp_cats c;
+
+******CORRECTION FOR MAKEING ALL AEO have 'USA' geography**********
+UPDATE interior_treenode_filters SET geography = '' WHERE series_id LIKE 'AEO%'
+AND series_id NOT LIKE '%USA%';
+
 
 create index category_id_index on temp_cats(category_id);
 create index ancestor_index on interior_treenode_filters(ancestors);
@@ -169,6 +187,12 @@ SELECT DISTINCT ancestors as category_id, f from interior_treenode_filters;
 
 create table geography_filter as
 SELECT DISTINCT ancestors as category_id, geography from interior_treenode_filters;
+
+****CORRECTION TO AEO USA geography issue*******
+UPDATE geography_filter SET geography = i.geography 
+FROM interior_treenode_filters i 
+WHERE 
+i.category_id = geography_filter.category_id;
 
 
 *** Drop unused indexes!!! ***
@@ -188,8 +212,7 @@ CREATE INDEX leaf_category_index on category_leaf_lookup(leaf_category);
 INSERT INTO category_leaf_lookup (leaf_category, ancestors)
 SELECT DISTINCT on (leaf_category) leaf_category, 371 from category_leaf_lookup;
 
-UPDATE series SET geography = '' WHERE dataset_name LIKE 'Annual Energy%' 
-    AND series_id NOT LIKE '%USA%';
+
 
 ALTER TABLE categories ADD COLUMN parent_name text;
 
@@ -233,6 +256,20 @@ Nested Loop  (cost=0.00..166024843973.85 rows=202718509838 width=126)
    Options: Inlining true, Optimization true, Expressions true, Deforming true
 (11 rows)
 
+******* Below is to fix error in geography_filter: some categories think they have USA data in their 
+childseries, but they do not (because I incorrectly set geography to USA for all series in the AEOs 
+before I constructed the geography filter). I'm going to go through the whole process of building these filters again,
+cleaning up the code as I go . . . ****
+
+SELECT a.* 
+FROM temp_cats a 
+JOIN (SELECT series_id, category_id, COUNT(*)
+FROM temp_cats
+GROUP BY series_id, category_id
+HAVING count(*) > 1) b 
+ON a.series_id = b.series_id
+AND a.category_id = b.category_id
+ORDER BY a.series_id
 
 
 
