@@ -20,6 +20,7 @@ import ReactFinder from 'react-finderjs';
 import './finderjs.css';
 import { ContactSupportOutlined, LocalConvenienceStoreOutlined } from '@material-ui/icons';
 import { Divider } from '@material-ui/core';
+import { stat } from 'fs';
 
 const useStyles = makeStyles({
   root: {
@@ -228,6 +229,13 @@ export default React.memo(function FinderTree() {
             // }
             // if ((item.id !== nodeVal)){ 
             // console.log('IN onITEMSELECTED')
+            console.log(item)
+            if (item.children) {
+            if (item.children[0].display) {
+              if (item.id !== nodeVal) {
+               setSelectedTreeNodeAction(dispatch, item.id); 
+              }
+            }}
             setSearchNodeAction(dispatch, item.id)
             fetchCategoriesAction(
               dispatch,
