@@ -18,7 +18,17 @@ const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function HomePage() {
   const dispatch = useDispatch();
-  const state = useSelector((state: IStore) => state.eia, shallowEqual);
+
+  // didn't work to prevent infinite loop. FinderTree still needs to be memoized
+  // -- figure out exactly what is memo is doing to prevent infinite loop.
+  // -- is memo preventing my tree from remembering how to open to the selected leaf?
+  // -- maybe I should call the action that opens the tree to the leaf in useEffect?
+  // -- or call the action that opens the tree to an indermediate category whenever I 
+  // add a new column?
+  //const state = useSelector((state: IStore) => state.eia, shallowEqual);
+  const filters = useSelector((state: IStore) => state.eia.filters, shallowEqual);
+  const categories = useSelector((state: IStore) => state.eia.categories, shallowEqual);
+  const selected = useSelector((state: IStore) => state.eia.selected, shallowEqual);
   //const { state, dispatch } = React.useContext(Store);
 
   // React.useEffect(() => {
@@ -170,12 +180,12 @@ export default function HomePage() {
     'United States'
   ];
   const subRegions = (
-    state: any,
+    filters: any,
     states: Array<string>,
     OECDnations: Array<string>
   ) => {
     var subRegOption;
-    switch (state.filters.Region) {
+    switch (filters.Region) {
       // create cases that take region and assign array of sub regions
       // that get sent to sub-region menu. query is created by region
       // filter in Actions--this handles all Region and Sub region filters.
@@ -194,21 +204,20 @@ export default function HomePage() {
     return subRegOption;
   };
 
-  const subRegion = subRegions(state, states, OECDnations);
+  const subRegion = subRegions(filters, states, OECDnations);
 
   // build props to send to SeriesList. If there are series from search (state.series), send that,
   // otherwise send tree series from tree navigation.
-  const props: ISeriesProps = {
-    series: state.series,
-    store: { state, dispatch },
-    toggleSelectAction,
-    selected: state.selected
-  };
+  // const props: ISeriesProps = {
+  //   series: state.series,
+  //   store: { state, dispatch },
+  //   toggleSelectAction,
+  //   selected: state.selected
+  // };
   const cat_props: ICategoriesProps = {
-    categories: state.categories,
-    store: { state, dispatch },
+    categories: categories,
     toggleSelectAction,
-    selected: state.selected
+    selected: selected
   };
 
   return (

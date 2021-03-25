@@ -120,7 +120,7 @@ export interface ISeriesProps {
 }
 export interface ICategoriesProps {
   categories: Array<ICategories>;
-  store: { state: IEIA; dispatch: Dispatch };
+  store?: { state: IEIA; dispatch: Dispatch };
   toggleSelectAction?: (state: IEIA, dispatch: any, series: ISeries) => IAction;
   selected?: Array<ISeries>;
 }
