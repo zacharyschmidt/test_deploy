@@ -24,10 +24,10 @@ export default function SimpleMenu(props) {
   const state = useSelector((state) => state.eia);
   const dispatch = useDispatch();
 
-  console.log('RENDERING MENU')
+  
   const options = props.options;
   useEffect(() => {
-    console.log('FETCH DATA FROM MENU')
+    
     // fetchDataAction(
     //   dispatch,
     //   state.searchTerm,
