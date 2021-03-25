@@ -37,16 +37,16 @@ function hasKey<O>(obj: O, key: keyof any): key is keyof O {
 }
 
 export const eiaReducer = (state = initialState, action: IAction): IEIA => {
-  console.log('REDUCER CALLED')
-  console.log(action)
+  
+
   switch (action.type) {
     case 'SET_SEARCH_TERM':
       return { ...state, searchTerm: action.payload };
     case 'SET_SELECTED_TREENODE':
       return { ...state, selectedTreeNode: action.payload}
     case 'SET_SEARCH_NODE':
-      console.log('IN SET SEARCH NODE')
-      console.log(action.payload)
+      
+      
       return { ...state, selectedSearchNode: action.payload}
 
     case 'TOGGLE_CATSERIES':
@@ -91,8 +91,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
           childSeries: leaf.childSeries
         };
       });
-      console.log('INPUT TO REDUCER')
-      console.log(treeData)
+  
       let newTree = state.treeCategories;
       if (newTree.length === 0 || node_id == 371) {
         // if the tree has no nodes, make the recently returned

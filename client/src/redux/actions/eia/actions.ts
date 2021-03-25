@@ -33,12 +33,12 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
   async function buildTree(ancestors: [number]) {
     const j = ancestors.length
     for (let i = 0; i < j; i++) {
-      console.log(ancestors[i])
+     
       await setTreeStructureAction(dispatch, ancestors[i], filters)
     }
   }
   try {
-    console.log(id);
+    
     const response = await axios({
       method: 'GET',
       url: '/api/categories/parents',
@@ -46,7 +46,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
         category_id: id
       }
     });
-    console.log(response.data);
+ 
     buildTree(response.data.ancestors)
     // response.data[0].ancestors.map((ancestor: number) => {
     //   console.log(ancestor)
