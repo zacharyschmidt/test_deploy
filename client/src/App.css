@@ -148,3 +148,11 @@
 .pagination a:hover:not(.active) {
   background-color: #ddd;
 }
+
+.link {
+  color: #FFF;
+}
+
+.link:hover {
+  color: #FF0
+}

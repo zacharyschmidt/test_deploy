@@ -60,7 +60,6 @@ export default React.memo(function FinderTree() {
   //   if there are nested children, call this function on that cat
   const recursiveMap = (cat) => {
     if (cat.childCategories.length === 0) {
-      console.log(cat)
       if (cat.childSeries.length > 0) {
         return {
           id: cat.category_id,
@@ -254,8 +253,7 @@ export default React.memo(function FinderTree() {
 
   }
   const renderTree = (config, item) => {
-    console.log('RENDER TREE')
-    console.log(item)
+   
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
     let ul = document.createElement('ul');

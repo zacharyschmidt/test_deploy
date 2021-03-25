@@ -1,13 +1,16 @@
 import React from 'react';
 import DataCard from './DataCard';
 import CatCard from './CatCard';
-import { ISeries, ICategories } from './types';
+import { ISeries, ICategories, IStore } from './types';
 import { fetchParentCatsAction } from './redux/actions/eia/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function SelectedList(props: any): Array<JSX.Element> {
-  const { categories, toggleSelectAction, selected, store } = props;
+  const { categories, toggleSelectAction, selected} = props;
 
-  const { state, dispatch } = store;
+  // const { state, dispatch } = store;
+  const state = useSelector((state: IStore) => state.eia);
+  const dispatch = useDispatch()
 
   // change to render categories
   return categories.map((singleCat: ICategories) => {
