@@ -837,6 +837,9 @@ export const setTreeSeriesAction = (dispatch: any, treeSeries: []) => {
 };
 
 export const setFilterAction = (dispatch: any, filter: any) => {
+  setSelectedTreeNodeAction(dispatch, 371);
+  setSearchNodeAction(dispatch, 371);
+
   return dispatch({
     type: 'SET_FILTER',
     payload: filter
