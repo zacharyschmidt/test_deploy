@@ -162,6 +162,7 @@ export class SeriesService {
     return series;
   };
 
+  /// This is the only one we use right now.
   getManySeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
     console.log('SERIES SERVICE')
     console.log(frequency, geography)
