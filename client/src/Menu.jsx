@@ -58,13 +58,14 @@ export default function SimpleMenu(props) {
 
     setFilterAction(dispatch, {
       filter: filter,
-      option: options[index]
+      option: options[index][1],
     });
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
+  console.log('IN MENU')
 
   return (
     <div className={classes.root}>
@@ -78,7 +79,7 @@ export default function SimpleMenu(props) {
         >
           <ListItemText
             primary={props.filter}
-            secondary={options[selectedIndex]}
+            secondary={options[selectedIndex][0]}
           />
         </ListItem>
       </List>
@@ -91,11 +92,11 @@ export default function SimpleMenu(props) {
       >
         {options.map((option, index) => (
           <MenuItem
-            key={option}
+            key={option[0]}
             selected={index === selectedIndex}
             onClick={(event) => handleMenuItemClick(event, index)}
           >
-            {option}
+            {option[0]}
           </MenuItem>
         ))}
       </Menu>
