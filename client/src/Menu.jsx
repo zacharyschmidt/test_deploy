@@ -20,7 +20,8 @@ export default function SimpleMenu(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-
+  // need logic here to read from store and match filter type with props,
+  // and map filter option (from store to menu option index)
   const state = useSelector((state) => state.eia);
   const dispatch = useDispatch();
 
