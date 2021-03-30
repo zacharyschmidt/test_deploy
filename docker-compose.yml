@@ -28,7 +28,7 @@ services:
       - 80:80
     volumes:
       # different path to html files than in tutorial
-      - app/build:/usr/share/nginx/html
+      - client:/usr/share/nginx/html
       - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
@@ -43,7 +43,7 @@ services:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
       # different path to html files than in tutorial
-      - app/build:/usr/share/nginx/html
+      - client:/usr/share/nginx/html
     depends_on:
       - client
     command: certonly --webroot --webroot-path=/usr/share/nginx/html --email zacharym.schmidt@gmail.com --agree-tos --no-eff-email --staging -d zstest.ga -d www.zstest.ga
@@ -74,6 +74,7 @@ volumes:
   # but won't try now. the volume below are proper volumes, not 
   # existing directories on the host. they will be created and managed
   # by docker.
+  client:
   certbot-etc:
   certbot-var:
 
