@@ -39,7 +39,7 @@ const Navbar = () => {
 
   return (
     <div className={classes.navbar}>
-      
+
 
       <div className={classes.navLinks}>
         <Link to="/">
@@ -80,14 +80,14 @@ const Navbar = () => {
             Todo
           </Button>
         </Link> */}
-        
-        
+
+
       </div>
-       <h1 style={{textAlign: 'center'}}>EIA Data Exploration Tool</h1>
+      <h1 style={{ textAlign: 'center' }}>EIA Data Exploration Tool</h1>
       <div className={classes.authLinks}>
         <AuthLinks />
       </div>
-     
+
     </div>
   );
 };
