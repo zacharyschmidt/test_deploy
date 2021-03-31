@@ -51,7 +51,7 @@ services:
       - client:/var/www/html
     depends_on:
       - client
-    command: certonly --webroot --webroot-path=/var/www/html --email zacharym.schmidt@gmail.com --agree-tos --no-eff-email --staging -d zstest.ga -d www.zstest.ga
+    command: certonly --webroot --webroot-path=/var/www/html --email zacharym.schmidt@gmail.com --agree-tos --no-eff-email --force-renewal -d zstest.ga -d www.zstest.ga
   ##############
   ## POSTGRES ##
   postgres_db:
