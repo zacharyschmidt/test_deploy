@@ -26,6 +26,7 @@ services:
       - webapp
     ports:
       - 80:80
+      - 443:443
     volumes:
       # different path to html files than in tutorial
       - client:/usr/share/nginx/html
@@ -35,6 +36,7 @@ services:
       # - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
+      - dhparam:/etc/ssl/certs
     restart: always
     container_name: client
   ##############
@@ -82,6 +84,12 @@ volumes:
   client:
   certbot-etc:
   certbot-var:
+  dhparam:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/zachary/test_deploy/dhparam/
+      o: bind
 
 networks:
   webapp:
