@@ -29,7 +29,10 @@ services:
     volumes:
       # different path to html files than in tutorial
       - client:/usr/share/nginx/html
-      - ./nginx-conf:/etc/nginx/conf.d
+      # the line below causes nginx to break
+      # somehow creates an empty conf.d folder,
+      # so the is no config file for nginx
+      # - ./nginx-conf:/etc/nginx/conf.d
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/lib/letsencrypt
     restart: always
