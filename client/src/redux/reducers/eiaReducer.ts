@@ -15,6 +15,10 @@ const initialState: IEIA = {
   selectedSearchNode: null,
   categories: [],
   catSeriesFlag: 'Categories',
+  DataSetName: 'All', // should be 'All'?
+  CountryMenuDisplay: 'United States', //should be United States?
+  menuTopCats: [],
+  menuRegions: [],
   page: 1,
   limit: 50,
   filters: {
@@ -22,7 +26,7 @@ const initialState: IEIA = {
     SubRegion: 'None',
     Frequency: 'A',
     Units: 'All',
-    DataSet: 'All',
+    DataSet: ['All', 'All'],
     HistorProj: 'All',
     SuppDemand: 'All',
     LastUpdate: 'All'
@@ -37,17 +41,17 @@ function hasKey<O>(obj: O, key: keyof any): key is keyof O {
 }
 
 export const eiaReducer = (state = initialState, action: IAction): IEIA => {
-  
+
 
   switch (action.type) {
     case 'SET_SEARCH_TERM':
       return { ...state, searchTerm: action.payload };
     case 'SET_SELECTED_TREENODE':
-      return { ...state, selectedTreeNode: action.payload}
+      return { ...state, selectedTreeNode: action.payload }
     case 'SET_SEARCH_NODE':
-      
-      
-      return { ...state, selectedSearchNode: action.payload}
+
+
+      return { ...state, selectedSearchNode: action.payload }
 
     case 'TOGGLE_CATSERIES':
       return {
@@ -91,7 +95,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
           childSeries: leaf.childSeries
         };
       });
-  
+
       let newTree = state.treeCategories;
       if (newTree.length === 0 || node_id == 371) {
         // if the tree has no nodes, make the recently returned
@@ -147,16 +151,29 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
       return { ...state };
     case 'SET_LIMIT':
       return { ...state, limit: action.payload };
+    case 'SET_MENU_TOPCATS':
+      console.log('SET MENU TOP CATS')
+      console.log(action.payload.options_array)
+      return { ...state, menuTopCats: action.payload.options_array}
+    case 'SET_MENU_REGIONS':
+      console.log('SET MENU REGIONS')
+      console.log(action.payload)
+      return { ...state, menuRegions: action.payload.options_array }
+    case 'SET_MENU_SELECTION':
+      console.log('SET MENU ACTION')
+      console.log(action.payload)
+      return { ...state, [action.payload.store_mem]: action.payload.selection }
     case 'SET_FILTER':
       const filterObj =
         action.payload.filter === 'Forecast/Historical'
           ? { ...state.filters, histOrProj: action.payload.option }
           : {
-              ...state.filters,
-              [action.payload.filter]: action.payload.option
-            };
-
+            ...state.filters,
+            [action.payload.filter]: action.payload.option
+          };
       return { ...state, filters: filterObj };
+    case 'FRESH_START':
+      return { ...state, selectedTreeNode: null, selectedSearchNode: null, categories: [], DataSetName: 'All', CountryMenuDisplay: 'United States', searchTerm: '', filters: {...state.filters, Region: 'USA', DataSet: ['All', 'All']}}
     default:
       return state;
   }

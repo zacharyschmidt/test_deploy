@@ -35,6 +35,10 @@ export class CategoryController {
     return this.categoryService.getCategorybyID(category_ID);
   }
 
+  @Get('menu')
+  getCountryMenuOptions(@Query() dataset_id: number|string) {
+    return this.categoryService.getCountryMenuOptions(dataset_id)}
+  
   @Get('parents')
   getParentCats(@Query('category_id') category_ID: number) {
     return this.categoryService.getParentCats(category_ID);

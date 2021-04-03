@@ -8,7 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from './types';
 
-import { setFilterAction, fetchDataAction } from './redux/actions/eia/actions';
+import { setFilterAction, fetchDataAction, setMenuCatsAction, setMenuSelectionAction, fetchCategoriesAction } from './redux/actions/eia/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,48 +19,102 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleMenu(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
+  //const [selectedIndex, setSelectedIndex] = React.useState(0);
   // need logic here to read from store and match filter type with props,
   // and map filter option (from store to menu option index)
-  const state = useSelector((state) => state.eia);
+
   const dispatch = useDispatch();
 
-  
-  const options = props.options;
+  let filter;
+  switch (props.filter) {
+    case "Country":
+      filter = "Region"
+      break;
+    case "Top-Level Category":
+      filter = "DataSet"
+      break;
+    default:
+      filter = props.filter;
+  }
+  let other_filter;
+  let menu_options_name;
+  let menu_selection;
+  switch (filter) {
+    case "Region":
+      other_filter = "DataSet"
+      menu_options_name = "menuRegions"
+      menu_selection = "CountryMenuDisplay"
+      break;
+    case "DataSet":
+      other_filter = "Region"
+      menu_options_name = "menuTopCats"
+      menu_selection = "DataSetName"
+      break;
+    default:
+      other_filter = '';
+  }
+  console.log(other_filter)
+  console.log(filter)
+  console.log(menu_options_name)
+  const other_filter_selection = useSelector((state) => state.eia.filters[other_filter]);
+  let menu_options = useSelector((state) => state.eia[menu_options_name]);
+  const selection = useSelector((state) => state.eia[menu_selection]);
+  const state = useSelector((state) => state.eia)
+
+  console.log("IN MENU AFTER MENU TOP CATS")
+  console.log(selection)
   useEffect(() => {
-    
-    // fetchDataAction(
-    //   dispatch,
-    //   state.searchTerm,
-    //   state.filters,
-    //   state.treeSeries,
-    //   state.page,
-    //   state.limit,
-    // );
-  }, [selectedIndex]);
+    let other_filter;
+    if (filter === "Region") {
+      other_filter = other_filter_selection[1]
+    } else {
+      other_filter = other_filter_selection
+    }
+    setMenuCatsAction(dispatch, 371, filter, other_filter)
+
+  }, [other_filter_selection]);
+  console.log(menu_options)
+  console.log(other_filter_selection)
+  let options;
+  if (filter === "Region") {
+    options = menu_options.map((option) => props.options_dict[option]);
+  }
+  if (filter === "DataSet") {
+    options = menu_options.map((option) => option.name)
+    options.unshift('All')
+    menu_options = menu_options.map((option) => [option.name, option.category_id])
+    menu_options.unshift(['All', 'All'])
+  }
+  // do I need to handle a case where selection is not found?
+  const selectedIndex = options.findIndex((element) => element === selection)
+
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleMenuItemClick = async (event, index) => {
-    setSelectedIndex(index);
+    //setSelectedIndex(index);
     setAnchorEl(null);
-    let filter;
-    switch (props.filter) {
-      case "Country":
-        filter = "Region"
-        break;
-      case "Top-Level Category":
-        filter = "DataSet"
-        break;
-      default: 
-        filter = props.filter;
-    }
+
 
     setFilterAction(dispatch, {
       filter: filter,
-      option: options[index][1],
+      option: menu_options[index],
     });
+    setMenuSelectionAction(dispatch, {
+      store_mem: menu_selection, 
+      selection: options[index]
+
+    });
+    let filter_obj = {...state.filters, [filter]: menu_options[index]}
+    fetchCategoriesAction(
+        dispatch,
+        state.searchTerm,
+        state.selectedSearchNode ? state.selectedSearchNode : 371,
+        filter_obj,
+        1,
+        state.limit,
+      );
   };
 
   const handleClose = () => {
@@ -80,7 +134,7 @@ export default function SimpleMenu(props) {
         >
           <ListItemText
             primary={props.filter}
-            secondary={options[selectedIndex][0]}
+            secondary={options[selectedIndex]}
           />
         </ListItem>
       </List>
@@ -93,11 +147,11 @@ export default function SimpleMenu(props) {
       >
         {options.map((option, index) => (
           <MenuItem
-            key={option[0]}
+            key={option}
             selected={index === selectedIndex}
             onClick={(event) => handleMenuItemClick(event, index)}
           >
-            {option[0]}
+            {option}
           </MenuItem>
         ))}
       </Menu>

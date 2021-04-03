@@ -1,16 +1,17 @@
 import axios from 'axios';
 import { ContactSupportOutlined, RestorePageRounded } from '@material-ui/icons';
-import  store  from '../../store/store';
+import store from '../../store/store';
 import { IAction, ISeries, IEIA, IStore } from '../../../types';
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 
 export const setSelectedTreeNodeAction = (dispatch: any, treeNode: number) => {
- 
+
   return dispatch({
     type: 'SET_SELECTED_TREENODE',
     payload: treeNode,
-  });}
+  });
+}
 
 export const setSearchNodeAction = (dispatch: any, searchNode: number) => {
   console.log("SET SEARCH NODE")
@@ -18,27 +19,27 @@ export const setSearchNodeAction = (dispatch: any, searchNode: number) => {
     type: 'SET_SEARCH_NODE',
     payload: searchNode
   })
-   }
+}
 
 export const fetchParentCatsAction = async (dispatch: any, id: number, filters: {
-    Region?: string,
-    SubRegion?: string,
-    Frequency?: string,
-    Units?: string,
-    DataSet?: string,
-    HistorProj?: string,
-    SuppDemand?: string,
-    LastUpdate?: string
-  }) => {
+  Region?: string,
+  SubRegion?: string,
+  Frequency?: string,
+  Units?: string,
+  DataSet?: string,
+  HistorProj?: string,
+  SuppDemand?: string,
+  LastUpdate?: string
+}) => {
   async function buildTree(ancestors: [number]) {
     const j = ancestors.length
     for (let i = 0; i < j; i++) {
-     
+
       await setTreeStructureAction(dispatch, ancestors[i], filters)
     }
   }
   try {
-    
+
     const response = await axios({
       method: 'GET',
       url: '/api/categories/parents',
@@ -46,7 +47,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
         category_id: id
       }
     });
- 
+
     buildTree(response.data.ancestors)
     // response.data[0].ancestors.map((ancestor: number) => {
     //   console.log(ancestor)
@@ -58,19 +59,19 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
     // }
     setSelectedTreeNodeAction(dispatch, id);
 
-    
+
     // return dispatch({
     //   type: 'GET_PARENT_CATS',
     //   payload: { parents: response.data }
     // });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 
 export const fetchCategoriesAction = async (
   dispatch: any,
   searchTerm: string,
-  selectedTreeNode: number|null,
+  selectedTreeNode: number | null,
   filters: any,
   page: number,
   limit: number
@@ -86,7 +87,9 @@ export const fetchCategoriesAction = async (
         limit: limit,
         searchTerm: searchTerm,
         treeNode: selectedTreeNode,
-        ...filters
+        ...filters,
+        DataSet: filters.DataSet[0],
+        
       }
     });
     //const dataJSON = await data.json();
@@ -101,7 +104,7 @@ export const fetchCategoriesAction = async (
         count: response.data.totalCount
       }
     });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const fetchDataAction = async (
@@ -708,13 +711,13 @@ export const fetchDataAction = async (
         count: response.data.totalCount
       }
     });
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export const fetchChildSeriesAction = async (
   dispatch: any,
   category_id: number,
-  geography: string, 
+  geography: string,
   frequency: string,
 ) => {
   console.log(category_id)
@@ -726,12 +729,12 @@ export const fetchChildSeriesAction = async (
     });
     console.log('RECIEVED RESPONSE')
     console.log(response.data)
-  
+
     return dispatch({
       type: 'FETCH_DATA_SERIES',
       payload: response.data
     });
-  } catch(error) {
+  } catch (error) {
     console.log(error);
   }
 };
@@ -754,7 +757,7 @@ export const fetchDataSeriesAction = async (
       url: '/api/series/dataset',
       params: { seriesID }
     });
-    
+
     return dispatch({
       type: 'FETCH_DATA_SERIES',
       payload: response.data
@@ -792,6 +795,7 @@ export const setTreeStructureAction = async (
         limit: 1000,
         searchTerm: '',
         ...filters,
+        DataSet: filters.DataSet[0],
         SubRegion: 'None',
         // Frequency: 'All',
         // Units: 'All',
@@ -815,12 +819,12 @@ export const setTreeStructureAction = async (
     return dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
-        tree_leaves: response.data.categories.sort((a:any, b:any) => {
-                                            if (a.name > b.name) {
-                                              return 1
-                                            }
-                                            return -1
-  }),
+        tree_leaves: response.data.categories.sort((a: any, b: any) => {
+          if (a.name > b.name) {
+            return 1
+          }
+          return -1
+        }),
         node_id: category_id
       }
     });
@@ -829,6 +833,98 @@ export const setTreeStructureAction = async (
   }
 };
 
+export const setMenuCatsAction = async (
+  dispatch: any,
+  category_id: number = 371,
+  filter: string,
+  other_filters: any
+) => {
+  try {
+    let response;
+    let response_array;
+    if (filter === "DataSet") {
+      console.log("SET Menu Cats")
+      response = await axios({
+        method: 'GET',
+        url: '/api/categories/search',
+        params: {
+          page: 1,
+          limit: 1000,
+          searchTerm: '',
+          Region: other_filters,
+          SubRegion: 'None',
+          Frequency: 'A',
+          Units: 'All',
+          // // changed from 'all' to reduce data for development
+          DataSet: 'All',
+          HistorProj: 'All',
+          SuppDemand: 'All',
+          LastUpdate: 'All',
+          parent_category_id: category_id,
+        }
+
+      })
+      response_array = response?.data.categories.sort((a: any, b: any) => {
+        if (a.name > b.name) {
+          return 1
+        }
+        return -1
+      })
+    };
+
+    if (filter === "Region") {
+      console.log("SET Menu Regions")
+      response = await axios({
+        method: 'GET',
+        // this won't work, because it will return an array of categories.
+        // for this one I want and array of strings (country codes);
+        // have to add a new service to the backend (and a new controller?)
+        url: '/api/categories/menu',
+        params: {
+          dataset_id: other_filters
+        }
+      })
+      console.log('REGIONS ACTION')
+      console.log(response)
+      response_array = response.data.map((element: any) => element.geography)
+    }
+
+    if (response?.data.length === 0) {
+      alert('No Categories Found');
+    }
+    // make sure the state is getting set correctly--then maybe the issue is with 
+    // the tree parsing program in Finderjs (does one exist?) 
+    let action_type;
+    switch (filter) {
+      case 'DataSet':
+        action_type = 'SET_MENU_TOPCATS';
+        break;
+      case 'Region':
+        action_type = 'SET_MENU_REGIONS';
+        break;
+      default:
+        action_type = '';
+    }
+    console.log(category_id)
+    console.log("RESPONSE")
+    console.log(response)
+
+    console.log(response?.data)
+    return dispatch({
+      type: action_type,
+      // this is written for DataSet filter. needs to handle case of 
+      // Region filter as well. Needs to work with new logic added on the 
+      // backend.
+      payload: {
+        options_array: response_array,
+        node_id: category_id
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const setTreeSeriesAction = (dispatch: any, treeSeries: []) => {
   return dispatch({
     type: 'SET_TREE_SERIES',
@@ -836,6 +932,12 @@ export const setTreeSeriesAction = (dispatch: any, treeSeries: []) => {
   });
 };
 
+export const setMenuSelectionAction = (dispatch: any, selection: any) => {
+  return dispatch({
+    type: "SET_MENU_SELECTION",
+    payload: selection,
+  })
+}
 export const setFilterAction = (dispatch: any, filter: any) => {
   setSelectedTreeNodeAction(dispatch, 371);
   setSearchNodeAction(dispatch, 371);
@@ -879,6 +981,11 @@ export const setLimitAction = (dispatch: any, limit: number) => {
   });
 };
 
+export const freshStartAction = (dispatch: any) => {
+  return dispatch({
+    type: 'FRESH_START',
+  });
+};
 
 export const toggleSelectAction = (
   state: IEIA,
