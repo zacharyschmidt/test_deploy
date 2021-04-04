@@ -858,7 +858,7 @@ export default function HomePage() {
         <p>Click on a 'DataGroup' card to open the tree and find data.</p>
         <p>Filter selections will restrict search results and the available categories in the tree.</p>
         <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
-        <p>Data can be accessed from source here: TEST<a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
+        <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
         <div>
           <FinderTree />
         </div>
