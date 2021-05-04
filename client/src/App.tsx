@@ -55,7 +55,7 @@ function App() {
               /> 
             <PrivateRoute
               isLoggedIn={!!currentUser}
-              path="/demo/details/:category_id" 
+              path="/demo/details/:category_id/:custom_flag"
               component={CategoryDetails} 
               />
             <Route>

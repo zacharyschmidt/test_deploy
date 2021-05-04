@@ -178,4 +178,17 @@ export class SeriesService {
       //console.log(manySeries)
     return manySeries;
   };
+  
+  getCustomSeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
+    let us_elec_list = ['TOTAL.TXRCBUS.A', 'TOTAL.ESRCBUS.A',
+      'TOTAL.TXCCBUS.A', 'TOTAL.ESCCBUS.A', 'TOTAL.TETCBUS.A', 
+      'TOTAL.TXICBUS.A', 'TOTAL.ESICBUS.A', 'TOTAL.TXACBUS.A', 
+      'TOTAL.ESACBUS.A','TOTAL.GDPRXUS.A', 'TOTAL.ELTCPUS.A']
+    const manySeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...us_elec_list)', 
+      {us_elec_list: us_elec_list})
+      .getMany()
+    return manySeries;
+  };
 }

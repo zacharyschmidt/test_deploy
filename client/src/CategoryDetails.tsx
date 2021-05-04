@@ -11,17 +11,23 @@ const CategoryDetails = (props: any): JSX.Element => {
 // the store, so page reloads return same data (right now category_id stays, its a URL param,
 // but other fields are fetched from redux store, which gets wiped out with a refresh)
     const category_id = props.match.params.category_id 
+    const custom_flag = props.match.params.custom_flag
     const filters = useSelector((state: IStore) => state.eia.filters);
     useEffect(() => {
+        // change fetchchildseries action to return series beloning to custom datagroup
+        // if flag is set to custom
        fetchChildSeriesAction(dispatch, category_id,
-        filters.Region, 
+        custom_flag,
+        filters.Region,
         filters.Frequency);
         }, []
     )
     const state = useSelector((state: IStore) => state.eia.treeLeaves);
     const series = useSelector((state: IStore) => state.eia.seriesData);
-
-    const category = state.find((cat: any) => cat.category_id === Number(category_id));
+    // this logic should be rewritten--the whole custom category 
+    //(and non-custom cats) should be fetched from the 
+    // data base and put in the store, found in the state object
+    const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP' } : state.find((cat: any) => cat.category_id === Number(category_id));
     console.log(category)
     
     const dispatch = useDispatch()
@@ -52,6 +58,7 @@ const CategoryDetails = (props: any): JSX.Element => {
             responseType: 'blob',
             params: {
                 category_ID: category_id,
+                custom_flag: custom_flag,
                 ...filters,
             }
         })
@@ -88,6 +95,11 @@ const CategoryDetails = (props: any): JSX.Element => {
     return (
         <div>
         <section>
+            <br/>
+            <br/>
+            
+            <br/>
+            <br/>
             <h2>Category Name: {category ? category.name : ''}</h2>
             <h2>Category ID: {category_id}</h2>
             <h3>Dateset: {category ? category.dataset_name : ''}</h3>

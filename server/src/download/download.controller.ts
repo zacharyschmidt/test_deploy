@@ -56,16 +56,26 @@ export class DownloadController {
     @Header('Content-Disposition', 'attachment; filename=test.xlsx')
     async getExcelDownload(@Res() response: Response, 
                      @Query('category_ID') category_ID: number,
+                     @Query('custom_flag') custom_flag: string,
                      @Query() paginationDto: PaginationDto) {
 
         console.log("IN GET EXCEL")
-        const cat = await this.categoryService.getCategorybyID(category_ID);
-        console.log(category_ID)
+        let cat; 
+        if (custom_flag === 'EIA') {
+            cat = await this.categoryService.getCategorybyID(category_ID);
+        };
+       
         //console.log(cat.childSeries)
         console.log(paginationDto)
         console.log(paginationDto.Frequency, paginationDto.Region)
-        const series = await this.seriesService.getManySeries(cat.category_id,
+        let series 
+        if (custom_flag === 'EIA') {
+            series = await this.seriesService.getManySeries(cat.category_id,
             paginationDto.Frequency, paginationDto.Region);
+        } else if (custom_flag === 'custom') {
+            series = await this.seriesService.getCustomSeries(category_ID, paginationDto.Frequency,
+                paginationDto.Region)
+        }
         console.log(series)
         let workbook = new Excel.Workbook()
         let worksheet = workbook.addWorksheet('data');
@@ -86,10 +96,10 @@ export class DownloadController {
         
         let cols = [...name_cols, ...year_cols]
         console.log('before set worksheet cols')
+        console.log(cols);
         
-        worksheet.columns = cols 
         let region = ''
-        if (cat.dataset_name.includes('Annual Energy Outlook')) {
+        if (cat?.dataset_name && cat.dataset_name.includes('Annual Energy Outlook')) {
             region = 'USA'
         }
         console.log('before data_rows def')
@@ -120,11 +130,11 @@ export class DownloadController {
         worksheet.addRows(data_rows)
         console.log('after add rows')
         worksheet.spliceRows(1, 0, ...new Array(5))
-        console.log(cat.name)
-        console.log(cat.dataset_name)
-        worksheet.getRow(1).values = ["Data Group:", cat.name]
+        let name = cat?.name ? cat.name : 'US Electricity GDP';
+        let dataset_name = cat?.dataset_name ? cat.dataset_name : 'Custom';
+        worksheet.getRow(1).values = ["Data Group:", name]
         worksheet.getRow(1).font = {size: 16}
-        worksheet.getRow(2).values = ["Data Set Name (top level category):", cat.dataset_name]
+        worksheet.getRow(2).values = ["Data Set Name (top level category):",  dataset_name]
         worksheet.getRow(2).font = {size: 16}
         worksheet.getRow(3).values = ["EIA API:", "https://www.eia.gov/opendata/"]
         worksheet.getRow(3).font = {size: 16}

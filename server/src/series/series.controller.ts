@@ -35,6 +35,13 @@ export class SeriesController {
     console.log(series);
     return series;
   }
+ @Get('custom_childseries')
+  getCustomSeries(@Query('category_id') category_id: number,
+    @Query('frequency') frequency: string, @Query('geography') geography: string) {
+    const series = this.seriesService.getCustomSeries(category_id, frequency, geography);
+    console.log(series);
+    return series;
+  } 
   @Get('dataset')
   getSeriesbyID(@Query('seriesID') seriesID: string) {
     return this.seriesService.getSeriesbyID(seriesID);

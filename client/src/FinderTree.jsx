@@ -151,7 +151,7 @@ export default React.memo(function FinderTree() {
     if (item.display) {
       console.log('Display Node')
       console.log(item)
-      history.push(`/demo/details/${item.id}`)
+      history.push(`/demo/details/${item.id}/EIA`)
       return;
     }
     

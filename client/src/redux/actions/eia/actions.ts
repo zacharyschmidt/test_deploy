@@ -717,16 +717,31 @@ export const fetchDataAction = async (
 export const fetchChildSeriesAction = async (
   dispatch: any,
   category_id: number,
+  custom_flag: string,
   geography: string,
   frequency: string,
 ) => {
   console.log(category_id)
+  console.log(custom_flag)
+  // take extra url parameter to test if this is custom category
+  
   try {
-    const response = await axios({
+    let response = { data: '' };
+    
+    if (custom_flag === 'EIA') {
+    response = await axios({
       method: 'GET',
       url: '/api/series/childseries',
       params: { category_id, geography, frequency },
     });
+  } else if (custom_flag === 'custom') {
+    // hit another api endpoint to get data series needed for custom data
+    response = await axios({
+      method: 'GET',
+      url: '/api/series/custom_childseries',
+      params: { category_id, geography, frequency },
+    })
+  }
     console.log('RECIEVED RESPONSE')
     console.log(response.data)
 

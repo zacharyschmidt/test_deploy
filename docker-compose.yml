@@ -75,7 +75,7 @@ services:
     container_name: postgres_db
 
 volumes:
-  # the other volumes listed under the services (client and postgres)
+  # the other volumes listed under the services (postgres)
   # in the form of path/on/host:path/on/container are bind mounts, not volumes
   # so I don't include them below. perhaps I could implement them as volumes
   # but won't try now. the volume below are proper volumes, not
