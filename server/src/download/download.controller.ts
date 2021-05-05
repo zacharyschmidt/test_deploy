@@ -173,8 +173,8 @@ export class DownloadController {
         worksheet.getCell('C13').value = "Tbtu/B2012$"
         // calculations
         worksheet.fillFormula('D7:BV7', 'D21')
-        worksheet.fillFormula('D8:BV8', 'D22/1000')
-        worksheet.fillFormula('D9:BV9', '(SUM(D17:D20) + SUM(D23:D26))/1000')
+        worksheet.fillFormula('D8:BV8', 'D24/1000')
+        worksheet.fillFormula('D9:BV9', '(SUM(D17:D20) + SUM(D25:D28))/1000')
         worksheet.fillFormula('D10:BV10', 'D16')
         worksheet.fillFormula('D11:BV11', 'D8*1000/D7')
         worksheet.fillFormula('D12:BV12', 'D10/D7')

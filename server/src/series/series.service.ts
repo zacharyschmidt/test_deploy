@@ -183,7 +183,8 @@ export class SeriesService {
     let us_elec_list = ['TOTAL.TXRCBUS.A', 'TOTAL.ESRCBUS.A',
       'TOTAL.TXCCBUS.A', 'TOTAL.ESCCBUS.A', 'TOTAL.TETCBUS.A', 
       'TOTAL.TXICBUS.A', 'TOTAL.ESICBUS.A', 'TOTAL.TXACBUS.A', 
-      'TOTAL.ESACBUS.A','TOTAL.GDPRXUS.A', 'TOTAL.ELTCPUS.A']
+      'TOTAL.ESACBUS.A','TOTAL.GDPRXUS.A', 'TOTAL.ELTCPUS.A', 
+      'TOTAL.TERCBUS.A', 'TOTAL.TECCBUS.A', 'TOTAL.TETCBUS.A']
     const manySeries = await this.seriesRepository
       .createQueryBuilder('series')
       .where('series.series_id IN (:...us_elec_list)', 

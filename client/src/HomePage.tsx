@@ -855,11 +855,9 @@ export default function HomePage() {
           </div>
         
         </div>
-        <div className="menu-area">
-          <div className="curatedDataGroups">
-           <h4>Curated DataGroups</h4>
-           <ul><Link to="/demo/details/1/custom">US ELEC</Link></ul> 
-         </div>
+       <div className="menu-area">
+          
+         
         <div className="sub-menu">
         <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
         <p>Search Results appear below the Category Tree.</p>
@@ -867,10 +865,14 @@ export default function HomePage() {
         <p>Filter selections will restrict search results and the available categories in the tree.</p>
         <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
         <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
-
+          
+         </div>
+         <div className="curatedDataGroups">
+           <h4>Curated DataGroups</h4>
+           <ul><Link to="/demo/details/1/custom">US ELEC</Link></ul> 
+         </div>
          </div>
          
-         </div>
         <div>
          
           
