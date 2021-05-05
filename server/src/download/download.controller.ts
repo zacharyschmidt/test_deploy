@@ -99,7 +99,7 @@ export class DownloadController {
         let cols = [...name_cols, ...year_cols]
         console.log('before set worksheet cols')
         console.log(cols);
-
+        worksheet.columns = cols; // I accidentally deleted this and it caused a problem
         let region = ''
         if (cat?.dataset_name && cat.dataset_name.includes('Annual Energy Outlook')) {
             region = 'USA'
@@ -127,27 +127,59 @@ export class DownloadController {
         console.log('before add rows')
         console.log(data_rows)
         // Add an array of rows
-        const rows = [
-            //[5, 'Bob', new Date()], // row by array
-            { id: 6, name: 'Barbara', dob: new Date() }
-        ];
+        // const rows = [
+        //     //[5, 'Bob', new Date()], // row by array
+        //     { id: 6, name: 'Barbara', dob: new Date() }
+        // ];
         // add new rows and return them as array of row objects
-        const newRows = worksheet.addRows(rows);
-        //worksheet.addRows(data_rows)
+        //const newRows = worksheet.addRows(rows);
+        worksheet.addRows(data_rows)
 
         console.log('after add rows')
-        console.log(newRows)
-        //worksheet.spliceRows(1, 0, ...new Array(5))
+        
+        worksheet.spliceRows(1, 0, ...new Array(5))
         let name = cat?.name ? cat.name : 'US Electricity GDP';
 
-        // let dataset_name = cat?.dataset_name ? cat.dataset_name : 'Custom';
-        // worksheet.getRow(1).values = ["Data Group:", name]
-        // worksheet.getRow(1).font = {size: 16}
-        // worksheet.getRow(2).values = ["Data Set Name (top level category):",  dataset_name]
-        // worksheet.getRow(2).font = {size: 16}
-        // worksheet.getRow(3).values = ["EIA API:", "https://www.eia.gov/opendata/"]
-        // worksheet.getRow(3).font = {size: 16}
-        // worksheet.getRow(6).font = {bold: true}
+        let dataset_name = cat?.dataset_name ? cat.dataset_name : 'Custom';
+        worksheet.getRow(1).values = ["Data Group:", name]
+        worksheet.getRow(1).font = {size: 16}
+        worksheet.getRow(2).values = ["Data Set Name (top level category):",  dataset_name]
+        worksheet.getRow(2).font = {size: 16}
+        worksheet.getRow(3).values = ["EIA API:", "https://www.eia.gov/opendata/"]
+        worksheet.getRow(3).font = {size: 16}
+        worksheet.getRow(6).font = {bold: true}
+
+        worksheet.insertRows(7, new Array(9))
+
+        worksheet.getRow(5).values = ["Calculated:"]
+        worksheet.getRow(5).font = {size: 16}
+        worksheet.getRow(15).values = ["Source Data:"]
+        worksheet.getRow(15).font = {size: 16}
+
+        worksheet.getCell('A7').value = "GDP"
+        worksheet.getCell('A8').value = "Primary Energy"
+        worksheet.getCell('A9').value = "Final Energy"
+        worksheet.getCell('A10').value = "Electricity Use"
+         worksheet.getCell('A11').value = "Primary E/GDP"
+        worksheet.getCell('A12').value = "Electricity use/GDP"
+        worksheet.getCell('A13').value = "Final E/GDP"
+
+        worksheet.getCell('C7').value = "Billion chained (2012) dollars"
+        worksheet.getCell('C8').value = "(Quadrillion Btu)"
+        worksheet.getCell('C9').value = "(Quadrillion Btu)"
+        worksheet.getCell('C10').value = "Million Kilowatthours"
+         worksheet.getCell('C11').value = "Tbtu/B2012$"
+        worksheet.getCell('C12').value = "M kWh/B2012$"
+        worksheet.getCell('C13').value = "Tbtu/B2012$"
+        // calculations
+        worksheet.fillFormula('D7:BV7', 'D21')
+        worksheet.fillFormula('D8:BV8', 'D22/1000')
+        worksheet.fillFormula('D9:BV9', '(SUM(D17:D20) + SUM(D23:D26))/1000')
+        worksheet.fillFormula('D10:BV10', 'D16')
+        worksheet.fillFormula('D11:BV11', 'D8*1000/D7')
+        worksheet.fillFormula('D12:BV12', 'D10/D7')
+        worksheet.fillFormula('D13:BV13', 'D9*1000/D7')
+
 
         // res is a Stream object
         // response.setHeader(
