@@ -27,7 +27,10 @@ const CategoryDetails = (props: any): JSX.Element => {
     // this logic should be rewritten--the whole custom category 
     //(and non-custom cats) should be fetched from the 
     // data base and put in the store, found in the state object
-    const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP' } : state.find((cat: any) => cat.category_id === Number(category_id));
+    const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP' } : 
+    custom_flag === 'kaya' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP KAYA' } : 
+    state.find((cat: any) => cat.category_id === Number(category_id));
+    
     console.log(category)
     
     const dispatch = useDispatch()

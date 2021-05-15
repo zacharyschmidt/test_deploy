@@ -45,7 +45,7 @@ export class SeriesEntity {
   end: string | null;
 
   @Column('timestamp with time zone', { name: 'last_updated', nullable: true })
-  lastUpdated: Date | null;
+  updated: Date | null;
 
   @Column('character varying', {
     name: 'geoset_id',

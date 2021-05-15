@@ -10,7 +10,7 @@ export type SeriesSO = {
   geography: string;
   start: string;
   end: string;
-  lastUpdated: Date;
+  updated: Date;
   geosetID: string;
   data: any;
   dataset_name: string;

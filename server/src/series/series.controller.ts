@@ -37,8 +37,9 @@ export class SeriesController {
   }
  @Get('custom_childseries')
   getCustomSeries(@Query('category_id') category_id: number,
-    @Query('frequency') frequency: string, @Query('geography') geography: string) {
-    const series = this.seriesService.getCustomSeries(category_id, frequency, geography);
+    @Query('frequency') frequency: string, @Query('geography') geography: string,
+    @Query('custom_flag') custom_flag: string) {
+    const series = this.seriesService.getCustomSeries(category_id, frequency, geography, custom_flag);
     console.log(series);
     return series;
   } 

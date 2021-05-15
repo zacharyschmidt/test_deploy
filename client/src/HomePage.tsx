@@ -870,7 +870,9 @@ export default function HomePage() {
          <div className="curatedDataGroups">
            <h4>Curated DataGroups</h4>
            <ul><Link to="/demo/details/1/custom">US ELEC</Link></ul> 
+           <ul><Link to="/demo/details/1/kaya">US ELEC KAYA</Link></ul> 
          </div>
+         
          </div>
          
         <div>

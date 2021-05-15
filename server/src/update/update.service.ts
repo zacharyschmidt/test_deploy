@@ -30,7 +30,14 @@ export class UpdateService {
         //await this.checkForExistence()
         //const newSeries = this.seriesRepository.create(updatedSeries); 
         console.log(updatedSeries[0].series_id);
+        updatedSeries.forEach(series => {
+            try {
+                this.seriesRepository.update(series.series_id, series)
+            } catch (err) {
+                console.log(err)
+            }
+        })
 
-        //return this.seriesRepository.update(updatedSeries[0].series_id, updatedSeries[0]);
+        
     }
 }
