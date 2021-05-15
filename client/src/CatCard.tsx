@@ -15,7 +15,7 @@ export default function CatCard(props: any) {
         className="series-box"
         onClick={handleClick}
       >
-        {/* <Link to={`/demo/details/${singleSeries.seriesID}`}> */}
+        {/* <Link to={`/demo/details/${singleSeries.series_id}`}> */}
         <div>{singleCat.name}</div>
         <br />
         <div>{singleCat.dataset_name}</div>
@@ -23,7 +23,7 @@ export default function CatCard(props: any) {
           <div></div>
           {/* <button type="button" onClick={toggle}>
             {selected.find(
-              (select: ISeries) => select.seriesID === singleSeries.seriesID
+              (select: ISeries) => select.series_id === singleSeries.series_id
             )
               ? 'Deselect'
               : 'Select'} */}

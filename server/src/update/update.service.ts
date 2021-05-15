@@ -31,6 +31,6 @@ export class UpdateService {
         //const newSeries = this.seriesRepository.create(updatedSeries); 
         console.log(updatedSeries[0].series_id);
 
-        return this.seriesRepository.update(updatedSeries[0].series_id, updatedSeries[0]);
+        //return this.seriesRepository.update(updatedSeries[0].series_id, updatedSeries[0]);
     }
 }

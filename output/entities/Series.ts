@@ -1,14 +1,14 @@
 import { Column, Entity, Index } from "typeorm";
 
-@Index("series_pkey", ["seriesID"], { unique: true })
+@Index("series_pkey", ["series_id"], { unique: true })
 @Entity("series", { schema: "public" })
 export class Series {
   @Column("character varying", {
     primary: true,
-    name: "seriesID",
+    name: "series_id",
     length: 120,
   })
-  seriesID: string;
+  series_id: string;
 
   @Column("text", { name: "name", nullable: true })
   name: string | null;

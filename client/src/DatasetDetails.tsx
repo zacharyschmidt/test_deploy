@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IStore } from './types';
 
 const DatasetDetails = (props: any): JSX.Element => {
-  const seriesID = props.match.params.seriesID;
+  const series_id = props.match.params.series_id;
   const dispatch = useDispatch();
   const state = useSelector((state: IStore) => state.eia);
 
@@ -18,16 +18,16 @@ const DatasetDetails = (props: any): JSX.Element => {
   //move logic to check for multiple selections of same dataseries in here
   React.useEffect(() => {
     if (
-      state.seriesData.filter((series: any) => series.seriesID === seriesID)
+      state.seriesData.filter((series: any) => series.series_id === series_id)
         .length === 0
     ) {
       console.log('FETCHNG DATA FROM DETAILS PAGE');
-      fetchDataSeriesAction(dispatch, props.match.params.seriesID, state);
+      fetchDataSeriesAction(dispatch, props.match.params.series_id, state);
     }
   });
 
   const dataset = state.seriesData.filter(
-    (series: any) => series.seriesID === seriesID
+    (series: any) => series.series_id === series_id
   );
 
   const series = (dataset: any) => {
@@ -56,7 +56,7 @@ const DatasetDetails = (props: any): JSX.Element => {
   // }
   const lineChartData = data.filter((onePeriod) => !(onePeriod[1] === 'NA'));
   const units = dataset.length > 0 ? `${dataset[0].units}` : '';
-  const id = dataset.length > 0 ? `${dataset[0].seriesID}` : '';
+  const id = dataset.length > 0 ? `${dataset[0].series_id}` : '';
   const freq = dataset.length > 0 ? `${dataset[0].f}` : '';
   const time = freq === 'A' ? 'Year' : freq;
   const name = dataset.length > 0 ? `${dataset[0].name}` : '';
@@ -65,7 +65,7 @@ const DatasetDetails = (props: any): JSX.Element => {
     if (dataset.length > 0) {
       var utc = new Date().toJSON().slice(0, 10).replace(/-/g, '/');
       const header = [
-        ['series id', dataset[0].seriesID],
+        ['series id', dataset[0].series_id],
         ['name', dataset[0].name],
         ['units', dataset[0].units],
         ['frequency', dataset[0].f],
@@ -120,7 +120,7 @@ const DatasetDetails = (props: any): JSX.Element => {
   return (
     <section>
       <h2>Series Name: {name}</h2>
-      <h2>Series ID: {seriesID}</h2>
+      <h2>Series ID: {series_id}</h2>
       <section className="chartAndtable">
         <section>
           <DataTable

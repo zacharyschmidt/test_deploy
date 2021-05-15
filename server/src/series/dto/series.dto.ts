@@ -1,5 +1,5 @@
 export type SeriesSO = {
-  seriesID: string;
+  series_id: string;
   name: string;
   units: string;
   f: string;

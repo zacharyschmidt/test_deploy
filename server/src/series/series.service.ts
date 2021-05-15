@@ -153,10 +153,10 @@ export class SeriesService {
     };
   };
 
-  getSeriesbyID = async (seriesID: string): Promise<SeriesSO> => {
+  getSeriesbyID = async (series_id: string): Promise<SeriesSO> => {
     const series = await this.seriesRepository
       .createQueryBuilder('series')
-      .where('series.series_id = :seriesID', { seriesID: seriesID })
+      .where('series.series_id = :series_id', { series_id: series_id })
       .getOne();
 
     return series;

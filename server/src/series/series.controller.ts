@@ -43,7 +43,7 @@ export class SeriesController {
     return series;
   } 
   @Get('dataset')
-  getSeriesbyID(@Query('seriesID') seriesID: string) {
-    return this.seriesService.getSeriesbyID(seriesID);
+  getSeriesbyID(@Query('series_id') series_id: string) {
+    return this.seriesService.getSeriesbyID(series_id);
   }
 }

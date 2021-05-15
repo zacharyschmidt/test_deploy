@@ -82,7 +82,7 @@ export interface IEIA {
 export type Dispatch = React.Dispatch<IAction>;
 
 export interface ISeriesData {
-  seriesID: string;
+  series_id: string;
   name: string;
   units: string;
   f: string;
@@ -103,7 +103,7 @@ export interface IAction {
 }
 
 export interface ISeries {
-  seriesID: number;
+  series_id: number;
   name: string;
 }
 
@@ -130,7 +130,7 @@ export interface ICategoriesProps {
 }
 
 export interface DatasetDetailsProps extends RouteComponentProps {
-  seriesID?: string;
+  series_id?: string;
 }
 
 export interface IUiState {

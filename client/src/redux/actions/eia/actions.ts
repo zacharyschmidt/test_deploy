@@ -756,7 +756,7 @@ export const fetchChildSeriesAction = async (
 
 export const fetchDataSeriesAction = async (
   dispatch: any,
-  seriesID: string,
+  series_id: string,
   state: IEIA
 ) => {
   // if (
@@ -765,12 +765,12 @@ export const fetchDataSeriesAction = async (
   // ) {
   // put this on the server to hide the api key
   try {
-    //const URL = `https://api.eia.gov/series/?api_key=${key}&series_id=${seriesID}`;
+    //const URL = `https://api.eia.gov/series/?api_key=${key}&series_id=${series_id}`;
 
     const response = await axios({
       method: 'GET',
       url: '/api/series/dataset',
-      params: { seriesID }
+      params: { series_id }
     });
 
     return dispatch({
@@ -1015,7 +1015,7 @@ export const toggleSelectAction = (
   };
   if (seriesInSel) {
     const selWithoutSeries = state.selected.filter(
-      (select: ISeries) => select.seriesID !== series.seriesID
+      (select: ISeries) => select.series_id !== series.series_id
     );
     dispatchObj = {
       type: 'REMOVE_SEL',

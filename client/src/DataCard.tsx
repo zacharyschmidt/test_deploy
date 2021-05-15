@@ -6,8 +6,8 @@ export default function DataCard(props: any) {
   const { singleSeries, selected, toggle } = props;
   return (
     <div className="card-container">
-      <section key={singleSeries.seriesID} className="series-box">
-        <Link to={`/demo/details/${singleSeries.seriesID}`}>
+      <section key={singleSeries.series_id} className="series-box">
+        <Link to={`/demo/details/${singleSeries.series_id}`}>
           {singleSeries.name}
         </Link>
 
@@ -17,7 +17,7 @@ export default function DataCard(props: any) {
           <div></div>
           <button type="button" onClick={toggle}>
             {selected.find(
-              (select: ISeries) => select.seriesID === singleSeries.seriesID
+              (select: ISeries) => select.series_id === singleSeries.series_id
             )
               ? 'Deselect'
               : 'Select'}
