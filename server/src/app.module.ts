@@ -7,21 +7,28 @@ import { UserModule } from './user/user.module';
 import { SeriesModule } from './series/series.module';
 import { CategoryModule } from './categories/category.module';
 import { DownloadModule } from './download/download.module';
+import { UpdateModule } from './update/update.module';
+import { TasksModule } from './tasks/tasks.module';
 
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { ValidationPipe } from './shared/validation.pipe';
 
+
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
+    ScheduleModule.forRoot(),
     TodoModule,
     UserModule,
     SeriesModule,
     CategoryModule,
     DownloadModule,
+    UpdateModule,
+    TasksModule,
   ],
   controllers: [AppController],
   providers: [
@@ -36,4 +43,4 @@ import { ValidationPipe } from './shared/validation.pipe';
     },
   ],
 })
-export class AppModule {}
+export class AppModule { }
