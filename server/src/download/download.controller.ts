@@ -264,12 +264,12 @@ export class DownloadController {
         worksheet.getRow(3).font = {size: 16}
         worksheet.getRow(6).font = {bold: true}
 
-        worksheet.insertRows(7, new Array(10))
+        worksheet.insertRows(7, new Array(12))
 
         worksheet.getRow(5).values = ["Calculated:"]
         worksheet.getRow(5).font = {size: 16}
-        worksheet.getRow(16).values = ["Source Data:"]
-        worksheet.getRow(16).font = {size: 16}
+        worksheet.getRow(18).values = ["Source Data:"]
+        worksheet.getRow(18).font = {size: 16}
 
         worksheet.getCell('A7').value = "GDP"
         worksheet.getCell('A8').value = "Primary Energy, Direct Equivalence (Captured Energy)"
@@ -279,6 +279,8 @@ export class DownloadController {
          worksheet.getCell('A12').value = "Primary E/GDP"
         worksheet.getCell('A13').value = "Electricity use/GDP"
         worksheet.getCell('A14').value = "Final E/GDP"
+        worksheet.getCell('A15').value = "Primary Energy from Fossil Fuels"
+        worksheet.getCell('A16').value = "Total Fossil Energy Carbon (TFC)"
 
         worksheet.getCell('C7').value = "Billion chained (2012) dollars"
         worksheet.getCell('C8').value = "(Quadrillion Btu)"
@@ -288,16 +290,22 @@ export class DownloadController {
          worksheet.getCell('C12').value = "Tbtu/B2012$"
         worksheet.getCell('C13').value = "M kWh/B2012$"
         worksheet.getCell('C14').value = "Tbtu/B2012$"
+        worksheet.getCell('C15').value = "(Quadrillion Btu)"
+        worksheet.getCell('C16').value = "Million Metric Tons of Carbon Dioxide"
+
+
         // calculations
         // edit these to fill to the end of the array dynamically
-        worksheet.fillFormula('D7:BW7', 'D23')
-        worksheet.fillFormula('D8:BW8', '(D30-D25+D24-D26+(D27*D22/10000000))/1000') 
-        worksheet.fillFormula('D9:BW9', 'D30/1000')
-        worksheet.fillFormula('D10:BW10', '(SUM(D18:D21) + SUM(D34:D37))/1000')
-        worksheet.fillFormula('D11:BW11', 'D17')
+        worksheet.fillFormula('D7:BW7', 'D26')
+        worksheet.fillFormula('D8:BW8', '(D35-D28+D27-D29+(D30*D24/10000000))/1000') 
+        worksheet.fillFormula('D9:BW9', 'D35/1000')
+        worksheet.fillFormula('D10:BW10', '(SUM(D20:D23) + SUM(D37:D40))/1000')
+        worksheet.fillFormula('D11:BW11', 'D19')
         worksheet.fillFormula('D12:BW12', 'D9*1000/D7')
         worksheet.fillFormula('D13:BW13', 'D11/D7')
         worksheet.fillFormula('D14:BW14', 'D10*1000/D7')
+        worksheet.fillFormula('D15:BW15', 'D25/1000')
+        worksheet.fillFormula('D16:BW16', 'D31')
 
 
         // res is a Stream object

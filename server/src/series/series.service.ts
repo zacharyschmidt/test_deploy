@@ -210,7 +210,8 @@ export class SeriesService {
       'TOTAL.TPOPPUS.A','TOTAL.TEPRBUS.A','TOTAL.PMTCEUS.A', 
       'TOTAL.NRTCBUS.A', 'TOTAL.NRFUBUS.A', 'TOTAL.NUETBUS.A', //nuclear primary
        'TOTAL.NUETPUS.A', //nuclear electric
-       'TOTAL.ESTCKUS.A' // heat content electricity
+       'TOTAL.ESTCKUS.A', // heat content electricity
+       'TOTAL.FFTCBUS.A', //PE consumption from fossil fuels
        ]
     const manySeries = await this.seriesRepository
       .createQueryBuilder('series')
