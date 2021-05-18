@@ -207,7 +207,11 @@ export class SeriesService {
       'TOTAL.TXICBUS.A', 'TOTAL.ESICBUS.A', 'TOTAL.TXACBUS.A', 
       'TOTAL.ESACBUS.A','TOTAL.GDPRXUS.A', 'TOTAL.ELTCPUS.A', 
       'TOTAL.TERCBUS.A', 'TOTAL.TECCBUS.A', 'TOTAL.TETCBUS.A',
-      'TOTAL.TPOPPUS.A','TOTAL.TEPRBUS.A','TOTAL.PMTCEUS.A']
+      'TOTAL.TPOPPUS.A','TOTAL.TEPRBUS.A','TOTAL.PMTCEUS.A', 
+      'TOTAL.NRTCBUS.A', 'TOTAL.NRFUBUS.A', 'TOTAL.NUETBUS.A', //nuclear primary
+       'TOTAL.NUETPUS.A', //nuclear electric
+       'TOTAL.ESTCKUS.A' // heat content electricity
+       ]
     const manySeries = await this.seriesRepository
       .createQueryBuilder('series')
       .where('series.series_id IN (:...us_elec_list)', 

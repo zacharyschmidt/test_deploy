@@ -264,37 +264,40 @@ export class DownloadController {
         worksheet.getRow(3).font = {size: 16}
         worksheet.getRow(6).font = {bold: true}
 
-        worksheet.insertRows(7, new Array(9))
+        worksheet.insertRows(7, new Array(10))
 
         worksheet.getRow(5).values = ["Calculated:"]
         worksheet.getRow(5).font = {size: 16}
-        worksheet.getRow(15).values = ["Source Data:"]
-        worksheet.getRow(15).font = {size: 16}
+        worksheet.getRow(16).values = ["Source Data:"]
+        worksheet.getRow(16).font = {size: 16}
 
         worksheet.getCell('A7').value = "GDP"
-        worksheet.getCell('A8').value = "Primary Energy"
-        worksheet.getCell('A9').value = "Final Energy"
-        worksheet.getCell('A10').value = "Electricity Use"
-         worksheet.getCell('A11').value = "Primary E/GDP"
-        worksheet.getCell('A12').value = "Electricity use/GDP"
-        worksheet.getCell('A13').value = "Final E/GDP"
+        worksheet.getCell('A8').value = "Primary Energy, Direct Equivalence (Captured Energy)"
+        worksheet.getCell('A9').value = "Primary Energy, Substitution Method"
+        worksheet.getCell('A10').value = "Final Energy"
+        worksheet.getCell('A11').value = "Electricity Use"
+         worksheet.getCell('A12').value = "Primary E/GDP"
+        worksheet.getCell('A13').value = "Electricity use/GDP"
+        worksheet.getCell('A14').value = "Final E/GDP"
 
         worksheet.getCell('C7').value = "Billion chained (2012) dollars"
         worksheet.getCell('C8').value = "(Quadrillion Btu)"
         worksheet.getCell('C9').value = "(Quadrillion Btu)"
-        worksheet.getCell('C10').value = "Million Kilowatthours"
-         worksheet.getCell('C11').value = "Tbtu/B2012$"
-        worksheet.getCell('C12').value = "M kWh/B2012$"
-        worksheet.getCell('C13').value = "Tbtu/B2012$"
+        worksheet.getCell('C10').value = "(Quadrillion Btu)"
+        worksheet.getCell('C11').value = "Million Kilowatthours"
+         worksheet.getCell('C12').value = "Tbtu/B2012$"
+        worksheet.getCell('C13').value = "M kWh/B2012$"
+        worksheet.getCell('C14').value = "Tbtu/B2012$"
         // calculations
         // edit these to fill to the end of the array dynamically
-        worksheet.fillFormula('D7:BW7', 'D21')
-        worksheet.fillFormula('D8:BW8', 'D24/1000')
-        worksheet.fillFormula('D9:BW9', '(SUM(D17:D20) + SUM(D28:D31))/1000')
-        worksheet.fillFormula('D10:BW10', 'D16')
-        worksheet.fillFormula('D11:BW11', 'D8*1000/D7')
-        worksheet.fillFormula('D12:BW12', 'D10/D7')
-        worksheet.fillFormula('D13:BW13', 'D9*1000/D7')
+        worksheet.fillFormula('D7:BW7', 'D23')
+        worksheet.fillFormula('D8:BW8', '(D30-D25+D24-D26+(D27*D22/10000000))/1000') 
+        worksheet.fillFormula('D9:BW9', 'D30/1000')
+        worksheet.fillFormula('D10:BW10', '(SUM(D18:D21) + SUM(D34:D37))/1000')
+        worksheet.fillFormula('D11:BW11', 'D17')
+        worksheet.fillFormula('D12:BW12', 'D9*1000/D7')
+        worksheet.fillFormula('D13:BW13', 'D11/D7')
+        worksheet.fillFormula('D14:BW14', 'D10*1000/D7')
 
 
         // res is a Stream object
