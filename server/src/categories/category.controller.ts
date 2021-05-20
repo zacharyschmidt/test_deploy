@@ -16,7 +16,7 @@ import { PaginationDto } from './dto/Pagination.dto';
 
 @Controller('categories')
 export class CategoryController {
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryService) { }
 
   @Get('search')
   getSearchedCategories(@Query() paginationDto: PaginationDto) {
@@ -27,7 +27,7 @@ export class CategoryController {
       ...paginationDto,
       //limit: paginationDto.limit > 10 ? 10 : paginationDto.limit
     });
-    
+
   }
 
   @Get('category')
@@ -35,10 +35,13 @@ export class CategoryController {
     return this.categoryService.getCategorybyID(category_ID);
   }
 
+  //get ancestor category names
+
   @Get('menu')
-  getCountryMenuOptions(@Query() dataset_id: number|string) {
-    return this.categoryService.getCountryMenuOptions(dataset_id)}
-  
+  getCountryMenuOptions(@Query() dataset_id: number | string) {
+    return this.categoryService.getCountryMenuOptions(dataset_id)
+  }
+
   @Get('parents')
   getParentCats(@Query('category_id') category_ID: number) {
     return this.categoryService.getParentCats(category_ID);

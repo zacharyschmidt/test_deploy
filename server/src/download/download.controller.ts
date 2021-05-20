@@ -253,7 +253,7 @@ export class DownloadController {
             console.log('after add rows')
 
             worksheet.spliceRows(1, 0, ...new Array(5))
-            let name = 'US Electricity GDP Kaya';
+            let name = 'Historical US Kaya Data';
 
             let dataset_name = 'Custom';
             worksheet.getRow(1).values = ["Data Group:", name]
@@ -264,48 +264,73 @@ export class DownloadController {
             worksheet.getRow(3).font = { size: 16 }
             worksheet.getRow(6).font = { bold: true }
 
-            worksheet.insertRows(7, new Array(12))
+            worksheet.insertRows(7, new Array(21))
 
             worksheet.getRow(5).values = ["Calculated:"]
             worksheet.getRow(5).font = { size: 16 }
-            worksheet.getRow(18).values = ["Source Data:"]
-            worksheet.getRow(18).font = { size: 16 }
+            worksheet.getRow(27).values = ["Source Data:"]
+            worksheet.getRow(27).font = { size: 16 }
+            worksheet.getCell('A7').value = "Population"
+            worksheet.getCell('A8').value = "GDP"
+            worksheet.getCell('A9').value = "Final Energy"
+            worksheet.getCell('A10').value = "Primary Energy, Direct Equivalence (Captured Energy)"
+            worksheet.getCell('A11').value = "Primary Energy, Substitution Method"
+            worksheet.getCell('A12').value = "Primary Energy from Fossil Fuels"
+            worksheet.getCell('A13').value = "Total Fossil Energy Carbon (TFC)"
 
-            worksheet.getCell('A7').value = "GDP"
-            worksheet.getCell('A8').value = "Primary Energy, Direct Equivalence (Captured Energy)"
-            worksheet.getCell('A9').value = "Primary Energy, Substitution Method"
-            worksheet.getCell('A10').value = "Final Energy"
-            worksheet.getCell('A11').value = "Electricity Use"
-            worksheet.getCell('A12').value = "Primary E/GDP"
-            worksheet.getCell('A13').value = "Electricity use/GDP"
-            worksheet.getCell('A14').value = "Final E/GDP"
-            worksheet.getCell('A15').value = "Primary Energy from Fossil Fuels"
-            worksheet.getCell('A16').value = "Total Fossil Energy Carbon (TFC)"
+            worksheet.getCell('A15').value = "GDP/person"
+            worksheet.getCell('A16').value = "Primary Energy (Direct Equivalence)/Final Energy"
+            worksheet.getCell('A17').value = "Primary Energy (Substitution Method)/Final Energy"
+            worksheet.getCell('A18').value = "Primary Energy (Direct Equivalence)/ Primary Energy from Fossil Fuels"
+            worksheet.getCell('A19').value = "Primary Energy (Substitution Method)/ Primary Energy from Fossil Fuels"
+            worksheet.getCell('A20').value = "Total Fossil Energy Carbon (TFC) / Primary Energy from Fossil Fuels"
 
-            worksheet.getCell('C7').value = "Billion chained (2012) dollars"
-            worksheet.getCell('C8').value = "(Quadrillion Btu)"
+
+            worksheet.getCell('A22').value = "Electricity Use"
+            worksheet.getCell('A23').value = "Primary E/GDP"
+            worksheet.getCell('A24').value = "Electricity use/GDP"
+            worksheet.getCell('A25').value = "Final E/GDP"
+
+            worksheet.getCell('C7').value = "Million people"
+            worksheet.getCell('C8').value = "Billion chained (2012) dollars"
             worksheet.getCell('C9').value = "(Quadrillion Btu)"
             worksheet.getCell('C10').value = "(Quadrillion Btu)"
-            worksheet.getCell('C11').value = "Million Kilowatthours"
-            worksheet.getCell('C12').value = "Tbtu/B2012$"
-            worksheet.getCell('C13').value = "M kWh/B2012$"
-            worksheet.getCell('C14').value = "Tbtu/B2012$"
-            worksheet.getCell('C15').value = "(Quadrillion Btu)"
-            worksheet.getCell('C16').value = "Million Metric Tons of Carbon Dioxide"
+            worksheet.getCell('C11').value = "(Quadrillion Btu)"
+            worksheet.getCell('C12').value = "(Quadrillion Btu)"
+            worksheet.getCell('C13').value = "Million Metric Tons of Carbon Dioxide"
+
+            worksheet.getCell('C15').value = "$/person"
+            
+            worksheet.getCell('C20').value = "Tons of CO2/billion BTU"
+
+            worksheet.getCell('C22').value = "Million Kilowatthours"
+            worksheet.getCell('C23').value = "Tbtu/B2012$"
+            worksheet.getCell('C24').value = "M kWh/B2012$"
+            worksheet.getCell('C25').value = "Tbtu/B2012$"
+         
 
 
             // calculations
             // edit these to fill to the end of the array dynamically
-            worksheet.fillFormula('D7:BW7', 'D26')
-            worksheet.fillFormula('D8:BW8', '(D34-D28+D27-D29+(D30*D24/10000000))/1000')
-            worksheet.fillFormula('D9:BW9', 'D34/1000')
-            worksheet.fillFormula('D10:BW10', '(SUM(D20:D23) + SUM(D37:D40))/1000')
-            worksheet.fillFormula('D11:BW11', 'D19')
-            worksheet.fillFormula('D12:BW12', 'D9*1000/D7')
-            worksheet.fillFormula('D13:BW13', 'D11/D7')
-            worksheet.fillFormula('D14:BW14', 'D10*1000/D7')
-            worksheet.fillFormula('D15:BW15', 'D25/1000')
-            worksheet.fillFormula('D16:BW16', 'D35')
+            worksheet.fillFormula('D7:BW7', 'D45')
+            worksheet.fillFormula('D8:BW8', 'D35')
+            worksheet.fillFormula('D9:BW9', '(SUM(D29:D32) + SUM(D46:D49))/1000')
+            worksheet.fillFormula('D10:BW10', '(D43-D37+D36-D38+(D39*D33/10000000))/1000')
+            worksheet.fillFormula('D11:BW11', 'D43/1000')
+            worksheet.fillFormula('D12:BW12', 'D34/1000')
+            worksheet.fillFormula('D13:BW13', 'D44')
+
+            worksheet.fillFormula('D15:BW15', 'D7*1000/D8')
+            worksheet.fillFormula('D16:BW16', 'D10/D9')
+            worksheet.fillFormula('D17:BW17', 'D11/D9')
+            worksheet.fillFormula('D18:BW18', 'D10/D12')
+            worksheet.fillFormula('D19:BW19', 'D11/D12')
+            worksheet.fillFormula('D20:BW20', 'D13/D12')
+
+            worksheet.fillFormula('D22:BW22', 'D28')
+            worksheet.fillFormula('D23:BW23', 'D11*1000/D8')
+            worksheet.fillFormula('D24:BW24', 'D22/D8')
+            worksheet.fillFormula('D25:BW25', 'D9*1000/D8')
 
 
             // res is a Stream object

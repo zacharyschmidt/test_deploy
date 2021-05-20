@@ -2,6 +2,7 @@ import axios from 'axios';
 import { ContactSupportOutlined, RestorePageRounded } from '@material-ui/icons';
 import store from '../../store/store';
 import { IAction, ISeries, IEIA, IStore } from '../../../types';
+import { responsiveFontSizes } from '@material-ui/core';
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 
@@ -20,7 +21,25 @@ export const setSearchNodeAction = (dispatch: any, searchNode: number) => {
     payload: searchNode
   })
 }
+export const getBreadCrumbsAction = async (dispatch: any, category_id: number) => {
+  let breadcrumbs;
+  // should get names of ancestor categories
+  try {
+    const response = await axios({
+      method: 'GET',
+      url: '/api/categories/parents',
+      params: {
+        category_id: category_id
+      }
 
+    });
+    breadcrumbs = response.data.ancestors
+  } catch (err) {
+    throw err;
+  }
+  console.log('BREADCRUMBS')
+  console.log(breadcrumbs)
+}
 export const fetchParentCatsAction = async (dispatch: any, id: number, filters: {
   Region?: string,
   SubRegion?: string,
@@ -89,7 +108,7 @@ export const fetchCategoriesAction = async (
         treeNode: selectedTreeNode,
         ...filters,
         DataSet: filters.DataSet[0],
-        
+
       }
     });
     //const dataJSON = await data.json();
@@ -724,24 +743,24 @@ export const fetchChildSeriesAction = async (
   console.log(category_id)
   console.log(custom_flag)
   // take extra url parameter to test if this is custom category
-  
+
   try {
     let response = { data: '' };
-    
+
     if (custom_flag === 'EIA') {
-    response = await axios({
-      method: 'GET',
-      url: '/api/series/childseries',
-      params: { category_id, geography, frequency },
-    });
-  } else {
-    // hit another api endpoint to get data series needed for custom data
-    response = await axios({
-      method: 'GET',
-      url: '/api/series/custom_childseries',
-      params: { category_id, geography, frequency, custom_flag },
-    })
-  }
+      response = await axios({
+        method: 'GET',
+        url: '/api/series/childseries',
+        params: { category_id, geography, frequency },
+      });
+    } else {
+      // hit another api endpoint to get data series needed for custom data
+      response = await axios({
+        method: 'GET',
+        url: '/api/series/custom_childseries',
+        params: { category_id, geography, frequency, custom_flag },
+      })
+    }
     console.log('RECIEVED RESPONSE')
     console.log(response.data)
 
