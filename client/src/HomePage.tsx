@@ -886,7 +886,10 @@ export default function HomePage() {
               {/* changed from props to cat_props to send categories */}
               <SeriesList {...cat_props} />
             </div>
-            <Pagination />
+            <div className="series-layout">
+               <Pagination />
+            </div>
+           
           </div>
         </section>
       </React.Suspense>

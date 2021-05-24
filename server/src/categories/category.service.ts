@@ -9,268 +9,268 @@ import { PaginationDto } from './dto/Pagination.dto';
 import { PaginatedCategoryResultDto } from './dto/PaginatedCategoryResult.dto';
 
 let menu_options_logical = ['USA', "AFG",
- "ALB",
- "DZA",
- "ASM",
- "AND",
- "AGO",
- "AIA",
- "ATA",
- "ATG",
- "ARG",
- "ARM",
- "ABW",
- "AUS",
- "AUT",
- "AZE",
- "BHS",
- "BHR",
- "BGD",
- "BRB",
- "BLR",
- "BEL",
- "BLZ",
- "BEN",
- "BMU",
- "BTN",
- "BOL",
- "BOL",
- "BIH",
- "BWA",
- "BVT",
- "BRA",
- "IOT",
- "BRN",
- "BRN",
- "BGR",
- "BFA",
- "BDI",
- "KHM",
- "CMR",
- "CAN",
- "CPV",
- "CYM",
- "CAF",
- "TCD",
- "CHL",
- "CHN",
- "CXR",
- "CCK",
- "COL",
- "COM",
- "COG",
- "COD",
- "COK",
- "CRI",
- "CIV",
- "CIV",
- "HRV",
- "CUB",
- "CYP",
- "CZE",
- "DNK",
- "DJI",
- "DMA",
- "DOM",
- "ECU",
- "EGY",
- "SLV",
- "GNQ",
- "ERI",
- "EST",
- "ETH",
- "FLK",
- "FRO",
- "FJI",
- "FIN",
- "FRA",
- "GUF",
- "PYF",
- "ATF",
- "GAB",
- "GMB",
- "GEO",
- "DEU",
- "GHA",
- "GIB",
- "GRC",
- "GRL",
- "GRD",
- "GLP",
- "GUM",
- "GTM",
- "GGY",
- "GIN",
- "GNB",
- "GUY",
- "HTI",
- "HMD",
- "VAT",
- "HND",
- "HKG",
- "HUN",
- "ISL",
- "IND",
- "IDN",
- "IRN",
- "IRQ",
- "IRL",
- "IMN",
- "ISR",
- "ITA",
- "JAM",
- "JPN",
- "JEY",
- "JOR",
- "KAZ",
- "KEN",
- "KIR",
- "PRK",
- "KOR",
- "KOR",
- "KWT",
- "KGZ",
- "LAO",
- "LVA",
- "LBN",
- "LSO",
- "LBR",
- "LBY",
- "LBY",
- "LIE",
- "LTU",
- "LUX",
- "MAC",
- "MKD",
- "MDG",
- "MWI",
- "MYS",
- "MDV",
- "MLI",
- "MLT",
- "MHL",
- "MTQ",
- "MRT",
- "MUS",
- "MYT",
- "MEX",
- "FSM",
- "MDA",
- "MCO",
- "MNG",
- "MNE",
- "MSR",
- "MAR",
- "MOZ",
- "MMR",
- "MMR",
- "NAM",
- "NRU",
- "NPL",
- "NLD",
- "ANT",
- "NCL",
- "NZL",
- "NIC",
- "NER",
- "NGA",
- "NIU",
- "NFK",
- "MNP",
- "NOR",
- "OMN",
- "PAK",
- "PLW",
- "PSE",
- "PAN",
- "PNG",
- "PRY",
- "PER",
- "PHL",
- "PCN",
- "POL",
- "PRT",
- "PRI",
- "QAT",
- "REU",
- "ROU",
- "RUS",
- "RUS",
- "RWA",
- "SHN",
- "KNA",
- "LCA",
- "SPM",
- "VCT",
- "VCT",
- "VCT",
- "WSM",
- "SMR",
- "STP",
- "SAU",
- "SEN",
- "SRB",
- "SYC",
- "SLE",
- "SGP",
- "SVK",
- "SVN",
- "SLB",
- "SOM",
- "ZAF",
- "SGS",
- "SSD",
- "ESP",
- "LKA",
- "SDN",
- "SUR",
- "SJM",
- "SWZ",
- "SWE",
- "CHE",
- "SYR",
- "TWN",
- "TWN",
- "TJK",
- "TZA",
- "THA",
- "TLS",
- "TGO",
- "TKL",
- "TON",
- "TTO",
- "TUN",
- "TUR",
- "TKM",
- "TCA",
- "TUV",
- "UGA",
- "UKR",
- "ARE",
- "GBR",
- "UMI",
- "URY",
- "UZB",
- "VUT",
- "VEN",
- "VEN",
- "VNM",
- "VNM",
- "VGB",
- "VIR",
- "WLF",
- "ESH",
- "YEM",
- "ZMB",
- "ZWE"];
+  "ALB",
+  "DZA",
+  "ASM",
+  "AND",
+  "AGO",
+  "AIA",
+  "ATA",
+  "ATG",
+  "ARG",
+  "ARM",
+  "ABW",
+  "AUS",
+  "AUT",
+  "AZE",
+  "BHS",
+  "BHR",
+  "BGD",
+  "BRB",
+  "BLR",
+  "BEL",
+  "BLZ",
+  "BEN",
+  "BMU",
+  "BTN",
+  "BOL",
+  "BOL",
+  "BIH",
+  "BWA",
+  "BVT",
+  "BRA",
+  "IOT",
+  "BRN",
+  "BRN",
+  "BGR",
+  "BFA",
+  "BDI",
+  "KHM",
+  "CMR",
+  "CAN",
+  "CPV",
+  "CYM",
+  "CAF",
+  "TCD",
+  "CHL",
+  "CHN",
+  "CXR",
+  "CCK",
+  "COL",
+  "COM",
+  "COG",
+  "COD",
+  "COK",
+  "CRI",
+  "CIV",
+  "CIV",
+  "HRV",
+  "CUB",
+  "CYP",
+  "CZE",
+  "DNK",
+  "DJI",
+  "DMA",
+  "DOM",
+  "ECU",
+  "EGY",
+  "SLV",
+  "GNQ",
+  "ERI",
+  "EST",
+  "ETH",
+  "FLK",
+  "FRO",
+  "FJI",
+  "FIN",
+  "FRA",
+  "GUF",
+  "PYF",
+  "ATF",
+  "GAB",
+  "GMB",
+  "GEO",
+  "DEU",
+  "GHA",
+  "GIB",
+  "GRC",
+  "GRL",
+  "GRD",
+  "GLP",
+  "GUM",
+  "GTM",
+  "GGY",
+  "GIN",
+  "GNB",
+  "GUY",
+  "HTI",
+  "HMD",
+  "VAT",
+  "HND",
+  "HKG",
+  "HUN",
+  "ISL",
+  "IND",
+  "IDN",
+  "IRN",
+  "IRQ",
+  "IRL",
+  "IMN",
+  "ISR",
+  "ITA",
+  "JAM",
+  "JPN",
+  "JEY",
+  "JOR",
+  "KAZ",
+  "KEN",
+  "KIR",
+  "PRK",
+  "KOR",
+  "KOR",
+  "KWT",
+  "KGZ",
+  "LAO",
+  "LVA",
+  "LBN",
+  "LSO",
+  "LBR",
+  "LBY",
+  "LBY",
+  "LIE",
+  "LTU",
+  "LUX",
+  "MAC",
+  "MKD",
+  "MDG",
+  "MWI",
+  "MYS",
+  "MDV",
+  "MLI",
+  "MLT",
+  "MHL",
+  "MTQ",
+  "MRT",
+  "MUS",
+  "MYT",
+  "MEX",
+  "FSM",
+  "MDA",
+  "MCO",
+  "MNG",
+  "MNE",
+  "MSR",
+  "MAR",
+  "MOZ",
+  "MMR",
+  "MMR",
+  "NAM",
+  "NRU",
+  "NPL",
+  "NLD",
+  "ANT",
+  "NCL",
+  "NZL",
+  "NIC",
+  "NER",
+  "NGA",
+  "NIU",
+  "NFK",
+  "MNP",
+  "NOR",
+  "OMN",
+  "PAK",
+  "PLW",
+  "PSE",
+  "PAN",
+  "PNG",
+  "PRY",
+  "PER",
+  "PHL",
+  "PCN",
+  "POL",
+  "PRT",
+  "PRI",
+  "QAT",
+  "REU",
+  "ROU",
+  "RUS",
+  "RUS",
+  "RWA",
+  "SHN",
+  "KNA",
+  "LCA",
+  "SPM",
+  "VCT",
+  "VCT",
+  "VCT",
+  "WSM",
+  "SMR",
+  "STP",
+  "SAU",
+  "SEN",
+  "SRB",
+  "SYC",
+  "SLE",
+  "SGP",
+  "SVK",
+  "SVN",
+  "SLB",
+  "SOM",
+  "ZAF",
+  "SGS",
+  "SSD",
+  "ESP",
+  "LKA",
+  "SDN",
+  "SUR",
+  "SJM",
+  "SWZ",
+  "SWE",
+  "CHE",
+  "SYR",
+  "TWN",
+  "TWN",
+  "TJK",
+  "TZA",
+  "THA",
+  "TLS",
+  "TGO",
+  "TKL",
+  "TON",
+  "TTO",
+  "TUN",
+  "TUR",
+  "TKM",
+  "TCA",
+  "TUV",
+  "UGA",
+  "UKR",
+  "ARE",
+  "GBR",
+  "UMI",
+  "URY",
+  "UZB",
+  "VUT",
+  "VEN",
+  "VEN",
+  "VNM",
+  "VNM",
+  "VGB",
+  "VIR",
+  "WLF",
+  "ESH",
+  "YEM",
+  "ZMB",
+  "ZWE"];
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(CategoryEntity)
     private categoryRepository: Repository<CategoryEntity>,
-    
-  ) {}
+
+  ) { }
 
   //   private responseOject = (series: SeriesEntity): SeriesSO => {
   //     return {
@@ -283,40 +283,40 @@ export class CategoryService {
     paginationDto: PaginationDto
   ): Promise<PaginatedCategoryResultDto> => {
 
- 
+
     console.log('PAGINATION DTO IN GET SEARCHED CATEGORIES ACTION')
     console.log('DOES IT HAVE A PARENT CATGEGORY ID?')
     console.log(paginationDto)
     if (paginationDto.treeNode) {
-     try {
-       console.log('SEARCHING CATEGORIES TO GET DESCENDANTS')
-       console.log('Treenode = 371?')
-       console.log(Number(paginationDto.treeNode) === 371)
-      
-      //   `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
-      //       SELECT category_id, '{}'::integer[], 0, FALSE
-      //       FROM categories WHERE parent_category_id IS NULL
-      //     UNION ALL
-      //       SELECT
-      //         n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
-      //         n.parent_category_id = ANY(t.ancestors)
-      //       FROM categories n, tree t
-      //       WHERE n.parent_category_id = t.category_id
-      //       AND NOT t.cycle
-      //   ) SELECT category_id FROM categories n INNER JOIN tree USING (category_id)
-      //   WHERE $1 = any(ancestors)`,
-      //   [paginationDto.treeNode]
-      // );
-    } catch (error) {
-      console.log(error);
+      try {
+        console.log('SEARCHING CATEGORIES TO GET DESCENDANTS')
+        console.log('Treenode = 371?')
+        console.log(Number(paginationDto.treeNode) === 371)
+
+        //   `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
+        //       SELECT category_id, '{}'::integer[], 0, FALSE
+        //       FROM categories WHERE parent_category_id IS NULL
+        //     UNION ALL
+        //       SELECT
+        //         n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
+        //         n.parent_category_id = ANY(t.ancestors)
+        //       FROM categories n, tree t
+        //       WHERE n.parent_category_id = t.category_id
+        //       AND NOT t.cycle
+        //   ) SELECT category_id FROM categories n INNER JOIN tree USING (category_id)
+        //   WHERE $1 = any(ancestors)`,
+        //   [paginationDto.treeNode]
+        // );
+      } catch (error) {
+        console.log(error);
+      }
     }
-  }
     console.log(paginationDto.treeNode)
-    
+
     //console.log(descendants)
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
     console.log('TEST');
-  
+
 
     let dataset_name;
     console.log('DATASET')
@@ -341,29 +341,29 @@ export class CategoryService {
       parent_category_id = 371;
     }
     // const totalCount = await this.seriesRepository.count()
-    const totalCount = 1000;
+    
     // const tempCats = await this.tempCatsRepository
     //   .createQueryBuilder('temp_cats')
     //   .select('temp_cats.geography') 
     //   .where('temp_cats.category_id = :category_id', {category_id: })
     //   .where
     let excluded_list = [//AEO 2020
-      3604312, 3604307, 3604309, 3604310, 3604306, 3604311, 3604314, 3604308,  
-    // AEO 2014
-    1019945, 1019952, 1019936, 1019950, 964167, 1019955, 1019937, 1019940, 1019943, 1019944, 1019951, 1019956, 
-      1019953, 1019957, 1019946, 1019960, 1019935, 1019938, 1019961, 1019934, 1019939, 1019959, 1019958, 1019954, 
-        964168, 1019942, 964169, 1019933, 
-        //AEO 2015
-        1370526,
-        1370524,
-        1370529,
-        1370528,
-        1370525,
-        1370527,
-        //AEO 2016
-        2102242,
-        2102244,
-        2102240,
+      3604312, 3604307, 3604309, 3604310, 3604306, 3604311, 3604314, 3604308,
+      // AEO 2014
+      1019945, 1019952, 1019936, 1019950, 964167, 1019955, 1019937, 1019940, 1019943, 1019944, 1019951, 1019956,
+      1019953, 1019957, 1019946, 1019960, 1019935, 1019938, 1019961, 1019934, 1019939, 1019959, 1019958, 1019954,
+      964168, 1019942, 964169, 1019933,
+      //AEO 2015
+      1370526,
+      1370524,
+      1370529,
+      1370528,
+      1370525,
+      1370527,
+      //AEO 2016
+      2102242,
+      2102244,
+      2102240,
       2102239,
       2102238,
       2102236,
@@ -424,11 +424,11 @@ export class CategoryService {
       //AEO 2019
       3161920,
       3161922,
-     3161924,
+      3161924,
       3161921,
       3161923,
       3161925,
-      ]
+    ]
     let categories = await this.categoryRepository
       .createQueryBuilder('categories')
       .where('categories.dataset_name LIKE :dataset_name', {
@@ -463,80 +463,87 @@ export class CategoryService {
         }
       )
       .andWhere(
-       paginationDto.parent_category_id 
-       //&& paginationDto.parent_category_id != 371
-        ? 'categories.category_id IN (SELECT category_id from frequency_filter where frequency_filter.f = :frequency)' 
-        //':frequency IN (SELECT f from temp_cats where :parent_category_id = any(temp_cats.ancestors))' 
-        : '1=1',
+        paginationDto.parent_category_id
+          //&& paginationDto.parent_category_id != 371
+          ? 'categories.category_id IN (SELECT category_id from frequency_filter where frequency_filter.f = :frequency)'
+          //':frequency IN (SELECT f from temp_cats where :parent_category_id = any(temp_cats.ancestors))' 
+          : '1=1',
         {
-         frequency: paginationDto.Frequency,
-         parent_category_id: parent_category_id}
+          frequency: paginationDto.Frequency,
+          parent_category_id: parent_category_id
+        }
       )
       .andWhere(
-       paginationDto.parent_category_id 
-       //&& paginationDto.parent_category_id != 371
-        ? 'categories.category_id IN (SELECT category_id from geography_filter where geography_filter.geography = :geography)'
-        //':geography IN (SELECT geography from temp_cats where :parent_category_id = any(temp_cats.ancestors))' : 
-        // category_id IN (select ancestor from temp_cats where :geography = geography)
-        //`category_id = any((Select ancestors from temp_cats where :geograpy = geography))` :
-        : '1=1',
-        {geography: paginationDto.Region,
-         parent_category_id: parent_category_id}
-      )
-      .andWhere( 
         paginationDto.parent_category_id
-        ? 'categories.category_id NOT IN (:...excluded_list)'
-        : '1=1',
-        {excluded_list: excluded_list}
+          //&& paginationDto.parent_category_id != 371
+          ? 'categories.category_id IN (SELECT category_id from geography_filter where geography_filter.geography = :geography)'
+          //':geography IN (SELECT geography from temp_cats where :parent_category_id = any(temp_cats.ancestors))' : 
+          // category_id IN (select ancestor from temp_cats where :geography = geography)
+          //`category_id = any((Select ancestors from temp_cats where :geograpy = geography))` :
+          : '1=1',
+        {
+          geography: paginationDto.Region,
+          parent_category_id: parent_category_id
+        }
+      )
+      .andWhere(
+        paginationDto.parent_category_id
+          ? 'categories.category_id NOT IN (:...excluded_list)'
+          : '1=1',
+        { excluded_list: excluded_list }
       )
       // this runs if we have prefilled the descendants array, based on seleted treenode
       // This is a keyword search
       .andWhere(
-       paginationDto.treeNode ?
-       'categories.category_id IN (SELECT leaf_category from category_leaf_lookup WHERE category_leaf_lookup.ancestors = :treeNode)' 
-        // 'categories.category_id IN (:...descendants)' : 
-        : '1=1',
-         
-        {treeNode: paginationDto.treeNode}
+        paginationDto.treeNode ?
+          'categories.category_id IN (SELECT leaf_category from category_leaf_lookup WHERE category_leaf_lookup.ancestors = :treeNode)'
+          // 'categories.category_id IN (:...descendants)' : 
+          : '1=1',
+
+        { treeNode: paginationDto.treeNode }
       )
-     //these are slow 
+      //these are slow 
       .andWhere(
-        paginationDto.treeNode ? 
-        'category_id IN (SELECT category_id from frequency_filter where f = :freq)'
-        //':freq IN (SELECT f from frequency_filter where frequency_filter.category_id = :selected_treeNode)'
-        // ':freq IN (SELECT f from temp_cats where temp_cats.category_id IN (:...descendants))'
-        : '1=1',
-      {freq: paginationDto.Frequency,
-       selected_treeNode: Number(paginationDto.treeNode)})
-       .andWhere(
-        paginationDto.treeNode ? 
-        'category_id IN (SELECT category_id from geography_filter where geography = :geo)'
-        //':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
-        //':geo IN (SELECT geography from temp_cats where temp_cats.category_id IN (:...descendants))'
-        : '1=1',
-      {geo: paginationDto.Region,
-       selected_treeNode: Number(paginationDto.treeNode)})
-       .andWhere(
-         paginationDto.treeNode ?
-         'category_id not in (SELECT leaf_category FROM category_leaf_lookup WHERE ancestors IN (:...excluded_list))'
-         : '1=1',
-         {excluded_list: excluded_list}
-       )
+        paginationDto.treeNode ?
+          'category_id IN (SELECT category_id from frequency_filter where f = :freq)'
+          //':freq IN (SELECT f from frequency_filter where frequency_filter.category_id = :selected_treeNode)'
+          // ':freq IN (SELECT f from temp_cats where temp_cats.category_id IN (:...descendants))'
+          : '1=1',
+        {
+          freq: paginationDto.Frequency,
+          selected_treeNode: Number(paginationDto.treeNode)
+        })
+      .andWhere(
+        paginationDto.treeNode ?
+          'category_id IN (SELECT category_id from geography_filter where geography = :geo)'
+          //':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
+          //':geo IN (SELECT geography from temp_cats where temp_cats.category_id IN (:...descendants))'
+          : '1=1',
+        {
+          geo: paginationDto.Region,
+          selected_treeNode: Number(paginationDto.treeNode)
+        })
+      .andWhere(
+        paginationDto.treeNode ?
+          'category_id not in (SELECT leaf_category FROM category_leaf_lookup WHERE ancestors IN (:...excluded_list))'
+          : '1=1',
+        { excluded_list: excluded_list }
+      )
 
 
 
 
       //.andWhere(qb => {
-        //const subQuery = qb.subQuery().select("temp_cats.geography").from(TempCats, "temp_cats")
-        //.where("temp_cats.g")
+      //const subQuery = qb.subQuery().select("temp_cats.geography").from(TempCats, "temp_cats")
+      //.where("temp_cats.g")
       //}:geograpy in (select geography from temp_cats 
-              //where category_id = paginationDto.category_id))
+      //where category_id = paginationDto.category_id))
 
 
       //.andWhere(:frequency in (select f from temp cats 
-          // where category ))
+      // where category ))
 
-          //or use CTE? (put index on temp_cats category_id)
+      //or use CTE? (put index on temp_cats category_id)
       //.andWhere(:frequency in CTE.f and :region in CTE.geograpy) 
       //with CTE as (select f, geograpy form temp_cats where category_id = category_id)
 
@@ -549,13 +556,13 @@ export class CategoryService {
 
       .skip(skippedItems)
       .take(paginationDto.limit)
-      .getMany();
-    //console.log(categories[1])
+      .getManyAndCount();
+    console.log(categories[1])
     return {
-      totalCount,
+      totalCount: categories[1],
       page: paginationDto.page,
       limit: paginationDto.limit,
-      categories: categories,
+      categories: categories[0],
     };
   };
 
@@ -604,22 +611,22 @@ export class CategoryService {
   };
 
   getCountryMenuOptions = async (dataset_id: any): Promise<Array<string>> => {
-     console.log(dataset_id)
-      
-      let country_matches 
-      if (dataset_id.dataset_id === 'All') {
+    console.log(dataset_id)
 
-        country_matches = this.categoryRepository.query(
-      'SELECT DISTINCT(geography) FROM geography_filter WHERE geography = any ($1)', [menu_options_logical]);
-        } else {
-         country_matches = this.categoryRepository.query(
-      'SELECT DISTINCT(geography) FROM geography_filter WHERE geography = any ($1) AND category_id = $2', [menu_options_logical, dataset_id.dataset_id]); 
-        }
+    let country_matches
+    if (dataset_id.dataset_id === 'All') {
 
-      // if (dataset_id !== ) {
-      //   country_matches = this.categoryRepository.query(
-      // `SELECT DISTINCT(geography) FROM geography_filter WHERE category_id = $1`, [dataset_id]);
-      return country_matches
+      country_matches = this.categoryRepository.query(
+        'SELECT DISTINCT(geography) FROM geography_filter WHERE geography = any ($1)', [menu_options_logical]);
+    } else {
+      country_matches = this.categoryRepository.query(
+        'SELECT DISTINCT(geography) FROM geography_filter WHERE geography = any ($1) AND category_id = $2', [menu_options_logical, dataset_id.dataset_id]);
+    }
+
+    // if (dataset_id !== ) {
+    //   country_matches = this.categoryRepository.query(
+    // `SELECT DISTINCT(geography) FROM geography_filter WHERE category_id = $1`, [dataset_id]);
+    return country_matches
   }
 }
 

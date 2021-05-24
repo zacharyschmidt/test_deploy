@@ -73,7 +73,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'FETCH_DATA_SERIES':
       return { ...state, seriesData: action.payload };
     case 'FETCH_CATS':
-      return { ...state, categories: action.payload.series };
+      return { ...state, categories: action.payload.series,  seriesCount: action.payload.count};
     case 'SET_TREE_STRUCTURE':
       let node_id: number;
       if (action.payload.node_id == null) {

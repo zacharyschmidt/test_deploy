@@ -5,7 +5,8 @@ import { paginationService } from './PaginationService';
 
 import {
   fetchDataAction,
-  setPageAction
+  fetchCategoriesAction,
+  setPageAction,
 } from '../../redux/actions/eia/actions';
 
 export const Pagination = () => {
@@ -35,11 +36,11 @@ export const Pagination = () => {
   const dispatch = useDispatch();
   const handleClick = (page: number): void => {
     setPageAction(dispatch, page);
-    fetchDataAction(
+    fetchCategoriesAction(
       dispatch,
       state.searchTerm,
+      state.selectedSearchNode ? state.selectedSearchNode : 371,
       state.filters,
-      state.treeSeries,
       state.page,
       state.limit
     );
@@ -47,7 +48,8 @@ export const Pagination = () => {
 
   return (
     <div>
-      {state.seriesCount > 0 && (
+      {state.seriesCount > 0 && 
+      (
         <div className="table-footer d-flex justify-content-between align-items-center">
           <div className="records-count d-sm-block d-none text-secondary">
             Showing {(state.page - 1) * state.limit} to{' '}
