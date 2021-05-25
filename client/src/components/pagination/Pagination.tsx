@@ -35,13 +35,14 @@ export const Pagination = () => {
   let totalRecordsPage = Math.ceil(state.seriesCount / state.limit);
   const dispatch = useDispatch();
   const handleClick = (page: number): void => {
+  
     setPageAction(dispatch, page);
     fetchCategoriesAction(
       dispatch,
       state.searchTerm,
       state.selectedSearchNode ? state.selectedSearchNode : 371,
       state.filters,
-      state.page,
+      page,
       state.limit
     );
   };

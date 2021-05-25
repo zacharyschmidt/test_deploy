@@ -553,7 +553,7 @@ export class CategoryService {
       // make this too .andWhere("series.histProj LIKE :histProj", {histProj: histProj})
       // how to make this? .andWhere("series.SuppDemand LIKE suppDemand")
       //.andWhere("series.LastUpdate LIKE :lastUpdate", {lastUpdate: lastUpdate})
-
+      .orderBy('category_id')
       .skip(skippedItems)
       .take(paginationDto.limit)
       .getManyAndCount();

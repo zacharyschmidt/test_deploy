@@ -13,7 +13,8 @@ import {
   fetchDataAction,  
   setSelectedTreeNodeAction,
   setSearchNodeAction,
-  fetchCategoriesAction
+  fetchCategoriesAction,
+  setPageAction,
 } from './redux/actions/eia/actions';
 
 import ReactFinder from 'react-finderjs';
@@ -47,7 +48,7 @@ export default React.memo(function FinderTree() {
   const filters = useSelector((state) => state.eia.filters, shallowEqual) 
   const treeLeaves = useSelector((state) => state.eia.treeLeaves, shallowEqual)
   const searchTerm = useSelector((state) => state.eia.searchTerm, shallowEqual)
-  const page = useSelector((state) => state.eia.page, shallowEqual)
+  //const page = useSelector((state) => state.eia.page, shallowEqual)
   const limit = useSelector((state) => state.eia.limit, shallowEqual)
   //const searchVal = useSelector((state) => state.eia.selectedSearchNode, shallowEqual)
   const dispatch = useDispatch();
@@ -168,6 +169,7 @@ export default React.memo(function FinderTree() {
         1,
         limit,
       );
+      setPageAction(dispatch, 1);
     if (item.display === 1) {
       return;
     }
@@ -204,7 +206,8 @@ export default React.memo(function FinderTree() {
         searchTerm,
         filters,
         Series,
-        page,
+        1, // always get first page. the tree can't get page with useSelector or it will
+           // fetch data and interfere with pagination
         limit
       );
     }
