@@ -22,6 +22,9 @@ export class CategoryEntity {
   @Column('text', { name: 'name', nullable: true })
   name: string | null;
 
+  @Column('text', { name: 'parent_name', nullable: true })
+  parent_name: string | null
+
   @Column('text', { name: 'notes', nullable: true })
   notes: string | null;
 
