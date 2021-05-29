@@ -24,7 +24,7 @@ export class UpdateService {
 
     // call this method from the scheduled task once it has retrieved and processed the EIA
     // data. Series returned by EIA should be processed into an array of SeriesEntities.
-    async updateCategory(category: any) {
+    async updateCategory(category: CategoryEntity) {
         try {
             this.categoryRepository.update(category.category_id, category)
             this.categoryRepository.query(`UPDATE categories set dataset_name = 'Annual Energy Outlook 2021'

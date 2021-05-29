@@ -46,6 +46,7 @@ export class TasksService {
         catUpdate.ancestors = ancestorsArray;
         catUpdate.parent_name = parent_name;
         delete catUpdate.childcategories;
+        console.log(catUpdate.childSeries)
         console.log(catUpdate);
 
 
