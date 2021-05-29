@@ -79,7 +79,7 @@ export class TasksService {
         // without incorrectly recording the current category as an ancestor.
         ancestorsArray.pop();
     }
-    @Timeout(5000)
+    //@Timeout(5000)
     async getAEO2021Task() {
 
         console.log('starting task')

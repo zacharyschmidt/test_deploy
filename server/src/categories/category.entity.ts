@@ -29,6 +29,7 @@ export class CategoryEntity {
   notes: string | null;
 
   @Column('jsonb', { name: 'childseries', nullable: true })
+  // should by string array?
   childSeries: object | null;
 
   @Column('text', { name: 'dataset_name', nullable: true })
