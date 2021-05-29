@@ -34,7 +34,7 @@ export class TasksService {
                 //"https://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=0"
                 `http://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=${category_id}`
             ).toPromise()
-            console.log(category)
+            //console.log(category)
         } catch (err) {
             console.error(err)
         }
@@ -52,19 +52,19 @@ export class TasksService {
         console.log(category.data.category.name)
 
         // update all the categories childseries
-        const seriesArray = category.data.category.childseries;
-        let i: number;
-        while ((i + 1) * 100 <= seriesArray.length) {
-            const seriesString = seriesArray.slice(i * 100, ((i + 1) * 100)).join(';')
-            // should use error handling
-            const fullSeries = await this.httpService.get(
-                `http://api.eia.gov/series/?series_id=${seriesString}&api_key=d329ef75e7dfe89a10ea25326ada3c43`
-            ).toPromise();
-            i++;
-            await this.updateService.updateSeries(fullSeries.data.series)
-            console.log((i + 1) * 100)
-            //console.log(seriesString)
-        }
+        // const seriesArray = category.data.category.childseries;
+        // let i: number;
+        // while ((i + 1) * 100 <= seriesArray.length) {
+        //     const seriesString = seriesArray.slice(i * 100, ((i + 1) * 100)).join(';')
+        //     // should use error handling
+        //     const fullSeries = await this.httpService.get(
+        //         `http://api.eia.gov/series/?series_id=${seriesString}&api_key=d329ef75e7dfe89a10ea25326ada3c43`
+        //     ).toPromise();
+        //     i++;
+        //     await this.updateService.updateSeries(fullSeries.data.series)
+        //     console.log((i + 1) * 100)
+        //     //console.log(seriesString)
+        // }
         if (category.data.category.childcategories.length > 0) {
             ancestorsArray.push(category_id);
         }
