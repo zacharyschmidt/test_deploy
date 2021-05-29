@@ -31,7 +31,7 @@ export class TasksService {
         let category
         try {
             category = await this.httpService.get(
-                //"https://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=0"
+                //"https://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=4049583"
                 `http://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=${category_id}`
             ).toPromise()
             //console.log(category)
@@ -41,7 +41,7 @@ export class TasksService {
         console.log('after get category')
         // call updateService.updateCats
         const { childseries, ...otherProps } = category.data.category;
-        let catUpdate = { childSeries: childseries, ...otherProps };
+        let catUpdate = { childSeries: childseries.map((series) => {series.series_id}), ...otherProps };
         catUpdate.ancestors = ancestorsArray;
         catUpdate.parent_name = parent_name;
         delete catUpdate.childcategories;
