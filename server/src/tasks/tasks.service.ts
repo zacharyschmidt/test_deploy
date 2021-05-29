@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 
 import { UpdateService } from '../update/update.service';
-import { SeriesEntity } from '../series/series.entity';
+import { CategoryEntity } from '../categories/category.entity';
 
 @Injectable()
 export class TasksService {
@@ -48,7 +48,7 @@ export class TasksService {
         delete catUpdate.childcategories;
         console.log(catUpdate.childSeries)
         console.log(catUpdate);
-
+       
 
         await this.updateService.updateCategory(catUpdate)
         console.log(category.data.category.name)

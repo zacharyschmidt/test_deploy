@@ -26,7 +26,15 @@ export class UpdateService {
     // data. Series returned by EIA should be processed into an array of SeriesEntities.
     async updateCategory(category: CategoryEntity) {
         try {
+            let ancestors = category.ancestors;
+            delete category.ancestors;
+            let childSeries = category.childSeries;
+            delete category.childSeries;
             this.categoryRepository.update(category.category_id, category)
+            this.categoryRepository.query(`UPDATE categories set ancestors = ARRAY{${ancestors}'
+                                            WHERE category_id = ${category.category_id}`)
+            this.categoryRepository.query(`UPDATE categories set childseries = ARRAY{${childSeries}'
+                                            WHERE category_id = ${category.category_id}`)
             this.categoryRepository.query(`UPDATE categories set dataset_name = 'Annual Energy Outlook 2021'
                                             WHERE category_id = ${category.category_id}`)
             this.categoryRepository.query(`UPDATE categories set search_text = concat(name, ' ', dataset_name)
