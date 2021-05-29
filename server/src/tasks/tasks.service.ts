@@ -41,7 +41,8 @@ export class TasksService {
         console.log('after get category')
         // call updateService.updateCats
         const { childseries, ...otherProps } = category.data.category;
-        let catUpdate = { childSeries: childseries.map((series) => {series.series_id}), ...otherProps };
+        let series_ids = childseries.map((series) => {series.series_id});
+        let catUpdate = { childSeries: series_ids, ...otherProps };
         catUpdate.ancestors = ancestorsArray;
         catUpdate.parent_name = parent_name;
         delete catUpdate.childcategories;
