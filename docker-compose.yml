@@ -41,19 +41,19 @@ services:
     container_name: client
   ##############
   ## Certbot ##
-  # certbot:
-  #   image: certbot/certbot
-  #   container_name: certbot
-  #   volumes:
-  #     - certbot-etc:/etc/letsencrypt
-  #     - certbot-var:/var/lib/letsencrypt
-  #     # different path to html files than in tutorial and different
-  #     # from client container. Volume is on left, container specific
-  #     # filepath is on the right
-  #     - client:/var/www/html
-  #   depends_on:
-  #     - client
-  #   command: certonly --webroot --webroot-path=/var/www/html --email zacharym.schmidt@gmail.com --agree-tos --no-eff-email --force-renewal -d zstest.ga -d www.zstest.ga
+  certbot:
+    image: certbot/certbot
+    container_name: certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/lib/letsencrypt
+      # different path to html files than in tutorial and different
+      # from client container. Volume is on left, container specific
+      # filepath is on the right
+      - client:/var/www/html
+    depends_on:
+      - client
+    command: certonly --webroot --webroot-path=/var/www/html --email zacharym.schmidt@gmail.com --agree-tos --no-eff-email --force-renewal -d eiadataexchange.com -d www.eiadataexchange.com
   ##############
   ## POSTGRES ##
   postgres_db:
