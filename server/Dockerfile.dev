@@ -5,6 +5,7 @@ WORKDIR /app
 
 COPY . /app
 
+RUN apk update
 RUN npm install -g nodemon --silent
 RUN npm install --silent
 RUN apk add --no-cache bash

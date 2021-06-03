@@ -24,26 +24,28 @@ export class UpdateService {
 
     // call this method from the scheduled task once it has retrieved and processed the EIA
     // data. Series returned by EIA should be processed into an array of SeriesEntities.
-    async updateCategory(category: CategoryEntity) {
+    async updateCategory(categories: CategoryEntity[]) {
         try {
-            let ancestors = category.ancestors;
-            delete category.ancestors;
-            let childSeries = category.childSeries;
-            delete category.childSeries;
-            this.categoryRepository.update(category.category_id, category)
-            // this.categoryRepository.query(`UPDATE categories set ancestors = ARRAY{${ancestors}'
+            this.categoryRepository.save(categories);
+            // let ancestors = category.ancestors;
+            // delete category.ancestors;
+            // let childSeries = category.childSeries;
+            // delete category.childSeries;
+            // this.categoryRepository.update(category.category_id, category)
+            // // this.categoryRepository.query(`UPDATE categories set ancestors = ARRAY{${ancestors}'
+            // //                                 WHERE category_id = ${category.category_id}`)
+            // // this.categoryRepository.query(`UPDATE categories set childseries = ARRAY{${childSeries}'
+            // //                                 WHERE category_id = ${category.category_id}`)
+            // this.categoryRepository.query(`UPDATE categories set dataset_name = 'Annual Energy Outlook 2021'
             //                                 WHERE category_id = ${category.category_id}`)
-            // this.categoryRepository.query(`UPDATE categories set childseries = ARRAY{${childSeries}'
+            // this.categoryRepository.query(`UPDATE categories set search_text = concat(name, ' ', dataset_name)
             //                                 WHERE category_id = ${category.category_id}`)
-            this.categoryRepository.query(`UPDATE categories set dataset_name = 'Annual Energy Outlook 2021'
-                                            WHERE category_id = ${category.category_id}`)
-            this.categoryRepository.query(`UPDATE categories set search_text = concat(name, ' ', dataset_name)
-                                            WHERE category_id = ${category.category_id}`)
-            this.categoryRepository.query(`UPDATE categories set search_vec = to_tsvector('english', search_text) 
-                                            WHERE category_id = ${category.category_id}`)
+            // this.categoryRepository.query(`UPDATE categories set search_vec = to_tsvector('english', search_text) 
+            //                                 WHERE category_id = ${category.category_id}`)
         } catch (err) {
             console.log(err)
         }
+        console.log('SAVE COMPLETE')
     }
     async updateSeries(updatedSeries: any[]) {//Promise<SeriesEntity[]> {
         //maybe I don't need this

@@ -27,6 +27,7 @@
     "@nestjs/typeorm": "^7.1.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/jsonwebtoken": "^8.5.0",
+    "adm-zip": "^0.5.5",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.3.1",
     "class-validator": "^0.12.2",
@@ -36,6 +37,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
+    "superagent": "^6.1.0",
     "typeorm": "^0.2.25"
   },
   "devDependencies": {

@@ -2,7 +2,11 @@ import { Injectable, Logger, HttpService } from '@nestjs/common';
 import { Cron, Interval, Timeout } from '@nestjs/schedule';
 import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { map } from 'rxjs/operators';
-
+const zlib = require('zlib');
+const { pipeline } = require('stream');
+const fs = require('fs');
+const request = require('superagent')
+const admZip = require('adm-zip');
 
 import { UpdateService } from '../update/update.service';
 import { CategoryEntity } from '../categories/category.entity';
@@ -24,34 +28,126 @@ export class TasksService {
     // handleInterval() {
     //     this.logger.debug('Called every 10 seconds');
     // }
+    async BulkDownload(accessURL) {
+        const text = await this.httpService.get(
+            `${accessURL}`, {'responseType': 'stream', 
+           headers: { 'Accept-Encoding': 'br,gzip,deflate,zip'}
+        }
+        ).toPromise();
+        console.log(text.headers)
+        
+    
+        const onError = (err) => {
+            if (err) {
+            console.error('An error occurred:', err);
+            process.exitCode = 1;
+            }
+        };
+        let zipFile = 'aeo2021.zip'
+        
+        text.data.on('error', onError).pipe(fs.createWriteStream(zipFile))
+        .on('finish', () => {
+            let zip = admZip(zipFile);
+            console.log('get entries');
+            let zipEntries = zip.getEntries();
+            let AEO;
+            zipEntries.forEach(function(zipEntry) {
+                console.log(zipEntry.name);
+                if (zipEntry.entryName === 'AEO2021.txt') {
 
+                AEO = zipEntry.getData().toString('utf8');
+            }
+        })
+            let AEOarray = AEO.split('\n')
+            console.log(AEOarray.length)
+            //console.log(AEOarray[136320])
+            
+            AEOarray.pop()
+           
+            AEOarray.forEach((element, index) => {
+                
+                    console.log(index)
+                    JSON.parse(element);
+               
+            })
+            function checkCat(element, index) { 
+                console.log(index)
+                
+                
+                 let JsonElement = JSON.parse(element);
+                return !JsonElement.series_id
+            }
+            // let catsArray = AEOarray.filter(checkCat)
+            //     .map((catString) => {
+            //        let cat = JSON.parse(catString);
+            //        const { childseries, ...otherProps } = cat;
+            //        let catUpdate = { childSeries: childseries, ...otherProps };
+            //        catUpdate.dataset_name = 'Annual Energy Outlook 2021';
+            //        console.log(catUpdate)
+            //        return catUpdate;
+            //     })
+            //console.log(catsArray.slice(1,10))
+            //this.updateService.updateCategory(MappedAEOarray);
+
+    })
+        //pipeline(text, unzip, process.stdout, onError)
+        //text.pipe(unzip).pipe(process.stdout)
+        //forEach(record => {
+            //if its a category process one way, if its a series process another
+        //})
+        //process text:
+        // separate categories from series
+        // for categories, 
+        // 1. change childseries to childSeries
+        // 2. add dataset_name property to object
+        // 3. then send to update service
+        //    --update service will insert the new categories and then 
+        // fill search_text, search_vec, Ancestors, and parent_name fields
+        // using SQL I have already written, limiting everything by 
+        // 'WHERE dataset_name = 'Annual Energy Outlook 2021'
+
+        // what about geography filter, frequency filter, leaf_category_lookup?
+        // I should look at the sql I wrote before, think about how to limit by 
+        //dataset_name - 'Annual Energy Outlook 2021'
+
+        //for childSeries:
+        // 1. delete lastHistoricalPeriod
+        // 2. set dataset_name property
+
+    }
     async AEO2021Query(category_id, ancestorsArray, parent_name) {
         console.log('before get category')
         //parent_name = parent_name.replace(/"/g, "'")
         let category
+        
         try {
             category = await this.httpService.get(
-                //"https://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=4049583"
-                `http://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=${category_id}`
-            ).toPromise()
-            //console.log(category)
+                //'https://api.github.com'
+                "https://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=4049583"
+                //`http://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=${category_id}`
+           ).toPromise()
+            console.log(category)
+            console.log('waiting 10 seconds')
+            await new Promise(resolve => setTimeout(resolve, 10000))
+            console.log('finished waiting')
+
         } catch (err) {
             console.error(err)
         }
         console.log('after get category')
         // call updateService.updateCats
-        const { childseries, ...otherProps } = category.data.category;
-        let series_ids = childseries.map((series) => {series.series_id});
-        let catUpdate = { childSeries: series_ids, ...otherProps };
-        catUpdate.ancestors = ancestorsArray;
-        catUpdate.parent_name = parent_name;
-        delete catUpdate.childcategories;
-        console.log(catUpdate.childSeries)
-        console.log(catUpdate);
+        // const { childseries, ...otherProps } = category.data.category;
+        // let series_ids = childseries.map((series) => {series.series_id});
+        // let catUpdate = { childSeries: series_ids, ...otherProps };
+        // catUpdate.ancestors = ancestorsArray;
+        // catUpdate.parent_name = parent_name;
+        // delete catUpdate.childcategories;
+        // console.log(catUpdate.childSeries)
+        // console.log(catUpdate);
        
 
-        await this.updateService.updateCategory(catUpdate)
-        console.log(category.data.category.name)
+        // await this.updateService.updateCategory(catUpdate)
+        // console.log(category.data.category.name)
 
         // update all the categories childseries
         // const seriesArray = category.data.category.childseries;
@@ -67,31 +163,34 @@ export class TasksService {
         //     console.log((i + 1) * 100)
         //     //console.log(seriesString)
         // }
-        if (category.data.category.childcategories.length > 0) {
-            ancestorsArray.push(category_id);
-        }
-        console.log(ancestorsArray)
-        category.data.category.childcategories.forEach((childcat) => {
-            this.AEO2021Query(childcat.category_id, ancestorsArray, category.data.category.name)
-        })
+
+        // if (category.data.category.childcategories.length > 0) {
+        //     ancestorsArray.push(category_id);
+        // }
+        // console.log(ancestorsArray)
+        // category.data.category.childcategories.forEach((childcat) => {
+        //     this.AEO2021Query(childcat.category_id, ancestorsArray, category.data.category.name)
+        // })
+
         // remove the ategory id from the array after we have iterated through all
         // its decendants. This allows us to move on to a peer of the current category
         // without incorrectly recording the current category as an ancestor.
         ancestorsArray.pop();
     }
-    //@Timeout(5000)
+    @Timeout(1000)
     async getAEO2021Task() {
 
         console.log('starting task')
-        let ancestorsArray = [];
+        await this.BulkDownload('http://api.eia.gov/bulk/AEO2021.zip')
+        //let ancestorsArray = [];
 
-        await this.AEO2021Query(4047325, ancestorsArray, 'None');
+        //await this.AEO2021Query(4047325, ancestorsArray, 'None');
         console.log('finished AEO update')
     }
 
     //@Timeout(5000)
     //@Cron('45 51 6 15 5 *')
-    async handleTimeout() {
+    async getSeries() {
         this.logger.debug('Called once after 5 seconds');
         let seriesArray: Array<string> = [];
         let i = 0;
