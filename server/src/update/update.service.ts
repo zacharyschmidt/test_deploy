@@ -26,6 +26,7 @@ export class UpdateService {
     // data. Series returned by EIA should be processed into an array of SeriesEntities.
     async updateCategory(categories: CategoryEntity[]) {
         try {
+            this.categoryRepository.save({ name: 'Annual Energy Outlook 2021', category_id: 4047325, parent_category_id: null, dataset_name: 'Annual Energy Outlook 2021', childSeries: [] })
             this.categoryRepository.save(categories);
             // let ancestors = category.ancestors;
             // delete category.ancestors;
@@ -43,9 +44,17 @@ export class UpdateService {
             // this.categoryRepository.query(`UPDATE categories set search_vec = to_tsvector('english', search_text) 
             //                                 WHERE category_id = ${category.category_id}`)
         } catch (err) {
-            console.log(err)
+            //console.log(err)
         }
         console.log('SAVE COMPLETE')
+    }
+
+    async insertAEOSeries(seriesArray: SeriesEntity[]) {
+        try {
+            this.seriesRepository.save(seriesArray);
+        } catch (err) {
+            console.log(err);
+        }
     }
     async updateSeries(updatedSeries: any[]) {//Promise<SeriesEntity[]> {
         //maybe I don't need this
@@ -58,6 +67,7 @@ export class UpdateService {
         console.log(updatedSeries[0].series_id);
         updatedSeries.forEach(series => {
             try {
+
                 this.seriesRepository.update(series.series_id, series)
             } catch (err) {
                 console.log(err)
@@ -65,5 +75,52 @@ export class UpdateService {
         })
 
 
+    }
+    async makeAncestorsArray(dataset_id: number) {
+        this.categoryRepository.query(`WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
+            SELECT category_id, '{}'::integer[], 0, FALSE
+            FROM categories WHERE category_id = ${dataset_id}
+          UNION ALL
+            SELECT
+              n.category_id, t.ancestors || n.parent_category_id, t.depth + 1,
+              n.parent_category_id = ANY(t.ancestors)
+            FROM categories n, tree t
+            WHERE n.parent_category_id = t.category_id
+            AND NOT t.cycle
+        )
+        UPDATE categories
+            SET ancestors = q.ancestors
+            FROM ( SELECT t.ancestors, t.category_id FROM tree t) as q
+            WHERE categories.category_id = q.category_id;`)
+    }
+
+    async fillLookupTables(dataset_name: string) {
+        this.categoryRepository.query(`WITH temp_cats_proto AS (
+SELECT name, category_id, ancestors, jsonb_array_elements_text(childseries) as series_id
+from categories WHERE dataset_name = '${dataset_name}'),
+temp_cats AS (
+    SELECT t.name, t.category_id, t.ancestors, s.f, s.geography, t.series_id
+    FROM temp_cats_proto t inner join series s on t.series_id = s.series_id
+), 
+interior_treenode_filters_proto AS (
+SELECT name, category_id, unnest(ancestors) as ancestors, series_id, f, geography
+from temp_cats
+),
+interior_treenode_filters AS (
+SELECT * FROM interior_treenode_filters_proto
+UNION
+SELECT name, category_id, category_id AS ancestors, series_id, f, geography
+FROM interior_treenode_filters_proto
+), i_g AS (
+INSERT INTO geography_filter
+SELECT DISTINCT ancestors as category_id, geography from interior_treenode_filters
+), i_f AS (
+INSERT INTO frequency_filter
+SELECT DISTINCT ancestors as category_id, f from interior_treenode_filters
+)
+INSERT INTO category_leaf_lookup
+select category_id as leaf_category, unnest(ancestors) 
+AS ancestors from categories where (jsonb_array_length(childseries) > 0) 
+AND (dataset_name = '${dataset_name}');`)
     }
 }

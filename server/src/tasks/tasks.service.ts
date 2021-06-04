@@ -30,70 +30,106 @@ export class TasksService {
     // }
     async BulkDownload(accessURL) {
         const text = await this.httpService.get(
-            `${accessURL}`, {'responseType': 'stream', 
-           headers: { 'Accept-Encoding': 'br,gzip,deflate,zip'}
+            `${accessURL}`, {
+            'responseType': 'stream',
+            headers: { 'Accept-Encoding': 'br,gzip,deflate,zip' }
         }
         ).toPromise();
         console.log(text.headers)
-        
-    
+
+
         const onError = (err) => {
             if (err) {
-            console.error('An error occurred:', err);
-            process.exitCode = 1;
+                console.error('An error occurred:', err);
+                process.exitCode = 1;
             }
         };
         let zipFile = 'aeo2021.zip'
-        
+        // using an arrow function for the callback argument to .on resolved 
+        // issues with 'this' when I call this.updateService.UpdateCategory
         text.data.on('error', onError).pipe(fs.createWriteStream(zipFile))
-        .on('finish', () => {
-            let zip = admZip(zipFile);
-            console.log('get entries');
-            let zipEntries = zip.getEntries();
-            let AEO;
-            zipEntries.forEach(function(zipEntry) {
-                console.log(zipEntry.name);
-                if (zipEntry.entryName === 'AEO2021.txt') {
+            .on('finish', async () => {
+                let zip = admZip(zipFile);
+                console.log('get entries');
+                let zipEntries = zip.getEntries();
+                let AEO;
+                zipEntries.forEach(function (zipEntry) {
+                    //console.log(zipEntry.name);
+                    if (zipEntry.entryName === 'AEO2021.txt') {
 
-                AEO = zipEntry.getData().toString('utf8');
-            }
-        })
-            let AEOarray = AEO.split('\n')
-            console.log(AEOarray.length)
-            //console.log(AEOarray[136320])
-            
-            AEOarray.pop()
-           
-            AEOarray.forEach((element, index) => {
+                        AEO = zipEntry.getData().toString('utf8');
+                    }
+                })
+                let AEOarray = AEO.split('\n')
+                console.log(AEOarray.length)
+                //console.log(AEOarray[136320])
+
+                AEOarray.pop()
+
+
+                function checkCat(element, index) {
+                    //console.log(index)
+
+                    let JsonElement = JSON.parse(element);
+                    return !JsonElement.series_id
+                }
+                /* Get AEO 2021 categories */
+                let catsArray = AEOarray.filter(checkCat)
+                    .map((catString) => {
+                        let cat = JSON.parse(catString);
+                        const { childseries, ...otherProps } = cat;
+                        let catUpdate = { childSeries: childseries, ...otherProps };
+                        catUpdate.dataset_name = 'Annual Energy Outlook 2021';
+                        if (catUpdate.category_id === '4047325') {
+                            catUpdate.parent_category_id = null;
+                            console.log('FOUND ROOT CAT')
+                        } else {
+                            console.log('Root Cat Not Found')
+                        }
+                        return catUpdate;
+                    })
+                //console.log(catsArray.slice(0, 10))
+                await this.updateService.updateCategory(catsArray);
                 
-                    console.log(index)
-                    JSON.parse(element);
+                /* Make Ancestors Array */
+                await this.updateService.makeAncestorsArray(4047325)
+                /* This gets series from the update API */
+                await this.getSeries(4047325);
+
+                
+                function checkSeries(element, index) {
+                   
+
+                    let JsonElement = JSON.parse(element);
+                    return !JsonElement.category_id;
+                }
+
+                /* This gets series from text file */
+                // let seriesArray = AEOarray.filter(checkSeries)
+                //     .map((seriesString) => {
+                //         let series = JSON.parse(seriesString);
+                //         delete series.lastHistoricalPeriod;
+                //         series.dataset_name = 'Annual Energy Outlook 2021'; 
+                //         return series;
+                //     })
+                // this.updateService.insertAEOSeries(seriesArray)
+
                
-            })
-            function checkCat(element, index) { 
-                console.log(index)
-                
-                
-                 let JsonElement = JSON.parse(element);
-                return !JsonElement.series_id
-            }
-            // let catsArray = AEOarray.filter(checkCat)
-            //     .map((catString) => {
-            //        let cat = JSON.parse(catString);
-            //        const { childseries, ...otherProps } = cat;
-            //        let catUpdate = { childSeries: childseries, ...otherProps };
-            //        catUpdate.dataset_name = 'Annual Energy Outlook 2021';
-            //        console.log(catUpdate)
-            //        return catUpdate;
-            //     })
-            //console.log(catsArray.slice(1,10))
-            //this.updateService.updateCategory(MappedAEOarray);
+                // now populate the tables. 
+                // I might have to make the callback in .on async so that 
+                // I can await this.getSeries (and the method to update categories)
+                // if this gives me trouble I can comment things out and 
+                // run step by step on the server.
+                // mixing callbacks and async/await seems tricky
 
-    })
+            await this.updateService.fillLookupTables('Annual Energy Outlook 2021');
+            console.log('finished lookup table update')
+            })
+        
         //pipeline(text, unzip, process.stdout, onError)
         //text.pipe(unzip).pipe(process.stdout)
         //forEach(record => {
-            //if its a category process one way, if its a series process another
+        //if its a category process one way, if its a series process another
         //})
         //process text:
         // separate categories from series
@@ -106,26 +142,27 @@ export class TasksService {
         // using SQL I have already written, limiting everything by 
         // 'WHERE dataset_name = 'Annual Energy Outlook 2021'
 
-        // what about geography filter, frequency filter, leaf_category_lookup?
+        // what about geography filter, frequency filter, category_leaf_lookup?
         // I should look at the sql I wrote before, think about how to limit by 
         //dataset_name - 'Annual Energy Outlook 2021'
 
         //for childSeries:
         // 1. delete lastHistoricalPeriod
         // 2. set dataset_name property
+        
 
     }
     async AEO2021Query(category_id, ancestorsArray, parent_name) {
         console.log('before get category')
         //parent_name = parent_name.replace(/"/g, "'")
         let category
-        
+
         try {
             category = await this.httpService.get(
                 //'https://api.github.com'
                 "https://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=4049583"
                 //`http://api.eia.gov/category/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=${category_id}`
-           ).toPromise()
+            ).toPromise()
             console.log(category)
             console.log('waiting 10 seconds')
             await new Promise(resolve => setTimeout(resolve, 10000))
@@ -144,7 +181,7 @@ export class TasksService {
         // delete catUpdate.childcategories;
         // console.log(catUpdate.childSeries)
         // console.log(catUpdate);
-       
+
 
         // await this.updateService.updateCategory(catUpdate)
         // console.log(category.data.category.name)
@@ -177,7 +214,7 @@ export class TasksService {
         // without incorrectly recording the current category as an ancestor.
         ancestorsArray.pop();
     }
-    @Timeout(1000)
+   // @Timeout(1000)
     async getAEO2021Task() {
 
         console.log('starting task')
@@ -190,7 +227,7 @@ export class TasksService {
 
     //@Timeout(5000)
     //@Cron('45 51 6 15 5 *')
-    async getSeries() {
+    async getSeries(category_id: number) {
         this.logger.debug('Called once after 5 seconds');
         let seriesArray: Array<string> = [];
         let i = 0;
@@ -205,21 +242,21 @@ export class TasksService {
                 //`https://api.eia.gov/search/?search_term=last_updated&rows_per_page=10000&page_num=${i}&frequency=A&category_id=711224&search_value=[2021-01-01T00:00:00Z TO 2021-05-14T23:59:59Z]`
                 // first just update total. then update others using the same form of query without
                 // category specified.
-                `https://api.eia.gov/updates/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=711224&deep=true&rows=10000&firstrow=${i * 10000}`
+                `https://api.eia.gov/updates/?api_key=d329ef75e7dfe89a10ea25326ada3c43&category_id=${category_id}&deep=true&rows=10000&firstrow=${i * 10000}`
                 //'http://api.eia.gov/updates/?api_key=d329ef75e7dfe89a10ea25326ada3c43&deep=true&rows=100&out=json'
             ).toPromise();
             //seriesArray = ['test']
-            console.log(newSeries)
+            //console.log(newSeries)
             num_found = newSeries.data.data.rows_returned;
-            console.log(num_found)
+            //console.log(num_found)
             seriesArray = seriesArray.concat(newSeries.data.updates.map(update => update.series_id))
             //console.log(seriesArray.concat(newSeries.data.response.docs.map(doc => doc.series_id)))
 
-            console.log(seriesArray.length)
+            //console.log(seriesArray.length)
             i++
-            console.log(i)
+            //console.log(i)
         } while (i * 10000 < num_found + 10000);
-        console.log(seriesArray[9])
+        //console.log(seriesArray[9]) 
         i = 0
         while ((i + 1) * 100 <= seriesArray.length) {
             const seriesString = seriesArray.slice(i * 100, ((i + 1) * 100)).join(';')
@@ -227,10 +264,26 @@ export class TasksService {
             const fullSeries = await this.httpService.get(
                 `http://api.eia.gov/series/?series_id=${seriesString}&api_key=d329ef75e7dfe89a10ea25326ada3c43`
             ).toPromise();
-            i++;
-            await this.updateService.updateSeries(fullSeries.data.series)
+            //console.log(fullSeries.data.series[0])
+            let updates = fullSeries.data.series.map((series) => {
+                series.dataset_name = 'Annual Energy Outlook 2021';
+                delete series.lastHistoricalPeriod;
+                // AEO series don't have geography field
+                if (series.series_id.includes('AEO.2021') && series.series_name.includes('United States')) {
+                    series.geography = 'USA';
+                }
+                //console.log(series)
+                return series
+            })
+            console.log(updates)
+            // insertAEOSeries uses repository.save (use this one)
+            await this.updateService.insertAEOSeries(updates)
+            // updateSeries uses repository.update
+            //await this.updateService.updateSeries(updates)
             console.log((i + 1) * 100)
             //console.log(seriesString)
+         i++;   
         }
+        
     }
 }
