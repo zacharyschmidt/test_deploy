@@ -92,6 +92,7 @@ export class UpdateService {
             SET ancestors = q.ancestors
             FROM ( SELECT t.ancestors, t.category_id FROM tree t) as q
             WHERE categories.category_id = q.category_id;`)
+        console.log("finished updating lookup tables")
     }
 
     async fillLookupTables(dataset_name: string) {

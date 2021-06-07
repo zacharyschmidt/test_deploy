@@ -42,7 +42,13 @@ export class SeriesController {
     const series = this.seriesService.getCustomSeries(category_id, frequency, geography, custom_flag);
     console.log(series);
     return series;
-  } 
+  }
+  @Get('AEO2021Kaya')
+  getAEO2021Kaya(@Query('category_id') category_id: number,
+  @Query('frequency') frequency: string, @Query('geography') geography: string,
+  @Query('custom_flag') custom_flag: string) {
+
+  }
   @Get('dataset')
   getSeriesbyID(@Query('series_id') series_id: string) {
     return this.seriesService.getSeriesbyID(series_id);

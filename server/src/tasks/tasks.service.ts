@@ -89,10 +89,10 @@ export class TasksService {
                         return catUpdate;
                     })
                 //console.log(catsArray.slice(0, 10))
-                await this.updateService.updateCategory(catsArray);
+                //await this.updateService.updateCategory(catsArray);
                 
                 /* Make Ancestors Array */
-                await this.updateService.makeAncestorsArray(4047325)
+                //await this.updateService.makeAncestorsArray(4047325)
                 /* This gets series from the update API */
                 await this.getSeries(4047325);
 
@@ -214,7 +214,7 @@ export class TasksService {
         // without incorrectly recording the current category as an ancestor.
         ancestorsArray.pop();
     }
-   // @Timeout(1000)
+   @Timeout(1000)
     async getAEO2021Task() {
 
         console.log('starting task')
@@ -254,7 +254,7 @@ export class TasksService {
 
             //console.log(seriesArray.length)
             i++
-            //console.log(i)
+            console.log(i)
         } while (i * 10000 < num_found + 10000);
         //console.log(seriesArray[9]) 
         i = 0
@@ -269,13 +269,13 @@ export class TasksService {
                 series.dataset_name = 'Annual Energy Outlook 2021';
                 delete series.lastHistoricalPeriod;
                 // AEO series don't have geography field
-                if (series.series_id.includes('AEO.2021') && series.series_name.includes('United States')) {
+                if (series.series_id.includes('AEO.2021') && series.name.includes('United States')) {
                     series.geography = 'USA';
                 }
                 //console.log(series)
                 return series
             })
-            console.log(updates)
+            //console.log(updates)
             // insertAEOSeries uses repository.save (use this one)
             await this.updateService.insertAEOSeries(updates)
             // updateSeries uses repository.update
