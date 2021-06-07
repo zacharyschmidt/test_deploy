@@ -51,7 +51,7 @@ export class UpdateService {
 
     async insertAEOSeries(seriesArray: SeriesEntity[]) {
         try {
-            this.seriesRepository.save(seriesArray);
+            await this.seriesRepository.save(seriesArray);
         } catch (err) {
             console.log(err);
         }
@@ -92,11 +92,11 @@ export class UpdateService {
             SET ancestors = q.ancestors
             FROM ( SELECT t.ancestors, t.category_id FROM tree t) as q
             WHERE categories.category_id = q.category_id;`)
-        console.log("finished updating lookup tables")
+        
     }
 
     async fillLookupTables(dataset_name: string) {
-        this.categoryRepository.query(`WITH temp_cats_proto AS (
+       await this.categoryRepository.query(`WITH temp_cats_proto AS (
 SELECT name, category_id, ancestors, jsonb_array_elements_text(childseries) as series_id
 from categories WHERE dataset_name = '${dataset_name}'),
 temp_cats AS (
@@ -123,5 +123,6 @@ INSERT INTO category_leaf_lookup
 select category_id as leaf_category, unnest(ancestors) 
 AS ancestors from categories where (jsonb_array_length(childseries) > 0) 
 AND (dataset_name = '${dataset_name}');`)
+console.log("finished updating lookup tables")
     }
 }

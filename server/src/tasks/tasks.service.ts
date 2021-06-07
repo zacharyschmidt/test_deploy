@@ -123,7 +123,7 @@ export class TasksService {
                 // mixing callbacks and async/await seems tricky
 
             await this.updateService.fillLookupTables('Annual Energy Outlook 2021');
-            console.log('finished lookup table update')
+            
             })
         
         //pipeline(text, unzip, process.stdout, onError)
@@ -247,14 +247,15 @@ export class TasksService {
             ).toPromise();
             //seriesArray = ['test']
             //console.log(newSeries)
-            num_found = newSeries.data.data.rows_returned;
-            //console.log(num_found)
+            num_found = newSeries.data.data.rows_available;
+            console.log(newSeries)
+            console.log(num_found)
             seriesArray = seriesArray.concat(newSeries.data.updates.map(update => update.series_id))
             //console.log(seriesArray.concat(newSeries.data.response.docs.map(doc => doc.series_id)))
-
-            //console.log(seriesArray.length)
+            console.log('number of series returned')
+            console.log(seriesArray.length)
             i++
-            console.log(i)
+            console.log(i+ ' i')
         } while (i * 10000 < num_found + 10000);
         //console.log(seriesArray[9]) 
         i = 0
