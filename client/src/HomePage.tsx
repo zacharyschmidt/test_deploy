@@ -870,7 +870,8 @@ export default function HomePage() {
          <div className="curatedDataGroups">
            <h4>Curated DataGroups</h4>
            {/* <ul><Link to="/demo/details/1/custom">US ELEC</Link></ul>  */}
-           <ul><Link to="/demo/details/1/kaya">US KAYA DATA</Link></ul> 
+           <ul><Link to="/demo/details/1/kaya">US Historical KAYA, (1949-2020)</Link></ul>
+           <ul><Link to="/demo/details/2/AEO2021">Annual Energy Outlook 2021 KAYA, (2020-2050)</Link></ul> 
          </div>
          
          </div>

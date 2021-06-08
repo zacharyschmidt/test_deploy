@@ -68,7 +68,7 @@ export class DownloadController {
         console.log(paginationDto.Frequency, paginationDto.Region)
 
         if (custom_flag === 'custom') {
-            let series = await this.seriesService.getCustomSeries(category_ID, paginationDto.Frequency,
+            let series = await this.seriesService.getManySeries(category_ID, paginationDto.Frequency,
                 paginationDto.Region, custom_flag)
 
             console.log(series)
@@ -203,7 +203,7 @@ export class DownloadController {
             return workbook.xlsx.write(response)
         }
         else if (custom_flag === 'kaya') {
-            let series = await this.seriesService.getCustomSeries(category_ID, paginationDto.Frequency,
+            let series = await this.seriesService.getManySeries(category_ID, paginationDto.Frequency,
                 paginationDto.Region, custom_flag)
 
             console.log(series)
@@ -394,7 +394,7 @@ export class DownloadController {
 
             const cat = await this.categoryService.getCategorybyID(category_ID);
             let series = await this.seriesService.getManySeries(cat.category_id,
-                paginationDto.Frequency, paginationDto.Region);
+                paginationDto.Frequency, paginationDto.Region, custom_flag);
             let workbook = new Excel.Workbook()
             let worksheet = workbook.addWorksheet('data');
             console.log('before name_cols')

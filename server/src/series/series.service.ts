@@ -163,7 +163,7 @@ export class SeriesService {
   };
 
   /// This is the only one we use right now.
-  getManySeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
+  getEIASeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
     console.log('SERIES SERVICE')
     console.log(frequency, geography)
     const manySeries = await this.seriesRepository
@@ -179,13 +179,21 @@ export class SeriesService {
     return manySeries;
   };
 
-  getCustomSeries = async (category_id: number, frequency: string, geography: string, custom_flag: string): Promise<Array<SeriesSO>> => {
-    if (custom_flag === 'custom') {
-      return this.getCustomUSASeries(category_id, frequency, geography);
-    } else if (custom_flag === 'kaya') {
-      return this.getCustomUSAKayaSeries(category_id, frequency, geography)
+  getManySeries = async (category_id: number, frequency: string, geography: string, custom_flag: string): Promise<Array<SeriesSO>> => {
+    switch (custom_flag) {
+      case 'custom':
+        return this.getCustomUSASeries(category_id, frequency, geography);
+      case 'kaya':
+        return this.getCustomUSAKayaSeries(category_id, frequency, geography)
+      case 'EIA':
+        return this.getEIASeries(category_id, frequency, geography);
+      case 'AEO2021':
+        console.log('AEO2021')
+        return []
+         //return this.getCustomUSAKayaSeries(category_id, frequency, geography)
+      default:
+        //return this.getEIASeries(category_id, frequency, geography);
     }
-
   }
   getCustomUSASeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
     let us_elec_list = ['TOTAL.TXRCBUS.A', 'TOTAL.ESRCBUS.A',
@@ -202,6 +210,27 @@ export class SeriesService {
   };
 
   getCustomUSAKayaSeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
+    let us_elec_list = ['TOTAL.TXRCBUS.A', 'TOTAL.ESRCBUS.A',
+      'TOTAL.TXCCBUS.A', 'TOTAL.ESCCBUS.A', 'TOTAL.TETCBUS.A',
+      'TOTAL.TXICBUS.A', 'TOTAL.ESICBUS.A', 'TOTAL.TXACBUS.A',
+      'TOTAL.ESACBUS.A', 'TOTAL.GDPRXUS.A', 'TOTAL.ELTCPUS.A',
+      'TOTAL.TERCBUS.A', 'TOTAL.TECCBUS.A', 'TOTAL.TETCBUS.A',
+      'TOTAL.TPOPPUS.A', 'TOTAL.TEPRBUS.A',
+      'TOTAL.NRTCBUS.A', 'TOTAL.NRFUBUS.A', 'TOTAL.NUETBUS.A', //nuclear primary
+      'TOTAL.NUETPUS.A', //nuclear electric
+      'TOTAL.ESTCKUS.A', // heat content electricity
+      'TOTAL.FFTCBUS.A', //PE consumption from fossil fuels
+      'TOTAL.TETCEUS.A'  // CO2 emissions from fossil energy
+    ]
+    const manySeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...us_elec_list)',
+        { us_elec_list: us_elec_list })
+      .getMany()
+    return manySeries;
+  };
+
+  getAEO2021KayaSeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
     let us_elec_list = ['TOTAL.TXRCBUS.A', 'TOTAL.ESRCBUS.A',
       'TOTAL.TXCCBUS.A', 'TOTAL.ESCCBUS.A', 'TOTAL.TETCBUS.A',
       'TOTAL.TXICBUS.A', 'TOTAL.ESICBUS.A', 'TOTAL.TXACBUS.A',

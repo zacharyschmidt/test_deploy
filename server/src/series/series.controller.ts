@@ -30,25 +30,28 @@ export class SeriesController {
   }
   @Get('childseries')
   getManySeries(@Query('category_id') category_id: number,
-    @Query('frequency') frequency: string, @Query('geography') geography: string) {
-    const series = this.seriesService.getManySeries(category_id, frequency, geography);
-    console.log(series);
-    return series;
-  }
- @Get('custom_childseries')
-  getCustomSeries(@Query('category_id') category_id: number,
     @Query('frequency') frequency: string, @Query('geography') geography: string,
     @Query('custom_flag') custom_flag: string) {
-    const series = this.seriesService.getCustomSeries(category_id, frequency, geography, custom_flag);
+    const series = this.seriesService.getManySeries(category_id, frequency, geography, custom_flag);
     console.log(series);
     return series;
   }
-  @Get('AEO2021Kaya')
-  getAEO2021Kaya(@Query('category_id') category_id: number,
-  @Query('frequency') frequency: string, @Query('geography') geography: string,
-  @Query('custom_flag') custom_flag: string) {
+//  @Get('custom_childseries')
+//   getCustomSeries(@Query('category_id') category_id: number,
+//     @Query('frequency') frequency: string, @Query('geography') geography: string,
+//     @Query('custom_flag') custom_flag: string) {
+//     const series = this.seriesService.getCustomSeries(category_id, frequency, geography, custom_flag);
+//     console.log(series);
+//     return series;
+//   }
 
-  }
+//don't need this
+  // @Get('AEO2021Kaya')
+  // getAEO2021Kaya(@Query('category_id') category_id: number,
+  // @Query('frequency') frequency: string, @Query('geography') geography: string,
+  // @Query('custom_flag') custom_flag: string) {
+
+  // }
   @Get('dataset')
   getSeriesbyID(@Query('series_id') series_id: string) {
     return this.seriesService.getSeriesbyID(series_id);

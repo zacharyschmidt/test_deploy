@@ -747,20 +747,20 @@ export const fetchChildSeriesAction = async (
   try {
     let response = { data: '' };
 
-    if (custom_flag === 'EIA') {
+    //if (custom_flag === 'EIA') {
       response = await axios({
         method: 'GET',
         url: '/api/series/childseries',
-        params: { category_id, geography, frequency },
-      });
-    } else {
-      // hit another api endpoint to get data series needed for custom data
-      response = await axios({
-        method: 'GET',
-        url: '/api/series/custom_childseries',
         params: { category_id, geography, frequency, custom_flag },
-      })
-    }
+      });
+    // } else {
+    //   // hit another api endpoint to get data series needed for custom data
+    //   response = await axios({
+    //     method: 'GET',
+    //     url: '/api/series/custom_childseries',
+    //     params: { category_id, geography, frequency, custom_flag },
+    //   })
+    // }
     console.log('RECIEVED RESPONSE')
     console.log(response.data)
 

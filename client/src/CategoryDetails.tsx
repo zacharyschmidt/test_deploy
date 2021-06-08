@@ -33,6 +33,7 @@ const CategoryDetails = (props: any): JSX.Element => {
     // data base and put in the store, found in the state object
     const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP', childCategories: [] } :
         custom_flag === 'kaya' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP KAYA', childCategories: [] } :
+        custom_flag === 'AEO2021' ? {dataset_name: 'Custom', ancestors: 'none', name: 'Annual Energy Outlook 2021 KAYA', childCategories: [] } :
             state.find((cat: any) => cat.category_id === Number(category_id));
 
     console.log(category)

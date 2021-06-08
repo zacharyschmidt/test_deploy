@@ -93,6 +93,7 @@ export class TasksService {
                 
                 /* Make Ancestors Array */
                 //await this.updateService.makeAncestorsArray(4047325)
+
                 /* This gets series from the update API */
                 await this.getSeries(4047325);
 
@@ -214,7 +215,7 @@ export class TasksService {
         // without incorrectly recording the current category as an ancestor.
         ancestorsArray.pop();
     }
-   @Timeout(1000)
+   //@Timeout(1000)
     async getAEO2021Task() {
 
         console.log('starting task')
