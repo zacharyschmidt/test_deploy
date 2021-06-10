@@ -70,10 +70,8 @@ export class SeriesService {
       default:
         geography = paginationDto.Region;
     }
-    let histProj;
     switch (paginationDto.HistorProj) {
       case 'All':
-        histProj = '%';
         break;
     }
     let supDemand;
@@ -108,15 +106,15 @@ export class SeriesService {
         string: '',
       })
       .andWhere(
-        paginationDto.treeSeries && paginationDto.treeSeries.length > 0
-          ? 'series.series_id IN (:...tree_series)'
-          : '1=1',
+        paginationDto.treeSeries && paginationDto.treeSeries.length > 0 ?
+          'series.series_id IN (:...tree_series)' :
+          '1=1',
         { tree_series: paginationDto.treeSeries }
       )
       .andWhere(
-        paginationDto.searchTerm
-          ? 'series.search_vec @@ phraseto_tsquery(:term)'
-          : '1=1',
+        paginationDto.searchTerm ?
+          'series.search_vec @@ phraseto_tsquery(:term)' :
+          '1=1',
         {
           term: paginationDto.searchTerm,
         }
@@ -189,10 +187,13 @@ export class SeriesService {
         return this.getEIASeries(category_id, frequency, geography);
       case 'AEO2021':
         console.log('AEO2021')
-        return []
-         //return this.getCustomUSAKayaSeries(category_id, frequency, geography)
+       
+        let ref = await this.getAEO2021KayaSeriesRef(category_id, frequency, geography)
+        let lowCost = await this.getAEO2021KayaSeriesLowCostRen(category_id, frequency, geography)
+
+        return [...ref, ...lowCost]
       default:
-        //return this.getEIASeries(category_id, frequency, geography);
+        return this.getEIASeries(category_id, frequency, geography);
     }
   }
   getCustomUSASeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
@@ -230,24 +231,69 @@ export class SeriesService {
     return manySeries;
   };
 
-  getAEO2021KayaSeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
-    let us_elec_list = ['TOTAL.TXRCBUS.A', 'TOTAL.ESRCBUS.A',
-      'TOTAL.TXCCBUS.A', 'TOTAL.ESCCBUS.A', 'TOTAL.TETCBUS.A',
-      'TOTAL.TXICBUS.A', 'TOTAL.ESICBUS.A', 'TOTAL.TXACBUS.A',
-      'TOTAL.ESACBUS.A', 'TOTAL.GDPRXUS.A', 'TOTAL.ELTCPUS.A',
-      'TOTAL.TERCBUS.A', 'TOTAL.TECCBUS.A', 'TOTAL.TETCBUS.A',
-      'TOTAL.TPOPPUS.A', 'TOTAL.TEPRBUS.A',
-      'TOTAL.NRTCBUS.A', 'TOTAL.NRFUBUS.A', 'TOTAL.NUETBUS.A', //nuclear primary
-      'TOTAL.NUETPUS.A', //nuclear electric
-      'TOTAL.ESTCKUS.A', // heat content electricity
-      'TOTAL.FFTCBUS.A', //PE consumption from fossil fuels
-      'TOTAL.TETCEUS.A'  // CO2 emissions from fossil energy
+  getAEO2021KayaSeriesRef = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
+    let us_elec_list = ['AEO.2021.REF2021.CNSM_NA_ELEP_NA_TEL_NA_USA_BLNKWH.A','AEO.2021.REF2021.CNF_NA_NA_NA_ELC_NA_NA_BTUPKWH.A',
+'AEO.2021.REF2021.CNSM_ENU_ALLS_NA_DELE_DELV_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_TOT_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_BFH_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_NUC_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_NBMSW_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_HDG_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_PCF_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_ELI_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_REN_NA_NA_QBTU.A',
+
+'AEO.2021.REF2021.KEI_GDP_NA_NA_NA_NA_NA_BLNY09DLR.A',
+'AEO.2021.REF2021.GEN_NA_NA_NA_NA_NA_NA_BLNKWH.A',
+'AEO.2021.REF2021.GEN_NA_NA_NA_MUNWST_NA_NA_BLNKWH.A',
+'AEO.2021.REF2021.GEN_NA_NA_NA_WBM_NA_NA_BLNKWH.A',
+'AEO.2021.REF2021.CNSM_NA_NA_NA_RNW_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_NA_NA_NA_MUNWST_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_NA_NA_NA_WBM_NA_NA_QBTU.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_NUC_NA_NA_QBTU.A',
+'AEO.2021.REF2021.GEN_NA_ELEP_TGE_NUP_NA_USA_BLNKWH.A',
+'AEO.2021.REF2021.CNSM_ENU_TEN_NA_TEU_NA_NA_QBTU.A',
+'AEO.2021.REF2021.EMI_CO2_NA_NA_NA_NA_NA_MILLMTCO2EQ.A',
+'AEO.2021.REF2021.DMG_POP_NA_NA_NA_NA_NA_MILL.A',
     ]
     const manySeries = await this.seriesRepository
       .createQueryBuilder('series')
       .where('series.series_id IN (:...us_elec_list)',
         { us_elec_list: us_elec_list })
       .getMany()
+    return manySeries;
+  };
+
+  getAEO2021KayaSeriesLowCostRen = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
+    const us_elec_list = ['AEO.2021.LORENCST.CNSM_NA_ELEP_NA_TEL_NA_USA_BLNKWH.A','AEO.2021.LORENCST.CNF_NA_NA_NA_ELC_NA_NA_BTUPKWH.A',
+'AEO.2021.LORENCST.CNSM_ENU_ALLS_NA_DELE_DELV_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_TOT_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_BFH_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_NUC_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_NBMSW_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_HDG_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_PCF_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_ELI_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_REN_NA_NA_QBTU.A',
+
+'AEO.2021.LORENCST.KEI_GDP_NA_NA_NA_NA_NA_BLNY09DLR.A',
+'AEO.2021.LORENCST.GEN_NA_NA_NA_NA_NA_NA_BLNKWH.A',
+'AEO.2021.LORENCST.GEN_NA_NA_NA_MUNWST_NA_NA_BLNKWH.A',
+'AEO.2021.LORENCST.GEN_NA_NA_NA_WBM_NA_NA_BLNKWH.A',
+'AEO.2021.LORENCST.CNSM_NA_NA_NA_RNW_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_NA_NA_NA_MUNWST_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_NA_NA_NA_WBM_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_NUC_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.GEN_NA_ELEP_TGE_NUP_NA_USA_BLNKWH.A',
+'AEO.2021.LORENCST.CNSM_ENU_TEN_NA_TEU_NA_NA_QBTU.A',
+'AEO.2021.LORENCST.EMI_CO2_NA_NA_NA_NA_NA_MILLMTCO2EQ.A',
+'AEO.2021.LORENCST.DMG_POP_NA_NA_NA_NA_NA_MILL.A',
+    ]
+    const manySeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...us_elec_list)',
+        { us_elec_list: us_elec_list })
+        .getMany()
     return manySeries;
   };
 }
