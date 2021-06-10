@@ -360,7 +360,7 @@ export class DownloadController {
             worksheet.fillFormula('D25:AH25', 'D13/D10')
             worksheet.fillFormula('D26:AH26', 'D13/D11')
 
-            worksheet.fillFormula('D28:AH28', 'D32')
+            worksheet.fillFormula('D28:AH28', 'D43*1000')
             worksheet.fillFormula('D29:AH29', 'D28/D8')
 
 
@@ -500,7 +500,7 @@ export class DownloadController {
             worksheet.fillFormula('D25:AH25', 'D13/D10')
             worksheet.fillFormula('D26:AH26', 'D13/D11')
 
-            worksheet.fillFormula('D28:AH28', 'D32')
+            worksheet.fillFormula('D28:AH28', 'D43*1000')
             worksheet.fillFormula('D29:AH29', 'D28/D8')
 
             // worksheet.getRows(7, 9999).forEach((row) => {
