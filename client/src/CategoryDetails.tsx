@@ -14,7 +14,7 @@ const CategoryDetails = (props: any): JSX.Element => {
     const custom_flag = props.match.params.custom_flag
     const filters = useSelector((state: IStore) => state.eia.filters);
     const dispatch = useDispatch();
- 
+
     useEffect(() => {
         // change fetchchildseries action to return series beloning to custom datagroup
         // if flag is set to custom
@@ -33,29 +33,30 @@ const CategoryDetails = (props: any): JSX.Element => {
     // data base and put in the store, found in the state object
     const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP', childCategories: [] } :
         custom_flag === 'kaya' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP KAYA', childCategories: [] } :
-        custom_flag === 'AEO2021' ? {dataset_name: 'Custom', ancestors: 'none', name: 'Annual Energy Outlook 2021 KAYA', childCategories: [] } :
-            state.find((cat: any) => cat.category_id === Number(category_id));
+            custom_flag === 'AEO2021' ? { dataset_name: 'Custom', ancestors: 'none', name: 'Annual Energy Outlook 2021 KAYA', childCategories: [] } :
+                state.find((cat: any) => cat.category_id === Number(category_id));
 
     console.log(category)
     const tree_categories = useSelector((state: IStore) => state.eia.treeCategories);
     let ancestor_names: Array<String> = [];
-    
+
     if (category && Array.isArray(category.ancestors)) {
-    let FindAncestorNames = (cat_array: Array<ICategories>) => {
+        let FindAncestorNames = (cat_array: Array<ICategories>) => {
             cat_array.forEach((cat: ICategories) => {
-                if (Array.isArray(category.ancestors) && category.ancestors.includes(cat.category_id)){
+                if (Array.isArray(category.ancestors) && category.ancestors.includes(cat.category_id)) {
                     if (cat.childCategories.length !== 0) {
                         ancestor_names.push(cat.name);
                         FindAncestorNames(cat.childCategories);
                     } else {
                         ancestor_names.push(cat.name)
                     }
-                }})
-    }  
-    FindAncestorNames(treeCats);
-  }
-  console.log(ancestor_names)
-     
+                }
+            })
+        }
+        FindAncestorNames(treeCats);
+    }
+    console.log(ancestor_names)
+
 
     const childseries = series.map((series: any) => <li>{series.name}</li>)
 
@@ -99,7 +100,7 @@ const CategoryDetails = (props: any): JSX.Element => {
                 url: '/api/download/RIS',
                 responseType: 'blob',
                 params: {
-                    category_ID: category_id,
+                    category_ID: custom_flag == 'AEO2021' ? 4047325 : category_id,
                 }
             })
             const url = window.URL.createObjectURL(new Blob([response.data]));

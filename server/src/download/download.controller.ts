@@ -175,9 +175,9 @@ export class DownloadController {
             worksheet.fillFormula('D12:BW12', 'D10/D7')
             worksheet.fillFormula('D13:BW13', 'D9*1000/D7')
 
-             worksheet.getRows(7, 9999).forEach((row) => {
+            worksheet.getRows(7, 9999).forEach((row) => {
                 for (let i = 4; i < 1000; i++) {
-                    row.getCell(i).alignment = {horizontal: 'right'}
+                    row.getCell(i).alignment = { horizontal: 'right' }
                     row.getCell(i).numFmt = '0.00'
                 }
             })
@@ -187,7 +187,7 @@ export class DownloadController {
             //             name: 'Times New Roman',
             //             size: 12,
             //         }
-                    
+
             //     }
             // })
             // res is a Stream object
@@ -339,7 +339,7 @@ export class DownloadController {
 
             // calculations
             // edit these to fill to the end of the array dynamically
-            worksheet.fillFormula('D7:AH7', 'D49')
+            worksheet.fillFormula('D7:AH7', 'D47')
             worksheet.fillFormula('D8:AH8', 'D53')
             worksheet.fillFormula('D9:AH9', 'D33')
             worksheet.fillFormula('D10:AH10', '(D42-(D45-D44-D46)+((D51-D50-D52)*D32/1000000)-D38+(D49*D32/1000000))')
@@ -366,16 +366,16 @@ export class DownloadController {
 
             // for Low Renewable Cost Case
 
-             worksheet = workbook.addWorksheet('LowRenewableCost');
+            worksheet = workbook.addWorksheet('LowRenewableCost');
             console.log('before name_cols')
-            
-          
+
+
             worksheet.columns = cols; // I accidentally deleted this and it caused a problem
-           
+
             // if (cat?.dataset_name && cat.dataset_name.includes('Annual Energy Outlook')) {
             //     region = 'USA'
             // }
-           
+
             data_rows = seriesLowCostRen.map(series => {
                 console.log('in outer map')
                 const data_array = series.data.map(year => {
@@ -479,7 +479,7 @@ export class DownloadController {
 
             // calculations
             // edit these to fill to the end of the array dynamically
-            worksheet.fillFormula('D7:AH7', 'D49')
+            worksheet.fillFormula('D7:AH7', 'D47')
             worksheet.fillFormula('D8:AH8', 'D53')
             worksheet.fillFormula('D9:AH9', 'D33')
             worksheet.fillFormula('D10:AH10', '(D42-(D45-D44-D46)+((D51-D50-D52)*D32/1000000)-D38+(D49*D32/1000000))')
@@ -515,7 +515,7 @@ export class DownloadController {
             //             name: 'Times New Roman',
             //             size: 12,
             //         }
-                    
+
             //     }
             // })
 
@@ -667,7 +667,7 @@ export class DownloadController {
 
             // calculations
             // edit these to fill to the end of the array dynamically
-            worksheet.fillFormula('D7:BW7', 'D49')
+            worksheet.fillFormula('D7:BW7', 'D47')
             worksheet.fillFormula('D8:BW8', 'D39')
             worksheet.fillFormula('D9:BW9', '(SUM(D33:D36) + SUM(D50:D53))/1000')
             worksheet.fillFormula('D10:BW10', '(D47-D41+D40-D42+(D43*D37/10000000))/1000')
@@ -703,7 +703,7 @@ export class DownloadController {
             //             name: 'Times New Roman',
             //             size: 12,
             //         }
-                    
+
             //     }
             // })
 
@@ -811,7 +811,7 @@ export class DownloadController {
             //             name: 'Times New Roman',
             //             size: 12,
             //         }
-                    
+
             //     }
             // })
             console.log(process.cwd())
