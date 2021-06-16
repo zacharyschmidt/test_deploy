@@ -337,4 +337,5 @@ WHERE search_vec @@ phraseto_tsquery('test') AND f LIKE '%' AND units LIKE '%' A
         childSeries: childseries,
         string: '',
       })
-
+## this index was missing, it looks like the app is running faster after adding this
+create index category_leaf_lookup_ancestors on category_leaf_lookup(ancestors);

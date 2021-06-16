@@ -341,7 +341,7 @@ export class CategoryService {
       parent_category_id = 371;
     }
     // const totalCount = await this.seriesRepository.count()
-    
+
     // const tempCats = await this.tempCatsRepository
     //   .createQueryBuilder('temp_cats')
     //   .select('temp_cats.geography') 
@@ -437,6 +437,8 @@ export class CategoryService {
 
       .andWhere(
         searchTerm.length > 0
+          // can I get rid of search_vec and to 'to_tsvector'? maybe not, since I 
+          // concatenated multiple colums
           ? 'categories.search_vec @@ phraseto_tsquery(:term)'
           : '1=1',
         {
@@ -492,6 +494,7 @@ export class CategoryService {
           : '1=1',
         { excluded_list: excluded_list }
       )
+
       // this runs if we have prefilled the descendants array, based on seleted treenode
       // This is a keyword search
       .andWhere(
@@ -523,12 +526,12 @@ export class CategoryService {
           geo: paginationDto.Region,
           selected_treeNode: Number(paginationDto.treeNode)
         })
-      .andWhere(
-        paginationDto.treeNode ?
-          'category_id not in (SELECT leaf_category FROM category_leaf_lookup WHERE ancestors IN (:...excluded_list))'
-          : '1=1',
-        { excluded_list: excluded_list }
-      )
+      // .andWhere(
+      //   paginationDto.treeNode ?
+      //     'category_id not in (SELECT leaf_category FROM category_leaf_lookup WHERE ancestors IN (:...excluded_list))'
+      //     : '1=1',
+      //   { excluded_list: excluded_list }
+      // )
 
 
 
@@ -556,8 +559,11 @@ export class CategoryService {
       .orderBy('category_id')
       .skip(skippedItems)
       .take(paginationDto.limit)
+
+      // see if count is slowing down
       .getManyAndCount();
-    console.log(categories[1])
+
+    console.log(categories)
     return {
       totalCount: categories[1],
       page: paginationDto.page,

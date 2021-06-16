@@ -10,7 +10,7 @@ import { Link, useHistory } from 'react-router-dom';
 import {
   setTreeSeriesAction,
   setTreeStructureAction,
-  fetchDataAction,  
+  fetchDataAction,
   setSelectedTreeNodeAction,
   setSearchNodeAction,
   fetchCategoriesAction,
@@ -45,7 +45,7 @@ export default React.memo(function FinderTree() {
 
   const nodeVal = useSelector((state) => state.eia.selectedTreeNode, shallowEqual);
   const treeCategories = useSelector((state) => state.eia.treeCategories, shallowEqual)
-  const filters = useSelector((state) => state.eia.filters, shallowEqual) 
+  const filters = useSelector((state) => state.eia.filters, shallowEqual)
   const treeLeaves = useSelector((state) => state.eia.treeLeaves, shallowEqual)
   const searchTerm = useSelector((state) => state.eia.searchTerm, shallowEqual)
   //const page = useSelector((state) => state.eia.page, shallowEqual)
@@ -55,7 +55,7 @@ export default React.memo(function FinderTree() {
   // should use store instead of state
   // const nodeVal = state.selectedTreeNode;
   //const searchVal = state.selectedSearchNode;
-  
+
 
   //   if cat has no childCategories, return object1;
   //   if cat has childCategories with no nested children, return object2;
@@ -100,10 +100,10 @@ export default React.memo(function FinderTree() {
   // can process them childCategories -> children
 
   const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
-                                            if (a.label > b.label) {
-                                              return 1
-                                            }
-                                            return -1
+    if (a.label > b.label) {
+      return 1
+    }
+    return -1
   });
   let searchRoot = nodeVal
   //const [searchRoot, setSearchRoot] = useState(nodeVal);
@@ -155,21 +155,23 @@ export default React.memo(function FinderTree() {
       history.push(`/demo/details/${item.id}/EIA`)
       return;
     }
-    
+
     if ((item.id === nodeVal)) {
       console.log("EXITING ON LEAF SELECTED NODEVAL == ITEM.ID")
       return;
     }
     // Won't be able to update search when walking back up the tree
+
+    // FOR DEBUGGING
     fetchCategoriesAction(
-        dispatch,
-        searchTerm,
-        item.id,
-        filters,
-        1,
-        limit,
-      );
-      setPageAction(dispatch, 1);
+      dispatch,
+      searchTerm,
+      item.id,
+      filters,
+      1,
+      limit,
+    );
+    setPageAction(dispatch, 1);
     if (item.display === 1) {
       return;
     }
@@ -177,14 +179,14 @@ export default React.memo(function FinderTree() {
     // check if childseries have already been fetched
     // if (!(nodeID[0] in tree)) {
     //setSearchRoot(nodeID)
-  
+
     setSelectedTreeNodeAction(dispatch, item.id);
     //setSearchNodeAction(dispatch, item.id)
-    
+
 
     setTreeStructureAction(dispatch, item.id, filters);
     setTreeSeriesAction(dispatch, []);
-    
+
 
     let Series = treeLeaves.filter(function (leaf) {
       return leaf.category_id == Number(item.id);
@@ -207,7 +209,7 @@ export default React.memo(function FinderTree() {
         filters,
         Series,
         1, // always get first page. the tree can't get page with useSelector or it will
-           // fetch data and interfere with pagination
+        // fetch data and interfere with pagination
         limit
       );
     }
@@ -223,48 +225,52 @@ export default React.memo(function FinderTree() {
 
     // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
   };
-  const itemSelected = (item) => { 
-        // if ((item.id === searchVal)) {
-        //   console.log("EXITING ON ITEM SELECTED SEARCHVAL == ITEM.ID")
-        //   return;}
-            // if (item.id === nodeVal) {
-            //   console.log('ITEM ID = NODEVAL')
-            // }
-            // if ((item.id !== nodeVal)){ 
-            // console.log('IN onITEMSELECTED')
-            console.log(item)
-            if (item.children) {
-            if (item.children[0].display) {
-              if (item.id !== nodeVal) {
-               setSelectedTreeNodeAction(dispatch, item.id); 
-              }
-            }}
-            setSearchNodeAction(dispatch, item.id)
-            fetchCategoriesAction(
-              dispatch,
-              searchTerm,
-              item.id,
-              filters,
-              1,
-              limit,
-              );
-           
-            console.log("ITEM ID")
-            console.log(item.id)
-            console.log(item)
-            console.log('nodeVal OnItemSelected')
-            console.log(nodeVal)
-            console.log('searchVal OnItemSelected')
-            //console.log(searchVal)
-           
-            //setSearchRoot(item.id)
-         
-            // }
-            
+  const itemSelected = (item) => {
+    // if ((item.id === searchVal)) {
+    //   console.log("EXITING ON ITEM SELECTED SEARCHVAL == ITEM.ID")
+    //   return;}
+    // if (item.id === nodeVal) {
+    //   console.log('ITEM ID = NODEVAL')
+    // }
+    // if ((item.id !== nodeVal)){ 
+    // console.log('IN onITEMSELECTED')
+    console.log(item)
+    if (item.children) {
+      if (item.children[0].display) {
+        if (item.id !== nodeVal) {
+          setSelectedTreeNodeAction(dispatch, item.id);
+        }
+      }
+    }
+    setSearchNodeAction(dispatch, item.id)
+
+    // commented out for debugging
+
+    // fetchCategoriesAction(
+    //   dispatch,
+    //   searchTerm,
+    //   item.id,
+    //   filters,
+    //   1,
+    //   limit,
+    // );
+
+    console.log("ITEM ID")
+    console.log(item.id)
+    console.log(item)
+    console.log('nodeVal OnItemSelected')
+    console.log(nodeVal)
+    console.log('searchVal OnItemSelected')
+    //console.log(searchVal)
+
+    //setSearchRoot(item.id)
+
+    // }
+
 
   }
   const renderTree = (config, item) => {
-   
+
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
     let ul = document.createElement('ul');
@@ -285,16 +291,17 @@ export default React.memo(function FinderTree() {
         console.log(
           parent.item(parent.length - 1).childNodes[0].childNodes[0]
             .childNodes[0]
-              );
-            parent.item(parent.length - 1).childNodes[0].childNodes[0]
-            .childNodes[0].href = `/demo/details/${item.childseries[0]}`})
-    //     let replacement = document.createElement('a');
-    //     parent
-    //       .item(parent.length - 1)
-    //       .childNodes[0].childNodes[0].childNodes[0].replaceWith(replacement);
-    //     console.log(parent);
-    //   }, 100);
-    // }
+        );
+        parent.item(parent.length - 1).childNodes[0].childNodes[0]
+          .childNodes[0].href = `/demo/details/${item.childseries[0]}`
+      })
+      //     let replacement = document.createElement('a');
+      //     parent
+      //       .item(parent.length - 1)
+      //       .childNodes[0].childNodes[0].childNodes[0].replaceWith(replacement);
+      //     console.log(parent);
+      //   }, 100);
+      // }
     }
     div.appendChild(ul);
 
@@ -318,13 +325,13 @@ export default React.memo(function FinderTree() {
   console.log('TREE')
   console.log(tree)
   console.log('STATE')
- 
+
   console.log("CURRENT TREE NODE")
   console.log(nodeVal)
   console.log("SEARCH Val")
-  
+
   //console.log(searchVal)
-  
+
   return (
     <ReactFinder
       className=""
