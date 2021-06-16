@@ -147,17 +147,12 @@ export default React.memo(function FinderTree() {
   }, [filters]);
 
   const onLeafSelected = (item) => {
-    console.log("In ON LEAF SELECTED")
-    console.log(item);
     if (item.display) {
-      console.log('Display Node')
-      console.log(item)
       history.push(`/demo/details/${item.id}/EIA`)
       return;
     }
 
     if ((item.id === nodeVal)) {
-      console.log("EXITING ON LEAF SELECTED NODEVAL == ITEM.ID")
       return;
     }
     // Won't be able to update search when walking back up the tree
@@ -175,7 +170,6 @@ export default React.memo(function FinderTree() {
     if (item.display === 1) {
       return;
     }
-    console.log("IN ON LEAF SELECTED--CONTINUING TO SET NODE AND TREE STRUCTURE")
     // check if childseries have already been fetched
     // if (!(nodeID[0] in tree)) {
     //setSearchRoot(nodeID)
@@ -202,7 +196,6 @@ export default React.memo(function FinderTree() {
       setTreeSeriesAction(dispatch, Series);
     }
     if (Series && Series.length > 0) {
-      console.log('FETCH DATA FROM FINDER TREE')
       fetchDataAction(
         dispatch,
         searchTerm,
@@ -234,10 +227,10 @@ export default React.memo(function FinderTree() {
     // }
     // if ((item.id !== nodeVal)){ 
     // console.log('IN onITEMSELECTED')
-    console.log(item)
     if (item.children) {
       if (item.children[0].display) {
         if (item.id !== nodeVal) {
+          // this part is important
           setSelectedTreeNodeAction(dispatch, item.id);
         }
       }
@@ -255,12 +248,6 @@ export default React.memo(function FinderTree() {
     //   limit,
     // );
 
-    console.log("ITEM ID")
-    console.log(item.id)
-    console.log(item)
-    console.log('nodeVal OnItemSelected')
-    console.log(nodeVal)
-    console.log('searchVal OnItemSelected')
     //console.log(searchVal)
 
     //setSearchRoot(item.id)
@@ -276,7 +263,6 @@ export default React.memo(function FinderTree() {
     let ul = document.createElement('ul');
 
     if (item.display == 1) {
-      console.log('IN IF');
       item.childseries.forEach(function (series) {
         let a = document.createElement('a');
         ul.appendChild(a);
@@ -284,14 +270,9 @@ export default React.memo(function FinderTree() {
         // a.href = `/demo/details/${series}`;
       });
       let parent = document.getElementsByClassName('fjs-col');
-      console.log(parent)
 
       setTimeout(() => {
-        console.log(parent.length);
-        console.log(
-          parent.item(parent.length - 1).childNodes[0].childNodes[0]
-            .childNodes[0]
-        );
+
         parent.item(parent.length - 1).childNodes[0].childNodes[0]
           .childNodes[0].href = `/demo/details/${item.childseries[0]}`
       })
@@ -322,13 +303,7 @@ export default React.memo(function FinderTree() {
   //     );
   //   });
   // };
-  console.log('TREE')
-  console.log(tree)
-  console.log('STATE')
 
-  console.log("CURRENT TREE NODE")
-  console.log(nodeVal)
-  console.log("SEARCH Val")
 
   //console.log(searchVal)
 

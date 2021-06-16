@@ -73,7 +73,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'FETCH_DATA_SERIES':
       return { ...state, seriesData: action.payload };
     case 'FETCH_CATS':
-      return { ...state, categories: action.payload.series,  seriesCount: action.payload.count};
+      return { ...state, categories: action.payload.series, seriesCount: action.payload.count };
     case 'SET_TREE_STRUCTURE':
       let node_id: number;
       if (action.payload.node_id == null) {
@@ -120,8 +120,6 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
           return testNode(cat);
         });
       }
-      console.log('AFTER PROCESSING')
-      console.log(newTree)
       // if (hasKey(newTree, node_id)) {
       //   newTree[node_id] = treeData;
       // }
@@ -152,16 +150,10 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'SET_LIMIT':
       return { ...state, limit: action.payload };
     case 'SET_MENU_TOPCATS':
-      console.log('SET MENU TOP CATS')
-      console.log(action.payload.options_array)
-      return { ...state, menuTopCats: action.payload.options_array}
+      return { ...state, menuTopCats: action.payload.options_array }
     case 'SET_MENU_REGIONS':
-      console.log('SET MENU REGIONS')
-      console.log(action.payload)
       return { ...state, menuRegions: action.payload.options_array }
     case 'SET_MENU_SELECTION':
-      console.log('SET MENU ACTION')
-      console.log(action.payload)
       return { ...state, [action.payload.store_mem]: action.payload.selection }
     case 'SET_FILTER':
       const filterObj =
@@ -173,7 +165,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
           };
       return { ...state, filters: filterObj };
     case 'FRESH_START':
-      return { ...state, selectedTreeNode: null, selectedSearchNode: null, categories: [], DataSetName: 'All', CountryMenuDisplay: 'United States', searchTerm: '', filters: {...state.filters, Region: 'USA', DataSet: ['All', 'All']}}
+      return { ...state, selectedTreeNode: null, selectedSearchNode: null, categories: [], DataSetName: 'All', CountryMenuDisplay: 'United States', searchTerm: '', filters: { ...state.filters, Region: 'USA', DataSet: ['All', 'All'] } }
     default:
       return state;
   }

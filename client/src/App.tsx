@@ -26,7 +26,7 @@ function App() {
   const { currentUser, isLoading } = useSelector((state: IStore) => state.auth);
 
   useEffect(() => {
-    console.log('FIRST RENDER OF APP')
+
     dispatch(userLoggedOut());
     dispatch(getProfile(history));
   }, []);
@@ -36,10 +36,10 @@ function App() {
       <div className="App">
         <Navbar />
         {!isLoading ? (
-   
+
           <Switch>
             <Route exact path="/" component={Home} />
-           
+
             <Route path="/login" component={Login} />
             {/* <Route path="/register" component={Register} /> */}
 
@@ -47,25 +47,25 @@ function App() {
               isLoggedIn={!!currentUser}
               exact path="/demo"
               component={HomePage}
-              />           
-            <PrivateRoute 
+            />
+            <PrivateRoute
               isLoggedIn={!!currentUser}
               path="/todo"
               component={Demo}
-              /> 
+            />
             <PrivateRoute
               isLoggedIn={!!currentUser}
               path="/demo/details/:category_id/:custom_flag"
-              component={CategoryDetails} 
-              />
+              component={CategoryDetails}
+            />
             <Route>
               <Redirect to="/demo" />
             </Route>
-    
+
           </Switch>
-      
+
         ) : (
-        <div
+          <div
             style={{
               height: '100%',
               display: 'flex',

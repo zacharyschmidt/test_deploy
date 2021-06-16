@@ -53,16 +53,11 @@ export default function SimpleMenu(props) {
     default:
       other_filter = '';
   }
-  console.log(other_filter)
-  console.log(filter)
-  console.log(menu_options_name)
   const other_filter_selection = useSelector((state) => state.eia.filters[other_filter]);
   let menu_options = useSelector((state) => state.eia[menu_options_name]);
   const selection = useSelector((state) => state.eia[menu_selection]);
   const state = useSelector((state) => state.eia)
 
-  console.log("IN MENU AFTER MENU TOP CATS")
-  console.log(selection)
   useEffect(() => {
     let other_filter;
     if (filter === "Region") {
@@ -73,8 +68,6 @@ export default function SimpleMenu(props) {
     setMenuCatsAction(dispatch, 371, filter, other_filter)
 
   }, [other_filter_selection]);
-  console.log(menu_options)
-  console.log(other_filter_selection)
   let options;
   if (filter === "Region") {
     options = menu_options.map((option) => props.options_dict[option]);
@@ -102,25 +95,24 @@ export default function SimpleMenu(props) {
       option: menu_options[index],
     });
     setMenuSelectionAction(dispatch, {
-      store_mem: menu_selection, 
+      store_mem: menu_selection,
       selection: options[index]
 
     });
-    let filter_obj = {...state.filters, [filter]: menu_options[index]}
+    let filter_obj = { ...state.filters, [filter]: menu_options[index] }
     fetchCategoriesAction(
-        dispatch,
-        state.searchTerm,
-        state.selectedSearchNode ? state.selectedSearchNode : 371,
-        filter_obj,
-        1,
-        state.limit,
-      );
+      dispatch,
+      state.searchTerm,
+      state.selectedSearchNode ? state.selectedSearchNode : 371,
+      filter_obj,
+      1,
+      state.limit,
+    );
   };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-  console.log('IN MENU')
 
   return (
     <div className={classes.root}>

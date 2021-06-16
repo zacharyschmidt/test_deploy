@@ -43,7 +43,6 @@ export class DownloadController {
     async getRISDownload(@Res() response: Response,
         @Query('category_ID') category_ID: number) {
         const cat = await this.categoryService.getCategorybyID(category_ID);
-        console.log(cat)
         const year = cat.dataset_name.slice(22)
         if (cat.dataset_name.includes('Annual Energy Outlook')) {
             return response.send(createAEORIS(cat.dataset_name, year))
@@ -60,7 +59,6 @@ export class DownloadController {
         @Query('custom_flag') custom_flag: string,
         @Query() paginationDto: PaginationDto) {
 
-        console.log("IN GET EXCEL")
 
 
         //console.log(cat.childSeries)

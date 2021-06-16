@@ -15,7 +15,6 @@ export const setSelectedTreeNodeAction = (dispatch: any, treeNode: number) => {
 }
 
 export const setSearchNodeAction = (dispatch: any, searchNode: number) => {
-  console.log("SET SEARCH NODE")
   return dispatch({
     type: 'SET_SEARCH_NODE',
     payload: searchNode
@@ -37,8 +36,6 @@ export const getBreadCrumbsAction = async (dispatch: any, category_id: number) =
   } catch (err) {
     throw err;
   }
-  console.log('BREADCRUMBS')
-  console.log(breadcrumbs)
 }
 export const fetchParentCatsAction = async (dispatch: any, id: number, filters: {
   Region?: string,
@@ -95,8 +92,6 @@ export const fetchCategoriesAction = async (
   page: number,
   limit: number
 ) => {
-  console.log('FETCH CATEGORIES')
-  console.log(selectedTreeNode)
   try {
     const response = await axios({
       method: 'GET',
@@ -686,8 +681,6 @@ export const fetchDataAction = async (
   //console.log(URL);
   //const data = await fetch(URL);
   try {
-    console.log('SERIES SEARCH')
-    console.log(searchTerm)
     const response = await axios({
       method: 'GET',
       url: '/api/series/search',
@@ -701,7 +694,6 @@ export const fetchDataAction = async (
       }
     });
     //const dataJSON = await data.json();
-    console.log(response);
     if (response.data.length === 0) {
       alert('No Data Series Found');
     }
@@ -740,19 +732,17 @@ export const fetchChildSeriesAction = async (
   geography: string,
   frequency: string,
 ) => {
-  console.log(category_id)
-  console.log(custom_flag)
   // take extra url parameter to test if this is custom category
 
   try {
     let response = { data: '' };
 
     //if (custom_flag === 'EIA') {
-      response = await axios({
-        method: 'GET',
-        url: '/api/series/childseries',
-        params: { category_id, geography, frequency, custom_flag },
-      });
+    response = await axios({
+      method: 'GET',
+      url: '/api/series/childseries',
+      params: { category_id, geography, frequency, custom_flag },
+    });
     // } else {
     //   // hit another api endpoint to get data series needed for custom data
     //   response = await axios({
@@ -761,8 +751,6 @@ export const fetchChildSeriesAction = async (
     //     params: { category_id, geography, frequency, custom_flag },
     //   })
     // }
-    console.log('RECIEVED RESPONSE')
-    console.log(response.data)
 
     return dispatch({
       type: 'FETCH_DATA_SERIES',
@@ -820,7 +808,6 @@ export const setTreeStructureAction = async (
   filters: any
 ) => {
   try {
-    console.log("SET TREE STRUCTURE ACTION")
     const response = await axios({
       method: 'GET',
       url: '/api/categories/search',
@@ -847,9 +834,6 @@ export const setTreeStructureAction = async (
     }
     // make sure the state is getting set correctly--then maybe the issue is with 
     // the tree parsing program in Finderjs (does one exist?) 
-    console.log('inside set tree structure')
-    console.log(category_id)
-    console.log(response.data.categories)
     return dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
@@ -877,7 +861,6 @@ export const setMenuCatsAction = async (
     let response;
     let response_array;
     if (filter === "DataSet") {
-      console.log("SET Menu Cats")
       response = await axios({
         method: 'GET',
         url: '/api/categories/search',
@@ -907,7 +890,6 @@ export const setMenuCatsAction = async (
     };
 
     if (filter === "Region") {
-      console.log("SET Menu Regions")
       response = await axios({
         method: 'GET',
         // this won't work, because it will return an array of categories.
@@ -918,8 +900,6 @@ export const setMenuCatsAction = async (
           dataset_id: other_filters
         }
       })
-      console.log('REGIONS ACTION')
-      console.log(response)
       response_array = response.data.map((element: any) => element.geography)
     }
 
@@ -939,11 +919,7 @@ export const setMenuCatsAction = async (
       default:
         action_type = '';
     }
-    console.log(category_id)
-    console.log("RESPONSE")
-    console.log(response)
 
-    console.log(response?.data)
     return dispatch({
       type: action_type,
       // this is written for DataSet filter. needs to handle case of 
@@ -1026,7 +1002,6 @@ export const toggleSelectAction = (
   dispatch: any,
   series: ISeries | any
 ): IAction => {
-  console.log(state);
   const seriesInSel = state.selected.includes(series);
   let dispatchObj = {
     type: 'ADD_SEL',

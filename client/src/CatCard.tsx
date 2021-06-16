@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 export default function CatCard(props: any) {
   const { singleCat, selected, toggle, dispatch, fetchParentCats, filters } = props;
   const handleClick = () => {
-    console.log(singleCat);
+
     fetchParentCats(dispatch, singleCat.category_id, filters);
   };
   return (

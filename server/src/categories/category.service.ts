@@ -284,14 +284,8 @@ export class CategoryService {
   ): Promise<PaginatedCategoryResultDto> => {
 
 
-    console.log('PAGINATION DTO IN GET SEARCHED CATEGORIES ACTION')
-    console.log('DOES IT HAVE A PARENT CATGEGORY ID?')
-    console.log(paginationDto)
     if (paginationDto.treeNode) {
       try {
-        console.log('SEARCHING CATEGORIES TO GET DESCENDANTS')
-        console.log('Treenode = 371?')
-        console.log(Number(paginationDto.treeNode) === 371)
 
         //   `WITH RECURSIVE tree (category_id, ancestors, depth, cycle) AS (
         //       SELECT category_id, '{}'::integer[], 0, FALSE
@@ -311,16 +305,12 @@ export class CategoryService {
         console.log(error);
       }
     }
-    console.log(paginationDto.treeNode)
 
     //console.log(descendants)
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
-    console.log('TEST');
 
 
     let dataset_name;
-    console.log('DATASET')
-    console.log(paginationDto.DataSet)
     switch (paginationDto.DataSet) {
       case 'All':
         dataset_name = '%';
@@ -333,7 +323,6 @@ export class CategoryService {
     if (paginationDto.searchTerm) {
       searchTerm = paginationDto.searchTerm
     }
-    console.log('the data is: ' + paginationDto.DataSet);
     let parent_category_id;
     if (paginationDto.parent_category_id) {
       parent_category_id = Number(paginationDto.parent_category_id);
@@ -563,7 +552,6 @@ export class CategoryService {
       // see if count is slowing down
       .getManyAndCount();
 
-    console.log(categories)
     return {
       totalCount: categories[1],
       page: paginationDto.page,
@@ -585,7 +573,6 @@ export class CategoryService {
     category_id: number
   ): Promise<PaginatedCategoryResultDto> => {
     //
-    console.log(category_id);
     const currentCat = await this.categoryRepository
       .createQueryBuilder('category')
       .where('category.category_id = :category_id', { category_id: category_id })
@@ -617,7 +604,6 @@ export class CategoryService {
   };
 
   getCountryMenuOptions = async (dataset_id: any): Promise<Array<string>> => {
-    console.log(dataset_id)
 
     let country_matches
     if (dataset_id.dataset_id === 'All') {

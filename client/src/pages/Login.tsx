@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux';
 import * as authActions from '../redux/actions/auth/actions';
 
 const Login = () => {
-  console.log("LOGIN PAGE")
   const [creds, setCreds] = useState({
     email: '',
     password: '',
@@ -16,7 +15,6 @@ const Login = () => {
   const history = useHistory();
 
   useEffect(() => {
-    console.log('IN USE EFFECT')
     setCreds({
       email: '',
       password: '',

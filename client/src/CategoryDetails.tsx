@@ -36,7 +36,6 @@ const CategoryDetails = (props: any): JSX.Element => {
             custom_flag === 'AEO2021' ? { dataset_name: 'Custom', ancestors: 'none', name: 'Annual Energy Outlook 2021 KAYA', childCategories: [] } :
                 state.find((cat: any) => cat.category_id === Number(category_id));
 
-    console.log(category)
     const tree_categories = useSelector((state: IStore) => state.eia.treeCategories);
     let ancestor_names: Array<String> = [];
 
@@ -55,12 +54,10 @@ const CategoryDetails = (props: any): JSX.Element => {
         }
         FindAncestorNames(treeCats);
     }
-    console.log(ancestor_names)
 
 
     const childseries = series.map((series: any) => <li>{series.name}</li>)
 
-    console.log(childseries)
 
 
 
@@ -69,10 +66,8 @@ const CategoryDetails = (props: any): JSX.Element => {
     //const childseries = series ? series.map((series) => <li>{series.name}</li>) : null
     //const childseries = series ? (series).map((series) => <li>{series.name}</li>) : null
 
-    console.log(state)
     const downloadExcel = async () => {
         try {
-            console.log(category_id)
             const response = await axios({
                 method: 'GET',
                 url: '/api/download/excel',
@@ -94,7 +89,6 @@ const CategoryDetails = (props: any): JSX.Element => {
     }
     const downloadRIS = async () => {
         try {
-            console.log(category_id)
             const response = await axios({
                 method: 'GET',
                 url: '/api/download/RIS',

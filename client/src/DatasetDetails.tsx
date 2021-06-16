@@ -21,7 +21,6 @@ const DatasetDetails = (props: any): JSX.Element => {
       state.seriesData.filter((series: any) => series.series_id === series_id)
         .length === 0
     ) {
-      console.log('FETCHNG DATA FROM DETAILS PAGE');
       fetchDataSeriesAction(dispatch, props.match.params.series_id, state);
     }
   });

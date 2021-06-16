@@ -33,7 +33,6 @@ const AddButton: FC<Props> = ({
   filename = '',
   dispatch
 }) => {
-  console.log(onClick);
   return (
     <Button
       type="submit"
