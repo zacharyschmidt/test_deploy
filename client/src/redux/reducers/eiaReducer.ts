@@ -13,6 +13,7 @@ const initialState: IEIA = {
   treeLeaves: [],
   selectedTreeNode: null,
   selectedSearchNode: null,
+  treeLoading: false,
   categories: [],
   catSeriesFlag: 'Categories',
   DataSetName: 'All', // should be 'All'?
@@ -166,7 +167,11 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
       return { ...state, filters: filterObj };
     case 'FRESH_START':
       return { ...state, selectedTreeNode: null, selectedSearchNode: null, categories: [], DataSetName: 'All', CountryMenuDisplay: 'United States', searchTerm: '', filters: { ...state.filters, Region: 'USA', DataSet: ['All', 'All'] } }
-    default:
+     case 'TREE_LOADING':
+       return { ...state, treeLoading: true}
+     case 'TREE_FINISHED_LOADING':
+       return { ...state, treeLoading: false}
+      default:
       return state;
   }
 };

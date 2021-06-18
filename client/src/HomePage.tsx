@@ -32,6 +32,7 @@ export default function HomePage() {
   const filters = useSelector((state: IStore) => state.eia.filters, shallowEqual);
   const categories = useSelector((state: IStore) => state.eia.categories, shallowEqual);
   const selected = useSelector((state: IStore) => state.eia.selected, shallowEqual);
+  const treeLoading = useSelector((state: IStore) => state.eia.treeLoading);
   //const { state, dispatch } = React.useContext(Store);
 
   // React.useEffect(() => {
@@ -876,10 +877,13 @@ export default function HomePage() {
          
          </div>
          
-        <div>
+        <div className="menu-area">
          
           
           <FinderTree />
+
+           {treeLoading ? 'Loading . . .' : ''}
+       
         </div>
         <section className="treeAndSeries">
           <div>

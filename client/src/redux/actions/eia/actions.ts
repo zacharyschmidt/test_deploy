@@ -92,6 +92,7 @@ export const fetchCategoriesAction = async (
   page: number,
   limit: number
 ) => {
+  dispatch({ type: 'TREE_LOADING' });
   try {
     const response = await axios({
       method: 'GET',
@@ -110,7 +111,7 @@ export const fetchCategoriesAction = async (
     if (response.data.length === 0) {
       alert('No Categories Found');
     }
-
+    dispatch({ type: 'TREE_FINISHED_LOADING' });
     return dispatch({
       type: 'FETCH_CATS',
       payload: {
@@ -119,6 +120,7 @@ export const fetchCategoriesAction = async (
       }
     });
   } catch (error) { }
+  
 };
 
 export const fetchDataAction = async (

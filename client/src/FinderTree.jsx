@@ -50,6 +50,7 @@ export default React.memo(function FinderTree() {
   const searchTerm = useSelector((state) => state.eia.searchTerm, shallowEqual)
   //const page = useSelector((state) => state.eia.page, shallowEqual)
   const limit = useSelector((state) => state.eia.limit, shallowEqual)
+  
   //const searchVal = useSelector((state) => state.eia.selectedSearchNode, shallowEqual)
   const dispatch = useDispatch();
   // should use store instead of state
@@ -261,7 +262,8 @@ export default React.memo(function FinderTree() {
 
   }
   const renderTree = (config, item) => {
-    //console.log('STARTING RENDER TREE')
+    // console.log('STARTING RENDER TREE')
+    // console.log(item);
 
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
@@ -312,8 +314,8 @@ export default React.memo(function FinderTree() {
 
 
   //console.log(searchVal)
-  console.log('RENDERING TREE')
-  console.log(tree)
+  // console.log('RENDERING TREE')
+  // console.log(tree)
   return (
     <ReactFinder
       className=""

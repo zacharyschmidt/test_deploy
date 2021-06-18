@@ -68,6 +68,7 @@ export interface IEIA {
   treeLeaves: Array<ICategories>;
   selectedTreeNode: number|null;
   selectedSearchNode: number|null;
+  treeLoading: boolean;
   categories: Array<ICategories>;
   catSeriesFlag: string;
   DataSetName: string|null;
