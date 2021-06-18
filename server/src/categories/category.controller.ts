@@ -22,7 +22,6 @@ export class CategoryController {
   getSearchedCategories(@Query() paginationDto: PaginationDto) {
     paginationDto.page = Number(paginationDto.page);
     paginationDto.limit = Number(paginationDto.limit);
-    console.log(paginationDto);
     return this.categoryService.getSearchedCategories({
       ...paginationDto,
       //limit: paginationDto.limit > 10 ? 10 : paginationDto.limit

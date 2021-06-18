@@ -6,7 +6,7 @@ import { fetchParentCatsAction } from './redux/actions/eia/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 export default function SelectedList(props: any): Array<JSX.Element> {
-  const { categories, toggleSelectAction, selected} = props;
+  const { categories, toggleSelectAction, selected } = props;
 
   // const { state, dispatch } = store;
   const state = useSelector((state: IStore) => state.eia);
@@ -16,6 +16,7 @@ export default function SelectedList(props: any): Array<JSX.Element> {
   return categories.map((singleCat: ICategories) => {
     return (
       <CatCard
+        key={singleCat.category_id}
         toggle={() => toggleSelectAction(state, dispatch, singleCat)}
         singleCat={singleCat}
         selected={selected}

@@ -98,7 +98,9 @@ export default React.memo(function FinderTree() {
   };
   // renaming the members of each category in treeCategories so the FinderJS tree
   // can process them childCategories -> children
-
+  // const tree = [{ id: 964165, label: "Annual Energy Outlook 2014", childseries: [], 
+  //   children: [{ id: 964135, label: "Annual Energy Outlook 2012", childseries: []}] },
+  // { id: 963165, label: "Annual Energy Outlook 2015", childseries: [] }]
   const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
     if (a.label > b.label) {
       return 1
@@ -147,6 +149,7 @@ export default React.memo(function FinderTree() {
   }, [filters]);
 
   const onLeafSelected = (item) => {
+    console.log('STARTING ON LEAF SELECTED')
     if (item.display) {
       history.push(`/demo/details/${item.id}/EIA`)
       return;
@@ -155,6 +158,7 @@ export default React.memo(function FinderTree() {
     if ((item.id === nodeVal)) {
       return;
     }
+    setTreeStructureAction(dispatch, item.id, filters);
     // Won't be able to update search when walking back up the tree
 
     // FOR DEBUGGING
@@ -178,7 +182,7 @@ export default React.memo(function FinderTree() {
     //setSearchNodeAction(dispatch, item.id)
 
 
-    setTreeStructureAction(dispatch, item.id, filters);
+
     setTreeSeriesAction(dispatch, []);
 
 
@@ -212,7 +216,7 @@ export default React.memo(function FinderTree() {
     //     state.treeCategories[nodeID[0]].childseries
     //   );
     // }
-
+    console.log('FINISHED ON LEAF SELECTED')
     // this might cause bug
     //console.log(childSeries[nodeID[0]])
 
@@ -257,6 +261,7 @@ export default React.memo(function FinderTree() {
 
   }
   const renderTree = (config, item) => {
+    //console.log('STARTING RENDER TREE')
 
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
@@ -285,7 +290,8 @@ export default React.memo(function FinderTree() {
       // }
     }
     div.appendChild(ul);
-
+    //console.log('FINISHED RENDERING')
+    //console.log(ul)
     return div;
   };
   // console.log(tree);
@@ -306,7 +312,8 @@ export default React.memo(function FinderTree() {
 
 
   //console.log(searchVal)
-
+  console.log('RENDERING TREE')
+  console.log(tree)
   return (
     <ReactFinder
       className=""

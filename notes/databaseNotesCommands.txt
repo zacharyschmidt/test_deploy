@@ -339,3 +339,12 @@ WHERE search_vec @@ phraseto_tsquery('test') AND f LIKE '%' AND units LIKE '%' A
       })
 ## this index was missing, it looks like the app is running faster after adding this
 create index category_leaf_lookup_ancestors on category_leaf_lookup(ancestors);
+
+## we use dataset_name and parent_category_id in where clause too
+## haven't put these on the server yet, not sure if they are working
+create index dataset_name on categories(dataset_name);
+create index parent_category_id on categories(parent_category_id);
+
+
+insert into categories (name, category_id) values ('root category', 371);
+update categories set parent_category_id = 371 where parent_category_id is null;

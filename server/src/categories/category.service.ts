@@ -310,14 +310,6 @@ export class CategoryService {
     const skippedItems = (paginationDto.page - 1) * paginationDto.limit;
 
 
-    let dataset_name;
-    switch (paginationDto.DataSet) {
-      case 'All':
-        dataset_name = '%';
-        break;
-      default:
-        dataset_name = paginationDto.DataSet;
-    }
     let region = 'USA';
     let searchTerm = '';
     if (paginationDto.searchTerm) {
@@ -420,8 +412,9 @@ export class CategoryService {
     ]
     let categories = await this.categoryRepository
       .createQueryBuilder('categories')
-      .where('categories.dataset_name LIKE :dataset_name', {
-        dataset_name: dataset_name,
+      .where(paginationDto.DataSet = 'All' ? '1=1' :
+        'categories.dataset_name = :dataset_name', {
+        dataset_name: paginationDto.DataSet,
       })
 
       .andWhere(
@@ -446,7 +439,7 @@ export class CategoryService {
       // not exist. don't check plain parent category id to see if this is keyword search
       .andWhere(
         paginationDto.parent_category_id
-          ? 'COALESCE(categories.parent_category_id, :id) = :parent_category_id'
+          ? 'categories.parent_category_id = :parent_category_id'
           : '1=1',
         {
           id: 371,
