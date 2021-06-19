@@ -52,6 +52,14 @@ export default function SearchBar(): JSX.Element {
   const handleReset = () => {
     setValue('');
     clearSearchAction(dispatch);
+    fetchCategoriesAction(
+      dispatch,
+      '',
+      state.selectedSearchNode ? state.selectedSearchNode : 371,
+      state.filters,
+      1,
+      state.limit,
+    );
   };
   return (
     <div className="search-bar">
@@ -61,7 +69,7 @@ export default function SearchBar(): JSX.Element {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder="Keyword Search"
-          //value={props.searchTitle}
+        //value={props.searchTitle}
         />
         <button type="submit">Search</button>
         <button type="reset">Clear</button>

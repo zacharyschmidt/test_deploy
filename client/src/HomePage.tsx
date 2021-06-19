@@ -17,6 +17,7 @@ import {
 } from './redux/actions/eia/actions';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 
+
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function HomePage() {
@@ -33,6 +34,7 @@ export default function HomePage() {
   const categories = useSelector((state: IStore) => state.eia.categories, shallowEqual);
   const selected = useSelector((state: IStore) => state.eia.selected, shallowEqual);
   const treeLoading = useSelector((state: IStore) => state.eia.treeLoading);
+  const selectedSearchNode = useSelector((state: IStore) => state.eia.selectedSearchNode);
   //const { state, dispatch } = React.useContext(Store);
 
   // React.useEffect(() => {
@@ -750,17 +752,18 @@ export default function HomePage() {
             <h4>Search EIA Data</h4>
             <div className="menu-area">
 
-              <div className="sub-menu">
+              {/* <div className="sub-menu"> */}
 
-                <SimpleMenu
-                  filter={'Country'}
-                  //get array of country abbreviations and zip it together with the 
-                  //array of expanded names, then save in a variable and pass to options. use map . . .
-                  // const map1 = array1.map((x, index) => [x, array2[index]]);
-                  options_dict={menu_options_full}
-                />
-                {/* <SimpleMenu filter={'SubRegion'} options={subRegion} /> */}
-              </div>
+              <SimpleMenu
+                filter={'Country'}
+                //get array of country abbreviations and zip it together with the 
+                //array of expanded names, then save in a variable and pass to options. use map . . .
+                // const map1 = array1.map((x, index) => [x, array2[index]]);
+                options_dict={menu_options_full}
+              />
+
+              {/* <SimpleMenu filter={'SubRegion'} options={subRegion} /> */}
+
               {/* <SimpleMenu
               filter={'Frequency'}
               options={['All', 'Annual', 'Monthly', 'Daily']}
@@ -815,12 +818,14 @@ export default function HomePage() {
                   textDecoration: 'none',
                   border: '2px blue solid',
                   height: '48px',
-                  width: '80px'
+                  width: '80px',
+                  margin: 'auto'
                 }}
                 onClick={() => freshStartAction(dispatch)}
               >
                 Fresh Start
-          </Button>
+              </Button>
+
 
               {/* <SimpleMenu
               filter={'Historical/Projection'}
@@ -849,52 +854,59 @@ export default function HomePage() {
 
             <div>
               <SearchBar />
-              
+
             </div>
-            
+
             <br></br>
           </div>
-        
+
+          <div className="curatedDataGroups">
+            <h4>Curated DataGroups</h4>
+            {/* <ul><Link to="/demo/details/1/custom">US ELEC</Link></ul>  */}
+            <ul><Link to="/demo/details/1/kaya">US Historical KAYA, (1949-2020)</Link></ul>
+            <ul><Link to="/demo/details/2/AEO2021">Annual Energy Outlook 2021 KAYA, (2020-2050)</Link></ul>
+          </div>
         </div>
-       <div className="menu-area">
-          
-         
-        <div className="sub-menu">
-        <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
-        <p>Search Results appear below the Category Tree.</p>
-        <p>Click on a 'DataGroup' card to open the tree and find data.</p>
-        <p>Filter selections will restrict search results and the available categories in the tree.</p>
-        <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
-        <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
-          
-         </div>
-         <div className="curatedDataGroups">
-           <h4>Curated DataGroups</h4>
-           {/* <ul><Link to="/demo/details/1/custom">US ELEC</Link></ul>  */}
-           <ul><Link to="/demo/details/1/kaya">US Historical KAYA, (1949-2020)</Link></ul>
-           <ul><Link to="/demo/details/2/AEO2021">Annual Energy Outlook 2021 KAYA, (2020-2050)</Link></ul> 
-         </div>
-         
-         </div>
-         
         <div className="menu-area">
-         
-          
+
+
+          <div className="sub-menu">
+            <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
+            <p>Search Results appear below the Category Tree.</p>
+            <p>Click on a 'DataGroup' card to open the tree and find data.</p>
+            <p>Filter selections will restrict search results and the available categories in the tree.</p>
+            <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
+            <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
+
+          </div>
+
+
+        </div>
+
+        <div className="menu-area">
+
+
           <FinderTree />
 
-           {treeLoading ? 'Loading . . .' : ''}
-       
+          {treeLoading ? <div className="alert-format"> Loading . . . </div> : ''}
+
         </div>
         <section className="treeAndSeries">
           <div>
-            <div className="series-layout">
+            <div>
               {/* changed from props to cat_props to send categories */}
-              <SeriesList {...cat_props} />
+              {treeLoading ? <div className="alert-format"> Loading . . .  </div> :
+                (selectedSearchNode && cat_props.categories.length === 0) ? <div className="alert-format">No Categories Found!</div> :
+
+                  <div className="series-layout">
+                    <SeriesList  {...cat_props} />
+                  </div>}
+
             </div>
             <div className="series-layout">
-               <Pagination />
+              <Pagination />
             </div>
-           
+
           </div>
         </section>
       </React.Suspense>

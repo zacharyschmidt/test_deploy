@@ -54,6 +54,15 @@
 
 }
 
+.alert-format {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  color: orange;
+  font-size: 30px
+}
+
 .series-box {
   padding: .5rem;
 }
@@ -91,6 +100,7 @@
 .menu-area {
   display: flex;
   flex-direction: row;
+  align-items: flex-start;
 }
 
 .sub-menu {
@@ -118,6 +128,8 @@
   border-radius: 10px;
   padding: .5rem;
   max-height: 170px;
+  float: right;
+  margin-left: auto;
 }
 
 .download-button {

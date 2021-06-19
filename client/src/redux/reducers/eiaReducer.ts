@@ -66,7 +66,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
         seriesCount: action.payload.count
       };
     case 'CLEAR_SERIES':
-      return { ...state, series: [] };
+      return { ...state, searchTerm: '' };
     case 'ADD_SEL':
       return { ...state, selected: [...state.selected, action.payload] };
     case 'REMOVE_SEL':
@@ -166,12 +166,13 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
           };
       return { ...state, filters: filterObj };
     case 'FRESH_START':
-      return { ...state, selectedTreeNode: null, selectedSearchNode: null, categories: [], DataSetName: 'All', CountryMenuDisplay: 'United States', searchTerm: '', filters: { ...state.filters, Region: 'USA', DataSet: ['All', 'All'] } }
-     case 'TREE_LOADING':
-       return { ...state, treeLoading: true}
-     case 'TREE_FINISHED_LOADING':
-       return { ...state, treeLoading: false}
-      default:
+      return { ...state, selectedTreeNode: null, selectedSearchNode: null, categories: [], DataSetName: 'All', CountryMenuDisplay: 'United States', searchTerm: '', seriesCount: 0, filters: { ...state.filters, Region: 'USA', DataSet: ['All', 'All'] } }
+    //{ ...initialState, treeCategories: state.treeCategories } { ...state, selectedTreeNode: null, selectedSearchNode: null, categories: [], DataSetName: 'All', CountryMenuDisplay: 'United States', searchTerm: '', filters: { ...state.filters, Region: 'USA', DataSet: ['All', 'All'] } }
+    case 'TREE_LOADING':
+      return { ...state, treeLoading: true }
+    case 'TREE_FINISHED_LOADING':
+      return { ...state, treeLoading: false }
+    default:
       return state;
   }
 };
