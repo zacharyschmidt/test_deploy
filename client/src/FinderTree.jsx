@@ -45,12 +45,13 @@ export default React.memo(function FinderTree() {
 
   const nodeVal = useSelector((state) => state.eia.selectedTreeNode, shallowEqual);
   const treeCategories = useSelector((state) => state.eia.treeCategories, shallowEqual)
+  console.log(treeCategories)
   const filters = useSelector((state) => state.eia.filters, shallowEqual)
   const treeLeaves = useSelector((state) => state.eia.treeLeaves, shallowEqual)
   const searchTerm = useSelector((state) => state.eia.searchTerm, shallowEqual)
   //const page = useSelector((state) => state.eia.page, shallowEqual)
   const limit = useSelector((state) => state.eia.limit, shallowEqual)
-  
+
   //const searchVal = useSelector((state) => state.eia.selectedSearchNode, shallowEqual)
   const dispatch = useDispatch();
   // should use store instead of state
@@ -63,16 +64,16 @@ export default React.memo(function FinderTree() {
   //   if there are nested children, call this function on that cat
   const recursiveMap = (cat) => {
     if (cat.childCategories.length === 0) {
-      if (cat.childSeries.length > 0) {
+      if ((cat?.childseries && cat.childseries.length > 0) || (typeof cat.childCategories === 'undefined')) {
         return {
           id: cat.category_id,
           label: cat.name,
-          childseries: cat.childSeries,
+          childseries: cat.childseries,
           children: [
             {
               id: cat.category_id,
               label: cat.name,
-              childseries: cat.childSeries,
+              childseries: cat.childseries,
               display: 1,
             }
           ]
@@ -81,19 +82,19 @@ export default React.memo(function FinderTree() {
       return {
         id: cat.category_id,
         label: cat.name,
-        childseries: cat.childSeries
+        childseries: cat.childseries
         // if the category is a leaf,
         // give it a single child which is itself,
         // then I can render it in a column by itself
         // --what about the categories with both childCategories
-        // and childSeries?
+        // and childseries?
       };
     }
 
     return {
       id: cat.category_id,
       label: cat.name,
-      childseries: cat.childSeries,
+      childseries: cat.childseries,
       children: cat.childCategories.map((cat) => recursiveMap(cat))
     };
   };

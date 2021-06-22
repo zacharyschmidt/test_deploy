@@ -348,3 +348,111 @@ create index parent_category_id on categories(parent_category_id);
 
 insert into categories (name, category_id) values ('root category', 371);
 update categories set parent_category_id = 371 where parent_category_id is null;
+
+alter table categories
+add column excluded integer;
+
+update categories set excluded = 0;
+update categories set excluded = 1 where category_id IN (3604312, 3604307, 3604309, 3604310, 3604306, 3604311, 3604314, 3604308,
+      1019945, 1019952, 1019936, 1019950, 964167, 1019955, 1019937, 1019940, 1019943, 1019944, 1019951, 1019956,
+      1019953, 1019957, 1019946, 1019960, 1019935, 1019938, 1019961, 1019934, 1019939, 1019959, 1019958, 1019954,
+      964168, 1019942, 964169, 1019933,
+      1370526,
+      1370524,
+      1370529,
+      1370528,
+      1370525,
+      1370527,
+      2102242,
+      2102244,
+      2102240,
+      2102239,
+      2102238,
+      2102236,
+      2102237,
+      2102243,
+      2112192,
+      2113095,
+      2113110,
+      2113097,
+      2113099,
+      2113096,
+      2113109,
+      2113098,
+      2113100,
+      2102235,
+      2102241,
+      2227121,
+      2227115,
+      2227117,
+      2227119,
+      2397068,
+      2227116,
+      2227118,
+      2227120,
+      2783667,
+      2656298,
+      2641376,
+      2824166,
+      2824167,
+      2641369,
+      2804640,
+      2811053,
+      2641363,
+      2641370,
+      2641365,
+      2641372,
+      2641367,
+      2641374,
+      2783665,
+      2783666,
+      2811052,
+      2641364,
+      2641371,
+      2641366,
+      2641373,
+      2641368,
+      2641375,
+      2783663,
+      2783664,
+      2811051,
+      2804637,
+      2804638,
+      2783661,
+      2783662,
+      2804641,
+      3161920,
+      3161922,
+      3161924,
+      3161921,
+      3161923,
+      3161925);
+
+      CREATE FUNCTION count_estimate(query text)
+  RETURNS integer
+  LANGUAGE plpgsql AS
+$func$
+DECLARE
+    rec   record;
+    rows  integer;
+BEGIN
+    FOR rec IN EXECUTE 'EXPLAIN ' || query LOOP
+        rows := substring(rec."QUERY PLAN" FROM ' rows=([[:digit:]]+)');
+        EXIT WHEN rows IS NOT NULL;
+    END LOOP;
+
+    RETURN rows;
+END
+$func$;
+
+## Use like this: 
+SELECT count_estimate('...query');
+
+
+DELETE FROM
+	frequency_filter a
+		USING frequency_filter b
+WHERE
+	a.id < b.id
+	AND a.category_id = b.category_id
+	AND a.f = b.f;

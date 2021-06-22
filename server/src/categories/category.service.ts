@@ -2,6 +2,7 @@ import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Connection, Repository } from 'typeorm';
 import { CategoryEntity } from './category.entity';
+import { FrequencyFilterEntity } from './category.entity';
 import { CategorySO } from './dto/category.dto';
 import { UserEntity } from 'src/user/user.entity';
 
@@ -410,146 +411,239 @@ export class CategoryService {
       3161923,
       3161925,
     ]
-    let categories = await this.categoryRepository
-      .createQueryBuilder('categories')
-      .where(paginationDto.DataSet = 'All' ? '1=1' :
-        'categories.dataset_name = :dataset_name', {
-        dataset_name: paginationDto.DataSet,
-      })
-
-      .andWhere(
-        searchTerm.length > 0
-          // can I get rid of search_vec and to 'to_tsvector'? maybe not, since I 
-          // concatenated multiple colums
-          ? 'categories.search_vec @@ phraseto_tsquery(:term)'
-          : '1=1',
-        {
-          term: searchTerm,
-        }
-      )
-
-      // then put in region and subregion filters
-
-      // need to check units--maybe not matching with data in column
-
-      // this reduces to 1=1 if there is not paginationDto.parent_category_id (no parent category
-      // id means we are doing keyword search, not set tree structure). if there is 
-      // a parent_category id but it is null then we use 371 (coalesce function)
-      // -- parent category id set to be 371 if paginationDto.parent category id does
-      // not exist. don't check plain parent category id to see if this is keyword search
-      .andWhere(
-        paginationDto.parent_category_id
-          ? 'categories.parent_category_id = :parent_category_id'
-          : '1=1',
-        {
-          id: 371,
-          parent_category_id: parent_category_id,
-        }
-      )
-      .andWhere(
-        paginationDto.parent_category_id
-          //&& paginationDto.parent_category_id != 371
-          ? 'categories.category_id IN (SELECT category_id from frequency_filter where frequency_filter.f = :frequency)'
-          //':frequency IN (SELECT f from temp_cats where :parent_category_id = any(temp_cats.ancestors))' 
-          : '1=1',
-        {
-          frequency: paginationDto.Frequency,
-          parent_category_id: parent_category_id
-        }
-      )
-      .andWhere(
-        paginationDto.parent_category_id
-          //&& paginationDto.parent_category_id != 371
-          ? 'categories.category_id IN (SELECT category_id from geography_filter where geography_filter.geography = :geography)'
-          //':geography IN (SELECT geography from temp_cats where :parent_category_id = any(temp_cats.ancestors))' : 
-          // category_id IN (select ancestor from temp_cats where :geography = geography)
-          //`category_id = any((Select ancestors from temp_cats where :geograpy = geography))` :
-          : '1=1',
-        {
-          geography: paginationDto.Region,
-          parent_category_id: parent_category_id
-        }
-      )
-      .andWhere(
-        paginationDto.parent_category_id
-          ? 'categories.category_id NOT IN (:...excluded_list)'
-          : '1=1',
-        { excluded_list: excluded_list }
-      )
-
-      // this runs if we have prefilled the descendants array, based on seleted treenode
-      // This is a keyword search
-      .andWhere(
-        paginationDto.treeNode ?
-          'categories.category_id IN (SELECT leaf_category from category_leaf_lookup WHERE category_leaf_lookup.ancestors = :treeNode)'
-          // 'categories.category_id IN (:...descendants)' : 
-          : '1=1',
-
-        { treeNode: paginationDto.treeNode }
-      )
-      //these are slow 
-      .andWhere(
-        paginationDto.treeNode ?
-          'category_id IN (SELECT category_id from frequency_filter where f = :freq)'
-          //':freq IN (SELECT f from frequency_filter where frequency_filter.category_id = :selected_treeNode)'
-          // ':freq IN (SELECT f from temp_cats where temp_cats.category_id IN (:...descendants))'
-          : '1=1',
-        {
-          freq: paginationDto.Frequency,
-          selected_treeNode: Number(paginationDto.treeNode)
-        })
-      .andWhere(
-        paginationDto.treeNode ?
-          'category_id IN (SELECT category_id from geography_filter where geography = :geo)'
-          //':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
-          //':geo IN (SELECT geography from temp_cats where temp_cats.category_id IN (:...descendants))'
-          : '1=1',
-        {
-          geo: paginationDto.Region,
-          selected_treeNode: Number(paginationDto.treeNode)
-        })
-      // .andWhere(
-      //   paginationDto.treeNode ?
-      //     'category_id not in (SELECT leaf_category FROM category_leaf_lookup WHERE ancestors IN (:...excluded_list))'
-      //     : '1=1',
-      //   { excluded_list: excluded_list }
-      // )
+    // make one query for tree, one for keyword search
+    let categories;
+    let count;
+    if (paginationDto.parent_category_id) {
+      categories = await this.categoryRepository
+        .query(
+          `SELECT * FROM categories AS cats
+         INNER JOIN frequency_filter AS freq
+         ON freq.category_id = cats.category_id
+         INNER JOIN geography_filter AS geo
+         ON geo.category_id = cats.category_id
+         WHERE (($1 = 'All') OR cats.dataset_name = $1)
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
+         AND cats.parent_category_id = $4
+         AND freq.f = $5
+         AND geo.geography = $6
+         AND cats.excluded = 0
+         ORDER BY cats.category_id
+         LIMIT $7
+         OFFSET $8`
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
+          paginationDto.Frequency, paginationDto.Region, paginationDto.limit, skippedItems
+          ])
+    } else if (paginationDto.treeNode) {
+      categories = await this.categoryRepository
+        .query(
+          `SELECT * FROM categories AS cats
+         INNER JOIN frequency_filter AS freq
+         ON freq.category_id = cats.category_id
+         INNER JOIN geography_filter AS geo
+         ON geo.category_id = cats.category_id
+         WHERE (($1 = 'All') OR cats.dataset_name = $1)
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
+         AND cats.parent_category_id = $4
+         AND freq.f = $5
+         AND geo.geography = $6
+         AND cats.excluded = 0
+         ORDER BY cats.category_id
+         LIMIT $7
+         OFFSET $8`
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
+          paginationDto.Frequency, paginationDto.Region, paginationDto.limit, skippedItems
+          ])
 
 
 
 
-      //.andWhere(qb => {
-      //const subQuery = qb.subQuery().select("temp_cats.geography").from(TempCats, "temp_cats")
-      //.where("temp_cats.g")
-      //}:geograpy in (select geography from temp_cats 
-      //where category_id = paginationDto.category_id))
+
+      count = await this.categoryRepository
+        .query(
+          `SELECT count_estimate(
+        $$ 
+        SELECT * FROM categories AS cats
+         INNER JOIN frequency_filter AS freq
+         ON freq.category_id = cats.category_id
+         INNER JOIN geography_filter AS geo
+         ON geo.category_id = cats.category_id
+         WHERE (('${paginationDto.DataSet}' = 'All') OR cats.dataset_name = '${paginationDto.DataSet}')
+         AND ((${searchTerm.length} = 0) OR cats.search_vec @@ phraseto_tsquery('${searchTerm}'))
+         AND cats.parent_category_id = ${parent_category_id}
+         AND freq.f = '${paginationDto.Frequency}'
+         AND geo.geography = '${paginationDto.Region}'
+         AND cats.excluded = 0 
+         $$
+         )`
+        )
+    }
+    console.log(count)
+    // .query(
+    //   `SELECT * FROM categories AS cats
+    //   INNER JOIN frequency_filter AS freq
+    //   ON freq.category_id = cats.category_id
+    //   INNER JOIN geography_filter AS geo
+    //   ON geo.category_id = cats.category_id
+    //   WHERE (($1 = 'All') OR categories.dataset_name = $1)
+    //   AND (($2 > 0) OR categories.search_vec @@ phraseto_tsquery($3)
+    //   AND categories.parent_category_id = :parent_category_id
+    //   AND freq.f = $4
+    //   AND geo.geography = $5
+    //  AND categories.category_id NOT IN (...$6)
+    //   ORDER BY categories.category_id
+    //   LIMIT $7
+    //   OFFSET $8`
+    //   , [paginationDto.DataSet, searchTerm.length, searchTerm,
+    //   paginationDto.Frequency, paginationDto.Region, excluded_list,
+    //   paginationDto.limit, skippedItems]
+    // )
+    //console.log(categories)
+    // let categories = await this.categoryRepository
+    //   //
+    //   .createQueryBuilder('categories')
+    //   .innerJoin('frequency_filter', 'freq', 'freq.category_id = categories.category_id')
+    //   .where(paginationDto.DataSet = 'All' ? '1=1' :
+    //     'categories.dataset_name = :dataset_name', {
+    //     dataset_name: paginationDto.DataSet,
+    //   })
+
+    //   .andWhere(
+    //     searchTerm.length > 0
+    //       // can I get rid of search_vec and to 'to_tsvector'? maybe not, since I 
+    //       // concatenated multiple colums
+    //       ? 'categories.search_vec @@ phraseto_tsquery(:term)'
+    //       : '1=1',
+    //     {
+    //       term: searchTerm,
+    //     }
+    //   )
+
+    //   // then put in region and subregion filters
+
+    //   // need to check units--maybe not matching with data in column
+
+    //   // this reduces to 1=1 if there is not paginationDto.parent_category_id (no parent category
+    //   // id means we are doing keyword search, not set tree structure). if there is 
+    //   // a parent_category id but it is null then we use 371 (coalesce function)
+    //   // -- parent category id set to be 371 if paginationDto.parent category id does
+    //   // not exist. don't check plain parent category id to see if this is keyword search
+    //   .andWhere(
+    //     paginationDto.parent_category_id
+    //       ? 'categories.parent_category_id = :parent_category_id'
+    //       : '1=1',
+    //     {
+    //       id: 371,
+    //       parent_category_id: parent_category_id,
+    //     }
+    //   )
+    //   .andWhere(
+    //     paginationDto.parent_category_id
+    //       //&& paginationDto.parent_category_id != 371
+    //       ? 'categories.category_id IN (SELECT category_id from frequency_filter where frequency_filter.f = :frequency)'
+    //       //? 'freq.f = :frequency'
+    //       //':frequency IN (SELECT f from temp_cats where :parent_category_id = any(temp_cats.ancestors))' 
+    //       : '1=1',
+    //     {
+    //       frequency: paginationDto.Frequency,
+    //       parent_category_id: parent_category_id
+    //     }
+    //   )
+    //   .andWhere(
+    //     paginationDto.parent_category_id
+    //       //&& paginationDto.parent_category_id != 371
+    //       ? 'categories.category_id IN (SELECT category_id from geography_filter where geography_filter.geography = :geography)'
+    //       //':geography IN (SELECT geography from temp_cats where :parent_category_id = any(temp_cats.ancestors))' : 
+    //       // category_id IN (select ancestor from temp_cats where :geography = geography)
+    //       //`category_id = any((Select ancestors from temp_cats where :geograpy = geography))` :
+    //       : '1=1',
+    //     {
+    //       geography: paginationDto.Region,
+    //       parent_category_id: parent_category_id
+    //     }
+    //   )
+    //   .andWhere(
+    //     paginationDto.parent_category_id
+    //       ? 'categories.category_id NOT IN (:...excluded_list)'
+    //       : '1=1',
+    //     { excluded_list: excluded_list }
+    //   )
+
+    //   // this runs if we have prefilled the descendants array, based on seleted treenode
+    //   // This is a keyword search
+    //   .andWhere(
+    //     paginationDto.treeNode ?
+    //       'categories.category_id IN (SELECT leaf_category from category_leaf_lookup WHERE category_leaf_lookup.ancestors = :treeNode)'
+    //       // 'categories.category_id IN (:...descendants)' : 
+    //       : '1=1',
+
+    //     { treeNode: paginationDto.treeNode }
+    //   )
+    //   //these are slow 
+    //   .andWhere(
+    //     paginationDto.treeNode ?
+    //       'category_id IN (SELECT category_id from frequency_filter where f = :freq)'
+    //       //':freq IN (SELECT f from frequency_filter where frequency_filter.category_id = :selected_treeNode)'
+    //       // ':freq IN (SELECT f from temp_cats where temp_cats.category_id IN (:...descendants))'
+    //       : '1=1',
+    //     {
+    //       freq: paginationDto.Frequency,
+    //       selected_treeNode: Number(paginationDto.treeNode)
+    //     })
+    //   .andWhere(
+    //     paginationDto.treeNode ?
+    //       'category_id IN (SELECT category_id from geography_filter where geography = :geo)'
+    //       //':geo IN (SELECT geography from geography_filter where geography_filter.category_id = :selected_treeNode)'
+    //       //':geo IN (SELECT geography from temp_cats where temp_cats.category_id IN (:...descendants))'
+    //       : '1=1',
+    //     {
+    //       geo: paginationDto.Region,
+    //       selected_treeNode: Number(paginationDto.treeNode)
+    //     })
+    //   // .andWhere(
+    //   //   paginationDto.treeNode ?
+    //   //     'category_id not in (SELECT leaf_category FROM category_leaf_lookup WHERE ancestors IN (:...excluded_list))'
+    //   //     : '1=1',
+    //   //   { excluded_list: excluded_list }
+    //   // )
 
 
-      //.andWhere(:frequency in (select f from temp cats 
-      // where category ))
-
-      //or use CTE? (put index on temp_cats category_id)
-      //.andWhere(:frequency in CTE.f and :region in CTE.geograpy) 
-      //with CTE as (select f, geograpy form temp_cats where category_id = category_id)
 
 
-      //.andWhere('series.geography LIKE :region', { region: region })
-      // must make catname column (join with categories . . . ).andWhere("series.catname LIKE :catname"), {catname: dataset})
-      // make this too .andWhere("series.histProj LIKE :histProj", {histProj: histProj})
-      // how to make this? .andWhere("series.SuppDemand LIKE suppDemand")
-      //.andWhere("series.LastUpdate LIKE :lastUpdate", {lastUpdate: lastUpdate})
-      .orderBy('category_id')
-      .skip(skippedItems)
-      .take(paginationDto.limit)
+    //   //.andWhere(qb => {
+    //   //const subQuery = qb.subQuery().select("temp_cats.geography").from(TempCats, "temp_cats")
+    //   //.where("temp_cats.g")
+    //   //}:geograpy in (select geography from temp_cats 
+    //   //where category_id = paginationDto.category_id))
 
-      // see if count is slowing down
-      .getManyAndCount();
+
+    //   //.andWhere(:frequency in (select f from temp cats 
+    //   // where category ))
+
+    //   //or use CTE? (put index on temp_cats category_id)
+    //   //.andWhere(:frequency in CTE.f and :region in CTE.geograpy) 
+    //   //with CTE as (select f, geograpy form temp_cats where category_id = category_id)
+
+
+    //   //.andWhere('series.geography LIKE :region', { region: region })
+    //   // must make catname column (join with categories . . . ).andWhere("series.catname LIKE :catname"), {catname: dataset})
+    //   // make this too .andWhere("series.histProj LIKE :histProj", {histProj: histProj})
+    //   // how to make this? .andWhere("series.SuppDemand LIKE suppDemand")
+    //   //.andWhere("series.LastUpdate LIKE :lastUpdate", {lastUpdate: lastUpdate})
+    //   .orderBy('category_id')
+    //   .skip(skippedItems)
+    //   .take(paginationDto.limit)
+
+    //   // see if count is slowing down
+    //   .getManyAndCount();
 
     return {
-      totalCount: categories[1],
+      totalCount: count,
       page: paginationDto.page,
       limit: paginationDto.limit,
-      categories: categories[0],
+      categories: categories,
     };
   };
 
