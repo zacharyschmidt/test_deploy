@@ -6,7 +6,8 @@ import {
   fetchDataAction,
   fetchCategoriesAction,
   clearSearchAction,
-  setSearchTermAction
+  setSearchTermAction,
+  freshStartAction
 } from './redux/actions/eia/actions';
 import { IStore } from './types';
 
@@ -72,7 +73,8 @@ export default function SearchBar(): JSX.Element {
         //value={props.searchTitle}
         />
         <button type="submit">Search</button>
-        <button type="reset">Clear</button>
+        <button type="reset">Clear Search</button>
+        <button onClick={() => freshStartAction(dispatch)}>Fresh Start</button>
       </form>
     </div>
   );

@@ -747,42 +747,6 @@ export default function HomePage() {
         <br />
         <br />
         <br />
-
-
-        <AppBar position="static">
-          <Toolbar style={{
-            background: '#d3d3d3'
-          }}>
-            <Typography variant="h6">
-              <Link to="/">
-
-                Login Page
-
-              </Link>
-            </Typography>
-
-            <Typography variant="h6">
-              <Link to="/demo">
-
-                Data Explorer
-
-              </Link>
-            </Typography>
-            <CuratedDropdown />
-
-            <div style={{
-              marginRight: '1.5rem',
-              display: 'flex',
-              justifyContent: 'flex-end',
-              flex: 1,
-              textDecoration: 'none',
-              color: 'black'
-            }
-            } >
-              <AuthLinks />
-            </div>
-          </Toolbar>
-        </AppBar>
         <div className="search-area">
           <div className="search-bar">
             <h4>Search EIA Data</h4>
@@ -849,18 +813,7 @@ export default function HomePage() {
                 ]}
 
               />
-              <Button
-                style={{
-                  textDecoration: 'none',
-                  border: '2px blue solid',
-                  height: '48px',
-                  width: '80px',
-                  margin: 'auto'
-                }}
-                onClick={() => freshStartAction(dispatch)}
-              >
-                Fresh Start
-              </Button>
+              
 
 
               {/* <SimpleMenu

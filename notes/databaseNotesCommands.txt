@@ -456,3 +456,13 @@ WHERE
 	a.id < b.id
 	AND a.category_id = b.category_id
 	AND a.f = b.f;
+
+    DELETE FROM 
+	geography_filter a 
+		USING geography_filter b
+WHERE
+	a.id < b.id
+	AND a.category_id = b.category_id
+	AND a.geography = b.geography;
+
+DELETE FROM geography_filter WHERE geography IS NULL;

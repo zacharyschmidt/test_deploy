@@ -8,12 +8,12 @@ const useStyles = makeStyles(() => ({
   navbar: {
     height: '80px',
     width: '100%',
-    position: 'fixed',
+    //position: 'fixed',
     top: 0,
     left: 0,
     display: 'flex',
-    //alignItems: 'center',
-    //justifyContent: 'space-between',
+    alignItems: 'center',
+    justifyContent: 'center',
     background: 'white',
     boxShadow: '0 0 8px 3px rgba(0,0,0,0.2)',
     zIndex: 999
@@ -39,8 +39,42 @@ const Navbar = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.navbar}>
+    <div>
+    
+      <AppBar position="static">
+          <Toolbar style={{
+            background: '#d3d3d3'
+          }}>
+            <Typography variant="h6">
+              <Link to="/">
 
+                Login Page
+
+              </Link>
+            </Typography>
+
+            <Typography variant="h6">
+              <Link to="/demo">
+
+                Data Explorer
+
+              </Link>
+            </Typography>
+            <CuratedDropdown />
+
+            <div style={{
+              marginRight: '1.5rem',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              flex: 1,
+              textDecoration: 'none',
+              color: 'black'
+            }
+            }>
+              <AuthLinks />
+            </div>
+          </Toolbar>
+        </AppBar>
 
       {/* <div className={classes.navLinks}>
         <Link to="/">
@@ -84,12 +118,13 @@ const Navbar = () => {
 
 
       </div>*/}
+      <div className={classes.navbar}>
       <h1 style={{ textAlign: 'right' }}>EIA Data Exploration Tool (Alpha)</h1>
       {/* <div className={classes.authLinks}>
         <AuthLinks />
       </div> */}
 
-
+    </div>
     </div>
   );
 };

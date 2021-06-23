@@ -66,13 +66,13 @@ export interface IEIA {
   treeCategories: Array<ICategories>;
   treeNodes: Array<number>;
   treeLeaves: Array<ICategories>;
-  selectedTreeNode: number|null;
-  selectedSearchNode: number|null;
+  selectedTreeNode: number | null;
+  selectedSearchNode: number | null;
   treeLoading: boolean;
   categories: Array<ICategories>;
   catSeriesFlag: string;
-  DataSetName: string|null;
-  CountryMenuDisplay: string|null;
+  DataSetName: string | null;
+  CountryMenuDisplay: string | null;
   menuTopCats: Array<ICategories>;
   menuRegions: Array<string>;
   page: number;
@@ -112,7 +112,7 @@ export interface ICategories {
   category_id: number;
   name: string;
   childCategories: Array<ICategories>;
-  childSeries: Array<string>;
+  childseries: Array<string>;
   dataset_name: string;
   ancestors?: Array<number>;
 }

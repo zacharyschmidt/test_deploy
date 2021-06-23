@@ -443,21 +443,21 @@ export class CategoryService {
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
          ON geo.category_id = cats.category_id
+         INNER JOIN category_leaf_lookup as leaf
+         ON leaf.leaf_category = cats.category_id
          WHERE (($1 = 'All') OR cats.dataset_name = $1)
-         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
-         AND cats.parent_category_id = $4
-         AND freq.f = $5
-         AND geo.geography = $6
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3)) 
+         AND freq.f = $4
+         AND geo.geography = $5
          AND cats.excluded = 0
+         AND leaf.ancestors = $6
          ORDER BY cats.category_id
          LIMIT $7
          OFFSET $8`
           ,
-          [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
-          paginationDto.Frequency, paginationDto.Region, paginationDto.limit, skippedItems
+          [paginationDto.DataSet, searchTerm.length, searchTerm,
+          paginationDto.Frequency, paginationDto.Region, paginationDto.treeNode, paginationDto.limit, skippedItems
           ])
-
-
 
 
 
@@ -470,17 +470,19 @@ export class CategoryService {
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
          ON geo.category_id = cats.category_id
+         INNER JOIN category_leaf_lookup as leaf
+         ON leaf.leaf_category = cats.category_id
          WHERE (('${paginationDto.DataSet}' = 'All') OR cats.dataset_name = '${paginationDto.DataSet}')
          AND ((${searchTerm.length} = 0) OR cats.search_vec @@ phraseto_tsquery('${searchTerm}'))
-         AND cats.parent_category_id = ${parent_category_id}
          AND freq.f = '${paginationDto.Frequency}'
          AND geo.geography = '${paginationDto.Region}'
-         AND cats.excluded = 0 
+         AND cats.excluded = 0
+         AND leaf.ancestors = ${paginationDto.treeNode} 
          $$
          )`
         )
     }
-    console.log(count)
+    console.log(categories[0])
     // .query(
     //   `SELECT * FROM categories AS cats
     //   INNER JOIN frequency_filter AS freq

@@ -103,6 +103,7 @@ export default React.memo(function FinderTree() {
   // const tree = [{ id: 964165, label: "Annual Energy Outlook 2014", childseries: [], 
   //   children: [{ id: 964135, label: "Annual Energy Outlook 2012", childseries: []}] },
   // { id: 963165, label: "Annual Energy Outlook 2015", childseries: [] }]
+  console.log(treeCategories)
   const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
     if (a.label > b.label) {
       return 1
@@ -316,7 +317,7 @@ export default React.memo(function FinderTree() {
 
   //console.log(searchVal)
   // console.log('RENDERING TREE')
-  // console.log(tree)
+  console.log(tree)
   return (
     <ReactFinder
       className=""
