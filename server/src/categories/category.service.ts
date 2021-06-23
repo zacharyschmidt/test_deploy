@@ -482,7 +482,7 @@ export class CategoryService {
          )`
         )
     }
-    console.log(categories[0])
+
     // .query(
     //   `SELECT * FROM categories AS cats
     //   INNER JOIN frequency_filter AS freq
@@ -640,9 +640,9 @@ export class CategoryService {
 
     //   // see if count is slowing down
     //   .getManyAndCount();
-
+    console.log(count ? count[0] : 'count is undefinded')
     return {
-      totalCount: count,
+      totalCount: count ? count[0].count_estimate : count,
       page: paginationDto.page,
       limit: paginationDto.limit,
       categories: categories,
