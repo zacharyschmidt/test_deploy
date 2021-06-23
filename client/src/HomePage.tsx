@@ -7,7 +7,8 @@ import AddButton from './components/add-button/AddButton';
 import RecordsPerPage from './components/pagination/RecordsPerPage';
 import { Pagination } from './components/pagination/Pagination';
 import { ISeriesProps, ICategoriesProps, IStore } from './types';
-import { Button, makeStyles } from '@material-ui/core';
+import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import CuratedDropdown from './containers/CuratedDropdown';
 
 import {
   fetchDataAction,
@@ -16,6 +17,7 @@ import {
   freshStartAction,
 } from './redux/actions/eia/actions';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
+import AuthLinks from './components/auth-links/AuthLinks';
 
 
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
@@ -745,8 +747,42 @@ export default function HomePage() {
         <br />
         <br />
         <br />
-        <br />
-        <br />
+
+
+        <AppBar position="static">
+          <Toolbar style={{
+            background: '#d3d3d3'
+          }}>
+            <Typography variant="h6">
+              <Link to="/">
+
+                Login Page
+
+              </Link>
+            </Typography>
+
+            <Typography variant="h6">
+              <Link to="/demo">
+
+                Data Explorer
+
+              </Link>
+            </Typography>
+            <CuratedDropdown />
+
+            <div style={{
+              marginRight: '1.5rem',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              flex: 1,
+              textDecoration: 'none',
+              color: 'black'
+            }
+            } >
+              <AuthLinks />
+            </div>
+          </Toolbar>
+        </AppBar>
         <div className="search-area">
           <div className="search-bar">
             <h4>Search EIA Data</h4>
@@ -860,12 +896,7 @@ export default function HomePage() {
             <br></br>
           </div>
 
-          <div className="curatedDataGroups">
-            <h4>Curated DataGroups</h4>
-            {/* <ul><Link to="/demo/details/1/custom">US ELEC</Link></ul>  */}
-            <ul><Link to="/demo/details/1/kaya">US Historical KAYA, (1949-2020)</Link></ul>
-            <ul><Link to="/demo/details/2/AEO2021">Annual Energy Outlook 2021 KAYA, (2020-2050)</Link></ul>
-          </div>
+
         </div>
         <div className="menu-area">
 
@@ -873,8 +904,9 @@ export default function HomePage() {
           <div className="sub-menu">
             <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
             <p>Search Results appear below the Category Tree.</p>
-            <p>Click on a 'DataGroup' card to open the tree and find data.</p>
+            <p>Click on a 'DataGroup' card to open the tree and find data and RIS files.</p>
             <p>Filter selections will restrict search results and the available categories in the tree.</p>
+            <p>Currently searches will only return Annual data from the US.</p>
             <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
             <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
 
@@ -910,6 +942,6 @@ export default function HomePage() {
           </div>
         </section>
       </React.Suspense>
-    </React.Fragment>
+    </React.Fragment >
   );
 }

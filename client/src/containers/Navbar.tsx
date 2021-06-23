@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Button, makeStyles } from '@material-ui/core';
+import { AppBar, Button, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import AuthLinks from '../components/auth-links/AuthLinks';
+import CuratedDropdown from './CuratedDropdown';
 
 const useStyles = makeStyles(() => ({
   navbar: {
@@ -11,8 +12,8 @@ const useStyles = makeStyles(() => ({
     top: 0,
     left: 0,
     display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    //alignItems: 'center',
+    //justifyContent: 'space-between',
     background: 'white',
     boxShadow: '0 0 8px 3px rgba(0,0,0,0.2)',
     zIndex: 999
@@ -25,7 +26,7 @@ const useStyles = makeStyles(() => ({
   authLinks: {
     marginRight: '1.5rem',
     display: 'flex',
-    justifyContent: 'flex-end',
+    //justifyContent: 'flex-end',
     flex: 1,
     '& > a': {
       textDecoration: 'none',
@@ -41,7 +42,7 @@ const Navbar = () => {
     <div className={classes.navbar}>
 
 
-      <div className={classes.navLinks}>
+      {/* <div className={classes.navLinks}>
         <Link to="/">
           <Button
             style={{
@@ -51,7 +52,7 @@ const Navbar = () => {
               width: '80px'
             }}
           >
-            Home
+            Login Page
           </Button>
         </Link>
         <Link to="/demo">
@@ -64,7 +65,7 @@ const Navbar = () => {
               width: '150px'
             }}
           >
-            DataExchange
+            Data Explorer
           </Button>
         </Link>
         {/* <Link to="/todo">
@@ -79,14 +80,15 @@ const Navbar = () => {
           >
             Todo
           </Button>
-        </Link> */}
+        </Link> 
 
 
-      </div>
-      <h1 style={{ textAlign: 'center' }}>EIA Data Exploration Tool</h1>
-      <div className={classes.authLinks}>
+      </div>*/}
+      <h1 style={{ textAlign: 'right' }}>EIA Data Exploration Tool (Alpha)</h1>
+      {/* <div className={classes.authLinks}>
         <AuthLinks />
-      </div>
+      </div> */}
+
 
     </div>
   );
