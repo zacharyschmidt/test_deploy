@@ -17,7 +17,7 @@ const AuthLinks = () => {
     <>
       {authState.currentUser ? (
         <>
-          <Button component={Link} to={"/"} onClick={logoutHandler} variant="outlined" style={{ minHeight: "55" }}></Button>
+          <Button component={Link} to={"/"} onClick={logoutHandler} variant="outlined" style={{ minHeight: "55" }}>Logout</Button>
           {/* <Link to='/' onClick={logoutHandler}>
             Logout
           </Link> */}

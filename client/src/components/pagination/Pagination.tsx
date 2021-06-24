@@ -35,7 +35,7 @@ export const Pagination = () => {
   let totalRecordsPage = Math.ceil(state.seriesCount / state.limit);
   const dispatch = useDispatch();
   const handleClick = (page: number): void => {
-  
+
     setPageAction(dispatch, page);
     fetchCategoriesAction(
       dispatch,
@@ -49,77 +49,77 @@ export const Pagination = () => {
 
   return (
     <div>
-      {state.seriesCount > 0 && 
-      (
-        <div className="table-footer d-flex justify-content-between align-items-center">
-          <div className="records-count d-sm-block d-none text-secondary">
-            Showing {(state.page - 1) * state.limit} to{' '}
-            {state.page * state.limit} of {state.seriesCount} records
-          </div>
-          <nav className="pages">
-            <ul className="pagination">
-              <li
-                className={
-                  state.page === 1 ? 'disabled page-item' : 'page-item'
-                }
-              >
-                <a
-                  href="#!"
-                  className="page-link"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleClick(state.page - 1);
-                  }}
+      {state.seriesCount > 0 &&
+        (
+          <div className="table-footer d-flex justify-content-between align-items-center">
+            <div className="records-count d-sm-block d-none text-secondary">
+              Showing {((state.page - 1) * state.limit) + 1} to{' '}
+              {state.page * state.limit} of {state.seriesCount} records
+            </div>
+            <nav className="pages">
+              <ul className="pagination">
+                <li
+                  className={
+                    state.page === 1 ? 'disabled page-item' : 'page-item'
+                  }
                 >
-                  Previous
-                </a>
-              </li>
-              {pager.pages &&
-                pager.pages.map((page: number, index: number) => {
-                  return (
-                    <li
-                      key={index}
-                      className={
-                        state.page === page
-                          ? 'custom-disabled active page-item'
-                          : 'page-item'
-                      }
-                    >
-                      <a
-                        className="page-link"
-                        href="#!"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleClick(page);
-                        }}
+                  <a
+                    href="#!"
+                    className="page-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleClick(state.page - 1);
+                    }}
+                  >
+                    Previous
+                  </a>
+                </li>
+                {pager.pages &&
+                  pager.pages.map((page: number, index: number) => {
+                    return (
+                      <li
+                        key={index}
+                        className={
+                          state.page === page
+                            ? 'custom-disabled active page-item'
+                            : 'page-item'
+                        }
                       >
-                        {page}
-                      </a>
-                    </li>
-                  );
-                })}
-              <li
-                className={
-                  state.page + 1 > totalRecordsPage
-                    ? 'disabled page-item'
-                    : 'page-item'
-                }
-              >
-                <a
-                  className="page-link"
-                  href="#!"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleClick(state.page + 1);
-                  }}
+                        <a
+                          className="page-link"
+                          href="#!"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleClick(page);
+                          }}
+                        >
+                          {page}
+                        </a>
+                      </li>
+                    );
+                  })}
+                <li
+                  className={
+                    state.page + 1 > totalRecordsPage
+                      ? 'disabled page-item'
+                      : 'page-item'
+                  }
                 >
-                  Next
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      )}
+                  <a
+                    className="page-link"
+                    href="#!"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleClick(state.page + 1);
+                    }}
+                  >
+                    Next
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        )}
     </div>
   );
 };

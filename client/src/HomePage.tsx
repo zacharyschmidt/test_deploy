@@ -747,6 +747,17 @@ export default function HomePage() {
         <br />
         <br />
         <br />
+        <div className="sub-menu">
+          <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
+          <p>Search Results appear below the Category Tree.</p>
+          <p>Click on a 'DataGroup' card to open the tree and find data and RIS files.</p>
+          <p>Filter selections will restrict search results and the available categories in the tree.</p>
+          <p>Currently searches will only return Annual data from the US.</p>
+          <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
+          <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
+
+        </div>
+
         <div className="search-area">
           <div className="search-bar">
             <h4>Search EIA Data</h4>
@@ -813,7 +824,7 @@ export default function HomePage() {
                 ]}
 
               />
-              
+
 
 
               {/* <SimpleMenu
@@ -854,19 +865,11 @@ export default function HomePage() {
         <div className="menu-area">
 
 
-          <div className="sub-menu">
-            <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
-            <p>Search Results appear below the Category Tree.</p>
-            <p>Click on a 'DataGroup' card to open the tree and find data and RIS files.</p>
-            <p>Filter selections will restrict search results and the available categories in the tree.</p>
-            <p>Currently searches will only return Annual data from the US.</p>
-            <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
-            <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
 
-          </div>
 
 
         </div>
+        <br />
 
         <div className="menu-area">
 

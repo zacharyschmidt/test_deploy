@@ -121,7 +121,7 @@ const CategoryDetails = (props: any): JSX.Element => {
                 <h3>Ancestors: {ancestor_names.join(" -> ")}</h3>
                 <p>Click buttons below to download data and citations</p>
                 <p>Data series are only included in the download if they match your filter selections on the homepage.</p>
-                <ul>{childseries}</ul>
+                <ul style={{ textAlign: "left" }}>{childseries}</ul>
             </section>
             <section>
                 <AddButton
@@ -137,7 +137,7 @@ const CategoryDetails = (props: any): JSX.Element => {
                     style={{ color: 'green' }}
                 />
             </section>
-        </div>
+        </div >
     )
 }
 
