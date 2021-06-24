@@ -23,7 +23,7 @@ const CategoryDetails = (props: any): JSX.Element => {
             custom_flag,
             filters.Region,
             filters.Frequency);
-    }, []
+    }, [category_id]
     )
     const state = useSelector((state: IStore) => state.eia.treeLeaves);
     const treeCats = useSelector((state: IStore) => state.eia.treeCategories)

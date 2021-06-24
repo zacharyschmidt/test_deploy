@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme: Theme) =>
 	createStyles({
 		formControl: {
 			margin: theme.spacing(1),
-			minWidth: 180,
+			minWidth: 200,
+
 		},
 		selectEmpty: {
 			marginTop: theme.spacing(2),
@@ -28,7 +29,7 @@ export default function CuratedDropdown() {
 
 	return (
 		<div>
-			<FormControl className={classes.formControl}>
+			<FormControl variant="outlined" className={classes.formControl}>
 				<InputLabel id="demo-simple-select-outlined-label">Curated DataGroups</InputLabel>
 				<Select
 					labelId="demo-simple-select-outlined-label"
@@ -37,8 +38,8 @@ export default function CuratedDropdown() {
 					label="Curated DataGroups"
 
 				>
-					<MenuItem value={'/demo/details/1/kaya'}>US Historical KAYA, (1949-2020)</MenuItem>
-					<MenuItem value={'/demo/details/2/AEO2021'}>Annual Energy Outlook 2021 KAYA, (2020-2050)</MenuItem>
+					<MenuItem value={'/demo/details/1/kaya'}>US Historical KAYA (1949-2020)</MenuItem>
+					<MenuItem value={'/demo/details/2/AEO2021'}>Annual Energy Outlook 2021 KAYA (2020-2050)</MenuItem>
 
 				</Select>
 			</FormControl>
