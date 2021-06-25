@@ -8,7 +8,7 @@ import RecordsPerPage from './components/pagination/RecordsPerPage';
 import { Pagination } from './components/pagination/Pagination';
 import { ISeriesProps, ICategoriesProps, IStore } from './types';
 import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
-import CuratedDropdown from './containers/CuratedDropdown';
+import Footer from './containers/Footer';
 
 import {
   fetchDataAction,

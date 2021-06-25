@@ -19,6 +19,7 @@ import { IStore } from './types';
 import './App.css';
 import PrivateRoute from './components/private-route';
 import HomePage from './HomePage';
+import Footer from './containers/Footer';
 
 function App() {
   const dispatch = useDispatch();
@@ -76,11 +77,15 @@ function App() {
             Loading...
           </div>
         )}
+
       </div>
       <SnackBar
         position={{ vertical: 'bottom', horizontal: 'left' }}
         duration={3000}
       />
+      {/* <div style={{ bottom: "0" }}>
+        <Footer />
+      </div> */}
     </>
   );
 }
