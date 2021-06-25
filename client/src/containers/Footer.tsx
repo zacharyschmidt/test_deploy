@@ -18,6 +18,18 @@ export default function Footer() {
 				<BlackTextTypography style={{
 					marginRight: '1.5rem',
 					display: 'flex',
+					justifyContent: 'left',
+					flex: 1,
+					textDecoration: 'none',
+					color: 'black'
+				}
+				} variant="body1">
+					Contact: Jonathan Koomey,
+					Zachary Schmidt
+				</BlackTextTypography>
+				<BlackTextTypography style={{
+					marginRight: '1.5rem',
+					display: 'flex',
 					justifyContent: 'flex-end',
 					flex: 1,
 					textDecoration: 'none',
@@ -26,6 +38,7 @@ export default function Footer() {
 				} variant="body1">
 					&copy; 2021 Koomey Analytics
 				</BlackTextTypography>
+
 			</Toolbar>
 
 		</AppBar>

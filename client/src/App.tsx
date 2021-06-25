@@ -15,7 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, userLoggedOut } from './redux/actions/auth/actions';
 import { IStore } from './types';
 
-import { Grid } from '@material-ui/core'
+import { Grid, makeStyles } from '@material-ui/core'
 
 
 import './App.css';
@@ -23,7 +23,22 @@ import PrivateRoute from './components/private-route';
 import HomePage from './HomePage';
 import Footer from './containers/Footer';
 
+const useStylesContainer = makeStyles(theme => ({
+  root: {
+    minHeight: '100%',
+  },
+  footer: {
+    bottom: "0",
+    position: "relative",
+    width: "100%"
+
+  }
+}));
+
+
 function App() {
+  const classesContainer = useStylesContainer();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const { currentUser, isLoading } = useSelector((state: IStore) => state.auth);
@@ -35,7 +50,7 @@ function App() {
   }, []);
 
   return (
-    <Grid container direction="column">
+    <Grid container direction="column" className={classesContainer.root}>
       <Grid item>
         <Navbar />
       </Grid>
@@ -89,9 +104,9 @@ function App() {
         position={{ vertical: 'bottom', horizontal: 'left' }}
         duration={3000}
       />
-      <div style={{ bottom: "0" }}>
+      <Grid item className={classesContainer.footer}>
         <Footer />
-      </div>
+      </Grid>
 
 
 
