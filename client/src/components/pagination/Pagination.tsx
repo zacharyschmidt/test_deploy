@@ -31,7 +31,9 @@ export const Pagination = () => {
    * API call with GET
    */
   const state = useSelector((state: IStore) => state.eia);
-  const pager = setPagination(state.seriesCount, state.page, state.limit);
+  const totalCatsRound = state.seriesCount <= state.limit ? state.categories.length : Math.ceil(state.seriesCount / 100) *
+    100
+  const pager = setPagination(totalCatsRound, state.page, state.limit);
   let totalRecordsPage = Math.ceil(state.seriesCount / state.limit);
   const dispatch = useDispatch();
   const handleClick = (page: number): void => {
@@ -54,7 +56,7 @@ export const Pagination = () => {
           <div className="table-footer d-flex justify-content-between align-items-center">
             <div className="records-count d-sm-block d-none text-secondary">
               Showing {((state.page - 1) * state.limit) + 1} to{' '}
-              {state.page * state.limit} of {state.seriesCount} records
+              {state.page * state.limit} of {totalCatsRound} records
             </div>
             <nav className="pages">
               <ul className="pagination">
