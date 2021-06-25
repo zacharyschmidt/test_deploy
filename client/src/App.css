@@ -187,6 +187,10 @@
   color: #FF0
 }
 
+.login-wrapper {
+  height: 100%;
+}
+
 .page-link {
 
   position: relative;

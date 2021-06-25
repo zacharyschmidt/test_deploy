@@ -27,6 +27,9 @@ const useStylesContainer = makeStyles(theme => ({
   root: {
     minHeight: '100%',
   },
+  body: {
+    minHeight: '80vh',
+  },
   footer: {
     bottom: "0",
     position: "relative",
@@ -54,7 +57,7 @@ function App() {
       <Grid item>
         <Navbar />
       </Grid>
-      <Grid item>
+      <Grid item className={classesContainer.body}>
         {!isLoading ? (
 
           <Switch>
