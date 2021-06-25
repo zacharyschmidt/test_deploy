@@ -74,7 +74,11 @@ export default function SearchBar(): JSX.Element {
         />
         <button type="submit">Search</button>
         <button type="reset">Clear Search</button>
-        <button onClick={() => freshStartAction(dispatch)}>Fresh Start</button>
+        <button onClick={() => {
+          setValue('');
+          freshStartAction(dispatch)
+        }}
+        >Fresh Start</button>
       </form>
     </div>
   );

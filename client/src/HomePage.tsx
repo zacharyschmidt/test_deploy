@@ -863,11 +863,6 @@ export default function HomePage() {
 
         </div>
         <div className="menu-area">
-
-
-
-
-
         </div>
         <br />
 

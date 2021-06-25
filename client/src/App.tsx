@@ -15,6 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, userLoggedOut } from './redux/actions/auth/actions';
 import { IStore } from './types';
 
+import { Grid } from '@material-ui/core'
+
 
 import './App.css';
 import PrivateRoute from './components/private-route';
@@ -33,9 +35,11 @@ function App() {
   }, []);
 
   return (
-    <>
-      <div className="App">
+    <Grid container direction="column">
+      <Grid item>
         <Navbar />
+      </Grid>
+      <Grid item>
         {!isLoading ? (
 
           <Switch>
@@ -62,7 +66,9 @@ function App() {
             <Route>
               <Redirect to="/demo" />
             </Route>
-
+            {/* <Grid item container direction="column">
+              <Footer />
+            </Grid> */}
           </Switch>
 
         ) : (
@@ -78,15 +84,19 @@ function App() {
           </div>
         )}
 
-      </div>
+      </Grid>
       <SnackBar
         position={{ vertical: 'bottom', horizontal: 'left' }}
         duration={3000}
       />
-      {/* <div style={{ bottom: "0" }}>
+      <div style={{ bottom: "0" }}>
         <Footer />
-      </div> */}
-    </>
+      </div>
+
+
+
+
+    </Grid>
   );
 }
 
