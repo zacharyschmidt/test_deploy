@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import { shallowEqual, useSelector, useDispatch } from 'react-redux';
+import { shallowEqual, useSelector, useDispatch, batch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Link, useHistory } from 'react-router-dom';
 import {
@@ -40,12 +40,13 @@ const useStyles = makeStyles({
 //--actually, I shoud do this second option for performance
 // reasons, but perhaps it is not high on optimization list
 export default React.memo(function FinderTree() {
+  
   let history = useHistory();
   const classes = useStyles();
 
   const nodeVal = useSelector((state) => state.eia.selectedTreeNode, shallowEqual);
   const treeCategories = useSelector((state) => state.eia.treeCategories, shallowEqual)
-  console.log(treeCategories)
+
   const filters = useSelector((state) => state.eia.filters, shallowEqual)
   const treeLeaves = useSelector((state) => state.eia.treeLeaves, shallowEqual)
   const searchTerm = useSelector((state) => state.eia.searchTerm, shallowEqual)
@@ -57,6 +58,9 @@ export default React.memo(function FinderTree() {
   // should use store instead of state
   // const nodeVal = state.selectedTreeNode;
   //const searchVal = state.selectedSearchNode;
+  const flag = useRef();
+
+  // setItem will set this local variable to avoid rerender
 
 
   //   if cat has no childCategories, return object1;
@@ -66,6 +70,7 @@ export default React.memo(function FinderTree() {
     if (cat.childCategories.length === 0) {
       if ((cat?.childseries && cat.childseries.length > 0) || (typeof cat.childCategories === 'undefined')) {
         return {
+
           id: cat.category_id,
           label: cat.name,
           childseries: cat.childseries,
@@ -80,6 +85,7 @@ export default React.memo(function FinderTree() {
         };
       }
       return {
+
         id: cat.category_id,
         label: cat.name,
         childseries: cat.childseries
@@ -92,6 +98,7 @@ export default React.memo(function FinderTree() {
     }
 
     return {
+
       id: cat.category_id,
       label: cat.name,
       childseries: cat.childseries,
@@ -103,7 +110,7 @@ export default React.memo(function FinderTree() {
   // const tree = [{ id: 964165, label: "Annual Energy Outlook 2014", childseries: [], 
   //   children: [{ id: 964135, label: "Annual Energy Outlook 2012", childseries: []}] },
   // { id: 963165, label: "Annual Energy Outlook 2015", childseries: [] }]
-  console.log(treeCategories)
+
   const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
     if (a.label > b.label) {
       return 1
@@ -139,6 +146,7 @@ export default React.memo(function FinderTree() {
     //   });
     // };
     //fetchInitialTree('371');
+    flag.current = true
     const node = nodeVal ? nodeVal : 371
     setTreeStructureAction(dispatch, node, filters);
     // fetchCategoriesAction(
@@ -152,42 +160,45 @@ export default React.memo(function FinderTree() {
   }, [filters]);
 
   const onLeafSelected = (item) => {
-    console.log('STARTING ON LEAF SELECTED')
+    
+    flag.current = false
     if (item.display) {
       history.push(`/demo/details/${item.id}/EIA`)
       return;
     }
-
+    
     if ((item.id === nodeVal)) {
       return;
     }
-    setTreeStructureAction(dispatch, item.id, filters);
-    // Won't be able to update search when walking back up the tree
+    batch(() => {
+      setTreeStructureAction(dispatch, item.id, filters);
+      // Won't be able to update search when walking back up the tree
 
-    // FOR DEBUGGING
-    fetchCategoriesAction(
-      dispatch,
-      searchTerm,
-      item.id,
-      filters,
-      1,
-      limit,
-    );
-    setPageAction(dispatch, 1);
-    if (item.display === 1) {
-      return;
-    }
-    // check if childseries have already been fetched
-    // if (!(nodeID[0] in tree)) {
-    //setSearchRoot(nodeID)
+      // FOR DEBUGGING
+  
+      fetchCategoriesAction(
+        dispatch,
+        searchTerm,
+        item.id,
+        filters,
+        1,
+        limit,
+      );
+      setPageAction(dispatch, 1);
+      if (item.display === 1) {
+        return;
+      }
+      // check if childseries have already been fetched
+      // if (!(nodeID[0] in tree)) {
+      //setSearchRoot(nodeID)
 
-    setSelectedTreeNodeAction(dispatch, item.id);
-    //setSearchNodeAction(dispatch, item.id)
+      setSelectedTreeNodeAction(dispatch, item.id);
+      //setSearchNodeAction(dispatch, item.id)
 
 
 
-    setTreeSeriesAction(dispatch, []);
-
+      setTreeSeriesAction(dispatch, []);
+    })
 
     let Series = treeLeaves.filter(function (leaf) {
       return leaf.category_id == Number(item.id);
@@ -219,13 +230,18 @@ export default React.memo(function FinderTree() {
     //     state.treeCategories[nodeID[0]].childseries
     //   );
     // }
-    console.log('FINISHED ON LEAF SELECTED')
+   
     // this might cause bug
     //console.log(childSeries[nodeID[0]])
 
     // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
   };
   const itemSelected = (item) => {
+    if (!item.children || item?.children[0].display) {
+     
+      return
+    }
+
     // if ((item.id === searchVal)) {
     //   console.log("EXITING ON ITEM SELECTED SEARCHVAL == ITEM.ID")
     //   return;}
@@ -245,15 +261,25 @@ export default React.memo(function FinderTree() {
     setSearchNodeAction(dispatch, item.id)
 
     // commented out for debugging
+   
 
-    // fetchCategoriesAction(
-    //   dispatch,
-    //   searchTerm,
-    //   item.id,
-    //   filters,
-    //   1,
-    //   limit,
-    // );
+    if (flag.current) {
+      
+      fetchCategoriesAction(
+        dispatch,
+        searchTerm,
+        item.id,
+        filters,
+        1,
+        limit,
+      );
+
+    }
+    
+    if (item.id === nodeVal) {
+      flag.current = true;
+    }
+   
 
     //console.log(searchVal)
 
@@ -273,9 +299,15 @@ export default React.memo(function FinderTree() {
 
     if (item.display == 1) {
       item.childseries.forEach(function (series) {
-        let a = document.createElement('a');
-        ul.appendChild(a);
-        a.innerHTML += series;
+        // This is a hack to show only series that match USA and A filters. I should
+        // actually fetch the series names here (this happens when we navigate to the page,
+        // it should happen on display instead)
+        if (series.includes('AEO') || (series.includes('.US') && series.includes('.A'))) {
+          let a = document.createElement('a');
+          ul.appendChild(a);
+          a.innerHTML += series;
+        }
+
         // a.href = `/demo/details/${series}`;
       });
       let parent = document.getElementsByClassName('fjs-col');
@@ -317,7 +349,7 @@ export default React.memo(function FinderTree() {
 
   //console.log(searchVal)
   // console.log('RENDERING TREE')
-  console.log(tree)
+
   return (
     <ReactFinder
       className=""

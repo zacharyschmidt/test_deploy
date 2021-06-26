@@ -23,6 +23,7 @@ import AuthLinks from './components/auth-links/AuthLinks';
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function HomePage() {
+ 
   const dispatch = useDispatch();
 
   // didn't work to prevent infinite loop. FinderTree still needs to be memoized

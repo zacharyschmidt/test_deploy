@@ -29,6 +29,8 @@ const useStylesContainer = makeStyles(theme => ({
   },
   body: {
     minHeight: '80vh',
+    marginLeft: '10px',
+    marginRight: '20px'
   },
   footer: {
     bottom: "0",

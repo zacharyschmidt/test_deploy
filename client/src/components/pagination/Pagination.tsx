@@ -49,6 +49,7 @@ export const Pagination = () => {
     );
   };
 
+
   return (
     <div>
       {state.seriesCount > 0 &&
@@ -91,6 +92,7 @@ export const Pagination = () => {
                           className="page-link"
                           href="#!"
                           onClick={(e) => {
+
                             e.preventDefault();
                             handleClick(page);
                           }}

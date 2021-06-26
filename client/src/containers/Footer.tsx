@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Button, makeStyles, Container, Toolbar, Typography, Theme } from '@material-ui/core';
+import { AppBar, Button, makeStyles, Container, Toolbar, Typography, Theme, Link } from '@material-ui/core';
 import { withStyles } from "@material-ui/core/styles";
 
 const BlackTextTypography = withStyles({
@@ -21,11 +21,13 @@ export default function Footer() {
 					justifyContent: 'left',
 					flex: 1,
 					textDecoration: 'none',
-					color: 'black'
+					color: 'black',
+
+
 				}
 				} variant="body1">
-					Contact: Jonathan Koomey,
-					Zachary Schmidt
+					Contact: <Link style={{ marginLeft: '5px' }} href="mailto:jon@koomey.com">Jonathan Koomey</Link>,
+					<Link style={{ marginLeft: '5px' }} href="mailto:zacharym.schmidt@gmail.com">Zachary Schmidt</Link>
 				</BlackTextTypography>
 				<BlackTextTypography style={{
 					marginRight: '1.5rem',

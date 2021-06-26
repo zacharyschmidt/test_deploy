@@ -19,6 +19,7 @@ export default function CatCard(props: any) {
         <div>{singleCat.name}</div>
         <br />
         <div>{singleCat.dataset_name}</div>
+        
         <section style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div></div>
           {/* <button type="button" onClick={toggle}>
