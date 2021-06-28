@@ -120,7 +120,7 @@ export const fetchCategoriesAction = async (
       }
     });
   } catch (error) { }
-  
+
 };
 
 export const fetchDataAction = async (
@@ -810,7 +810,7 @@ export const setTreeStructureAction = async (
   filters: any
 ) => {
   try {
-    console.log('GETIING TREE STRUCTURE DATA')
+
     const response = await axios({
       method: 'GET',
       url: '/api/categories/search',
@@ -831,7 +831,7 @@ export const setTreeStructureAction = async (
         parent_category_id: category_id
       }
     });
-    console.log('GOT TREE DATA')
+
     if (response.data.length === 0) {
       alert('No Categories Found');
     }
