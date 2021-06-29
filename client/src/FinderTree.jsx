@@ -15,6 +15,7 @@ import {
   setSearchNodeAction,
   fetchCategoriesAction,
   setPageAction,
+  fetchChildSeriesAction,
 } from './redux/actions/eia/actions';
 
 import ReactFinder from 'react-finderjs';
@@ -40,7 +41,7 @@ const useStyles = makeStyles({
 //--actually, I shoud do this second option for performance
 // reasons, but perhaps it is not high on optimization list
 export default React.memo(function FinderTree() {
-  
+
   let history = useHistory();
   const classes = useStyles();
 
@@ -52,6 +53,9 @@ export default React.memo(function FinderTree() {
   const searchTerm = useSelector((state) => state.eia.searchTerm, shallowEqual)
   //const page = useSelector((state) => state.eia.page, shallowEqual)
   const limit = useSelector((state) => state.eia.limit, shallowEqual)
+
+  const series = useSelector((state) => state.eia.seriesData);
+  console.log(series)
 
   //const searchVal = useSelector((state) => state.eia.selectedSearchNode, shallowEqual)
   const dispatch = useDispatch();
@@ -160,22 +164,30 @@ export default React.memo(function FinderTree() {
   }, [filters]);
 
   const onLeafSelected = (item) => {
-    
+    console.log('selected Leaf')
+    console.log('nodeval', nodeVal)
+    console.log('itemID', item.id)
+
     flag.current = false
     if (item.display) {
       history.push(`/demo/details/${item.id}/EIA`)
       return;
     }
-    
+
     if ((item.id === nodeVal)) {
+
       return;
     }
+
     batch(() => {
+
+
+
       setTreeStructureAction(dispatch, item.id, filters);
       // Won't be able to update search when walking back up the tree
 
       // FOR DEBUGGING
-  
+
       fetchCategoriesAction(
         dispatch,
         searchTerm,
@@ -199,13 +211,12 @@ export default React.memo(function FinderTree() {
 
       setTreeSeriesAction(dispatch, []);
     })
-
     let Series = treeLeaves.filter(function (leaf) {
       return leaf.category_id == Number(item.id);
     });
 
     Series = Series.length > 0 ? Series[0]['childseries'] : null;
-
+    console.log(Series)
     // make a new field in the store to hold an array of leaf nodes and query this to
     //find childseries. Than means the setTreeStructure action will write to this part
     // of the store as well.
@@ -230,18 +241,23 @@ export default React.memo(function FinderTree() {
     //     state.treeCategories[nodeID[0]].childseries
     //   );
     // }
-   
+
     // this might cause bug
     //console.log(childSeries[nodeID[0]])
 
     // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
   };
   const itemSelected = (item) => {
+    console.log("ITEM SELECTED")
+    console.log(item)
+
+
     if (!item.children || item?.children[0].display) {
-     
       return
     }
-
+    console.log('selected Item')
+    console.log('nodeval', nodeVal)
+    console.log('itemID', item.id, item.label)
     // if ((item.id === searchVal)) {
     //   console.log("EXITING ON ITEM SELECTED SEARCHVAL == ITEM.ID")
     //   return;}
@@ -261,10 +277,10 @@ export default React.memo(function FinderTree() {
     setSearchNodeAction(dispatch, item.id)
 
     // commented out for debugging
-   
 
-    if (flag.current) {
-      
+
+    if (flag.current && item.id === nodeVal) {
+      console.log('fetching categories')
       fetchCategoriesAction(
         dispatch,
         searchTerm,
@@ -275,11 +291,11 @@ export default React.memo(function FinderTree() {
       );
 
     }
-    
+
     if (item.id === nodeVal) {
       flag.current = true;
     }
-   
+
 
     //console.log(searchVal)
 
@@ -349,7 +365,7 @@ export default React.memo(function FinderTree() {
 
   //console.log(searchVal)
   // console.log('RENDERING TREE')
-
+  console.log(tree)
   return (
     <ReactFinder
       className=""

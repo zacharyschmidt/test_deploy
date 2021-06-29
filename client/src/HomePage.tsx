@@ -5,7 +5,7 @@ import SimpleMenu from './Menu';
 import FinderTree from './FinderTree';
 import AddButton from './components/add-button/AddButton';
 import RecordsPerPage from './components/pagination/RecordsPerPage';
-import { Pagination } from './components/pagination/Pagination';
+import { Pager } from './components/pagination/Pagination';
 import { ISeriesProps, ICategoriesProps, IStore } from './types';
 import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import Footer from './containers/Footer';
@@ -23,7 +23,7 @@ import AuthLinks from './components/auth-links/AuthLinks';
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
 
 export default function HomePage() {
- 
+
   const dispatch = useDispatch();
 
   // didn't work to prevent infinite loop. FinderTree still needs to be memoized
@@ -35,9 +35,14 @@ export default function HomePage() {
   //const state = useSelector((state: IStore) => state.eia, shallowEqual);
   const filters = useSelector((state: IStore) => state.eia.filters, shallowEqual);
   const categories = useSelector((state: IStore) => state.eia.categories, shallowEqual);
+  const treeLeaves = useSelector((state: IStore) => state.eia.treeLeaves);
   const selected = useSelector((state: IStore) => state.eia.selected, shallowEqual);
   const treeLoading = useSelector((state: IStore) => state.eia.treeLoading);
   const selectedSearchNode = useSelector((state: IStore) => state.eia.selectedSearchNode);
+
+  console.log('categories')
+  console.log(categories)
+
   //const { state, dispatch } = React.useContext(Store);
 
   // React.useEffect(() => {
@@ -888,7 +893,7 @@ export default function HomePage() {
 
             </div>
             <div className="series-layout">
-              <Pagination />
+              <Pager />
             </div>
 
           </div>

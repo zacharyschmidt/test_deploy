@@ -16,10 +16,12 @@ export default function CatCard(props: any) {
         onClick={handleClick}
       >
         {/* <Link to={`/demo/details/${singleSeries.series_id}`}> */}
-        <div>{singleCat.name}</div>
+        <div><h4>{singleCat.name}</h4></div>
         <br />
-        <div>{singleCat.dataset_name}</div>
-        
+        <div><strong>Ancestors:</strong></div>
+        <div>{singleCat.ancestor_names.length < 4 ? singleCat.ancestor_names.join(' > ') : singleCat.ancestor_names.length > 3 ? singleCat.ancestor_names[0] + ' > '
+          + singleCat.ancestor_names[1] + ' ... ' + singleCat.ancestor_names[singleCat.ancestor_names.length - 1] : singleCat.dataset_name}</div>
+
         <section style={{ display: 'flex', justifyContent: 'space-between' }}>
           <div></div>
           {/* <button type="button" onClick={toggle}>

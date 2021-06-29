@@ -1,7 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from '../../types';
 import { paginationService } from './PaginationService';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
+import Pagination from '@material-ui/lab/Pagination';
 
 import {
   fetchDataAction,
@@ -9,8 +12,26 @@ import {
   setPageAction,
 } from '../../redux/actions/eia/actions';
 
-export const Pagination = () => {
+
+const useStyles = makeStyles((theme) =>
+  createStyles({
+    root: {
+      '& > * + *': {
+        marginTop: theme.spacing(2),
+      },
+    },
+  }),
+);
+
+export const Pager = () => {
   //const [pager, setPager] = useState({} as any);
+
+  const classes = useStyles();
+  // const [page, setPage] = React.useState(1);
+  // const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  //   setPage(value);
+  // };
+
 
   const setPagination = (
     totalCount: number,
@@ -36,7 +57,7 @@ export const Pagination = () => {
   const pager = setPagination(totalCatsRound, state.page, state.limit);
   let totalRecordsPage = Math.ceil(state.seriesCount / state.limit);
   const dispatch = useDispatch();
-  const handleClick = (page: number): void => {
+  const handleClick = (event: ChangeEvent<unknown>, page: number): void => {
 
     setPageAction(dispatch, page);
     fetchCategoriesAction(
@@ -49,10 +70,16 @@ export const Pagination = () => {
     );
   };
 
-
+  console.log(pager)
   return (
     <div>
       {state.seriesCount > 0 &&
+        (<div className={classes.root}>
+          <Typography>Showing {((state.page - 1) * state.limit) + 1} to{' '}
+            {state.page * state.limit} of {totalCatsRound} records</Typography>
+          <Pagination count={pager.totalPages} page={pager.currentPage} onChange={handleClick} />
+        </div>)}
+      {/* {state.seriesCount > 0 &&
         (
           <div className="table-footer d-flex justify-content-between align-items-center">
             <div className="records-count d-sm-block d-none text-secondary">
@@ -123,7 +150,7 @@ export const Pagination = () => {
               </ul>
             </nav>
           </div>
-        )}
+        )} */}
     </div>
   );
 };

@@ -753,7 +753,7 @@ export const fetchChildSeriesAction = async (
     //     params: { category_id, geography, frequency, custom_flag },
     //   })
     // }
-
+    console.log(response.data)
     return dispatch({
       type: 'FETCH_DATA_SERIES',
       payload: response.data
