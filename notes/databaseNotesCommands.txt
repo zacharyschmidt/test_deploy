@@ -518,16 +518,40 @@ SELECT child_series.category_id, series.series_id, series.name from child_series
 
 I will need a many to many table ---series_cat 
 ******TRY THIS *********
-CREATE table series_cat (category_id, series_id)
+CREATE TABLE series_cat (
+  category_id int REFERENCES categories (category_id) ON UPDATE CASCADE ON DELETE CASCADE
+, series_id text REFERENCES series (series_id) ON UPDATE CASCADE
+, CONSTRAINT series_cat_pkey PRIMARY KEY (category_id, series_id)  
+);
+
+******Populate table with many to many relationship******
+
+CREATE INDEX series_cat_series_id on series_cat(series_id);
+CREATE INDEX series_cat_category_id on series_cat(category_id);
 
 with child_series (category_id, childseries) as (
+
     SELECT category_id, jsonb_array_elements_text(childseries)
     FROM categories
 )
-insert into table series_cat(category_id, childseries) values
-(SELECT childseries.category_id, series.series_id from child_series
-inner join series ON 
-series.series_id = child_series.childseries)
+insert into series_cat (category_id, series_id)
+SELECT category_id, childseries from child_series
+ON CONFLICT DO NOTHING;
+ON CONFLICT on constraint "series_cat_series_id_fkey" DO NOTHING;
+ON CONFLICT series_cat(series_id) DO NOTHING;
+
+
+
+ERROR:  insert or update on table "series_cat" violates foreign key constraint "series_cat_series_id_fkey"
+DETAIL:  Key (series_id)=(PET_IMPORTS.CTY_BO-PP_1-ALL.A) is not present in table "series".
+demo=# select * from series where series_id = PET_IMPORTS.CTY_BO-PP_1-ALL.A;
+ERROR:  syntax error at or near "."
+LINE 1: ...from series where series_id = PET_IMPORTS.CTY_BO-PP_1-ALL.A;
+
+
+This series id in categories table but not series table
+PET_IMPORTS.CTY_BO-PP_1-ALL.A, so I put ON CONFLICT DO NOTHING.
+possibly there are other porblematic series id in the categories table
 
 
 then for the query in categories service:

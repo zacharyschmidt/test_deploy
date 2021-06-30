@@ -417,20 +417,43 @@ export class CategoryService {
     if (paginationDto.parent_category_id) {
       categories = await this.categoryRepository
         .query(
-          `SELECT * FROM categories AS cats
+          `SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+          cats.dataset_name, cats.parent_name, cats.ancestor_names, 
+          ARRAY_AGG (series.name) childnames FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
          ON geo.category_id = cats.category_id
+         LEFT JOIN series_cat
+         ON cats.category_id = series_cat.category_id
+         LEFT JOIN series 
+         ON series_cat.series_id = series.series_id
          WHERE (($1 = 'All') OR cats.dataset_name = $1)
          AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
          AND cats.parent_category_id = $4
+         AND (series.f IS NULL OR series.f = $5)
+         AND (series.geography IS NULL OR series.geography = $6)
          AND freq.f = $5
          AND geo.geography = $6
          AND cats.excluded = 0
+         GROUP BY cats.category_id
          ORDER BY cats.category_id
          LIMIT $7
          OFFSET $8`
+          //   `SELECT * FROM categories AS cats
+          //  INNER JOIN frequency_filter AS freq
+          //  ON freq.category_id = cats.category_id
+          //  INNER JOIN geography_filter AS geo
+          //  ON geo.category_id = cats.category_id
+          //  WHERE (($1 = 'All') OR cats.dataset_name = $1)
+          //  AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
+          //  AND cats.parent_category_id = $4
+          //  AND freq.f = $5
+          //  AND geo.geography = $6
+          //  AND cats.excluded = 0
+          //  ORDER BY cats.category_id
+          //  LIMIT $7
+          //  OFFSET $8`
           ,
           [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
           paginationDto.Frequency, paginationDto.Region, paginationDto.limit, skippedItems

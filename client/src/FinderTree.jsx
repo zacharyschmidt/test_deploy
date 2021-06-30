@@ -73,15 +73,17 @@ export default React.memo(function FinderTree() {
   const recursiveMap = (cat) => {
     if (cat.childCategories.length === 0) {
       if ((cat?.childseries && cat.childseries.length > 0) || (typeof cat.childCategories === 'undefined')) {
+        console.log(cat)
         return {
-
           id: cat.category_id,
           label: cat.name,
+          childnames: cat.childnames,
           childseries: cat.childseries,
           children: [
             {
               id: cat.category_id,
               label: cat.name,
+              childnames: cat.childnames,
               childseries: cat.childseries,
               display: 1,
             }
@@ -92,6 +94,7 @@ export default React.memo(function FinderTree() {
 
         id: cat.category_id,
         label: cat.name,
+        childnames: cat.childnames,
         childseries: cat.childseries
         // if the category is a leaf,
         // give it a single child which is itself,
@@ -106,6 +109,7 @@ export default React.memo(function FinderTree() {
       id: cat.category_id,
       label: cat.name,
       childseries: cat.childseries,
+      childnames: cat.childnames,
       children: cat.childCategories.map((cat) => recursiveMap(cat))
     };
   };
@@ -314,15 +318,16 @@ export default React.memo(function FinderTree() {
     let ul = document.createElement('ul');
 
     if (item.display == 1) {
-      item.childseries.forEach(function (series) {
+      console.log(item)
+      item.childnames.forEach(function (name) {
         // This is a hack to show only series that match USA and A filters. I should
         // actually fetch the series names here (this happens when we navigate to the page,
         // it should happen on display instead)
-        if (series.includes('AEO') || (series.includes('.US') && series.includes('.A'))) {
-          let a = document.createElement('a');
-          ul.appendChild(a);
-          a.innerHTML += series;
-        }
+
+        let a = document.createElement('a');
+        ul.appendChild(a);
+        a.innerHTML += name;
+
 
         // a.href = `/demo/details/${series}`;
       });
