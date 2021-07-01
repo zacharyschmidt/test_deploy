@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { ICategories, IStore } from './types';
 import AddButton from './components/add-button/AddButton';
 import { fetchChildSeriesAction, getBreadCrumbsAction } from './redux/actions/eia/actions';
+import { setTreeSeriesAction } from './Actions';
 
 const CategoryDetails = (props: any): JSX.Element => {
     // might want to get name, ancestor, dataset name from api call to server instead of 
@@ -31,32 +32,39 @@ const CategoryDetails = (props: any): JSX.Element => {
     // this logic should be rewritten--the whole custom category 
     //(and non-custom cats) should be fetched from the 
     // data base and put in the store, found in the state object
-    const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP', childCategories: [] } :
-        custom_flag === 'kaya' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP KAYA', childCategories: [] } :
-            custom_flag === 'AEO2021' ? { dataset_name: 'Custom', ancestors: 'none', name: 'Annual Energy Outlook 2021 KAYA', childCategories: [] } :
+    const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP', childCategories: [], ancestor_names: [] } :
+        custom_flag === 'kaya' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP KAYA', childCategories: [], ancestor_names: [] } :
+            custom_flag === 'AEO2021' ? { dataset_name: 'Custom', ancestors: 'none', name: 'Annual Energy Outlook 2021 KAYA', childCategories: [], ancestor_names: [] } :
                 state.find((cat: any) => cat.category_id === Number(category_id));
 
     const tree_categories = useSelector((state: IStore) => state.eia.treeCategories);
     let ancestor_names: Array<String> = [];
+    console.log(category)
+    // if (category && Array.isArray(category.ancestors)) {
+    //     console.log(category.ancestors)
+    //     let FindAncestorNames = (cat_array: Array<ICategories>) => {
+    //         cat_array.forEach((cat: ICategories) => {
+    //             if (Array.isArray(category.ancestors) && category.ancestors.includes(cat.category_id)) {
+    //                 if (cat.childCategories.length !== 0) {
+    //                     ancestor_names.push(cat.name);
+    //                     FindAncestorNames(cat.childCategories);
+    //                 } else {
+    //                     ancestor_names.push(cat.name)
+    //                 }
+    //             }
+    //         })
+    //     }
+    //     FindAncestorNames(treeCats);
+    // }
 
-    if (category && Array.isArray(category.ancestors)) {
-        let FindAncestorNames = (cat_array: Array<ICategories>) => {
-            cat_array.forEach((cat: ICategories) => {
-                if (Array.isArray(category.ancestors) && category.ancestors.includes(cat.category_id)) {
-                    if (cat.childCategories.length !== 0) {
-                        ancestor_names.push(cat.name);
-                        FindAncestorNames(cat.childCategories);
-                    } else {
-                        ancestor_names.push(cat.name)
-                    }
-                }
-            })
+    console.log(series)
+    const childseries = series.sort((a, b) => {
+        if (a.name > b.name) {
+            return 1
         }
-        FindAncestorNames(treeCats);
-    }
+        return -1
+    }).map((series: any) => <li key={series.series_id}>{series.name}</li>)
 
-
-    const childseries = series.map((series: any) => <li>{series.name}</li>)
 
 
 
@@ -81,7 +89,7 @@ const CategoryDetails = (props: any): JSX.Element => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'test.xlsx');
+            link.setAttribute('download', `${(category ? category.name : 'download').split(' ').join('')}.xlsx`);
             document.body.appendChild(link);
             link.click();
         }
@@ -100,12 +108,13 @@ const CategoryDetails = (props: any): JSX.Element => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'test.RIS');
+            link.setAttribute('download', `${(category ? category.name : 'download').split(' ').join('')}.RIS`);
             document.body.appendChild(link);
             link.click();
         }
         catch (error) { }
     }
+    console.log(ancestor_names)
 
     return (
         <div>
@@ -118,7 +127,7 @@ const CategoryDetails = (props: any): JSX.Element => {
                 <h2>Category Name: {category ? category.name : ''}</h2>
                 <h2>Category ID: {category_id}</h2>
                 <h3>Dateset: {category ? category.dataset_name : ''}</h3>
-                <h3>Ancestors: {ancestor_names.join(" -> ")}</h3>
+                <h3>Ancestors: {category ? category?.ancestor_names.join(" -> ") : ''}</h3>
                 <p>Click buttons below to download data and citations</p>
                 <p>Data series are only included in the download if they match your filter selections on the homepage.</p>
                 <ul style={{ textAlign: "left" }}>{childseries}</ul>
@@ -127,7 +136,7 @@ const CategoryDetails = (props: any): JSX.Element => {
                 <AddButton
                     onClick={downloadExcel}
                     text="Download Excel"
-                    filename="test.xlsx"
+                    filename={`${(category ? category.name : '') + '.' + ancestor_names.join('.')}.xlsx`}
                     style={{ color: 'blue' }}
                 />
                 <AddButton

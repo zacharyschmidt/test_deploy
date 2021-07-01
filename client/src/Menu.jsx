@@ -8,7 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from './types';
 
-import { setFilterAction, fetchDataAction, setMenuCatsAction, setMenuSelectionAction, fetchCategoriesAction } from './redux/actions/eia/actions';
+import { setFilterAction, fetchDataAction, setMenuCatsAction, setMenuSelectionAction, fetchCategoriesAction, setPageAction } from './redux/actions/eia/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -108,6 +108,7 @@ export default function SimpleMenu(props) {
       1,
       state.limit,
     );
+    setPageAction(dispatch, 1);
   };
 
   const handleClose = () => {

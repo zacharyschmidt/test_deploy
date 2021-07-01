@@ -114,7 +114,8 @@ export interface ICategories {
   childCategories: Array<ICategories>;
   childseries: Array<string>;
   dataset_name: string;
-  ancestors?: Array<number>;
+  ancestors?: Array<number> | string;
+  ancestor_names: string[];
 }
 
 export interface ISeriesProps {

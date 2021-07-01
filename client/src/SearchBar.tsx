@@ -7,7 +7,8 @@ import {
   fetchCategoriesAction,
   clearSearchAction,
   setSearchTermAction,
-  freshStartAction
+  freshStartAction,
+  setPageAction,
 } from './redux/actions/eia/actions';
 import { IStore } from './types';
 
@@ -28,6 +29,7 @@ export default function SearchBar(): JSX.Element {
   const handleSubmit = (e: FormElem): void => {
     e.preventDefault();
     setSearchTermAction(dispatch, value);
+    setPageAction(dispatch, 1);
     if (state.catSeriesFlag == 'Series') {
       fetchDataAction(
         dispatch,
@@ -61,6 +63,7 @@ export default function SearchBar(): JSX.Element {
       1,
       state.limit,
     );
+    setPageAction(dispatch, 1);
   };
   return (
     <div className="search-bar">

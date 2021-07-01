@@ -319,10 +319,13 @@ export default React.memo(function FinderTree() {
 
     if (item.display == 1) {
       console.log(item)
-      item.childnames.forEach(function (name) {
-        // This is a hack to show only series that match USA and A filters. I should
-        // actually fetch the series names here (this happens when we navigate to the page,
-        // it should happen on display instead)
+      item.childnames.sort((a, b) => {
+        if (a > b) {
+          return 1
+        }
+        return -1
+      }).forEach(function (name) {
+
 
         let a = document.createElement('a');
         ul.appendChild(a);
