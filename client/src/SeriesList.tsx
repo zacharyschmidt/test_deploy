@@ -8,12 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 export default function SelectedList(props: any): Array<JSX.Element> {
   const { categories, toggleSelectAction, selected } = props;
 
+
   // const { state, dispatch } = store;
   const state = useSelector((state: IStore) => state.eia);
   const dispatch = useDispatch()
 
   // change to render categories
-  return categories.map((singleCat: ICategories) => {
+  let mapped_cats = categories.map((singleCat: ICategories) => {
     return (
       <CatCard
         key={singleCat.category_id}
@@ -26,4 +27,6 @@ export default function SelectedList(props: any): Array<JSX.Element> {
       />
     );
   });
+
+  return mapped_cats
 }

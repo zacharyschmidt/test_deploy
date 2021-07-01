@@ -461,7 +461,8 @@ export class CategoryService {
     } else if (paginationDto.treeNode) {
       categories = await this.categoryRepository
         .query(
-          `SELECT *, cats.ancestors FROM categories AS cats
+          `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+          cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
@@ -488,7 +489,8 @@ export class CategoryService {
         .query(
           `SELECT count_estimate(
         $$ 
-        SELECT * FROM categories AS cats
+        SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+        cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo

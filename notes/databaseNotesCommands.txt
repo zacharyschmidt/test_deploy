@@ -535,10 +535,9 @@ with child_series (category_id, childseries) as (
     FROM categories
 )
 insert into series_cat (category_id, series_id)
-SELECT category_id, childseries from child_series
-ON CONFLICT DO NOTHING;
-ON CONFLICT on constraint "series_cat_series_id_fkey" DO NOTHING;
-ON CONFLICT series_cat(series_id) DO NOTHING;
+SELECT category_id, childseries from child_series, series
+WHERE child_series.childseries = series.series_id;
+
 
 
 
@@ -548,30 +547,174 @@ demo=# select * from series where series_id = PET_IMPORTS.CTY_BO-PP_1-ALL.A;
 ERROR:  syntax error at or near "."
 LINE 1: ...from series where series_id = PET_IMPORTS.CTY_BO-PP_1-ALL.A;
 
+insert into series_cat (category_id, series_id) values (1, 'PET_IMPORTS.CTY_BO-PP_1-ALL.A')
+on conflict do nothing;
+
+https://stackoverflow.com/questions/58624935/how-to-skip-exception-raised-in-insert-statement
+ON CONFLICT only deals with unique constraints, it doesn't work for check constraints (or foreign key constraints). 
 
 This series id in categories table but not series table
 PET_IMPORTS.CTY_BO-PP_1-ALL.A, so I put ON CONFLICT DO NOTHING.
 possibly there are other porblematic series id in the categories table
 
+international energy outlook does not show up in tree because it has no entries in
+the geography_filter table. Two things:
+1. how do I add geography info for the future when we want to search for internation data
+2. right now it is excluded and that is ok because we are showing US only data
+  a. is there US data in the international energy outlook we should be showing?
+    --the answer is yes. I need to run the recursive query to populate the geography filter 
+    table on only the IEOs
 
-then for the query in categories service:
 
-SELECT *, ARRAY_AGG (series.name) FROM categories AS cats
-         INNER JOIN frequency_filter AS freq
-         ON freq.category_id = cats.category_id
-         INNER JOIN geography_filter AS geo
-         ON geo.category_id = cats.category_id
-         LEFT JOIN series_cats 
-         ON cats.category_id = series_cats.category_id
-         LEFT JOIN series 
-         ON series_cats.series_id = series.series_id
-         WHERE (($1 = 'All') OR cats.dataset_name = $1)
-         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
-         AND cats.parent_category_id = $4
-         AND freq.f = $5
-         AND geo.geography = $6
-         AND cats.excluded = 0
-         GROUP BY cats.category_id
-         ORDER BY cats.category_id
-         LIMIT $7
-         OFFSET $8`
+Annual energy outlook 2021 should not be the dataset name for electricity. And it's in
+the search vec as well. I should fix this before recreating the gin
+
+delete duplicate categories and series
+--this is causing the lingering datacards . . .
+interaction of three problems --duplicate AEO 2021 data, AEO2021 as parent when it 
+shouldn't be, react behavior with duplicate data.
+
+SELECT
+    category_id, COUNT( category_id )
+FROM
+    geography_filter    
+GROUP BY
+    category_id
+HAVING
+    COUNT( category_id )> 4
+ORDER BY
+    category_id;
+
+select * from categories where dataset_name = 'Annual Energy Outlook 2021' 
+AND NOT ('Annual Energy Outlook 2021' = ANY (ancestor_names));
+
+category_id        | 0
+parent_category_id | 371
+name               | Electricity
+notes              | 
+childseries        | []
+dataset_name       | Annual Energy Outlook 2021
+search_text        | Electricity Annual Energy Outlook 2021
+search_vec         | '2021':5 'annual':2 'electr':1 'energi':3 'outlook':4
+ancestors          | {}
+parent_name        | 
+excluded           | 0
+ancestor_names     | {}
+
+
+
+***FOR adding keywords to inverted index*****
+is IEO 2020 not in the EIA api?
+
+UPDATE categories set "dataset_name" = 'Electricity' 
+WHERE category_id = 0;
+
+UPDATE categories set "search_text" = concat(name, ' ', dataset_name) where category_id = 0;
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) where category_id = 0;
+
+UPDATE categories set "search_text" = concat(name, ' ', dataset_name) where search_text is null;
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) where search_vec is null;
+
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2021') 
+where dataset_name = 'Annual Energy Outlook 2021';
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2020') 
+where dataset_name = 'Annual Energy Outlook 2020';
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2019') 
+where dataset_name = 'Annual Energy Outlook 2019';
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2018') 
+where dataset_name = 'Annual Energy Outlook 2018';
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2017') 
+where dataset_name = 'Annual Energy Outlook 2017';
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2016') 
+where dataset_name = 'Annual Energy Outlook 2016';
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2015') 
+where dataset_name = 'Annual Energy Outlook 2015';
+
+update categories set "search_text" = concat(search_text, ' ', 'AEO', ' ', 'AEO2014') 
+where dataset_name = 'Annual Energy Outlook 2014';
+
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2021';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2020';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2019';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2018';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2017';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2016';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2015';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Annual Energy Outlook 2014';
+
+
+
+update categories set "search_text" = concat(search_text, ' ', 'IEO') 
+where dataset_name = 'International Energy Outlook';
+
+update categories set "search_text" = concat(search_text, ' ', 'IEO2017') 
+where 'International Energy Outlook 2017' = any(ancestor_names);
+
+update categories set "search_text" = concat(search_text, ' ', 'IEO2017') 
+where name = 'International Energy Outlook 2017';
+
+update categories set "search_text" = concat(search_text, ' ', 'IEO2019') 
+where name = 'International Energy Outlook 2019';
+
+update categories set "search_text" = concat(search_text, ' ', 'IEO2019') 
+where 'International Energy Outlook 2019' = any(ancestor_names);
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'International Energy Outlook';
+
+update categories set "search_text" = concat(search_text, ' ', 'STEO') 
+where dataset_name = 'Short-Term Energy Outlook';
+
+UPDATE categories set "search_vec" = to_tsvector('english',search_text) 
+where dataset_name = 'Short-Term Energy Outlook';
+
+DROP INDEX categories_vec_index;
+
+CREATE INDEX categories_vec_index ON categories USING gin (search_vec);
+
+
+
+SELECT
+    indexname,
+    indexdef
+FROM
+    pg_indexes
+WHERE
+    tablename = 'categories';
+
+
+
+***do all updates to search text then drop search vec, rebuild, drop GIN, rebuild
+might not need to drop before update
+alter table "series" drop column "search_vec";
+update series set search_vec = to_tsvector('english',search_text);
+drop index first?
+CREATE INDEX series_vec_index ON series USING gin(search_vec); 
+
+
+
+
+
