@@ -70,7 +70,7 @@ export const Pager = () => {
     );
   };
 
-  console.log(pager)
+
   return (
     <div>
       {state.seriesCount > 0 &&

@@ -55,7 +55,7 @@ export default React.memo(function FinderTree() {
   const limit = useSelector((state) => state.eia.limit, shallowEqual)
 
   const series = useSelector((state) => state.eia.seriesData);
-  console.log(series)
+
 
   //const searchVal = useSelector((state) => state.eia.selectedSearchNode, shallowEqual)
   const dispatch = useDispatch();
@@ -73,7 +73,6 @@ export default React.memo(function FinderTree() {
   const recursiveMap = (cat) => {
     if (cat.childCategories.length === 0) {
       if ((cat?.childseries && cat.childseries.length > 0) || (typeof cat.childCategories === 'undefined')) {
-        console.log(cat)
         return {
           id: cat.category_id,
           label: cat.name,
@@ -220,7 +219,7 @@ export default React.memo(function FinderTree() {
     });
 
     Series = Series.length > 0 ? Series[0]['childseries'] : null;
-    console.log(Series)
+
     // make a new field in the store to hold an array of leaf nodes and query this to
     //find childseries. Than means the setTreeStructure action will write to this part
     // of the store as well.
@@ -254,12 +253,14 @@ export default React.memo(function FinderTree() {
   const itemSelected = (item) => {
     console.log("ITEM SELECTED")
     console.log(item)
+    console.log(flag.current)
+
 
 
     if (!item.children || item?.children[0].display) {
       return
     }
-    console.log('selected Item')
+    console.log('selected Item, not display')
     console.log('nodeval', nodeVal)
     console.log('itemID', item.id, item.label)
     // if ((item.id === searchVal)) {
@@ -282,9 +283,9 @@ export default React.memo(function FinderTree() {
 
     // commented out for debugging
 
-
-    if (flag.current && item.id === nodeVal) {
-      console.log('fetching categories')
+    // && item.id === nodeVal
+    if (flag.current) {
+      console.log('fetching categories from Item Click')
       fetchCategoriesAction(
         dispatch,
         searchTerm,
@@ -318,7 +319,7 @@ export default React.memo(function FinderTree() {
     let ul = document.createElement('ul');
 
     if (item.display == 1) {
-      console.log(item)
+
       item.childnames.sort((a, b) => {
         if (a > b) {
           return 1
@@ -373,7 +374,7 @@ export default React.memo(function FinderTree() {
 
   //console.log(searchVal)
   // console.log('RENDERING TREE')
-  console.log(tree)
+
   return (
     <ReactFinder
       className=""

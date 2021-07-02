@@ -40,8 +40,7 @@ export default function HomePage() {
   const treeLoading = useSelector((state: IStore) => state.eia.treeLoading);
   const selectedSearchNode = useSelector((state: IStore) => state.eia.selectedSearchNode);
 
-  console.log('categories')
-  console.log(categories)
+
 
   //const { state, dispatch } = React.useContext(Store);
 
