@@ -5,4 +5,5 @@ export type CategorySO = {
   notes: string;
   childseries: any;
   dataset_name: string;
+  ancestor_names?: string[];
 };

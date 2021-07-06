@@ -757,7 +757,7 @@ export default function HomePage() {
           <p>Search Results appear below the Category Tree.</p>
           <p>Click on a 'DataGroup' card to open the tree and find data and RIS files.</p>
           <p>Filter selections will restrict search results and the available categories in the tree.</p>
-          <p>Currently searches will only return Annual data from the US.</p>
+          <p>Currently searches will only return Annual data.</p>
           <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
           <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
 
@@ -833,9 +833,10 @@ export default function HomePage() {
 
 
               {/* <SimpleMenu
-              filter={'Historical/Projection'}
-              options={['All', 'Historical', 'Projection']}
-            /> */}
+                filter={'Historical/Projection'}
+                options={[['All', 'All'], ['Historical', 'Historical'],
+                ['Projection', 'Projection']]}
+              /> */}
               {/* <SimpleMenu
               filter={'Supply/Demand'}
               options={['All', 'Supply', 'Demand']}

@@ -89,7 +89,14 @@ const CategoryDetails = (props: any): JSX.Element => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `${(category ? category.name : 'download').split(' ').join('')}.xlsx`);
+            let name;
+            if (category && category.dataset_name.includes('Annual Energy Outlook')) {
+                name = (category.dataset_name + '_' + category.ancestor_names[1] + '_' + category.name).split(' ').join('')
+            } else if (category) {
+                name = (category.dataset_name + '_' + category.name).split(' ').join('')
+            }
+
+            link.setAttribute('download', `${name}.xlsx`);
             document.body.appendChild(link);
             link.click();
         }
@@ -108,7 +115,14 @@ const CategoryDetails = (props: any): JSX.Element => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', `${(category ? category.name : 'download').split(' ').join('')}.RIS`);
+            let name;
+            if (category && category.dataset_name.includes('Annual Energy Outlook')) {
+                name = (category.dataset_name + '_' + category.ancestor_names[1] + '_' + category.name).split(' ').join('')
+            } else if (category) {
+                name = (category.dataset_name + '_' + category.name).split(' ').join('')
+            }
+
+            link.setAttribute('download', `${name}.RIS`);
             document.body.appendChild(link);
             link.click();
         }
@@ -136,13 +150,13 @@ const CategoryDetails = (props: any): JSX.Element => {
                 <AddButton
                     onClick={downloadExcel}
                     text="Download Excel"
-                    filename={`${(category ? category.name : '') + '.' + ancestor_names.join('.')}.xlsx`}
+                    // filename={`${(category ? category.name : '') + '.' + ancestor_names.join('.')}.xlsx`}
                     style={{ color: 'blue' }}
                 />
                 <AddButton
                     onClick={downloadRIS}
                     text="Download RIS"
-                    filename="Test.xlsx"
+                    // filename="Test.xlsx"
                     style={{ color: 'green' }}
                 />
             </section>

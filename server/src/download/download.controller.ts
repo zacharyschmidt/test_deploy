@@ -3,37 +3,17 @@ import { Response, Request } from 'express';
 
 import { CategoryService } from '../categories/category.service';
 import { SeriesService } from '../series/series.service';
+import { DownloadService } from './download.service';
 import { PaginationDto } from '../categories/dto/Pagination.dto';
 
-import { createReadStream } from 'fs';
 import * as Excel from 'exceljs';
-const createAEORIS = (title: string, year: string) => {
-    return (
-        `TY  - DATA
-KW  - Annual Energy Outlook AEO EIA Energy Information Administration long term forecast projection united states production consumption trade electricity petroleum natural gas coal nuclear renewable hydroelectric wind solar
-N1  - The Annual Energy Outlook (AEO) from EIA.gov provides long term forecasts (25 years) of U.S. energy production, consumption, and trade for the United Stated of electricity, petroleum, natural gas, coal, nuclear, and renewable sources.
-PB  - U.S. Energy Information Administration
-A2  - U.S. Energy Information Administration
-TI  - ${title} (Data Set)
-UR  - http://api.eia.gov/bulk/AEO${year}.zip
-DP  - http://api.eia.gov
-C2  - temporal: annual
-C3  - format: XML and JSON data API, JSON download file
-PY  - ${year}
-AD  - Washington, DC: Energy Information Administration, U.S. Department of Energy
-DB  - EIA Data Sets
-Y2  - 2020/12/1
-LB  - AEO.${year}
-ST  - AEO.${year}
-AU  - US DOE,
-CY  - Washington, DC
-ER  -`
-    )
-}
+
+
 @Controller('download')
 export class DownloadController {
     constructor(private categoryService: CategoryService,
-        private seriesService: SeriesService) { }
+        private seriesService: SeriesService,
+        private downloadService: DownloadService) { }
 
 
     @Get('RIS')
@@ -45,9 +25,18 @@ export class DownloadController {
         const cat = await this.categoryService.getCategorybyID(category_ID);
         const year = cat.dataset_name.slice(22)
         if (cat.dataset_name.includes('Annual Energy Outlook')) {
-            return response.send(createAEORIS(cat.dataset_name, year))
+            return response.send(this.downloadService.createAEORIS(cat.dataset_name, year))
+        } else if (cat.dataset_name === 'State Energy Data System (SEDS)') {
+            return response.send(this.downloadService.createSedsRIS());
+        } else if (cat.dataset_name === 'International Energy Outlook') {
+            return response.send(this.downloadService.createIEORIS(cat.ancestor_names))
+        } else if (cat.dataset_name === 'Short-Term Energy Outlook') {
+            return response.send(this.downloadService.createSteoRIS())
         }
-        return 0
+        else {
+            return response.send(this.downloadService.createGeneralRIS())
+        }
+
     }
 
     @Get('excel')

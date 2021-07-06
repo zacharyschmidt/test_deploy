@@ -1,21 +1,24 @@
 import { Module } from '@nestjs/common';
-import {TypeOrmModule} from '@nestjs/typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 import { DownloadController } from './download.controller';
 
 import { CategoryService } from '../categories/category.service';
-import {CategoryEntity, FrequencyFilterEntity,
+import {
+  CategoryEntity, FrequencyFilterEntity,
   GeographyFilterEntity,
-  CategoryLeafLookupEntity} from '../categories/category.entity';
+  CategoryLeafLookupEntity
+} from '../categories/category.entity';
 
-import {SeriesService} from '../series/series.service';
-import {SeriesEntity} from '../series/series.entity';
+import { SeriesService } from '../series/series.service';
+import { SeriesEntity } from '../series/series.entity';
+import { DownloadService } from './download.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([CategoryEntity,
     FrequencyFilterEntity, GeographyFilterEntity, CategoryLeafLookupEntity]),
   TypeOrmModule.forFeature([SeriesEntity])],
   controllers: [DownloadController],
-  providers: [CategoryService, SeriesService],
+  providers: [CategoryService, SeriesService, DownloadService],
 })
-export class DownloadModule {}
+export class DownloadModule { }
