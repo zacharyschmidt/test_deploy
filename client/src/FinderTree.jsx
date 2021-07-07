@@ -190,15 +190,18 @@ export default React.memo(function FinderTree() {
       // Won't be able to update search when walking back up the tree
 
       // FOR DEBUGGING
-
-      fetchCategoriesAction(
-        dispatch,
-        searchTerm,
-        item.id,
-        filters,
-        1,
-        limit,
-      );
+      let i = 0
+      while (i < 10) {
+        fetchCategoriesAction(
+          dispatch,
+          searchTerm,
+          item.id,
+          filters,
+          1,
+          limit,
+        );
+        i++
+      }
       setPageAction(dispatch, 1);
       if (item.display === 1) {
         return;
@@ -286,14 +289,18 @@ export default React.memo(function FinderTree() {
     // && item.id === nodeVal
     if (flag.current) {
       console.log('fetching categories from Item Click')
-      fetchCategoriesAction(
-        dispatch,
-        searchTerm,
-        item.id,
-        filters,
-        1,
-        limit,
-      );
+      let i = 0;
+      while (i < 10) {
+        fetchCategoriesAction(
+          dispatch,
+          searchTerm,
+          item.id,
+          filters,
+          1,
+          limit,
+        );
+        i++
+      }
 
     }
 

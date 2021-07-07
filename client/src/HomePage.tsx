@@ -832,11 +832,11 @@ export default function HomePage() {
 
 
 
-              {/* <SimpleMenu
+              <SimpleMenu
                 filter={'Historical/Projection'}
                 options={[['All', 'All'], ['Historical', 'Historical'],
                 ['Projection', 'Projection']]}
-              /> */}
+              />
               {/* <SimpleMenu
               filter={'Supply/Demand'}
               options={['All', 'Supply', 'Demand']}

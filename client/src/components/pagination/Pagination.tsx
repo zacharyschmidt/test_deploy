@@ -52,9 +52,9 @@ export const Pager = () => {
    * API call with GET
    */
   const state = useSelector((state: IStore) => state.eia);
-  const totalCatsRound = state.seriesCount <= state.limit ? state.categories.length : Math.ceil(state.seriesCount / 100) *
-    100
-  const pager = setPagination(totalCatsRound, state.page, state.limit);
+  // const totalCatsRound = state.seriesCount <= state.limit ? state.categories.length : Math.ceil(state.seriesCount / 100) *
+  //   100
+  const pager = setPagination(state.seriesCount, state.page, state.limit);
   let totalRecordsPage = Math.ceil(state.seriesCount / state.limit);
   const dispatch = useDispatch();
   const handleClick = (event: ChangeEvent<unknown>, page: number): void => {
@@ -76,7 +76,7 @@ export const Pager = () => {
       {state.seriesCount > 0 &&
         (<div className={classes.root}>
           <Typography>Showing {((state.page - 1) * state.limit) + 1} to{' '}
-            {state.page * state.limit} of {totalCatsRound} records</Typography>
+            {state.page * state.limit} of {state.seriesCount} records</Typography>
           <Pagination count={pager.totalPages} page={pager.currentPage} onChange={handleClick} />
         </div>)}
       {/* {state.seriesCount > 0 &&

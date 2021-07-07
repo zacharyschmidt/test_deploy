@@ -24,7 +24,6 @@ export default function SimpleMenu(props) {
   // and map filter option (from store to menu option index)
 
   const dispatch = useDispatch();
-
   let filter;
   switch (props.filter) {
     case "Country":
@@ -33,41 +32,65 @@ export default function SimpleMenu(props) {
     case "Top-Level Category":
       filter = "DataSet"
       break;
+    case "Historical/Projection":
+      filter = "HistorProj"
+      break;
     default:
       filter = props.filter;
   }
-  let other_filter;
+  let other_filter1;
+  let other_filter2
   let menu_options_name;
   let menu_selection;
   switch (filter) {
     case "Region":
-      other_filter = "DataSet"
+      other_filter1 = "DataSet"
+      other_filter2 = "HistorProj"
       menu_options_name = "menuRegions"
       menu_selection = "CountryMenuDisplay"
       break;
     case "DataSet":
-      other_filter = "Region"
+      other_filter1 = "Region"
+      other_filter2 = "HistorProj"
       menu_options_name = "menuTopCats"
       menu_selection = "DataSetName"
       break;
+    case "HistorProj":
+      other_filter1 = "DataSet"
+      other_filter2 = "Region"
+      menu_options_name = "menuHistorProj"
+      menu_selection = "HistorProjDisplay"
+      break;
     default:
-      other_filter = '';
+      other_filter1 = '';
+      other_filter2 = '';
   }
-  const other_filter_selection = useSelector((state) => state.eia.filters[other_filter]);
+  // gives us the current selection of the other filter, a string for region, array of strings for dataset
+  let other_filter_selection1 = useSelector((state) => state.eia.filters[other_filter1]);
+  let other_filter_selection2 = useSelector((state) => state.eia.filters[other_filter2]);
+
+  // gives array of options that this filter will display. read from the store
   let menu_options = useSelector((state) => state.eia[menu_options_name]);
+
+  //gets current menu selection
   const selection = useSelector((state) => state.eia[menu_selection]);
   const state = useSelector((state) => state.eia)
-
+  console.log(filter)
+  console.log('other_filter_selection]', other_filter_selection1)
+  console.log('menu_options', menu_options)
+  console.log('state', state)
   useEffect(() => {
-    let other_filter;
-    if (filter === "Region") {
-      other_filter = other_filter_selection[1]
-    } else {
-      other_filter = other_filter_selection
+    if (filter === "Region" || filter === "HistorProj") {
+      console.log(other_filter_selection1)
+      console.log(other_filter1)
+      other_filter_selection1 = other_filter_selection1[1]
+    } else if (filter === "DataSet") {
+      // do nothing?
+      // other_filter1 = other_filter_selection1
     }
-    setMenuCatsAction(dispatch, 371, filter, other_filter)
+    setMenuCatsAction(dispatch, 371, filter, other_filter_selection1, other_filter_selection2)
 
-  }, [other_filter_selection]);
+  }, [other_filter_selection1, other_filter_selection2]);
   let options;
   if (filter === "Region") {
     options = menu_options.map((option) => props.options_dict[option]);
@@ -77,6 +100,9 @@ export default function SimpleMenu(props) {
     options.unshift('All')
     menu_options = menu_options.map((option) => [option.name, option.category_id])
     menu_options.unshift(['All', 'All'])
+  }
+  if (filter === "HistorProj") {
+    options = menu_options;
   }
   // do I need to handle a case where selection is not found?
   const selectedIndex = options.findIndex((element) => element === selection)

@@ -411,6 +411,18 @@ export class CategoryService {
       3161923,
       3161925,
     ]
+
+    // make list of dataset ids that match the hist or proj filter
+    let hist_or_proj_names = [];
+    if (paginationDto.HistorProj === 'Historical') {
+      hist_or_proj_names = ['Coal', 'Electricity', 'International Energy Data',
+        'Natural Gas', 'Petroleum', 'State Energy Data System (SEDS)'];
+    } else if (paginationDto.HistorProj === 'Projection') {
+      hist_or_proj_names = ['Annual Energy Outlook 2014', 'Annual Energy Outlook 2015',
+        'Annual Energy Outlook 2016', 'Annual Energy Outlook 2017', 'Annual Energy Outlook 2018',
+        'Annual Energy Outlook 2019', 'Annual Energy Outlook 2020', 'Annual Energy Outlook 2021',
+        'Short-Term Energy Outlook', 'International Energy Outlook'];
+    }
     // make one query for tree, one for keyword search
     let categories;
     let count;
@@ -436,6 +448,7 @@ export class CategoryService {
          AND freq.f = $5
          AND geo.geography = $6
          AND cats.excluded = 0
+         AND (($9 = 'All') OR cats.dataset_name = any($10::TEXT[]))
          GROUP BY cats.category_id
          ORDER BY cats.category_id
          LIMIT $7
@@ -456,7 +469,8 @@ export class CategoryService {
           //  OFFSET $8`
           ,
           [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
-          paginationDto.Frequency, paginationDto.Region, paginationDto.limit, skippedItems
+          paginationDto.Frequency, paginationDto.Region, paginationDto.limit, skippedItems,
+          paginationDto.HistorProj, hist_or_proj_names,
           ])
     } else if (paginationDto.treeNode) {
       categories = await this.categoryRepository
@@ -475,37 +489,59 @@ export class CategoryService {
          AND geo.geography = $5
          AND cats.excluded = 0
          AND leaf.ancestors = $6
+         AND (($9 = 'All') OR cats.dataset_name = any($10::TEXT[]))
          ORDER BY cats.category_id
          LIMIT $7
          OFFSET $8`
           ,
           [paginationDto.DataSet, searchTerm.length, searchTerm,
-          paginationDto.Frequency, paginationDto.Region, paginationDto.treeNode, paginationDto.limit, skippedItems
+          paginationDto.Frequency, paginationDto.Region, paginationDto.treeNode, paginationDto.limit, skippedItems,
+          paginationDto.HistorProj, hist_or_proj_names
           ])
 
 
 
       count = await this.categoryRepository
         .query(
-          `SELECT count_estimate(
-        $$ 
-        SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
-        cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
+          `SELECT COUNT(cats.category_id) FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
          ON geo.category_id = cats.category_id
          INNER JOIN category_leaf_lookup as leaf
          ON leaf.leaf_category = cats.category_id
-         WHERE (('${paginationDto.DataSet}' = 'All') OR cats.dataset_name = '${paginationDto.DataSet}')
-         AND ((${searchTerm.length} = 0) OR cats.search_vec @@ phraseto_tsquery('${searchTerm}'))
-         AND freq.f = '${paginationDto.Frequency}'
-         AND geo.geography = '${paginationDto.Region}'
+         WHERE (($1 = 'All') OR cats.dataset_name = $1)
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3)) 
+         AND freq.f = $4
+         AND geo.geography = $5
          AND cats.excluded = 0
-         AND leaf.ancestors = ${paginationDto.treeNode} 
-         $$
-         )`
-        )
+         AND leaf.ancestors = $6
+         AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))`
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm,
+          paginationDto.Frequency, paginationDto.Region, paginationDto.treeNode,
+          paginationDto.HistorProj, hist_or_proj_names
+          ])
+
+      //   `SELECT count_estimate(
+      // $$ 
+      // SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+      // cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
+      //  INNER JOIN frequency_filter AS freq
+      //  ON freq.category_id = cats.category_id
+      //  INNER JOIN geography_filter AS geo
+      //  ON geo.category_id = cats.category_id
+      //  INNER JOIN category_leaf_lookup as leaf
+      //  ON leaf.leaf_category = cats.category_id
+      //  WHERE (('${paginationDto.DataSet}' = 'All') OR cats.dataset_name = '${paginationDto.DataSet}')
+      //  AND ((${searchTerm.length} = 0) OR cats.search_vec @@ phraseto_tsquery('${searchTerm}'))
+      //  AND freq.f = '${paginationDto.Frequency}'
+      //  AND geo.geography = '${paginationDto.Region}'
+      //  AND cats.excluded = 0
+      //  AND leaf.ancestors = ${paginationDto.treeNode} 
+      //  $$
+      //  )`
+
     }
 
     // .query(
@@ -665,9 +701,9 @@ export class CategoryService {
 
     //   // see if count is slowing down
     //   .getManyAndCount();
-    console.log(count ? count[0] : 'count is undefinded')
+    console.log(count ? count[0] : 'count is undefined')
     return {
-      totalCount: count ? count[0].count_estimate : count,
+      totalCount: count ? count[0].count : count,
       page: paginationDto.page,
       limit: paginationDto.limit,
       categories: categories,
@@ -717,8 +753,17 @@ export class CategoryService {
     // return ancestors;
   };
 
-  getCountryMenuOptions = async (dataset_id: any): Promise<Array<string>> => {
-
+  getCountryMenuOptions = async (dataset_id: any, hist_or_proj: string): Promise<Array<string>> => {
+    let hist_or_proj_names;
+    if (hist_or_proj === 'Historical') {
+      hist_or_proj_names = ['Coal', 'Electricity', 'International Energy Data',
+        'Natural Gas', 'Petroleum', 'State Energy Data System (SEDS)'];
+    } else if (hist_or_proj === 'Projection') {
+      hist_or_proj_names = ['Annual Energy Outlook 2014', 'Annual Energy Outlook 2015',
+        'Annual Energy Outlook 2016', 'Annual Energy Outlook 2017', 'Annual Energy Outlook 2018',
+        'Annual Energy Outlook 2019', 'Annual Energy Outlook 2020', 'Annual Energy Outlook 2021',
+        'Short-Term Energy Outlook', 'International Energy Outlook'];
+    }
     let country_matches
     if (dataset_id.dataset_id === 'All') {
 

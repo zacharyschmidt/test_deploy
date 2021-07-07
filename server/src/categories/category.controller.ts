@@ -37,8 +37,8 @@ export class CategoryController {
   //get ancestor category names
 
   @Get('menu')
-  getCountryMenuOptions(@Query() dataset_id: number | string) {
-    return this.categoryService.getCountryMenuOptions(dataset_id)
+  getCountryMenuOptions(@Query() dataset_id: number | string, @Query() hist_or_proj: string) {
+    return this.categoryService.getCountryMenuOptions(dataset_id, hist_or_proj)
   }
 
   @Get('parents')

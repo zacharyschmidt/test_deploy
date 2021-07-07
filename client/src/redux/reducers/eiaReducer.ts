@@ -18,8 +18,10 @@ const initialState: IEIA = {
   catSeriesFlag: 'Categories',
   DataSetName: 'All', // should be 'All'?
   CountryMenuDisplay: 'United States', //should be United States?
+  HistorProjDisplay: 'All',
   menuTopCats: [],
   menuRegions: [],
+  menuHistorProj: [],
   page: 1,
   limit: 50,
   filters: {
@@ -155,6 +157,8 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
       return { ...state, menuTopCats: action.payload.options_array }
     case 'SET_MENU_REGIONS':
       return { ...state, menuRegions: action.payload.options_array }
+    case 'SET_MENU_HIST_OR_PROJ':
+      return { ...state, menuHistorProj: action.payload.options_array }
     case 'SET_MENU_SELECTION':
       return { ...state, [action.payload.store_mem]: action.payload.selection }
     case 'SET_FILTER':

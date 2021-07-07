@@ -73,8 +73,10 @@ export interface IEIA {
   catSeriesFlag: string;
   DataSetName: string | null;
   CountryMenuDisplay: string | null;
+  HistorProjDisplay: string;
   menuTopCats: Array<ICategories>;
   menuRegions: Array<string>;
+  menuHistorProj: Array<string>;
   page: number;
   limit: number;
   filters: any;

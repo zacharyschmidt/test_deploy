@@ -858,7 +858,8 @@ export const setMenuCatsAction = async (
   dispatch: any,
   category_id: number = 371,
   filter: string,
-  other_filters: any
+  other_filter1: any,
+  other_filter2: any
 ) => {
   try {
     let response;
@@ -871,13 +872,13 @@ export const setMenuCatsAction = async (
           page: 1,
           limit: 1000,
           searchTerm: '',
-          Region: other_filters,
+          Region: other_filter1,
           SubRegion: 'None',
           Frequency: 'A',
           Units: 'All',
           // // changed from 'all' to reduce data for development
           DataSet: 'All',
-          HistorProj: 'All',
+          HistorProj: other_filter2,
           SuppDemand: 'All',
           LastUpdate: 'All',
           parent_category_id: category_id,
@@ -890,9 +891,7 @@ export const setMenuCatsAction = async (
         }
         return -1
       })
-    };
-
-    if (filter === "Region") {
+    } else if (filter === "Region") {
       response = await axios({
         method: 'GET',
         // this won't work, because it will return an array of categories.
@@ -900,10 +899,14 @@ export const setMenuCatsAction = async (
         // have to add a new service to the backend (and a new controller?)
         url: '/api/categories/menu',
         params: {
-          dataset_id: other_filters
+          dataset_id: other_filter1,
+          hist_or_proj: other_filter2
+
         }
       })
       response_array = response.data.map((element: any) => element.geography)
+    } else if (filter === "HistorProj") {
+      response_array = ['All', 'Historical', 'Projection']
     }
 
     if (response?.data.length === 0) {
@@ -918,6 +921,9 @@ export const setMenuCatsAction = async (
         break;
       case 'Region':
         action_type = 'SET_MENU_REGIONS';
+        break;
+      case 'HistorProj':
+        action_type = 'SET_MENU_HIST_OR_PROJ'
         break;
       default:
         action_type = '';
