@@ -89,7 +89,8 @@
 .search-area {
   /* border-bottom: 1px solid black; */
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  padding-bottom: .5rem;
 }
 
 .card-container {
@@ -149,11 +150,11 @@
 }
 
 
-.search-bar {
-
-  float: left;
-  flex-direction: column;
-}
+/* .search-bar { */
+  /* float: left;
+  flex-direction: row;
+  align-items: flex-start;
+} */
 
 .pagination {
   display: inline-block;

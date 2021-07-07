@@ -416,7 +416,7 @@ export class CategoryService {
     let hist_or_proj_names = [];
     if (paginationDto.HistorProj === 'Historical') {
       hist_or_proj_names = ['Coal', 'Electricity', 'International Energy Data',
-        'Natural Gas', 'Petroleum', 'State Energy Data System (SEDS)'];
+        'Natural Gas', 'Petroleum', 'State Energy Data System (SEDS)', 'Crude Oil Imports'];
     } else if (paginationDto.HistorProj === 'Projection') {
       hist_or_proj_names = ['Annual Energy Outlook 2014', 'Annual Energy Outlook 2015',
         'Annual Energy Outlook 2016', 'Annual Energy Outlook 2017', 'Annual Energy Outlook 2018',
@@ -757,7 +757,7 @@ export class CategoryService {
     let hist_or_proj_names;
     if (hist_or_proj === 'Historical') {
       hist_or_proj_names = ['Coal', 'Electricity', 'International Energy Data',
-        'Natural Gas', 'Petroleum', 'State Energy Data System (SEDS)'];
+        'Natural Gas', 'Petroleum', 'State Energy Data System (SEDS)', 'Crude Oil Imports'];
     } else if (hist_or_proj === 'Projection') {
       hist_or_proj_names = ['Annual Energy Outlook 2014', 'Annual Energy Outlook 2015',
         'Annual Energy Outlook 2016', 'Annual Energy Outlook 2017', 'Annual Energy Outlook 2018',

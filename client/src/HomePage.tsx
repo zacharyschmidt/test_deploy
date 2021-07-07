@@ -7,7 +7,7 @@ import AddButton from './components/add-button/AddButton';
 import RecordsPerPage from './components/pagination/RecordsPerPage';
 import { Pager } from './components/pagination/Pagination';
 import { ISeriesProps, ICategoriesProps, IStore } from './types';
-import { AppBar, Button, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Button, Grid, IconButton, makeStyles, Toolbar, Typography } from '@material-ui/core';
 import Footer from './containers/Footer';
 
 import {
@@ -749,24 +749,30 @@ export default function HomePage() {
   return (
     <React.Fragment>
       <React.Suspense fallback={<div>loading...</div>}>
-        <br />
-        <br />
-        <br />
-        <div className="sub-menu">
-          <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
-          <p>Search Results appear below the Category Tree.</p>
-          <p>Click on a 'DataGroup' card to open the tree and find data and RIS files.</p>
-          <p>Filter selections will restrict search results and the available categories in the tree.</p>
-          <p>Currently searches will only return Annual data.</p>
-          <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
-          <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
+        <Grid container direction="column">
+          <br />
+          <br />
+          <br />
+          <Grid container className="sub-menu">
+            <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
+            <p>Search Results appear below the Category Tree.</p>
+            <p>Click on a 'DataGroup' card to open the tree and find data and RIS files.</p>
+            <p>Filter selections will restrict search results and the available categories in the tree.</p>
+            <p>Currently searches will only return Annual data.</p>
+            <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>
+            <p>Data can be accessed from source here: <a href='https://www.eia.gov/opendata/qb.php'>https://www.eia.gov/opendata/qb.php</a></p>
 
-        </div>
+          </Grid>
 
-        <div className="search-area">
-          <div className="search-bar">
-            <h4>Search EIA Data</h4>
+          <Grid container className="search-area">
+
+            <h3>Explore EIA Data</h3>
+            <Grid item className="filters-heading">
+              <h4 style={{ alignSelf: 'center' }}><i>Filters</i></h4>
+            </Grid>
+
             <div className="menu-area">
+
 
               {/* <div className="sub-menu"> */}
 
@@ -857,47 +863,54 @@ export default function HomePage() {
             <RecordsPerPage />
           </div> */}
 
-
+            <Grid item className="search-heading">
+              <h4 style={{ alignSelf: 'center' }}><i>Search</i></h4>
+            </Grid>
             <div>
               <SearchBar />
 
             </div>
 
             <br></br>
+
+
+
+          </Grid>
+          <br />
+          <Grid item className="search-heading">
+            <h4 style={{ alignSelf: 'center' }}><i>Tree Results</i></h4>
+          </Grid>
+          <div className="menu-area">
+
+
+            <FinderTree />
+
+            {treeLoading ? <div className="alert-format"> Loading . . . </div> : ''}
+
           </div>
-
-
-        </div>
-        <div className="menu-area">
-        </div>
-        <br />
-
-        <div className="menu-area">
-
-
-          <FinderTree />
-
-          {treeLoading ? <div className="alert-format"> Loading . . . </div> : ''}
-
-        </div>
-        <section className="treeAndSeries">
-          <div>
+          <section className="treeAndSeries">
             <div>
-              {/* changed from props to cat_props to send categories */}
-              {treeLoading ? <div className="alert-format"> Loading . . .  </div> :
-                (selectedSearchNode && cat_props.categories.length === 0) ? <div className="alert-format">No Categories Found!</div> :
+              <div>
+                {/* changed from props to cat_props to send categories */}
+                <Grid item className="search-heading">
+                  <h4 style={{ alignSelf: 'center' }}>Browse DataCards below. Each card represents a terminal category in the tree and holds a collection of time series.</h4>
+                </Grid>
+                {treeLoading ? <div className="alert-format"> Loading . . .  </div> :
+                  (selectedSearchNode && cat_props.categories.length === 0) ? <div className="alert-format">No Categories Found!</div> :
 
-                  <div className="series-layout">
-                    <SeriesList  {...cat_props} />
-                  </div>}
+                    <div className="series-layout">
+
+                      <SeriesList  {...cat_props} />
+                    </div>}
+
+              </div>
+              <div className="series-layout">
+                <Pager />
+              </div>
 
             </div>
-            <div className="series-layout">
-              <Pager />
-            </div>
-
-          </div>
-        </section>
+          </section>
+        </Grid>
       </React.Suspense>
     </React.Fragment >
   );
