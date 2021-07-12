@@ -39,7 +39,7 @@ const CategoryDetails = (props: any): JSX.Element => {
 
     const tree_categories = useSelector((state: IStore) => state.eia.treeCategories);
     let ancestor_names: Array<String> = [];
-    console.log(category)
+
     // if (category && Array.isArray(category.ancestors)) {
     //     console.log(category.ancestors)
     //     let FindAncestorNames = (cat_array: Array<ICategories>) => {
@@ -57,7 +57,7 @@ const CategoryDetails = (props: any): JSX.Element => {
     //     FindAncestorNames(treeCats);
     // }
 
-    console.log(series)
+
     const childseries = series.sort((a, b) => {
         if (a.name > b.name) {
             return 1
@@ -128,7 +128,7 @@ const CategoryDetails = (props: any): JSX.Element => {
         }
         catch (error) { }
     }
-    console.log(ancestor_names)
+
 
     return (
         <div>

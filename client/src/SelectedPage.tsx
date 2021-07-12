@@ -8,7 +8,7 @@ export default function SelectedPage(): JSX.Element {
   const dispatch = useDispatch();
   const state = useSelector((state: IStore) => state.eia);
 
-  console.log(state);
+
   const props: ISeriesProps = {
     series: state.selected,
     store: { state, dispatch },

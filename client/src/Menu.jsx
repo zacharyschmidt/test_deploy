@@ -75,14 +75,10 @@ export default function SimpleMenu(props) {
   //gets current menu selection
   const selection = useSelector((state) => state.eia[menu_selection]);
   const state = useSelector((state) => state.eia)
-  console.log(filter)
-  console.log('other_filter_selection]', other_filter_selection1)
-  console.log('menu_options', menu_options)
-  console.log('state', state)
+
   useEffect(() => {
     if (filter === "Region" || filter === "HistorProj") {
-      console.log(other_filter_selection1)
-      console.log(other_filter1)
+
       other_filter_selection1 = other_filter_selection1[1]
     } else if (filter === "DataSet") {
       // do nothing?

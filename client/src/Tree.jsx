@@ -108,9 +108,9 @@ export default function Tree() {
     let Series = state.treeLeaves.filter(function (leaf) {
       return leaf.category_id == Number(nodeID);
     });
-    console.log(Series);
+
     Series = Series.length > 0 ? Series[0]['childseries'] : null;
-    console.log(Series);
+
     // make a new field in the store to hold an array of leaf nodes and query this to
     //find childseries. Than means the setTreeStructure action will write to this part
     // of the store as well.

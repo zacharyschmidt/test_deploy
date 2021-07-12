@@ -443,8 +443,7 @@ export class CategoryService {
          WHERE (($1 = 'All') OR cats.dataset_name = $1)
          AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
          AND cats.parent_category_id = $4
-         AND (series.series_id IS NULL OR series.f = $5)
-         AND (series.series_id IS NULL OR series.geography = $6)
+         
          AND freq.f = $5
          AND geo.geography = $6
          AND cats.excluded = 0
@@ -453,6 +452,9 @@ export class CategoryService {
          ORDER BY cats.category_id
          LIMIT $7
          OFFSET $8`
+        //AND (series.series_id IS NULL OR series.f = $5)
+        //AND (series.series_id IS NULL OR series.geography = $6)
+
           //   `SELECT * FROM categories AS cats
           //  INNER JOIN frequency_filter AS freq
           //  ON freq.category_id = cats.category_id

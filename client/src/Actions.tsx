@@ -511,18 +511,17 @@ export const fetchDataAction = async (
   const region = regionFilter(filters);
   const subregion = subRegionFilter(filters);
   const combinedRegion = combineRegions(filters, region, subregion);
-  console.log(combinedRegion);
+
   const frequency = frequencyFilter(filters);
   const dataset = datasetFilter(filters);
   const units = unitsFilter(filters);
 
-  console.log(filters);
-  console.log(units);
+
   const URL = `https://api.eia.gov/search/?search_term=name&search_value="${searchTerm}"&rows_per_page=1000&page_num=0${combinedRegion}${frequency}${dataset}${units}`;
-  console.log(URL);
+
   const data = await fetch(URL);
   const dataJSON = await data.json();
-  console.log(dataJSON);
+
   if (dataJSON.response.numFound === 0) {
     alert('No Data Series Found');
   }
@@ -603,7 +602,7 @@ export const toggleSelectAction = (
   dispatch: any,
   series: ISeries | any
 ): IAction => {
-  console.log(state);
+
   const seriesInSel = state.selected.includes(series);
   let dispatchObj = {
     type: 'ADD_SEL',

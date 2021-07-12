@@ -71,27 +71,45 @@ export default React.memo(function FinderTree() {
   //   if cat has childCategories with no nested children, return object2;
   //   if there are nested children, call this function on that cat
   const recursiveMap = (cat) => {
+    console.log(cat.name)
+    console.log("childseries greater than 0? ", cat.childseries.length > 0)
+      console.log("childcategories greater than 0? ", cat.childCategories.length > 0)
+    if (cat?.childseries && cat.childseries.length > 0) {
+      //if (typeof cat.childCategories === 'undefined') {
+     
+      return {
+        id: cat.category_id,
+        search_id: cat.category_id,
+        label: cat.name,
+        childnames: cat.childnames,
+        childseries: cat.childseries,
+        children: [
+          {
+            id: cat.category_id*100,
+            search_id: cat.category_id,
+            label: !cat.childCategories ? cat.name : 'Click for more categories >>>',
+            children: cat.childCategories.length > 0 ? cat.childCategories.map((cat) => recursiveMap(cat)) : null,
+            // childnames: cat.childnames,
+            childseries: cat.childseries,
+
+          },
+          {
+            id: cat.category_id*101,
+            search_id: cat.category_id,
+            label: cat.name,
+            childnames: cat.childnames,
+            childseries: cat.childseries,
+            display: 1,
+          }
+        ]
+      };
+    }
     if (cat.childCategories.length === 0) {
-      if ((cat?.childseries && cat.childseries.length > 0) || (typeof cat.childCategories === 'undefined')) {
-        return {
-          id: cat.category_id,
-          label: cat.name,
-          childnames: cat.childnames,
-          childseries: cat.childseries,
-          children: [
-            {
-              id: cat.category_id,
-              label: cat.name,
-              childnames: cat.childnames,
-              childseries: cat.childseries,
-              display: 1,
-            }
-          ]
-        };
-      }
+
       return {
 
         id: cat.category_id,
+        search_id: cat.category_id,
         label: cat.name,
         childnames: cat.childnames,
         childseries: cat.childseries
@@ -106,6 +124,7 @@ export default React.memo(function FinderTree() {
     return {
 
       id: cat.category_id,
+      search_id: cat.category_id,
       label: cat.name,
       childseries: cat.childseries,
       childnames: cat.childnames,
@@ -117,7 +136,7 @@ export default React.memo(function FinderTree() {
   // const tree = [{ id: 964165, label: "Annual Energy Outlook 2014", childseries: [], 
   //   children: [{ id: 964135, label: "Annual Energy Outlook 2012", childseries: []}] },
   // { id: 963165, label: "Annual Energy Outlook 2015", childseries: [] }]
-
+console.log(treeCategories)
   const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
     if (a.label > b.label) {
       return 1
@@ -167,13 +186,12 @@ export default React.memo(function FinderTree() {
   }, [filters]);
 
   const onLeafSelected = (item) => {
-    console.log('selected Leaf')
-    console.log('nodeval', nodeVal)
-    console.log('itemID', item.id)
 
+    console.log('leaf selected', item.label)
     flag.current = false
+    // how will we know ahead of time if the item has children?
     if (item.display) {
-      history.push(`/demo/details/${item.id}/EIA`)
+      history.push(`/demo/details/${item.search_id}/EIA`)
       return;
     }
 
@@ -181,12 +199,13 @@ export default React.memo(function FinderTree() {
 
       return;
     }
+    console.log('fetching data', item.label)
 
     batch(() => {
 
 
 
-      setTreeStructureAction(dispatch, item.id, filters);
+      setTreeStructureAction(dispatch, item.search_id, filters);
       // Won't be able to update search when walking back up the tree
 
       // FOR DEBUGGING
@@ -194,7 +213,7 @@ export default React.memo(function FinderTree() {
       fetchCategoriesAction(
         dispatch,
         searchTerm,
-        item.id,
+        item.search_id,
         filters,
         1,
         limit,
@@ -253,18 +272,15 @@ export default React.memo(function FinderTree() {
     // if childseries corresponding to nodeID[0] has length greater than 0, send the child series to the store.};
   };
   const itemSelected = (item) => {
-    console.log("ITEM SELECTED")
-    console.log(item)
-    console.log(flag.current)
 
 
 
-    if (!item.children || item?.children[0].display) {
+
+    if (!item.children || item.children.length === 0) {
+      // run action to query for children?
       return
     }
-    console.log('selected Item, not display')
-    console.log('nodeval', nodeVal)
-    console.log('itemID', item.id, item.label)
+
     // if ((item.id === searchVal)) {
     //   console.log("EXITING ON ITEM SELECTED SEARCHVAL == ITEM.ID")
     //   return;}
@@ -275,13 +291,14 @@ export default React.memo(function FinderTree() {
     // console.log('IN onITEMSELECTED')
     if (item.children) {
       if (item.children[0].display) {
+        console.log(item.label)
         if (item.id !== nodeVal) {
           // this part is important
           setSelectedTreeNodeAction(dispatch, item.id);
         }
       }
     }
-    setSearchNodeAction(dispatch, item.id)
+    setSearchNodeAction(dispatch, item.search_id)
 
     // commented out for debugging
 
@@ -292,7 +309,7 @@ export default React.memo(function FinderTree() {
       fetchCategoriesAction(
         dispatch,
         searchTerm,
-        item.id,
+        item.search_id,
         filters,
         1,
         limit,
@@ -316,15 +333,19 @@ export default React.memo(function FinderTree() {
 
   }
   const renderTree = (config, item) => {
-    // console.log('STARTING RENDER TREE')
-    // console.log(item);
+
+
 
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
+
+
     let ul = document.createElement('ul');
+    ul.classList.add('series-list')
+    div.appendChild(ul);
 
     if (item.display == 1) {
-
+      //if (item.childseries.length > 0) {
       item.childnames.sort((a, b) => {
         if (a > b) {
           return 1
@@ -333,31 +354,15 @@ export default React.memo(function FinderTree() {
       }).forEach(function (name) {
 
 
-        let a = document.createElement('a');
-        ul.appendChild(a);
-        a.innerHTML += name;
+        let li = document.createElement('li');
+        ul.appendChild(li);
+        li.innerHTML += name;
 
-
-        // a.href = `/demo/details/${series}`;
       });
-      let parent = document.getElementsByClassName('fjs-col');
 
-      setTimeout(() => {
-
-        parent.item(parent.length - 1).childNodes[0].childNodes[0]
-          .childNodes[0].href = `/demo/details/${item.childseries[0]}`
-      })
-      //     let replacement = document.createElement('a');
-      //     parent
-      //       .item(parent.length - 1)
-      //       .childNodes[0].childNodes[0].childNodes[0].replaceWith(replacement);
-      //     console.log(parent);
-      //   }, 100);
-      // }
     }
-    div.appendChild(ul);
-    //console.log('FINISHED RENDERING')
-    //console.log(ul)
+
+
     return div;
   };
   // console.log(tree);
@@ -379,6 +384,7 @@ export default React.memo(function FinderTree() {
 
   //console.log(searchVal)
   // console.log('RENDERING TREE')
+  console.log(tree)
 
   return (
     <ReactFinder
