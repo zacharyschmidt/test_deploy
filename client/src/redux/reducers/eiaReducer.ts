@@ -97,6 +97,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
           childCategories: [],
           childseries: leaf.childseries,
           childnames: leaf.childnames,
+          has_children: leaf.has_children,
         };
       });
 

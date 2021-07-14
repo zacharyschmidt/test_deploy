@@ -118,6 +118,7 @@ export interface ICategories {
   dataset_name: string;
   ancestors?: Array<number> | string;
   ancestor_names: string[];
+  has_children: boolean;
 }
 
 export interface ISeriesProps {

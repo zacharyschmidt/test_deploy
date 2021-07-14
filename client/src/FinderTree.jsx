@@ -71,38 +71,58 @@ export default React.memo(function FinderTree() {
   //   if cat has childCategories with no nested children, return object2;
   //   if there are nested children, call this function on that cat
   const recursiveMap = (cat) => {
-    console.log(cat.name)
+    console.log(cat)
     console.log("childseries greater than 0? ", cat.childseries.length > 0)
-      console.log("childcategories greater than 0? ", cat.childCategories.length > 0)
-    if (cat?.childseries && cat.childseries.length > 0) {
-      //if (typeof cat.childCategories === 'undefined') {
-     
-      return {
-        id: cat.category_id,
-        search_id: cat.category_id,
-        label: cat.name,
-        childnames: cat.childnames,
-        childseries: cat.childseries,
-        children: [
-          {
-            id: cat.category_id*100,
-            search_id: cat.category_id,
-            label: !cat.childCategories ? cat.name : 'Click for more categories >>>',
-            children: cat.childCategories.length > 0 ? cat.childCategories.map((cat) => recursiveMap(cat)) : null,
-            // childnames: cat.childnames,
-            childseries: cat.childseries,
+    console.log("childcategories greater than 0? ", cat.childCategories.length > 0)
+    if (cat?.childnames && cat.childnames.length > 0 && cat.childnames[0]) {
+      if (cat.has_children) {
+        console.log("hybrid node", cat.name)
+        return {
+          id: cat.category_id,
+          search_id: cat.category_id,
+          label: cat.name,
+          childnames: cat.childnames,
+          childseries: cat.childseries,
+          children: [
+            {
+              id: cat.category_id * 100,
+              search_id: cat.category_id,
+              label: !cat.childCategories ? cat.name : 'Click to see child categories >>>',
+              children: cat.childCategories.length > 0 ? cat.childCategories.map((cat) => recursiveMap(cat)) : null,
+              // childnames: cat.childnames,
+              childseries: cat.childseries,
 
-          },
-          {
-            id: cat.category_id*101,
-            search_id: cat.category_id,
-            label: cat.name,
-            childnames: cat.childnames,
-            childseries: cat.childseries,
-            display: 1,
-          }
-        ]
-      };
+            },
+            {
+              id: cat.category_id * 101,
+              search_id: cat.category_id,
+              label: cat.name,
+              childnames: cat.childnames,
+              childseries: cat.childseries,
+              display: 1,
+            }
+          ]
+        };
+      } else if (!cat.has_children) {
+        console.log("leaf_node", cat.name)
+        return {
+          id: cat.category_id,
+          search_id: cat.category_id,
+          label: cat.name,
+          childnames: cat.childnames,
+          childseries: cat.childseries,
+          children: [
+            {
+              id: cat.category_id * 101,
+              search_id: cat.category_id,
+              label: cat.name,
+              childnames: cat.childnames,
+              childseries: cat.childseries,
+              display: 1,
+            }
+          ]
+        }
+      }
     }
     if (cat.childCategories.length === 0) {
 
@@ -131,12 +151,13 @@ export default React.memo(function FinderTree() {
       children: cat.childCategories.map((cat) => recursiveMap(cat))
     };
   };
+
   // renaming the members of each category in treeCategories so the FinderJS tree
   // can process them childCategories -> children
   // const tree = [{ id: 964165, label: "Annual Energy Outlook 2014", childseries: [], 
   //   children: [{ id: 964135, label: "Annual Energy Outlook 2012", childseries: []}] },
   // { id: 963165, label: "Annual Energy Outlook 2015", childseries: [] }]
-console.log(treeCategories)
+  console.log(treeCategories)
   const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
     if (a.label > b.label) {
       return 1
@@ -340,12 +361,17 @@ console.log(treeCategories)
     div.innerText = `${item.label}`;
 
 
-    let ul = document.createElement('ul');
-    ul.classList.add('series-list')
-    div.appendChild(ul);
 
     if (item.display == 1) {
       //if (item.childseries.length > 0) {
+      div.innerText = `Category: ${item.label}`;
+      let p = document.createElement('p')
+      p.innerText = 'Time Series: '
+      div.appendChild(p);
+
+      let ul = document.createElement('ul');
+      ul.classList.add('series-list')
+      div.appendChild(ul);
       item.childnames.sort((a, b) => {
         if (a > b) {
           return 1
@@ -359,6 +385,9 @@ console.log(treeCategories)
         li.innerHTML += name;
 
       });
+
+
+
 
     }
 

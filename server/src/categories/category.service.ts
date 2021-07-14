@@ -426,34 +426,87 @@ export class CategoryService {
     // make one query for tree, one for keyword search
     let categories;
     let count;
+    // tree builder
     if (paginationDto.parent_category_id) {
       categories = await this.categoryRepository
+        // FALSE having_test,
         .query(
+
           `SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
-          cats.dataset_name, cats.parent_name, cats.ancestor_names, 
-          ARRAY_AGG (series.name) childnames FROM categories AS cats
-         INNER JOIN frequency_filter AS freq
-         ON freq.category_id = cats.category_id
-         INNER JOIN geography_filter AS geo
-         ON geo.category_id = cats.category_id
-         LEFT JOIN series_cat
-         ON cats.category_id = series_cat.category_id
-         LEFT JOIN series 
-         ON series_cat.series_id = series.series_id
-         WHERE (($1 = 'All') OR cats.dataset_name = $1)
-         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
-         AND cats.parent_category_id = $4
-         
-         AND freq.f = $5
-         AND geo.geography = $6
-         AND cats.excluded = 0
-         AND (($9 = 'All') OR cats.dataset_name = any($10::TEXT[]))
-         GROUP BY cats.category_id
-         ORDER BY cats.category_id
-         LIMIT $7
-         OFFSET $8`
-        //AND (series.series_id IS NULL OR series.f = $5)
-        //AND (series.series_id IS NULL OR series.geography = $6)
+            cats.dataset_name, cats.parent_name, cats.ancestor_names, 
+            ARRAY_AGG (DISTINCT series.name) childnames,
+            ARRAY_AGG(DISTINCT series.f) freq, ARRAY_AGG(DISTINCT series.geography) geo, 
+            
+            CASE WHEN category_leaf_lookup.ancestors IS NOT NULL THEN TRUE
+                WHEN category_leaf_lookup.ancestors IS NULL THEN FALSE
+                END has_children FROM categories AS cats
+           INNER JOIN frequency_filter AS freq
+           ON freq.category_id = cats.category_id
+           INNER JOIN geography_filter AS geo
+           ON geo.category_id = cats.category_id
+           LEFT JOIN series_cat
+           ON cats.category_id = series_cat.category_id
+           LEFT JOIN series 
+           ON series_cat.series_id = series.series_id
+           LEFT JOIN category_leaf_lookup
+           ON cats.category_id = category_leaf_lookup.ancestors
+           WHERE (($1 = 'All') OR cats.dataset_name = $1)
+           AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
+           AND cats.parent_category_id = $4
+           AND (series.series_id IS NULL OR series.f = $5)
+           AND (series.series_id IS NULL OR series.geography = $6)
+           AND freq.f = $5
+           AND geo.geography = $6
+           AND cats.excluded = 0
+           AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))
+           GROUP BY cats.category_id, category_leaf_lookup.ancestors
+
+
+           UNION
+
+           SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+            cats.dataset_name, cats.parent_name, cats.ancestor_names, '{}' childnames, 
+            ARRAY_AGG(DISTINCT series.f) freq, ARRAY_AGG(DISTINCT series.geography) geo,
+             
+            CASE WHEN  category_leaf_lookup.ancestors IS NOT NULL THEN TRUE
+                WHEN category_leaf_lookup.ancestors IS NULL THEN FALSE
+                END has_children 
+            FROM categories AS cats
+           INNER JOIN frequency_filter AS freq
+           ON freq.category_id = cats.category_id
+           INNER JOIN geography_filter AS geo
+           ON geo.category_id = cats.category_id
+           LEFT JOIN series_cat
+           ON cats.category_id = series_cat.category_id
+           LEFT JOIN series 
+           ON series_cat.series_id = series.series_id
+           LEFT JOIN category_leaf_lookup
+           ON cats.category_id = category_leaf_lookup.ancestors
+           WHERE (($1 = 'All') OR cats.dataset_name = $1)
+           AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
+           AND cats.parent_category_id = $4
+           AND (series.series_id IS NOT NULL )
+           AND (series.series_id IS NOT NULL )
+           AND freq.f = $5
+           AND geo.geography = $6
+           AND cats.excluded = 0
+           AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))
+           GROUP BY cats.category_id, category_leaf_lookup.ancestors
+           
+            HAVING 
+
+          NOT (COALESCE($5 = any(ARRAY_AGG(DISTINCT series.f)), FALSE)
+          AND
+          COALESCE($6 = any(ARRAY_AGG(DISTINCT series.geography)), FALSE))`
+          //  HAVING 
+
+          //NOT ($5 = any(COALESCE(ARRAY_AGG(DISTINCT series.f), array[]::TEXT[]))
+          //AND
+          //($6 = all(COALESCE(ARRAY_AGG(DISTINCT series.geography), array[]::TEXT[])))
+
+          // CASE WHEN ($5 = any(COALESCE(ARRAY_AGG(DISTINCT series.f), array[]::TEXT[])) AND ($6 = all(COALESCE(ARRAY_AGG(DISTINCT series.geography), array[]::TEXT[]))) THEN TRUE
+          //              ELSE FALSE
+          //              END having_test,
 
           //   `SELECT * FROM categories AS cats
           //  INNER JOIN frequency_filter AS freq
@@ -471,9 +524,10 @@ export class CategoryService {
           //  OFFSET $8`
           ,
           [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
-          paginationDto.Frequency, paginationDto.Region, paginationDto.limit, skippedItems,
+          paginationDto.Frequency, paginationDto.Region,
           paginationDto.HistorProj, hist_or_proj_names,
           ])
+      // Card fetching
     } else if (paginationDto.treeNode) {
       categories = await this.categoryRepository
         .query(

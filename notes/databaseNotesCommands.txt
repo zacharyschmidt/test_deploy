@@ -712,7 +712,10 @@ might not need to drop before update
 alter table "series" drop column "search_vec";
 update series set search_vec = to_tsvector('english',search_text);
 drop index first?
-CREATE INDEX series_vec_index ON series USING gin(search_vec); 
+CREATE INDEX series_vec_index ON series USING gin(search_vec);
+
+
+
 
 
 
