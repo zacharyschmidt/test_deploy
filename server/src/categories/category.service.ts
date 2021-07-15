@@ -429,7 +429,9 @@ export class CategoryService {
     // tree builder
     if (paginationDto.parent_category_id) {
       categories = await this.categoryRepository
-        // FALSE having_test,
+
+        // right now the inner joins with the filter tables exclude any of the 
+        // 13000 categories that are missing from at least one of the filter tables
         .query(
 
           `SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 

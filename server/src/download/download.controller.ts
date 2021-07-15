@@ -712,6 +712,14 @@ export class DownloadController {
             const cat = await this.categoryService.getCategorybyID(category_ID);
             let series = await this.seriesService.getManySeries(cat.category_id,
                 paginationDto.Frequency, paginationDto.Region, custom_flag);
+            console.log('SERIES')
+            series.sort((a, b) => {
+                if (a.name > b.name) {
+                    return 1
+                }
+                return -1
+            })
+            console.log(series)
             let workbook = new Excel.Workbook()
             let worksheet = workbook.addWorksheet('data');
             console.log('before name_cols')
