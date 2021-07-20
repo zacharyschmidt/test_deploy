@@ -56,10 +56,11 @@ export class CategoryService {
     let rowDict: { [key: string]: PaginatedCategoryResultDto } = {};
 
     treeCats.forEach((cat, index) => {
+      if (cat.has_children) {
 
-      rowDict[cat.category_id.toString()] = rows[index]
+        rowDict[cat.category_id.toString()] = rows[index]
 
-
+      }
     })
     console.log(rowDict)
     return [treeCats, rowDict];

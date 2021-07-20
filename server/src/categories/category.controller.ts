@@ -31,7 +31,7 @@ export class CategoryController {
         ...paginationDto,
         //limit: paginationDto.limit > 10 ? 10 : paginationDto.limit
       })
- 
+
     return result;
   }
 

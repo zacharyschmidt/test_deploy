@@ -3,6 +3,7 @@ export type CategorySO = {
   parent_cat_id?: number;
   name: string;
   notes: string;
+  has_children?: boolean;
   childseries: any;
   dataset_name: string;
   ancestor_names?: string[];
