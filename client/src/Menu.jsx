@@ -8,7 +8,7 @@ import Menu from '@material-ui/core/Menu';
 import { useSelector, useDispatch } from 'react-redux';
 import { IStore } from './types';
 
-import { setFilterAction, fetchDataAction, setMenuCatsAction, setMenuSelectionAction, fetchCategoriesAction, setPageAction } from './redux/actions/eia/actions';
+import { setCardRowsAction, setFilterAction, fetchDataAction, setMenuCatsAction, setMenuSelectionAction, fetchCategoriesAction, setPageAction } from './redux/actions/eia/actions';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -122,7 +122,7 @@ export default function SimpleMenu(props) {
 
     });
     let filter_obj = { ...state.filters, [filter]: menu_options[index] }
-    fetchCategoriesAction(
+    setCardRowsAction(
       dispatch,
       state.searchTerm,
       state.selectedSearchNode ? state.selectedSearchNode : 371,
@@ -130,7 +130,7 @@ export default function SimpleMenu(props) {
       1,
       state.limit,
     );
-    setPageAction(dispatch, 1);
+    //setPageAction(dispatch, 1);
   };
 
   const handleClose = () => {

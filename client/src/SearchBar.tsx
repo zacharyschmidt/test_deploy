@@ -56,7 +56,7 @@ export default function SearchBar(): JSX.Element {
   const handleReset = () => {
     setValue('');
     clearSearchAction(dispatch);
-    fetchCategoriesAction(
+    setCardRowsAction(
       dispatch,
       '',
       state.selectedSearchNode ? state.selectedSearchNode : 371,
