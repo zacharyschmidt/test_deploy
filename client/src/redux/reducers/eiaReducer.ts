@@ -15,6 +15,7 @@ const initialState: IEIA = {
   selectedSearchNode: null,
   treeLoading: false,
   categories: [],
+  rowCards: {},
   catSeriesFlag: 'Categories',
   DataSetName: 'All', // should be 'All'?
   CountryMenuDisplay: 'United States', //should be United States?
@@ -76,7 +77,14 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'FETCH_DATA_SERIES':
       return { ...state, seriesData: action.payload };
     case 'FETCH_CATS':
-      return { ...state, categories: action.payload.series, seriesCount: action.payload.count };
+      console.log(action.payload.rowCategories)
+      console.log({ ...state, rowCards: 
+                    {...state.rowCards, [action.payload.id]: 
+                            {...state.rowCards[action.payload.id], categories: action.payload.rowCategories }}})
+  
+      return { ...state, rowCards: 
+                    {...state.rowCards, [action.payload.id]: 
+                            {...state.rowCards[action.payload.id], categories: action.payload.rowCategories }}};//{ ...state, categories: action.payload.series, seriesCount: action.payload.count };
     case 'SET_TREE_STRUCTURE':
       let node_id: number;
       if (action.payload.node_id == null) {
@@ -139,17 +147,25 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
         treeLeaves:
           action.payload.tree_leaves.length > 0
             ? action.payload.tree_leaves
-            : state.treeLeaves
+            : state.treeLeaves,
         // action.payload.tree_leaves > 0
         //   ? action.payload.tree_leaves
         //   : state.treeLeaves
+        rowCards: action.payload.rowCards,
+      };
+    case 'SET_CARD_ROWS':
+      return {
+        ...state,
+        rowCards: action.payload.rowCards,
       };
     case 'SET_TREE_SERIES':
       return { ...state, treeSeries: action.payload };
     case 'GET_PARENT_CATS':
       return { ...state };
     case 'SET_PAGE':
-      return { ...state, page: action.payload };
+      return { ...state, rowCards: 
+                    {...state.rowCards, [action.payload[1]]: 
+                            {...state.rowCards[action.payload[1]], page: action.payload[0] }}};
     case 'RESET_PAGE':
       return { ...state };
     case 'SET_LIMIT':

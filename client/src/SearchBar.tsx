@@ -9,6 +9,7 @@ import {
   setSearchTermAction,
   freshStartAction,
   setPageAction,
+  setCardRowsAction,
 } from './redux/actions/eia/actions';
 import { IStore } from './types';
 
@@ -29,7 +30,7 @@ export default function SearchBar(): JSX.Element {
   const handleSubmit = (e: FormElem): void => {
     e.preventDefault();
     setSearchTermAction(dispatch, value);
-    setPageAction(dispatch, 1);
+    //setPageAction(dispatch, 371, 1);
     if (state.catSeriesFlag == 'Series') {
       fetchDataAction(
         dispatch,
@@ -40,7 +41,7 @@ export default function SearchBar(): JSX.Element {
         state.limit,
       );
     } else {
-      fetchCategoriesAction(
+      setCardRowsAction(
         dispatch,
         value,
         state.selectedSearchNode ? state.selectedSearchNode : 371,
@@ -63,7 +64,8 @@ export default function SearchBar(): JSX.Element {
       1,
       state.limit,
     );
-    setPageAction(dispatch, 1);
+    // id is 371 if no nodes are selected . . .
+    //setPageAction(dispatch, 371, 1);
   };
   return (
     <div className="search-bar">

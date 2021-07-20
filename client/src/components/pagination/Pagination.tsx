@@ -23,8 +23,9 @@ const useStyles = makeStyles((theme) =>
   }),
 );
 
-export const Pager = () => {
+export const Pager = (props: any) => {
   //const [pager, setPager] = useState({} as any);
+
 
   const classes = useStyles();
   // const [page, setPage] = React.useState(1);
@@ -54,29 +55,29 @@ export const Pager = () => {
   const state = useSelector((state: IStore) => state.eia);
   // const totalCatsRound = state.seriesCount <= state.limit ? state.categories.length : Math.ceil(state.seriesCount / 100) *
   //   100
-  const pager = setPagination(state.seriesCount, state.page, state.limit);
-  let totalRecordsPage = Math.ceil(state.seriesCount / state.limit);
+  const pager = setPagination(state.rowCards[props.id].totalCount, state.rowCards[props.id].page, 5);
+  let totalRecordsPage = Math.ceil(state.rowCards[props.id].totalCount / 5);
   const dispatch = useDispatch();
   const handleClick = (event: ChangeEvent<unknown>, page: number): void => {
 
-    setPageAction(dispatch, page);
+    setPageAction(dispatch, page, props.id);
     fetchCategoriesAction(
       dispatch,
       state.searchTerm,
-      state.selectedSearchNode ? state.selectedSearchNode : 371,
+      props.id,
       state.filters,
       page,
-      state.limit
+      5
     );
   };
 
 
   return (
     <div>
-      {state.seriesCount > 0 &&
+      {state.rowCards &&
         (<div className={classes.root}>
-          <Typography>Showing {((state.page - 1) * state.limit) + 1} to{' '}
-            {state.page * state.limit} of {state.seriesCount} records</Typography>
+          <Typography>Showing {((state.rowCards[props.id].page - 1) * 5) + 1} to{' '}
+            {state.rowCards[props.id].page * 5} of {state.rowCards[props.id].totalCount} records</Typography>
           <Pagination count={pager.totalPages} page={pager.currentPage} onChange={handleClick} />
         </div>)}
       {/* {state.seriesCount > 0 &&

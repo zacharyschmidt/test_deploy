@@ -63,6 +63,7 @@ services:
       context: ./postgres
       dockerfile: Dockerfile.dev
     image: postgres
+    shm_size: 1gb 
     networks:
       - database
     environment:

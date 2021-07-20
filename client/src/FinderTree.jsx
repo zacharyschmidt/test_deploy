@@ -13,7 +13,7 @@ import {
   fetchDataAction,
   setSelectedTreeNodeAction,
   setSearchNodeAction,
-  fetchCategoriesAction,
+  setCardRowsAction,
   setPageAction,
   fetchChildSeriesAction,
 } from './redux/actions/eia/actions';
@@ -195,7 +195,7 @@ export default React.memo(function FinderTree() {
     //fetchInitialTree('371');
     flag.current = true
     const node = nodeVal ? nodeVal : 371
-    setTreeStructureAction(dispatch, node, filters);
+    setTreeStructureAction(dispatch, '', node, filters);
     // fetchCategoriesAction(
     //     dispatch,
     //     searchTerm,
@@ -226,22 +226,22 @@ export default React.memo(function FinderTree() {
 
 
 
-      setTreeStructureAction(dispatch, item.search_id, filters);
+      setTreeStructureAction(dispatch, searchTerm, item.search_id, filters);
       // Won't be able to update search when walking back up the tree
 
       // FOR DEBUGGING
 
-      fetchCategoriesAction(
-        dispatch,
-        searchTerm,
-        item.search_id,
-        filters,
-        1,
-        limit,
-      );
+      // fetchCategoriesAction(
+      //   dispatch,
+      //   searchTerm,
+      //   item.search_id,
+      //   filters,
+      //   1,
+      //   limit,
+      // );
 
 
-      setPageAction(dispatch, 1);
+      //setPageAction(dispatch, 1);
       if (item.display === 1) {
         return;
       }
@@ -327,7 +327,7 @@ export default React.memo(function FinderTree() {
     if (flag.current) {
       console.log('fetching categories from Item Click')
 
-      fetchCategoriesAction(
+      setCardRowsAction(
         dispatch,
         searchTerm,
         item.search_id,

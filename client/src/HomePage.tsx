@@ -18,6 +18,7 @@ import {
 } from './redux/actions/eia/actions';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import AuthLinks from './components/auth-links/AuthLinks';
+import { ArrowLeftSharp } from '@material-ui/icons';
 
 
 const SeriesList = React.lazy<any>(() => import('./SeriesList'));
@@ -39,7 +40,7 @@ export default function HomePage() {
   const selected = useSelector((state: IStore) => state.eia.selected, shallowEqual);
   const treeLoading = useSelector((state: IStore) => state.eia.treeLoading);
   const selectedSearchNode = useSelector((state: IStore) => state.eia.selectedSearchNode);
-
+  const rowCards = useSelector((state: IStore) => state.eia.rowCards);
 
 
   //const { state, dispatch } = React.useContext(Store);
@@ -746,6 +747,13 @@ export default function HomePage() {
   let menu_options_full: Record<string, string> = {};
   menu_options_logical.forEach((logical_key: any, index) => menu_options_full[logical_key] = menu_options_display[index])
   //let menu_options_full = menu_options_display.map((option, index) => [option, menu_options_logical[index]])
+
+  let row_ids: Array<number> = []
+  for (const [key, value] of Object.entries(rowCards)) {
+    row_ids = row_ids.concat(Number(key))
+  }
+  console.log(row_ids)
+  console.log(rowCards)
   return (
     <React.Fragment>
       <React.Suspense fallback={<div>loading...</div>}>
@@ -893,20 +901,43 @@ export default function HomePage() {
               <div>
                 {/* changed from props to cat_props to send categories */}
                 <Grid item className="search-heading">
-                  <h4 style={{ alignSelf: 'center' }}>Browse DataCards below. Each card represents a terminal category in the tree and holds a collection of time series.</h4>
+                  <h4 style={{ alignSelf: 'center' }}>Browse DataCards below.
+                    Each row represents a parent category in the right-most level
+                    of the tree above and holds a set of cards. Each card represents a terminal category in the tree and holds a collection of time series.</h4>
                 </Grid>
-                {treeLoading ? <div className="alert-format"> Loading . . .  </div> :
-                  (selectedSearchNode && cat_props.categories.length === 0) ? <div className="alert-format">No Categories Found!</div> :
+                {/* {treeLoading ? <div className="alert-format"> Loading . . .  </div> :
+                  (selectedSearchNode && cat_props.categories.length === 0 && false) ? <div className="alert-format">No Categories Found!</div> : */}
 
-                    <div className="series-layout">
+                <div>
 
-                      <SeriesList  {...cat_props} />
-                    </div>}
+
+
+
+                  {
+                    row_ids.map((id) => {
+                      return (<SeriesList
+                        key={id}
+                        categories={rowCards[id].categories}
+                        toggleSelectAction={toggleSelectAction}
+                        selected={selected}
+                        name={rowCards[id].name}
+                        id={id} />)
+                    }
+                    ).sort((a, b) => {
+                      if (a.props.name > b.props.name) {
+                        return 1
+                      }
+                      return -1
+                    })}
+
+
+
+
+                </div>
+                {/* } */}
 
               </div>
-              <div className="series-layout">
-                <Pager />
-              </div>
+
 
             </div>
           </section>

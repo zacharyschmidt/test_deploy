@@ -70,6 +70,7 @@ export interface IEIA {
   selectedSearchNode: number | null;
   treeLoading: boolean;
   categories: Array<ICategories>;
+  rowCards: any;
   catSeriesFlag: string;
   DataSetName: string | null;
   CountryMenuDisplay: string | null;

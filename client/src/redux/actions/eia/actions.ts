@@ -51,7 +51,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
     const j = ancestors.length
     for (let i = 0; i < j; i++) {
 
-      await setTreeStructureAction(dispatch, ancestors[i], filters)
+      await setTreeStructureAction(dispatch, '', ancestors[i], filters)
     }
   }
   try {
@@ -87,26 +87,28 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
 export const fetchCategoriesAction = async (
   dispatch: any,
   searchTerm: string,
-  selectedTreeNode: number | null,
+  parent_category_id: number | null,
   filters: any,
   page: number,
-  limit: number
+  limit: number = 5,
 ) => {
   dispatch({ type: 'TREE_LOADING' });
   try {
     const response = await axios({
       method: 'GET',
-      url: '/api/categories/search',
+      url: '/api/categories/rowCards',
       params: {
         page: page,
         limit: limit,
         searchTerm: searchTerm,
-        treeNode: selectedTreeNode,
+        parent_category_id: parent_category_id,
+        //treeNode: selectedTreeNode,
         ...filters,
         DataSet: filters.DataSet[0],
 
-      }
+      },
     });
+    console.log('FetchCategorieAction', response)
     //const dataJSON = await data.json();
     if (response.data.length === 0) {
       alert('No Categories Found');
@@ -115,9 +117,9 @@ export const fetchCategoriesAction = async (
     return dispatch({
       type: 'FETCH_CATS',
       payload: {
-        series: response.data.categories,
-        count: response.data.totalCount
-      }
+        rowCategories: response.data.categories,
+        id: parent_category_id,
+      },
     });
   } catch (error) { }
 
@@ -804,20 +806,67 @@ export const clearSearchAction = (dispatch: any) => {
   });
 };
 
+export const setCardRowsAction = async (
+  dispatch: any,
+  searchTerm: string,
+  parent_category_id: number | null,
+  filters: any,
+  page: number,
+  limit: number = 5,
+) => {
+  dispatch({ type: 'TREE_LOADING' });
+  try {
+    // I should change the category service to let me send an 
+    // array of category ids to the treeAndCards service. These will be the 
+    // row parent cats (I should be able to get them from the tree in the store)
+    // if this array is included as a parameter we can skip the first tree builder
+    // query to the database
+    const response = await axios({
+      method: 'GET',
+      url: 'api/categories/treeAndCards',
+      params: {
+        page: 1,
+        limit,
+        searchTerm,
+        ...filters,
+        DataSet: filters.DataSet[0],
+        SubRegion: 'None',
+        parent_category_id,
+      }
+    })
+    if (response.data.length === 0) {
+      alert('No Categories Found');
+    }
+    dispatch({ type: 'TREE_FINISHED_LOADING' });
+
+    return dispatch({
+      type: 'SET_CARD_ROWS',
+      payload: {
+        node_id: parent_category_id,
+        rowCards: response.data[1],
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const setTreeStructureAction = async (
   dispatch: any,
+  searchTerm: string,
   category_id: number,
   filters: any
 ) => {
+  console.log('SET TREE STRUCTURE')
+  dispatch({ type: 'TREE_LOADING' });
   try {
 
     const response = await axios({
       method: 'GET',
-      url: '/api/categories/search',
+      url: '/api/categories/treeAndCards',
       params: {
         page: 1,
         limit: 1000,
-        searchTerm: '',
+        searchTerm: searchTerm,
         ...filters,
         DataSet: filters.DataSet[0],
         SubRegion: 'None',
@@ -831,22 +880,24 @@ export const setTreeStructureAction = async (
         parent_category_id: category_id
       }
     });
-
+    console.log(response.data)
     if (response.data.length === 0) {
       alert('No Categories Found');
     }
+    dispatch({ type: 'TREE_FINISHED_LOADING' });
     // make sure the state is getting set correctly--then maybe the issue is with 
     // the tree parsing program in Finderjs (does one exist?) 
     return dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
-        tree_leaves: response.data.categories.sort((a: any, b: any) => {
+        tree_leaves: response.data[0].sort((a: any, b: any) => {
           if (a.name > b.name) {
             return 1
           }
           return -1
         }),
-        node_id: category_id
+        node_id: category_id,
+        rowCards: response.data[1],
       }
     });
   } catch (error) {
@@ -867,7 +918,7 @@ export const setMenuCatsAction = async (
     if (filter === "DataSet") {
       response = await axios({
         method: 'GET',
-        url: '/api/categories/search',
+        url: '/api/categories/treeAndCards',
         params: {
           page: 1,
           limit: 1000,
@@ -885,7 +936,7 @@ export const setMenuCatsAction = async (
         }
 
       })
-      response_array = response?.data.categories.sort((a: any, b: any) => {
+      response_array = response?.data[0].sort((a: any, b: any) => {
         if (a.name > b.name) {
           return 1
         }
@@ -980,10 +1031,11 @@ export const toggleCatSeriesAction = (dispatch: any, selection: string) => {
     payload: selection
   });
 };
-export const setPageAction = (dispatch: any, page: number) => {
+export const setPageAction = (dispatch: any, page: number, id: number) => {
+  console.log('SET PAGE', [page, id])
   return dispatch({
     type: 'SET_PAGE',
-    payload: page
+    payload: [page, id]
   });
 };
 

@@ -17,17 +17,35 @@ import { PaginationDto } from './dto/Pagination.dto';
 @Controller('categories')
 export class CategoryController {
   constructor(private categoryService: CategoryService) { }
-
-  @Get('search')
-  getSearchedCategories(@Query() paginationDto: PaginationDto) {
-    paginationDto.page = Number(paginationDto.page);
-    paginationDto.limit = Number(paginationDto.limit);
-    return this.categoryService.getSearchedCategories({
-      ...paginationDto,
-      //limit: paginationDto.limit > 10 ? 10 : paginationDto.limit
-    });
+  @Get('cards')
+  getTreeStructure(@Query() paginationDto: PaginationDto) {
 
   }
+
+  @Get('treeAndCards')
+  getTreeAndCards(@Query() paginationDto: PaginationDto) {
+    paginationDto.page = Number(paginationDto.page);
+    paginationDto.limit = Number(paginationDto.limit);
+    let result =
+      this.categoryService.getTreeAndCards({
+        ...paginationDto,
+        //limit: paginationDto.limit > 10 ? 10 : paginationDto.limit
+      })
+ 
+    return result;
+  }
+
+  @Get('rowCards')
+  getRowCards(@Query() paginationDto: PaginationDto) {
+    paginationDto.page = Number(paginationDto.page);
+    paginationDto.limit = Number(paginationDto.limit);
+    let result =
+      this.categoryService.getCardCategories(paginationDto,
+      )
+    return result;
+  }
+
+
 
   @Get('category')
   getCategorybyID(@Query('category_ID') category_ID: number) {
