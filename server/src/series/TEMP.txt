@@ -1,0 +1,6 @@
+// finished motor gasoline
+'PET.MGFUPUS1.M',
+// finished aviation gasoline
+'PET.MGAUPUS1.M',
+// kerosene-type jet fuel
+'PET.MKJUPUS1.M, 

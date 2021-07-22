@@ -233,7 +233,7 @@ export default function HomePage() {
     toggleSelectAction,
     selected: selected
   };
-  let menu_options_logical = ['USA', "AFG",
+  let menu_options_logical = ['All', 'USA', "AFG",
     "ALB",
     "DZA",
     "ASM",
@@ -489,7 +489,7 @@ export default function HomePage() {
     "ZMB",
     "ZWE"];
 
-  let menu_options_display = ['United States', 'Afghanistan',
+  let menu_options_display = ['All', 'United States', 'Afghanistan',
     'Albania',
     'Algeria',
     'American Samoa',

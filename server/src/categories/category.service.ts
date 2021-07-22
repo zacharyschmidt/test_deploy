@@ -45,13 +45,17 @@ export class CategoryService {
     // means I will have to map the treeCats array to an id array in the case of leaf click
     // when we will run the get treeCategories
     let treeCats = await this.getTreeCategories(paginationDto);
+
     let rows = []
+    // don't get rows for top level
+    if (paginationDto.parent_category_id != 371) {
     for (let cat of treeCats) {
       let row = await this.getCardCategories({ ...paginationDto, parent_category_id: cat.category_id })
+      //{ name: '', categories: [] }
       row.name = cat.name;
       rows = rows.concat([row])
     }
-
+  }
 
     let rowDict: { [key: string]: PaginatedCategoryResultDto } = {};
 
@@ -62,7 +66,7 @@ export class CategoryService {
 
       }
     })
-    console.log(rowDict)
+
     return [treeCats, rowDict];
 
   }
@@ -93,15 +97,29 @@ export class CategoryService {
         'Annual Energy Outlook 2019', 'Annual Energy Outlook 2020', 'Annual Energy Outlook 2021',
         'Short-Term Energy Outlook', 'International Energy Outlook'];
     }
+    console.log('REGION')
+    console.log(paginationDto.Region)
+
+    let categories;
+
+    // case where geography filter is not all. we need 
+    // a second case for 'All' where we do not join on the geography 
+    // filter table so that we capture categories that hold childseries
+    // with null geography data
+    if (paginationDto.Region != 'All') {
+      categories = await this.categoryRepository
+
+        // right now the inner joins with the filter tables exclude any of the 
+        // 13000 categories that are missing from at least one of the filter tables
+
+        // second query grabs hybrid nodes that hold childseries that do not match filters.
+        // we need to keep these nodes so we can access their childcategories,
+        // even if we don't want their child series
 
 
-    let categories = await this.categoryRepository
+        .query(
 
-      // right now the inner joins with the filter tables exclude any of the 
-      // 13000 categories that are missing from at least one of the filter tables
-      .query(
-
-        `SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+          `SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
           cats.dataset_name, cats.parent_name, cats.ancestor_names, 
           ARRAY_AGG (DISTINCT series.name) childnames,
           ARRAY_AGG(DISTINCT series.f) freq, ARRAY_AGG(DISTINCT series.geography) geo, 
@@ -112,7 +130,7 @@ export class CategoryService {
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
-         ON geo.category_id = cats.category_id
+         ON cats.category_id = geo.category_id 
          LEFT JOIN series_cat
          ON cats.category_id = series_cat.category_id
          LEFT JOIN series 
@@ -123,20 +141,20 @@ export class CategoryService {
          AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
          AND cats.parent_category_id = $4
          AND (series.series_id IS NULL OR series.f = $5)
-         AND (series.series_id IS NULL OR series.geography = $6)
+         AND (series.series_id IS NULL OR (series.geography = $6))
          AND freq.f = $5
          AND geo.geography = $6
          AND cats.excluded = 0
          AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))
          GROUP BY cats.category_id, category_leaf_lookup.ancestors
-
+          
 
          UNION
 
          SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
           cats.dataset_name, cats.parent_name, cats.ancestor_names, '{}' childnames, 
           ARRAY_AGG(DISTINCT series.f) freq, ARRAY_AGG(DISTINCT series.geography) geo,
-           
+
           CASE WHEN  category_leaf_lookup.ancestors IS NOT NULL THEN TRUE
               WHEN category_leaf_lookup.ancestors IS NULL THEN FALSE
               END has_children 
@@ -161,41 +179,87 @@ export class CategoryService {
          AND cats.excluded = 0
          AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))
          GROUP BY cats.category_id, category_leaf_lookup.ancestors
-         
+
           HAVING 
 
         NOT (COALESCE($5 = any(ARRAY_AGG(DISTINCT series.f)), FALSE)
         AND
         COALESCE($6 = any(ARRAY_AGG(DISTINCT series.geography)), FALSE))`
-        //  HAVING 
 
-        //NOT ($5 = any(COALESCE(ARRAY_AGG(DISTINCT series.f), array[]::TEXT[]))
-        //AND
-        //($6 = all(COALESCE(ARRAY_AGG(DISTINCT series.geography), array[]::TEXT[])))
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
+          paginationDto.Frequency, paginationDto.Region,
+          paginationDto.HistorProj, hist_or_proj_names,
+          ])
+    } else if (paginationDto.Region === 'All') {
+      // same query but do not join on geography_filter table
 
-        // CASE WHEN ($5 = any(COALESCE(ARRAY_AGG(DISTINCT series.f), array[]::TEXT[])) AND ($6 = all(COALESCE(ARRAY_AGG(DISTINCT series.geography), array[]::TEXT[]))) THEN TRUE
-        //              ELSE FALSE
-        //              END having_test,
+      categories = await this.categoryRepository.query(
 
-        //   `SELECT * FROM categories AS cats
-        //  INNER JOIN frequency_filter AS freq
-        //  ON freq.category_id = cats.category_id
-        //  INNER JOIN geography_filter AS geo
-        //  ON geo.category_id = cats.category_id
-        //  WHERE (($1 = 'All') OR cats.dataset_name = $1)
-        //  AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
-        //  AND cats.parent_category_id = $4
-        //  AND freq.f = $5
-        //  AND geo.geography = $6
-        //  AND cats.excluded = 0
-        //  ORDER BY cats.category_id
-        //  LIMIT $7
-        //  OFFSET $8`
+        `SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+          cats.dataset_name, cats.parent_name, cats.ancestor_names, 
+          ARRAY_AGG (DISTINCT series.name) childnames,
+          ARRAY_AGG(DISTINCT series.f) freq, ARRAY_AGG(DISTINCT series.geography) geo, 
+          
+          CASE WHEN category_leaf_lookup.ancestors IS NOT NULL THEN TRUE
+              WHEN category_leaf_lookup.ancestors IS NULL THEN FALSE
+              END has_children FROM categories AS cats
+         INNER JOIN frequency_filter AS freq
+         ON freq.category_id = cats.category_id
+         LEFT JOIN series_cat
+         ON cats.category_id = series_cat.category_id
+         LEFT JOIN series 
+         ON series_cat.series_id = series.series_id
+         LEFT JOIN category_leaf_lookup
+         ON cats.category_id = category_leaf_lookup.ancestors
+         WHERE (($1 = 'All') OR cats.dataset_name = $1)
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
+         AND cats.parent_category_id = $4
+         AND (series.series_id IS NULL OR series.f = $5)
+         AND freq.f = $5
+         AND cats.excluded = 0
+         AND (($6 = 'All') OR cats.dataset_name = any($7::TEXT[]))
+         GROUP BY cats.category_id, category_leaf_lookup.ancestors
+          
+
+         UNION
+
+         SELECT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+          cats.dataset_name, cats.parent_name, cats.ancestor_names, '{}' childnames, 
+          ARRAY_AGG(DISTINCT series.f) freq, ARRAY_AGG(DISTINCT series.geography) geo,
+
+          CASE WHEN  category_leaf_lookup.ancestors IS NOT NULL THEN TRUE
+              WHEN category_leaf_lookup.ancestors IS NULL THEN FALSE
+              END has_children 
+          FROM categories AS cats
+         INNER JOIN frequency_filter AS freq
+         ON freq.category_id = cats.category_id
+         LEFT JOIN series_cat
+         ON cats.category_id = series_cat.category_id
+         LEFT JOIN series 
+         ON series_cat.series_id = series.series_id
+         LEFT JOIN category_leaf_lookup
+         ON cats.category_id = category_leaf_lookup.ancestors
+         WHERE (($1 = 'All') OR cats.dataset_name = $1)
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
+         AND cats.parent_category_id = $4
+         AND (series.series_id IS NOT NULL )
+         AND (series.series_id IS NOT NULL )
+         AND freq.f = $5
+         AND cats.excluded = 0
+         AND (($6 = 'All') OR cats.dataset_name = any($7::TEXT[]))
+         GROUP BY cats.category_id, category_leaf_lookup.ancestors
+
+          HAVING 
+
+        NOT (COALESCE($5 = any(ARRAY_AGG(DISTINCT series.f)), FALSE))`
+
         ,
         [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
-        paginationDto.Frequency, paginationDto.Region,
+        paginationDto.Frequency,
         paginationDto.HistorProj, hist_or_proj_names,
         ])
+    }
 
 
     return categories
@@ -255,7 +319,10 @@ export class CategoryService {
 
 
 
-    let categories = await this.categoryRepository
+    let categories;
+    let count;
+     if (paginationDto.Region != 'All') {
+       categories = await this.categoryRepository
       .query(
         `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
           cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
@@ -281,10 +348,7 @@ export class CategoryService {
         paginationDto.HistorProj, hist_or_proj_names
         ])
 
-
-
-
-    let count = await this.categoryRepository
+        count = await this.categoryRepository
       .query(
         `SELECT COUNT(cats.category_id) FROM categories AS cats
          INNER JOIN frequency_filter AS freq
@@ -305,6 +369,53 @@ export class CategoryService {
         paginationDto.Frequency, paginationDto.Region, parent_category_id,
         paginationDto.HistorProj, hist_or_proj_names
         ])
+      } else if (paginationDto.Region === 'All'){
+       categories = await this.categoryRepository
+      .query(
+        `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+          cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
+         INNER JOIN frequency_filter AS freq
+         ON freq.category_id = cats.category_id
+         
+         INNER JOIN category_leaf_lookup as leaf
+         ON leaf.leaf_category = cats.category_id
+         WHERE (($1 = 'All') OR cats.dataset_name = $1)
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3)) 
+         AND freq.f = $4
+         AND cats.excluded = 0
+         AND leaf.ancestors = $5
+         AND (($8 = 'All') OR cats.dataset_name = any($9::TEXT[]))
+         ORDER BY cats.category_id
+         LIMIT $6
+         OFFSET $7`
+        ,
+        [paginationDto.DataSet, searchTerm.length, searchTerm,
+        paginationDto.Frequency, parent_category_id, 5, skippedItems,
+        paginationDto.HistorProj, hist_or_proj_names
+        ]) 
+
+    count = await this.categoryRepository
+      .query(
+        `SELECT COUNT(cats.category_id) FROM categories AS cats
+         INNER JOIN frequency_filter AS freq
+         ON freq.category_id = cats.category_id
+        
+         INNER JOIN category_leaf_lookup as leaf
+         ON leaf.leaf_category = cats.category_id
+         WHERE (($1 = 'All') OR cats.dataset_name = $1)
+         AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3)) 
+         AND freq.f = $4
+         
+         AND cats.excluded = 0
+         AND leaf.ancestors = $5
+         AND (($6 = 'All') OR cats.dataset_name = any($7::TEXT[]))`
+        ,
+        [paginationDto.DataSet, searchTerm.length, searchTerm,
+        paginationDto.Frequency, parent_category_id,
+        paginationDto.HistorProj, hist_or_proj_names
+        ])
+
+      }
 
 
 
@@ -399,16 +510,17 @@ export class CategoryService {
     let country_matches
     if (dataset_id.dataset_id === 'All') {
 
-      country_matches = this.categoryRepository.query(
+      country_matches = await this.categoryRepository.query(
         'SELECT DISTINCT(geography) FROM geography_filter WHERE geography = any ($1)', [menu_options_logical]);
     } else {
-      country_matches = this.categoryRepository.query(
+      country_matches = await this.categoryRepository.query(
         'SELECT DISTINCT(geography) FROM geography_filter WHERE geography = any ($1) AND category_id = $2', [menu_options_logical, dataset_id.dataset_id]);
     }
 
     // if (dataset_id !== ) {
     //   country_matches = this.categoryRepository.query(
     // `SELECT DISTINCT(geography) FROM geography_filter WHERE category_id = $1`, [dataset_id]);
+  country_matches.unshift({ geography: "All" })
     return country_matches
   }
 }

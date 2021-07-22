@@ -714,6 +714,11 @@ update series set search_vec = to_tsvector('english',search_text);
 drop index first?
 CREATE INDEX series_vec_index ON series USING gin(search_vec);
 
+****** ADD Indexes to the category_id columns of the frequency and 
+        Geography filter tables. These are use for joins ************
+
+CREATE INDEX geography_filter_category_id on geography_filter(category_id);
+CREATE INDEX frequency_filter_category_id on frequency_filter(category_id);
 
 
 
