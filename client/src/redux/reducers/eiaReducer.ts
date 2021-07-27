@@ -53,9 +53,14 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'SET_SELECTED_TREENODE':
       return { ...state, selectedTreeNode: action.payload }
     case 'SET_SEARCH_NODE':
-
-
       return { ...state, selectedSearchNode: action.payload }
+    case 'TOGGLE_ROW':
+      return { ...state, rowCards: 
+        { ...state.rowCards, [action.payload]: 
+          { ...state.rowCards[action.payload], 
+            isOpen: 
+            state.rowCards[action.payload].isOpen ? false : true}}}
+      
 
     case 'TOGGLE_CATSERIES':
       return {
@@ -77,14 +82,9 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'FETCH_DATA_SERIES':
       return { ...state, seriesData: action.payload };
     case 'FETCH_CATS':
-      console.log(action.payload.rowCategories)
-      console.log({ ...state, rowCards: 
-                    {...state.rowCards, [action.payload.id]: 
-                            {...state.rowCards[action.payload.id], categories: action.payload.rowCategories }}})
-  
       return { ...state, rowCards: 
                     {...state.rowCards, [action.payload.id]: 
-                            {...state.rowCards[action.payload.id], categories: action.payload.rowCategories }}};//{ ...state, categories: action.payload.series, seriesCount: action.payload.count };
+                            {...state.rowCards[action.payload.id], categories: action.payload.rowCategories, page: action.payload.page, totalCount: action.payload.totalCount }}};//{ ...state, categories: action.payload.series, seriesCount: action.payload.count };
     case 'SET_TREE_STRUCTURE':
       let node_id: number;
       if (action.payload.node_id == null) {
@@ -154,6 +154,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
         rowCards: action.payload.rowCards,
       };
     case 'SET_CARD_ROWS':
+      console.log(action.payload)
       return {
         ...state,
         rowCards: action.payload.rowCards,

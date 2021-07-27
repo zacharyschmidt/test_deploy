@@ -50,8 +50,9 @@ export class CategoryService {
     // don't get rows for top level
     if (paginationDto.parent_category_id != 371) {
     for (let cat of treeCats) {
-      let row = await this.getCardCategories({ ...paginationDto, parent_category_id: cat.category_id })
-      //{ name: '', categories: [] }
+      let row = { name: '', categories: [] };
+      //await this.getCardCategories({ ...paginationDto, parent_category_id: cat.category_id })
+      
       row.name = cat.name;
       rows = rows.concat([row])
     }

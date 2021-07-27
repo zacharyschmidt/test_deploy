@@ -3,4 +3,196 @@
 // finished aviation gasoline
 'PET.MGAUPUS1.M',
 // kerosene-type jet fuel
-'PET.MKJUPUS1.M, 
+'PET.MKJUPUS1.M,
+// Next fuels fall into 'diesel' category 
+// distillate fuel oil TOTAL
+'PET.MDIUPUS1.M',
+// Distillate Fuel Oil, 0 to 15 ppm
+'PET.MD0UP_NUS_1.M',
+// Distillate Fuel Oil, Greater than 15 to 500 ppm
+'PET.MD1UP_NUS_1.M',
+// Distillate Fuel Oil, Greater Than 500 ppm Sulfur
+'PET.MDGUPUS1.M',
+// petrochemical feedstocks
+'PET.MPCUP_NUS_1.M',
+// Naphtha for Petrochemical Feedstock Use
+'PET.MNFUPUS1.M',
+// Other Oils for Petrochemical Feedstock Use
+'PET.MOTUPUS1.M',
+// Hydrocarbon gas liquids TOTAL
+'PET.MNGUPUS1.M',
+// Natural gas liquids SUBTOTAL
+'PET.M_EPL2_VPP_NUS_MBBL.M',
+// ethane
+'PET.M_EPLLEA_VPP_NUS_MBBL.M',
+// propane
+'PET.M_EPLLPA_VPP_NUS_MBBL.M',
+// Normal Butane
+'PET.M_EPLLBAN_VPP_NUS_MBBL.M',
+// isobutane 
+'PET.M_EPLLBAI_VPP_NUS_MBBL.M',
+// natural gasoline
+'PET.M_EPLLNG_VPP_NUS_MBBL.M',
+// Refinery Olefins SUBTOTAL
+'PET.M_EPLOLE_VPP_NUS_MBBL.M',
+// ethylene
+'PET.M_EPLLEY_VPP_NUS_MBBL.M',
+// propylene
+'PET.M_EPLLPY_VPP_NUS_MBBL.M',
+// normal Butylene
+'PET.M_EPLLBYN_VPP_NUS_MBBL.M',
+// Isobutylene
+'PET.M_EPLLBYI_VPP_NUS_MBBL.M',
+// pentanes plus SUBTOTAL
+'PET.MPPUPUS1.M',
+// Liquified Petroleum Gases SUBTOTAL
+'PET.MLPUPUS1.M',
+// Ethane-Ethylene
+'PET.METUPUS1.M',
+// Propane and Propylene
+'PET.MPRUPUS1.M',
+// Normal Butane-Butylene
+'PET.MBNUPUS1.M',
+// Isobutane-Isobutylene
+'PET.MBIUPUS1.M',
+
+// US CRUDE OIL IMPORTS
+
+'MCRIMUS1',	// U.S. Imports of Crude Oil (Thousand Barrels)
+'MCRIMUSPG1',	// U.S. Imports from Persian Gulf Countries of Crude Oil (Thousand Barrels)
+'MCRIMXX1',	// U.S. Imports from OPEC Countries of Crude Oil (Thousand Barrels)
+'MCRIMUSAG1',	// U.S. Imports from Algeria of Crude Oil (Thousand Barrels)
+'MCRIMUSAO1',	// U.S. Imports from Angola of Crude Oil (Thousand Barrels)
+'MCRIMUSCF1',	// U.S. Imports from Congo (Brazzaville) of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NEK_1',	// U.S. Imports from Equatorial Guinea of Crude Oil (Thousand Barrels)
+'MCRIMUSGB1',	// U.S. Imports from Gabon of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NIR_1',	// U.S. Imports from Iran of Crude Oil (Thousand Barrels)
+'MCRIMIZ1',	// U.S. Imports from Iraq of Crude Oil (Thousand Barrels)
+'MCRIMUSKU1',	// U.S. Imports from Kuwait of Crude Oil (Thousand Barrels)
+'MCRIMLY1',	// U.S. Imports from Libya of Crude Oil (Thousand Barrels)
+'MCRIMUSNI1',	// U.S. Imports from Nigeria of Crude Oil (Thousand Barrels)
+'MCRIMUSSA1',	// U.S. Imports from Saudi Arabia of Crude Oil (Thousand Barrels)
+'MCRIMUSTC1',	// U.S. Imports from United Arab Emirates of Crude Oil (Thousand Barrels)
+'MCRIMUSVE1',	// U.S. Imports from Venezuela of Crude Oil (Thousand Barrels)
+'MCRIMUSVV1',	// U.S. Imports from Non-OPEC Countries of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NAL_1',	// U.S. Imports from Albania of Crude Oil (Thousand Barrels)
+'MCRIMUSAR1',	// U.S. Imports from Argentina of Crude Oil (Thousand Barrels)
+'MCRIMUSAS1',	// U.S. Imports from Australia of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NAJ_1',	// U.S. Imports from Azerbaijan of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NBF_1',	// U.S. Imports from Bahama Islands of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NBB_1',	// U.S. Imports from Barbados of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NBO_1',	// U.S. Imports from Belarus of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NBH_1',	// U.S. Imports from Belize of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NBN_1',	// U.S. Imports from Benin of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NBL_1',	// U.S. Imports from Bolivia of Crude Oil (Thousand Barrels)
+'MCRIMUSBR1',	// U.S. Imports from Brazil of Crude Oil (Thousand Barrels)
+'MCRIMUSBX1',	// U.S. Imports from Brunei of Crude Oil (Thousand Barrels)
+'MCRIMUSCM1',	// U.S. Imports from Cameroon of Crude Oil (Thousand Barrels)
+'MCRIMUSCA1',	// U.S. Imports from Canada of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NCD_1',	// U.S. Imports from Chad of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NCI_1',	// U.S. Imports from Chile of Crude Oil (Thousand Barrels)
+'MCRIMUSCH1',	// U.S. Imports from China of Crude Oil (Thousand Barrels)
+'MCRIMUSCO1',	// U.S. Imports from Colombia of Crude Oil (Thousand Barrels)
+'MCRIMUSCG1',	// U.S. Imports from Congo (Kinshasa) of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NDA_1',	// U.S. Imports from Denmark of Crude Oil (Thousand Barrels)
+'MCRIMUSEC1',	// U.S. Imports from Ecuador of Crude Oil (Thousand Barrels)
+'MCRIMUSEG1',	// U.S. Imports from Egypt of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NEN_1',	// U.S. Imports from Estonia of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NGG_1',	// U.S. Imports from Georgia of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NGM_1',	// U.S. Imports from Germany of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NGH_1',	// U.S. Imports from Ghana of Crude Oil (Thousand Barrels)
+'MCRIMUSGT1',	// U.S. Imports from Guatemala of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NGV_1',	// U.S. Imports from Guinea of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NGY_1',	// U.S. Imports from Guyana of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NIN_1',	// U.S. Imports from India of Crude Oil (Thousand Barrels)
+'MCRIMUSID1',	// U.S. Imports from Indonesia of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NIT_1',	// U.S. Imports from Italy of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NIV_1',	// U.S. Imports from Ivory Coast (Cote d'Ivore) of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NKZ_1',	// U.S. Imports from Kazakhstan of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NKG_1',	// U.S. Imports from Kyrgyzstan of Crude Oil (Thousand Barrels)
+'MCRIMMY1',	// U.S. Imports from Malaysia of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NMR_1',	// U.S. Imports from Mauritania of Crude Oil (Thousand Barrels)
+'MCRIMUSMX1',	// U.S. Imports from Mexico of Crude Oil (Thousand Barrels)
+'MCRIMUSNL1',	// U.S. Imports from Netherlands of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NNA_1',	// U.S. Imports from Netherlands Antilles of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NNZ_1',	// U.S. Imports from New Zealand of Crude Oil (Thousand Barrels)
+'MCRIMUSNO1',	// U.S. Imports from Norway of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NMU_1',	// U.S. Imports from Oman of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NPM_1',	// U.S. Imports from Panama of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NPP_1',	// U.S. Imports from Papua New Guinea of Crude Oil (Thousand Barrels)
+'MCRIMUSPE1',	// U.S. Imports from Peru of Crude Oil (Thousand Barrels)
+'MCRIMQA1',	// U.S. Imports from Qatar of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NRS_1',	// U.S. Imports from Russia of Crude Oil (Thousand Barrels)
+'MCRIMUSSN1',	// U.S. Imports from Singapore of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NSF_1',	// U.S. Imports from South Africa of Crude Oil (Thousand Barrels)
+'ESM_EPC0_IM0_NUS-NSS_MBBL',	// U.S. Imports from South Sudan of Crude Oil (Thousand Barrels)
+'MCRIMUSSP1',	// U.S. Imports from Spain of Crude Oil (Thousand Barrels)
+'MCRIMUSSW1',	// U.S. Imports from Sweden of Crude Oil (Thousand Barrels)
+'MCRIMUSSY1',	// U.S. Imports from Syria of Crude Oil (Thousand Barrels)
+'MCRIMUSTH1',	// U.S. Imports from Thailand of Crude Oil (Thousand Barrels)
+'MCRIMUSTD1',	// U.S. Imports from Trinidad and Tobago of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NTS_1',	// U.S. Imports from Tunisia of Crude Oil (Thousand Barrels)
+'MCRIMUSTU1',	// U.S. Imports from Turkey of Crude Oil (Thousand Barrels)
+'MCRIMUSUK1',	// U.S. Imports from United Kingdom of Crude Oil (Thousand Barrels)
+'MCRIM_NUS-NVM_1',	// U.S. Imports from Vietnam of Crude Oil (Thousand Barrels)
+'MCRIMUSVQ1',	// U.S. Imports from Virgin Islands of Crude Oil (Thousand Barrels)
+'MCRIMUSYE1',	// U.S. Imports from Yemen of Crude Oil (Thousand Barrels)
+
+// US hydrocarbon gas Imports
+
+	'MNGIMUS1'		,	//	U.S. Imports of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-MP0_1'		,	//	U.S. Imports from Persian Gulf Countries of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-ME0_1'		,	//	U.S. Imports from OPEC Countries of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NAG_1'		,	//	U.S. Imports from Algeria of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NAO_1'		,	//	U.S. Imports from Angola of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NCF_1'		,	//	U.S. Imports from Congo (Brazzaville) of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NEK_1'		,	//	U.S. Imports from Equatorial Guinea of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NGB_MBBL'		,	//	U.S. Imports from Gabon of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NLY_1'		,	//	U.S. Imports from Libya of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NNI_1'		,	//	U.S. Imports from Nigeria of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NSA_1'		,	//	U.S. Imports from Saudi Arabia of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NTC_1'		,	//	U.S. Imports from United Arab Emirates of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NVE_1'		,	//	U.S. Imports from Venezuela of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-MN0_1'		,	//	U.S. Imports from Non-OPEC Countries of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NAR_1'		,	//	U.S. Imports from Argentina of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NAA_1'		,	//	U.S. Imports from Aruba of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NAS_1'		,	//	U.S. Imports from Australia of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NBO_1'		,	//	U.S. Imports from Belarus of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NBE_1'		,	//	U.S. Imports from Belgium of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NBR_1'		,	//	U.S. Imports from Brazil of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NCA_1'		,	//	U.S. Imports from Canada of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NCI_1'		,	//	U.S. Imports from Chile of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NCO_MBBL'		,	//	U.S. Imports from Colombia of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NDA_MBBL'		,	//	U.S. Imports from Denmark of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NDR_1'		,	//	U.S. Imports from Dominican Republic of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NFI_1'		,	//	U.S. Imports from Finland of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NFR_1'		,	//	U.S. Imports from France of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NGM_MBBL'		,	//	U.S. Imports from Germany of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NIT_1'		,	//	U.S. Imports from Italy of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NKZ_1'		,	//	U.S. Imports from Kazakhstan of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NKS_1'		,	//	U.S. Imports from Korea of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NMY_1'		,	//	U.S. Imports from Malaysia of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NMX_1'		,	//	U.S. Imports from Mexico of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NMQ_1'		,	//	U.S. Imports from Midway Islands of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NNL_1'		,	//	U.S. Imports from Netherlands of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NNA_1'		,	//	U.S. Imports from Netherlands Antilles of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NNO_1'		,	//	U.S. Imports from Norway of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NPE_1'		,	//	U.S. Imports from Peru of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NPO_1'		,	//	U.S. Imports from Portugal of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NQA_1'		,	//	U.S. Imports from Qatar of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NRS_1'		,	//	U.S. Imports from Russia of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NSN_1'		,	//	U.S. Imports from Singapore of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NSF_1'		,	//	U.S. Imports from South Africa of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NSP_1'		,	//	U.S. Imports from Spain of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NSW_1'		,	//	U.S. Imports from Sweden of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NSZ_MBBL'		,	//	U.S. Imports from Switzerland of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NTW_MBBL'		,	//	U.S. Imports from Taiwan of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NTD_1'		,	//	U.S. Imports from Trinidad and Tobago of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NTU_1'		,	//	U.S. Imports from Turkey of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'MNGIM_NUS-NUK_1'		,	//	U.S. Imports from United Kingdom of Hydrocarbon Gas Liquids (Thousand Barrels)
+	'M_EPL0_IM0_NUS-NVQ_1'		,	//	U.S. Imports from Virgin Islands of Hydrocarbon Gas Liquids (Thousand Barrels)
+
+
+
+
+

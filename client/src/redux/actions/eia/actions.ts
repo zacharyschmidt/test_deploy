@@ -118,6 +118,8 @@ export const fetchCategoriesAction = async (
       type: 'FETCH_CATS',
       payload: {
         rowCategories: response.data.categories,
+        page: response.data.page,
+        totalCount: response.data.totalCount,
         id: parent_category_id,
       },
     });
@@ -850,6 +852,11 @@ export const setCardRowsAction = async (
     console.log(error);
   }
 };
+
+export const toggleRowAction = (id: number, dispatch: any) => {
+  dispatch({ type: 'TOGGLE_ROW', payload: id });
+};
+
 export const setTreeStructureAction = async (
   dispatch: any,
   searchTerm: string,

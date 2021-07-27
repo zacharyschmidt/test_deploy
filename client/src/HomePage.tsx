@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
 import SimpleMenu from './Menu';
 import FinderTree from './FinderTree';
+import CatRowContainer from './containers/CatRowContainer';
 import AddButton from './components/add-button/AddButton';
 import RecordsPerPage from './components/pagination/RecordsPerPage';
 import { Pager } from './components/pagination/Pagination';
@@ -748,12 +749,8 @@ export default function HomePage() {
   menu_options_logical.forEach((logical_key: any, index) => menu_options_full[logical_key] = menu_options_display[index])
   //let menu_options_full = menu_options_display.map((option, index) => [option, menu_options_logical[index]])
 
-  let row_ids: Array<number> = []
-  for (const [key, value] of Object.entries(rowCards)) {
-    row_ids = row_ids.concat(Number(key))
-  }
-  console.log(row_ids)
-  console.log(rowCards)
+ 
+
   return (
     <React.Fragment>
       <React.Suspense fallback={<div>loading...</div>}>
@@ -912,8 +909,11 @@ export default function HomePage() {
 
 
 
-
-                  {
+                  <CatRowContainer
+                  toggleSelectAction={toggleSelectAction}
+                  selected={selected}
+                    />
+                  {/* {
                     row_ids.map((id) => {
                       return (<SeriesList
                         key={id}
@@ -928,7 +928,7 @@ export default function HomePage() {
                         return 1
                       }
                       return -1
-                    })}
+                    })} */}
 
 
 
