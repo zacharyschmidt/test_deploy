@@ -1,0 +1,395 @@
+rmiExcel = async (category_ID: number, custom_flag: string, paginationDto: PaginationDto) => {
+    let oilProdConsumption = await this.seriesService.getOilProdConsumption(oilProdConsumptionList)
+    let oilProdImports = await this.seriesService.getOilProdImports(oilProdImportList)
+    let oilProdExports = await this.seriesService.getOilProdExports(oilProdExportList)
+
+    // copied from AEO2021, adapt for rmi
+
+    let workbook = new Excel.Workbook()
+    let worksheet = workbook.addWorksheet('Consumption');
+    console.log('before name_cols')
+    let name_cols = [{ header: 'Name', key: 'name', width: 60 },
+    { header: 'Series ID', key: 'series_id', with: 40 },
+    { header: 'Region', key: 'region', width: 20 },
+    { header: 'Units', key: 'units', width: 20 },]
+
+    let year_data = oilProdConsumption[0].data
+
+    if (year_data[0][0] > year_data[1][0]) {
+      year_data.reverse()
+    }
+
+    let year_cols = year_data.map(year => {
+      return { header: year[0], key: year[0], width: 10 }
+    })
+
+    let cols = [...name_cols, ...year_cols]
+
+
+    worksheet.columns = cols; // I accidentally deleted this and it caused a problem
+    let region = ''
+    // if (cat?.dataset_name && cat.dataset_name.includes('Annual Energy Outlook')) {
+    //     region = 'USA'
+    // }
+
+    let data_rows = oilProdConsumption.map(series => {
+
+      const data_array = series.data.map(year => {
+        return { [year[0]]: year[1] }
+      })
+      if (Number(Object.keys(data_array[0])[0]) < Number(Object.keys(data_array[0])[0])) {
+        data_array.reverse()
+      }
+
+
+
+      const data_object = Object.assign({}, ...(data_array.map(item =>
+        (item))));
+
+      let return_obj = { name: series.name, series_id: series.series_id, region: region.length ? region : series.geography, units: series.units, ...data_object }
+
+      return return_obj
+    })
+    //console.log(data_rows)
+    console.log('before add rows')
+    // sort the rows into the same order as the series_ids in the
+    // array. This lets me control the order of the rows in the sheet.
+    data_rows.sort((rowA, rowB) => {
+      if (oilProdConsumptionList.findIndex((element) => element === rowA.series_id)
+        > oilProdConsumptionList.findIndex((element) => element === rowB.series_id)) {
+        return 1
+      }
+      return -1
+    })
+
+    worksheet.addRows(data_rows)
+
+    worksheet.spliceColumns(1, 0, [])
+    worksheet.spliceColumns(1, 0, [])
+    worksheet.spliceColumns(1, 0, [])
+
+    worksheet.spliceRows(2, 0, [])
+    worksheet.getCell('A2').value = 'Gasoline'
+    worksheet.getCell('A2').font = { size: 14, bold: true }
+    worksheet.mergeCells('A2:C2')
+    worksheet.getCell('A2').alignment = { horizontal: 'center' }
+    worksheet.getRow(2).border = {
+      bottom: { style: 'thin' }
+    }
+
+    worksheet.spliceRows(5, 0, [])
+    worksheet.getCell('A5').value = 'Jet Fuel'
+    worksheet.getCell('A5').font = { size: 14, bold: true }
+    worksheet.mergeCells('A5:C5')
+    worksheet.getCell('A5').alignment = { horizontal: 'center' }
+    worksheet.getRow(5).border = {
+      bottom: { style: 'thin' }
+    }
+
+    worksheet.spliceRows(7, 0, [])
+    worksheet.getCell('A7').value = 'Diesel'
+    worksheet.getCell('A7').font = { size: 14, bold: true }
+    worksheet.mergeCells('A7:C7')
+    worksheet.getCell('A7').alignment = { horizontal: 'center' }
+    worksheet.getRow(7).border = {
+      bottom: { style: 'thin' }
+    }
+
+
+    worksheet.getCell('B8').value = 'Total'
+    worksheet.getCell('B8').font = { size: 12, bold: true }
+    worksheet.mergeCells('B8:C8')
+    worksheet.getCell('B8').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(9, 0, [])
+
+    worksheet.getCell('C9').value = 'check total';
+    // need to figure out how to fill formula dynamically to match data series length
+    worksheet.fillFormula('H9:R9', 'IF(COUNTBLANK(H10:H12)>2, 0, ROUND(SUM(H10:H12)-H8,-1))')
+
+    worksheet.spliceRows(13, 0, [])
+    worksheet.getCell('A13').value = 'Petrochemical Feedstocks'
+    worksheet.getCell('A13').font = { size: 14, bold: true }
+    worksheet.mergeCells('A13:C13')
+    worksheet.getCell('A13').alignment = { horizontal: 'center' }
+    worksheet.getRow(13).border = {
+      bottom: { style: 'thin' }
+    }
+
+    worksheet.getCell('B14').value = 'Total'
+    worksheet.getCell('B14').font = { size: 12, bold: true }
+    worksheet.mergeCells('B14:C14')
+    worksheet.getCell('B14').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(15, 0, [])
+
+    worksheet.getCell('C15').value = 'check total';
+    worksheet.fillFormula('H15:R15', 'IF(COUNTBLANK(H16:H17)>2, 0, ROUND(SUM(H16:H17)-H14,-1))')
+
+
+    worksheet.spliceRows(18, 0, [])
+    worksheet.getCell('A18').value = 'Hydrocarbon Gas Liquids'
+    worksheet.getCell('A18').font = { size: 14, bold: true }
+    worksheet.mergeCells('A18:C18')
+    worksheet.getCell('A18').alignment = { horizontal: 'center' }
+    worksheet.getRow(18).border = {
+      bottom: { style: 'thin' }
+    }
+
+
+    worksheet.getCell('B19').value = 'Total'
+    worksheet.getCell('B19').font = { size: 12, bold: true }
+    worksheet.mergeCells('B19:C19')
+    worksheet.getCell('B19').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(20, 0, [])
+
+    worksheet.getCell('C20').value = 'check total';
+    worksheet.fillFormula('H20:R20', 'ROUND((H21+H29+H36+H38)-H19,-1)')
+
+
+    worksheet.getCell('C21').value = 'Subtotal'
+    worksheet.getCell('C21').font = { size: 12, bold: true }
+    worksheet.getCell('C21').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(22, 0, [])
+
+    worksheet.getCell('C22').value = 'check subtotal';
+    worksheet.fillFormula('H22:R22', 'ROUND(SUM(H23:H27)-H21,-1)')
+
+    worksheet.spliceRows(28, 0, [])
+
+    worksheet.getCell('C29').value = 'Subtotal'
+    worksheet.getCell('C29').font = { size: 12, bold: true }
+    worksheet.getCell('C29').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(30, 0, [])
+
+    worksheet.getCell('C30').value = 'check subtotal';
+    worksheet.fillFormula('H30:R30', 'ROUND(SUM(H31:H34)-H29,-1)')
+
+    worksheet.spliceRows(35, 0, [])
+    worksheet.getCell('C36').value = 'Subtotal'
+    worksheet.getCell('C36').font = { size: 12, bold: true }
+    worksheet.getCell('C36').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(37, 0, [])
+
+    worksheet.getCell('C38').value = 'Subtotal'
+    worksheet.getCell('C38').font = { size: 12, bold: true }
+    worksheet.getCell('C38').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(39, 0, [])
+
+    worksheet.getCell('C39').value = 'check subtotal';
+    worksheet.fillFormula('H39:R39', 'ROUND(SUM(H40:H43)-H38,-1)')
+
+    worksheet.spliceRows(1, 0, ...new Array(5))
+    let name = 'US Petroleum Product Consumption';
+
+    let dataset_name = 'Custom';
+    worksheet.getRow(1).values = ["Data Group:", name]
+    worksheet.getRow(1).font = { size: 16 }
+    worksheet.getRow(2).values = ["Data Set Name (top level category):", dataset_name]
+    worksheet.getRow(2).font = { size: 16 }
+    worksheet.getRow(3).values = ["EIA API:", "https://www.eia.gov/opendata/"]
+    worksheet.getRow(3).font = { size: 16 }
+    worksheet.getRow(6).font = { bold: true }
+
+    // Imports
+
+    worksheet = workbook.addWorksheet('Imports');
+
+
+
+    worksheet.columns = cols; // I accidentally deleted this and it caused a problem
+
+    // if (cat?.dataset_name && cat.dataset_name.includes('Annual Energy Outlook')) {
+    //     region = 'USA'
+    // }
+
+    data_rows = oilProdImports.map(series => {
+
+      const data_array = series.data.map(year => {
+        return { [year[0]]: year[1] }
+      })
+      if (Number(Object.keys(data_array[0])[0]) > Number(Object.keys(data_array[0])[0])) {
+        data_array.reverse()
+      }
+
+
+
+      const data_object_imports = Object.assign({}, ...(data_array.map(item =>
+        (item))));
+
+      let return_obj = { name: series.name, series_id: series.series_id, region: region.length ? region : series.geography, units: series.units, ...data_object_imports }
+
+      return return_obj
+    })
+    //console.log(data_rows)
+
+    data_rows.sort((rowA, rowB) => {
+      if (oilProdImportList.findIndex((element) => element === rowA.series_id)
+        > oilProdImportList.findIndex((element) => element === rowB.series_id)) {
+        return 1
+      }
+      return -1
+    })
+
+    worksheet.addRows(data_rows)
+
+
+
+    worksheet.spliceRows(1, 0, ...new Array(5))
+    name = 'US Petroleum Product Imports';
+
+    dataset_name = 'Custom';
+    worksheet.getRow(1).values = ["Data Group:", name]
+    worksheet.getRow(1).font = { size: 16 }
+    worksheet.getRow(2).values = ["Data Set Name (top level category):", dataset_name]
+    worksheet.getRow(2).font = { size: 16 }
+    worksheet.getRow(3).values = ["EIA API:", "https://www.eia.gov/opendata/"]
+    worksheet.getRow(3).font = { size: 16 }
+    worksheet.getRow(6).font = { bold: true }
+
+
+
+    // exports
+
+    worksheet = workbook.addWorksheet('Exports');
+
+
+
+    worksheet.columns = cols; // I accidentally deleted this and it caused a problem
+
+
+
+    data_rows = oilProdExports.map(series => {
+
+      const data_array = series.data.map(year => {
+        return { [year[0]]: year[1] }
+      })
+      if (Number(Object.keys(data_array[0])[0]) > Number(Object.keys(data_array[0])[0])) {
+        data_array.reverse()
+      }
+
+
+
+      const data_object_exports = Object.assign({}, ...(data_array.map(item =>
+        (item))));
+
+      let return_obj = { name: series.name, series_id: series.series_id, region: region.length ? region : series.geography, units: series.units, ...data_object_exports }
+
+      return return_obj
+    })
+    //console.log(data_rows)
+    data_rows.sort((rowA, rowB) => {
+      if (oilProdExportList.findIndex((element) => element === rowA.series_id)
+        > oilProdExportList.findIndex((element) => element === rowB.series_id)) {
+        console.log('SORT 1')
+        return 1
+      }
+      console.log('SORT -1')
+      return -1
+    })
+
+
+    worksheet.addRows(data_rows)
+
+    worksheet.spliceColumns(1, 0, [])
+    worksheet.spliceColumns(1, 0, [])
+    worksheet.spliceColumns(1, 0, [])
+
+    worksheet.spliceRows(2, 0, [])
+    worksheet.getCell('A2').value = 'Gasoline'
+    worksheet.getCell('A2').font = { size: 14, bold: true }
+    worksheet.mergeCells('A2:C2')
+    worksheet.getCell('A2').alignment = { horizontal: 'center' }
+    worksheet.getRow(2).border = {
+      bottom: { style: 'thin' }
+    }
+
+    worksheet.spliceRows(5, 0, [])
+    worksheet.getCell('A5').value = 'Jet Fuel'
+    worksheet.getCell('A5').font = { size: 14, bold: true }
+    worksheet.mergeCells('A5:C5')
+    worksheet.getCell('A5').alignment = { horizontal: 'center' }
+    worksheet.getRow(5).border = {
+      bottom: { style: 'thin' }
+    }
+
+    worksheet.spliceRows(7, 0, [])
+    worksheet.getCell('A7').value = 'Diesel'
+    worksheet.getCell('A7').font = { size: 14, bold: true }
+    worksheet.mergeCells('A7:C7')
+    worksheet.getCell('A7').alignment = { horizontal: 'center' }
+    worksheet.getRow(7).border = {
+      bottom: { style: 'thin' }
+    }
+
+
+    worksheet.getCell('B8').value = 'Total'
+    worksheet.getCell('B8').font = { size: 12, bold: true }
+    worksheet.mergeCells('B8:C8')
+    worksheet.getCell('B8').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(9, 0, [])
+
+    worksheet.getCell('C9').value = 'check total';
+
+    worksheet.spliceRows(13, 0, [])
+    worksheet.getCell('A13').value = 'Petrochemical Feedstocks'
+    worksheet.getCell('A13').font = { size: 14, bold: true }
+    worksheet.mergeCells('A13:C13')
+    worksheet.getCell('A13').alignment = { horizontal: 'center' }
+    worksheet.getRow(13).border = {
+      bottom: { style: 'thin' }
+    }
+
+
+
+    worksheet.spliceRows(16, 0, [])
+    worksheet.getCell('A16').value = 'Hydrocarbon Gas Liquids'
+    worksheet.getCell('A16').font = { size: 14, bold: true }
+    worksheet.mergeCells('A16:C16')
+    worksheet.getCell('A16').alignment = { horizontal: 'center' }
+    worksheet.getRow(16).border = {
+      bottom: { style: 'thin' }
+    }
+
+
+    worksheet.getCell('B17').value = 'Total'
+    worksheet.getCell('B17').font = { size: 12, bold: true }
+    worksheet.mergeCells('B17:C17')
+    worksheet.getCell('B17').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(18, 0, [])
+
+    worksheet.getCell('C18').value = 'check total';
+
+    worksheet.getCell('C19').value = 'Subtotal'
+    worksheet.getCell('C19').font = { size: 12, bold: true }
+    worksheet.getCell('C19').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(20, 0, [])
+
+    worksheet.getCell('C20').value = 'check subtotal';
+
+    worksheet.spliceRows(27, 0, [])
+    worksheet.getCell('C28').value = 'Subtotal'
+    worksheet.getCell('C28').font = { size: 12, bold: true }
+    worksheet.getCell('C28').alignment = { horizontal: 'center' }
+    worksheet.spliceRows(29, 0, [])
+
+    worksheet.getCell('C29').value = 'check subtotal';
+
+
+
+
+    worksheet.spliceRows(1, 0, ...new Array(5))
+    name = 'US Petroleum Product Exports';
+
+    dataset_name = 'Custom';
+    worksheet.getRow(1).values = ["Data Group:", name]
+    worksheet.getRow(1).font = { size: 16 }
+    worksheet.getRow(2).values = ["Data Set Name (top level category):", dataset_name]
+    worksheet.getRow(2).font = { size: 16 }
+    worksheet.getRow(3).values = ["EIA API:", "https://www.eia.gov/opendata/"]
+    worksheet.getRow(3).font = { size: 16 }
+    worksheet.getRow(6).font = { bold: true }
+
+
+
+
+    return workbook;
+  }

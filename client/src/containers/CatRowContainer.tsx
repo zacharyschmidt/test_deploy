@@ -32,15 +32,14 @@ export default function CatRowContainer(props: any) {
   for (const [key, value] of Object.entries(state.rowCards)) {
     row_ids = row_ids.concat(Number(key))
   }
-  console.log(row_ids)
-  console.log(state.rowCards)
+
   return (
     <div className={classes.root}>
         
                     {row_ids.map((id: any) => {
                     
                       return (
-                      <Accordion onChange={() => {
+                      <Accordion expanded={state.rowCards[id].isOpen ? true : false} onChange={() => {
                           // make a new action, if state.isOpen is false, 
                           // do fetch cat action
                           if(!state.rowCards[id].isOpen) {

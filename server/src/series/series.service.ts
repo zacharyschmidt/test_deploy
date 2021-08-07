@@ -7,7 +7,9 @@ import { UserEntity } from 'src/user/user.entity';
 
 import { PaginationDto } from './dto/Pagination.dto';
 import { PaginatedSeriesResultDto } from './dto/PaginatedSeriesResult.dto';
-import { async } from 'rxjs';
+import { oilProdConsumptionList, oilProdImportList, oilProdExportList } from '../download/utils/rmiSeries';
+
+
 
 @Injectable()
 export class SeriesService {
@@ -191,11 +193,63 @@ export class SeriesService {
         let ref = await this.getAEO2021KayaSeriesRef(category_id, frequency, geography)
         let lowCost = await this.getAEO2021KayaSeriesLowCostRen(category_id, frequency, geography)
 
+        // this is for the details page
+        // download service calls the above functions individually
+        // --should I change so details page and download service
+        // take same inputs? Then both would simply call 'getManySeries'.
         return [...ref, ...lowCost]
+      case 'rmiOilIndex':
+        let oilProdConsumption = await this.getOilProdConsumption(oilProdConsumptionList)
+        let oilProdImports = await this.getOilProdImports(oilProdConsumptionList)
+        let oilProdExports = await this.getOilProdExports(oilProdExportList)
+
+        return [...oilProdConsumption, ...oilProdImports, ...oilProdExports]
       default:
         return this.getEIASeries(category_id, frequency, geography);
     }
   }
+  getOilProdConsumption = async (oilProdConsumptionList: string[]): Promise<Array<SeriesSO>> => {
+
+    const oilProdConsumptionSeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...oilProdConsumptionList)',
+        { oilProdConsumptionList: oilProdConsumptionList })
+      .getMany()
+    console.log(oilProdConsumptionSeries)
+    console.log('IN SERIES SERVICE')
+    return oilProdConsumptionSeries;
+  }
+
+  getOilProdImports = async (oilProdImportList: string[]): Promise<Array<SeriesSO>> => {
+    const oilProdImportSeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...oilProdImportList)',
+        { oilProdImportList: oilProdImportList })
+      .getMany()
+    return oilProdImportSeries;
+
+  }
+
+  getOilProdImportTotals = async (oilProdImportTotalList: string[]): Promise<Array<SeriesSO>> => {
+    const oilProdImportTotalSeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...oilProdImportTotalList)',
+        { oilProdImportTotalList: oilProdImportTotalList })
+      .getMany()
+    return oilProdImportTotalSeries;
+
+  }
+
+  getOilProdExports = async (oilProdExportList: string[]): Promise<Array<SeriesSO>> => {
+    const oilProdExportSeries = await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id IN (:...oilProdExportList)',
+        { oilProdExportList: oilProdExportList })
+      .getMany()
+    return oilProdExportSeries;
+
+  }
+
   getCustomUSASeries = async (category_id: number, frequency: string, geography: string): Promise<Array<SeriesSO>> => {
     let us_elec_list = ['TOTAL.TXRCBUS.A', 'TOTAL.ESRCBUS.A',
       'TOTAL.TXCCBUS.A', 'TOTAL.ESCCBUS.A', 'TOTAL.TETCBUS.A',

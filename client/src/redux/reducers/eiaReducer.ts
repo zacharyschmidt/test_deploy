@@ -55,12 +55,18 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'SET_SEARCH_NODE':
       return { ...state, selectedSearchNode: action.payload }
     case 'TOGGLE_ROW':
-      return { ...state, rowCards: 
-        { ...state.rowCards, [action.payload]: 
-          { ...state.rowCards[action.payload], 
-            isOpen: 
-            state.rowCards[action.payload].isOpen ? false : true}}}
-      
+      return {
+        ...state, rowCards:
+        {
+          ...state.rowCards, [action.payload]:
+          {
+            ...state.rowCards[action.payload],
+            isOpen:
+              state.rowCards[action.payload].isOpen ? false : true
+          }
+        }
+      }
+
 
     case 'TOGGLE_CATSERIES':
       return {
@@ -82,9 +88,14 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
     case 'FETCH_DATA_SERIES':
       return { ...state, seriesData: action.payload };
     case 'FETCH_CATS':
-      return { ...state, rowCards: 
-                    {...state.rowCards, [action.payload.id]: 
-                            {...state.rowCards[action.payload.id], categories: action.payload.rowCategories, page: action.payload.page, totalCount: action.payload.totalCount }}};//{ ...state, categories: action.payload.series, seriesCount: action.payload.count };
+      console.log('FETCH_CATS')
+      return {
+        ...state, rowCards:
+        {
+          ...state.rowCards, [action.payload.id]:
+            { ...state.rowCards[action.payload.id], categories: action.payload.rowCategories, page: action.payload.page, totalCount: action.payload.totalCount }
+        }
+      };//{ ...state, categories: action.payload.series, seriesCount: action.payload.count };
     case 'SET_TREE_STRUCTURE':
       let node_id: number;
       if (action.payload.node_id == null) {
@@ -137,6 +148,18 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
       //   newTree[node_id] = treeData;
       // }
 
+      // if rowCards in payload is an empty object then
+      // preserve the current set of rowcards in state.
+      // another action will be coming next to pick one 
+      // row and discard the others
+      let rowCardsSetTree;
+      if (Object.keys(action.payload.rowCards).length === 0) {
+        rowCardsSetTree = state.rowCards
+      } else {
+        rowCardsSetTree = action.payload.rowCards;
+      }
+
+
       return {
         ...state,
         treeCategories: newTree,
@@ -151,22 +174,38 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
         // action.payload.tree_leaves > 0
         //   ? action.payload.tree_leaves
         //   : state.treeLeaves
-        rowCards: action.payload.rowCards,
+        rowCards: rowCardsSetTree,
       };
     case 'SET_CARD_ROWS':
-      console.log(action.payload)
+      let rowCardsSetCardRows
+      if (Object.keys(action.payload.rowCards).length === 0) {
+        rowCardsSetCardRows = state.rowCards
+      } else {
+        rowCardsSetCardRows = action.payload.rowCards;
+      }
       return {
         ...state,
-        rowCards: action.payload.rowCards,
+        rowCards: rowCardsSetCardRows,
       };
+    case 'SET_ROW_OF_LEAVES':
+      console.log(action.payload)
+      console.log(state.rowCards[action.payload])
+      return {
+        ...state,
+        rowCards: state.rowCards[action.payload] ? { [action.payload]: { ...state.rowCards[action.payload], isOpen: true } } : {},
+      }
     case 'SET_TREE_SERIES':
       return { ...state, treeSeries: action.payload };
     case 'GET_PARENT_CATS':
       return { ...state };
     case 'SET_PAGE':
-      return { ...state, rowCards: 
-                    {...state.rowCards, [action.payload[1]]: 
-                            {...state.rowCards[action.payload[1]], page: action.payload[0] }}};
+      return {
+        ...state, rowCards:
+        {
+          ...state.rowCards, [action.payload[1]]:
+            { ...state.rowCards[action.payload[1]], page: action.payload[0] }
+        }
+      };
     case 'RESET_PAGE':
       return { ...state };
     case 'SET_LIMIT':

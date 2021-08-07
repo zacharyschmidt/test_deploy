@@ -840,14 +840,36 @@ export const setCardRowsAction = async (
       alert('No Categories Found');
     }
     dispatch({ type: 'TREE_FINISHED_LOADING' });
-
-    return dispatch({
+    // if the result set is empty, I should check the 
+    // store rowCards for a row with id that matches 
+    // the parent category id and dispatch the action with that
+    // as the payload. 
+    // also specify that the accordion should be open.
+    dispatch({
       type: 'SET_CARD_ROWS',
       payload: {
         node_id: parent_category_id,
         rowCards: response.data[1],
       },
     });
+
+     if (Object.keys(response.data[1]).length === 0) {
+      console.log('DISPATCHING SET ROW OF LEAVES')
+      dispatch({
+        type: 'SET_ROW_OF_LEAVES',
+        payload: parent_category_id,
+      }
+      )
+      // get the cards for the row of leaves
+      fetchCategoriesAction(
+        dispatch,
+        searchTerm,
+        parent_category_id,
+        filters,
+        1,
+        5,
+      );
+    }
   } catch (error) {
     console.log(error);
   }
@@ -887,14 +909,18 @@ export const setTreeStructureAction = async (
         parent_category_id: category_id
       }
     });
-    console.log(response.data)
+    console.log('FROM ACTION')
+    console.log(Object.keys(response.data[1]))
     if (response.data.length === 0) {
-      alert('No Categories Found');
+
+      console.log('No Categories Found');
+
+
     }
     dispatch({ type: 'TREE_FINISHED_LOADING' });
     // make sure the state is getting set correctly--then maybe the issue is with 
     // the tree parsing program in Finderjs (does one exist?) 
-    return dispatch({
+    dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
         tree_leaves: response.data[0].sort((a: any, b: any) => {
@@ -907,6 +933,24 @@ export const setTreeStructureAction = async (
         rowCards: response.data[1],
       }
     });
+    if (Object.keys(response.data[1]).length === 0) {
+      console.log('DISPATCHING SET ROW OF LEAVES')
+      dispatch({
+        type: 'SET_ROW_OF_LEAVES',
+        payload: category_id,
+      }
+      )
+    // get the cards for the row of leaves
+      fetchCategoriesAction(
+        dispatch,
+        searchTerm,
+        category_id,
+        filters,
+        1,
+        5,
+      );
+    }
+
   } catch (error) {
     console.log(error);
   }

@@ -71,12 +71,10 @@ export default React.memo(function FinderTree() {
   //   if cat has childCategories with no nested children, return object2;
   //   if there are nested children, call this function on that cat
   const recursiveMap = (cat) => {
-    console.log(cat)
-    console.log("childseries greater than 0? ", cat.childseries.length > 0)
-    console.log("childcategories greater than 0? ", cat.childCategories.length > 0)
+
     if (cat?.childnames && cat.childnames.length > 0 && cat.childnames[0]) {
       if (cat.has_children) {
-        console.log("hybrid node", cat.name)
+
         return {
           id: cat.category_id,
           search_id: cat.category_id,
@@ -104,7 +102,7 @@ export default React.memo(function FinderTree() {
           ]
         };
       } else if (!cat.has_children) {
-        console.log("leaf_node", cat.name)
+
         return {
           id: cat.category_id,
           search_id: cat.category_id,
@@ -157,7 +155,7 @@ export default React.memo(function FinderTree() {
   // const tree = [{ id: 964165, label: "Annual Energy Outlook 2014", childseries: [], 
   //   children: [{ id: 964135, label: "Annual Energy Outlook 2012", childseries: []}] },
   // { id: 963165, label: "Annual Energy Outlook 2015", childseries: [] }]
-  console.log(treeCategories)
+
   const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
     if (a.label > b.label) {
       return 1
@@ -208,7 +206,7 @@ export default React.memo(function FinderTree() {
 
   const onLeafSelected = (item) => {
 
-    console.log('leaf selected', item.label)
+    console.log('LEAF SELECTEC', item.label)
     flag.current = false
     // how will we know ahead of time if the item has children?
     if (item.display) {
@@ -295,6 +293,9 @@ export default React.memo(function FinderTree() {
   const itemSelected = (item) => {
 
 
+    console.log('ITEM SELECTED')
+    console.log(item.label)
+
 
 
     if (!item.children || item.children.length === 0) {
@@ -312,20 +313,28 @@ export default React.memo(function FinderTree() {
     // console.log('IN onITEMSELECTED')
     if (item.children) {
       if (item.children[0].display) {
+        console.log('ITEM SELECTED: display node')
         console.log(item.label)
+
         if (item.id !== nodeVal) {
           // this part is important
-          setSelectedTreeNodeAction(dispatch, item.id);
+          console.log('ITEM SELECTED: set selected tree node')
+          // setSelectedTreeNode causes the tree to rerender and all the 
+          // synthetic itemSelections to fire
+          //setSelectedTreeNodeAction(dispatch, item.id);
         }
       }
     }
+    console.log('ITEM SELECTED: set search node')
     setSearchNodeAction(dispatch, item.search_id)
 
     // commented out for debugging
 
     // && item.id === nodeVal
-    if (flag.current) {
-      console.log('fetching categories from Item Click')
+    if (flag.current && !item.children[0].display) {
+      console.log('ITEM SELECTED: flag.current is true, setCardRowsAction')
+      console.log('setting card rows')
+      console.log(item.label)
 
       setCardRowsAction(
         dispatch,
@@ -341,6 +350,7 @@ export default React.memo(function FinderTree() {
     }
 
     if (item.id === nodeVal) {
+      console.log('ITEM SELECTED: item.id = nodeVal, set flag.current = true')
       flag.current = true;
     }
 
@@ -413,7 +423,7 @@ export default React.memo(function FinderTree() {
 
   //console.log(searchVal)
   // console.log('RENDERING TREE')
-  console.log(tree)
+
 
   return (
     <ReactFinder

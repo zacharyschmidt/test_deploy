@@ -35,7 +35,8 @@ const CategoryDetails = (props: any): JSX.Element => {
     const category = custom_flag === 'custom' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP', childCategories: [], ancestor_names: [] } :
         custom_flag === 'kaya' ? { dataset_name: 'Custom', ancestors: 'none', name: 'US Energy Electricity GDP KAYA', childCategories: [], ancestor_names: [] } :
             custom_flag === 'AEO2021' ? { dataset_name: 'Custom', ancestors: 'none', name: 'Annual Energy Outlook 2021 KAYA', childCategories: [], ancestor_names: [] } :
-                state.find((cat: any) => cat.category_id === Number(category_id));
+                custom_flag === 'rmiOilIndex' ? { dataset_name: 'Custom', ancestors: 'none', name: 'RMI', childCategories: [], ancestor_names: [] } :
+                    state.find((cat: any) => cat.category_id === Number(category_id));
 
     const tree_categories = useSelector((state: IStore) => state.eia.treeCategories);
     let ancestor_names: Array<String> = [];
