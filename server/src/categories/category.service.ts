@@ -351,7 +351,7 @@ export class CategoryService {
 
         count = await this.categoryRepository
       .query(
-        `SELECT COUNT(cats.category_id) FROM categories AS cats
+        `SELECT COUNT(DISTINCT cats.category_id) FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo

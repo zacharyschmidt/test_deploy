@@ -16,6 +16,7 @@ const initialState: IEIA = {
   treeLoading: false,
   categories: [],
   rowCards: {},
+  prevRowCards: {},
   catSeriesFlag: 'Categories',
   DataSetName: 'All', // should be 'All'?
   CountryMenuDisplay: 'United States', //should be United States?
@@ -188,11 +189,19 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
         rowCards: rowCardsSetCardRows,
       };
     case 'SET_ROW_OF_LEAVES':
-      console.log(action.payload)
-      console.log(state.rowCards[action.payload])
+      let newRowCards = {};
+      let prevRowCards = {};
+      if (state.rowCards[action.payload]) {
+          newRowCards = { [action.payload]: {...state.rowCards[action.payload], isOpen: true }};
+          prevRowCards = state.rowCards;
+      } else if (state.prevRowCards[action.payload]) {
+        newRowCards = { [action.payload]:{...state.prevRowCards[action.payload], isOpen: true }};
+        prevRowCards = state.prevRowCards;
+      }
       return {
         ...state,
-        rowCards: state.rowCards[action.payload] ? { [action.payload]: { ...state.rowCards[action.payload], isOpen: true } } : {},
+        rowCards: newRowCards,
+        prevRowCards: prevRowCards,
       }
     case 'SET_TREE_SERIES':
       return { ...state, treeSeries: action.payload };

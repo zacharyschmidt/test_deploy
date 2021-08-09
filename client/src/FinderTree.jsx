@@ -325,6 +325,8 @@ export default React.memo(function FinderTree() {
         }
       }
     }
+
+    // this might be a problem, won't it cause rerendering?
     console.log('ITEM SELECTED: set search node')
     setSearchNodeAction(dispatch, item.search_id)
 
@@ -369,11 +371,15 @@ export default React.memo(function FinderTree() {
 
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
+    if (item.children && item.children[0].display) {
+      div.style.color = '#9e0202';
+    }
 
 
 
     if (item.display == 1) {
       //if (item.childseries.length > 0) {
+      div.style.color = '#9e0202';
       div.innerText = `Category: ${item.label}`;
       let p = document.createElement('p')
       p.innerText = 'Time Series: '

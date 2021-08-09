@@ -76,7 +76,8 @@ export const Pager = (props: any) => {
       {state.rowCards &&
         (<div className={classes.root}>
           <Typography>Showing {((state.rowCards[props.id].page - 1) * 5) + 1} to{' '}
-            {state.rowCards[props.id].page * 5} of {state.rowCards[props.id].totalCount} records</Typography>
+            { // if the total number of records is less than five say 'showing 3 to 3' for example
+            state.rowCards[props.id].totalCount < 5 ? state.rowCards[props.id].totalCount : state.rowCards[props.id].page * 5} of {state.rowCards[props.id].totalCount} records</Typography>
           <Pagination count={pager.totalPages} page={pager.currentPage} onChange={handleClick} />
         </div>)}
       {/* {state.seriesCount > 0 &&

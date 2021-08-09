@@ -4,7 +4,7 @@
   flex: 1;
   text-align: center;
   font-family: 'Poppins';
-  
+
 }
 
 .Site {
@@ -95,11 +95,12 @@
 
 .card-container {
   width: 250px;
-  border: 1px solid rgba(0, 0, .125);
+  border: 1px solid rgb(158, 2, 2);
   margin: 0 auto;
   border-radius: 5px;
   overflow: hidden;
   padding: .5rem;
+  color: rgb(158, 2, 2)
 }
 
 .treeAndSeries {
@@ -151,7 +152,7 @@
 
 
 /* .search-bar { */
-  /* float: left;
+/* float: left;
   flex-direction: row;
   align-items: flex-start;
 } */
