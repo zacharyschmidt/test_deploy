@@ -759,9 +759,11 @@ export default function HomePage() {
           <br />
           <br />
           <Grid container className="sub-menu">
-            <p>Click on a Category to drill-down or use Keyword Search to find time series data.</p>
+            <p>Click on a <strong>Category</strong> in the tree to drill-down or use Keyword Search to find time series data.</p>
+            <p>Each <strong>category</strong> has additional <strong>categories</strong> beneath it, but <strong style={{color: '#9e0202'}}>leaf categories</strong>, or <strong style={{color: '#9e0202'}}>DataGroups</strong>, instead hold a set of time series data.</p>
+            <p>There are also <strong style={{color: '#ff8e2b'}}>hybrid categories</strong> at some intermediate levels of the tree that hold time series data and also lead to lower tree levels.</p>
+            <p>Clicking on a <strong style={{color: '#9e0202'}}>leaf category</strong> or <strong style={{color: '#ff8e2b'}}>hybrid node</strong> will display <strong style={{color: '#2b32ff'}}>time series details</strong>. Click on this <strong style={{color: '#2b32ff'}}>details section</strong> to navigate to a details page and download Excel and RIS files.</p>
             <p>Search Results appear below the Category Tree.</p>
-            <p>Click on a 'DataGroup' card to open the tree and find data and RIS files.</p>
             <p>Filter selections will restrict search results and the available categories in the tree.</p>
             <p>Currently searches will only return Annual data.</p>
             <p>If you make a selection in the tree, keyword search will only return results under the selected category.</p>

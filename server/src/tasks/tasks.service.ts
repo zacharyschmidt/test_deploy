@@ -11,6 +11,9 @@ const admZip = require('adm-zip');
 import { UpdateService } from '../update/update.service';
 import { CategoryEntity } from '../categories/category.entity';
 
+import { oilProdConsumptionList, oilProdImportTotalList, oilProdImportList, oilProdExportList } from '../download/utils/rmiSeries';
+import { SimpleConsoleLogger } from 'typeorm';
+
 @Injectable()
 export class TasksService {
     constructor(private httpService: HttpService, private updateService: UpdateService) { }
@@ -284,6 +287,51 @@ export class TasksService {
             //await this.updateService.updateSeries(updates)
             console.log((i + 1) * 100)
             //console.log(seriesString)
+         i++;   
+        }
+        
+    }
+
+
+    @Timeout(1000)
+    //@Cron('45 51 6 15 5 *')
+    async getRMIUpdates() {
+        console.log('starting RMI update')
+        await this.getSeriesFromIdList([...oilProdConsumptionList, 
+            ...oilProdImportTotalList, 
+            ...oilProdImportList, 
+            ...oilProdExportList])
+        console.log('finished RMI update')
+    }
+    async getSeriesFromIdList(seriesArray: Array<string>) {
+        this.logger.debug('Called once after 5 seconds');
+     
+        let i = 0;
+        while (i * 100 <= seriesArray.length) {
+            const seriesString = seriesArray.slice(i * 100, ((i + 1) * 100)-1).join(';')
+            // should use error handling
+            console.log(seriesString)
+            const fullSeries = await this.httpService.get(
+                `http://api.eia.gov/series/?series_id=${seriesString}&api_key=d329ef75e7dfe89a10ea25326ada3c43`
+            ).toPromise();
+            console.log(fullSeries.data.series[0])
+            let updates = fullSeries.data.series.map((series) => {
+                //series.dataset_name = 'Annual Energy Outlook 2021';
+                delete series.lastHistoricalPeriod;
+                delete series.unitsshort;
+                delete series.geography2;
+                // AEO series don't have geography field
+                if (series.series_id.includes('AEO.2021') && series.name.includes('United States')) {
+                    series.geography = 'USA';
+                }
+                //console.log(series)
+                return series
+            })
+           
+            await this.updateService.updateSeries(updates)
+         
+            console.log((i + 1) * 100)
+          
          i++;   
         }
         

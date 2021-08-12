@@ -326,7 +326,11 @@ export class CategoryService {
        categories = await this.categoryRepository
       .query(
         `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
-          cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
+          cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors, 
+          CASE WHEN leaf.ancestors IS NOT NULL THEN TRUE
+              WHEN leaf.ancestors IS NULL THEN FALSE
+              END has_children
+            FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
@@ -374,7 +378,7 @@ export class CategoryService {
        categories = await this.categoryRepository
       .query(
         `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
-          cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors FROM categories AS cats
+          cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors cats.has_children FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          

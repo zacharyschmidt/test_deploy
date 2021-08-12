@@ -373,14 +373,19 @@ export default React.memo(function FinderTree() {
     div.innerText = `${item.label}`;
     if (item.children && item.children[0].display) {
       div.style.color = '#9e0202';
+    } 
+    if (item.children && item.children.length > 1 && item.children[1].display) {
+      //hybrid node
+      div.style.color = '#ff8e2b'
     }
 
 
 
     if (item.display == 1) {
       //if (item.childseries.length > 0) {
-      div.style.color = '#9e0202';
-      div.innerText = `Category: ${item.label}`;
+      div.style.border = '4px';
+      div.style.color = '#2b32ff';
+      div.innerHTML = `<strong>Category: ${item.label}</strong>`;
       let p = document.createElement('p')
       p.innerText = 'Time Series: '
       div.appendChild(p);
