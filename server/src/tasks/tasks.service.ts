@@ -93,16 +93,16 @@ export class TasksService {
                     })
                 //console.log(catsArray.slice(0, 10))
                 //await this.updateService.updateCategory(catsArray);
-                
+
                 /* Make Ancestors Array */
                 //await this.updateService.makeAncestorsArray(4047325)
 
                 /* This gets series from the update API */
                 await this.getSeries(4047325);
 
-                
+
                 function checkSeries(element, index) {
-                   
+
 
                     let JsonElement = JSON.parse(element);
                     return !JsonElement.category_id;
@@ -118,7 +118,7 @@ export class TasksService {
                 //     })
                 // this.updateService.insertAEOSeries(seriesArray)
 
-               
+
                 // now populate the tables. 
                 // I might have to make the callback in .on async so that 
                 // I can await this.getSeries (and the method to update categories)
@@ -126,10 +126,10 @@ export class TasksService {
                 // run step by step on the server.
                 // mixing callbacks and async/await seems tricky
 
-            await this.updateService.fillLookupTables('Annual Energy Outlook 2021');
-            
+                await this.updateService.fillLookupTables('Annual Energy Outlook 2021');
+
             })
-        
+
         //pipeline(text, unzip, process.stdout, onError)
         //text.pipe(unzip).pipe(process.stdout)
         //forEach(record => {
@@ -153,7 +153,7 @@ export class TasksService {
         //for childSeries:
         // 1. delete lastHistoricalPeriod
         // 2. set dataset_name property
-        
+
 
     }
     async AEO2021Query(category_id, ancestorsArray, parent_name) {
@@ -218,7 +218,7 @@ export class TasksService {
         // without incorrectly recording the current category as an ancestor.
         ancestorsArray.pop();
     }
-   //@Timeout(1000)
+    //@Timeout(1000)
     async getAEO2021Task() {
 
         console.log('starting task')
@@ -259,7 +259,7 @@ export class TasksService {
             console.log('number of series returned')
             console.log(seriesArray.length)
             i++
-            console.log(i+ ' i')
+            console.log(i + ' i')
         } while (i * 10000 < num_found + 10000);
         //console.log(seriesArray[9]) 
         i = 0
@@ -287,28 +287,28 @@ export class TasksService {
             //await this.updateService.updateSeries(updates)
             console.log((i + 1) * 100)
             //console.log(seriesString)
-         i++;   
+            i++;
         }
-        
+
     }
 
 
-    @Timeout(1000)
+    //@Timeout(1000)
     //@Cron('45 51 6 15 5 *')
     async getRMIUpdates() {
         console.log('starting RMI update')
-        await this.getSeriesFromIdList([...oilProdConsumptionList, 
-            ...oilProdImportTotalList, 
-            ...oilProdImportList, 
-            ...oilProdExportList])
+        await this.getSeriesFromIdList([...oilProdConsumptionList,
+        ...oilProdImportTotalList,
+        ...oilProdImportList,
+        ...oilProdExportList])
         console.log('finished RMI update')
     }
     async getSeriesFromIdList(seriesArray: Array<string>) {
         this.logger.debug('Called once after 5 seconds');
-     
+
         let i = 0;
         while (i * 100 <= seriesArray.length) {
-            const seriesString = seriesArray.slice(i * 100, ((i + 1) * 100)-1).join(';')
+            const seriesString = seriesArray.slice(i * 100, ((i + 1) * 100) - 1).join(';')
             // should use error handling
             console.log(seriesString)
             const fullSeries = await this.httpService.get(
@@ -327,13 +327,13 @@ export class TasksService {
                 //console.log(series)
                 return series
             })
-           
+
             await this.updateService.updateSeries(updates)
-         
+
             console.log((i + 1) * 100)
-          
-         i++;   
+
+            i++;
         }
-        
+
     }
 }

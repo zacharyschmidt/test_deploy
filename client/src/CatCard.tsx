@@ -9,8 +9,11 @@ export default function CatCard(props: any) {
 
     fetchParentCats(dispatch, singleCat.category_id, filters);
   };
+
   return (
-    <div className="card-container">
+    <div className={singleCat.has_children ? "hybrid-card-container" : "leaf-card-container"}>
+
+
       <section
         key={singleCat.category_id}
         className="series-box"

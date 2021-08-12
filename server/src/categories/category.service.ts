@@ -49,14 +49,14 @@ export class CategoryService {
     let rows = []
     // don't get rows for top level
     if (paginationDto.parent_category_id != 371) {
-    for (let cat of treeCats) {
-      let row = { name: '', categories: [] };
-      //await this.getCardCategories({ ...paginationDto, parent_category_id: cat.category_id })
-      
-      row.name = cat.name;
-      rows = rows.concat([row])
+      for (let cat of treeCats) {
+        let row = { name: '', categories: [] };
+        //await this.getCardCategories({ ...paginationDto, parent_category_id: cat.category_id })
+
+        row.name = cat.name;
+        rows = rows.concat([row])
+      }
     }
-  }
 
     let rowDict: { [key: string]: PaginatedCategoryResultDto } = {};
 
@@ -322,13 +322,13 @@ export class CategoryService {
 
     let categories;
     let count;
-     if (paginationDto.Region != 'All') {
-       categories = await this.categoryRepository
-      .query(
-        `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+    if (paginationDto.Region != 'All') {
+      categories = await this.categoryRepository
+        .query(
+          `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
           cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors, 
-          CASE WHEN leaf.ancestors IS NOT NULL THEN TRUE
-              WHEN leaf.ancestors IS NULL THEN FALSE
+          CASE WHEN category_leaf_lookup.ancestors IS NOT NULL THEN TRUE
+              WHEN category_leaf_lookup.ancestors IS NULL THEN FALSE
               END has_children
             FROM categories AS cats
          INNER JOIN frequency_filter AS freq
@@ -337,6 +337,8 @@ export class CategoryService {
          ON geo.category_id = cats.category_id
          INNER JOIN category_leaf_lookup as leaf
          ON leaf.leaf_category = cats.category_id
+         LEFT JOIN category_leaf_lookup 
+         ON cats.category_id = category_leaf_lookup.ancestors
          WHERE (($1 = 'All') OR cats.dataset_name = $1)
          AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3)) 
          AND freq.f = $4
@@ -347,15 +349,15 @@ export class CategoryService {
          ORDER BY cats.category_id
          LIMIT $7
          OFFSET $8`
-        ,
-        [paginationDto.DataSet, searchTerm.length, searchTerm,
-        paginationDto.Frequency, paginationDto.Region, parent_category_id, 5, skippedItems,
-        paginationDto.HistorProj, hist_or_proj_names
-        ])
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm,
+          paginationDto.Frequency, paginationDto.Region, parent_category_id, 5, skippedItems,
+          paginationDto.HistorProj, hist_or_proj_names
+          ])
 
-        count = await this.categoryRepository
-      .query(
-        `SELECT COUNT(DISTINCT cats.category_id) FROM categories AS cats
+      count = await this.categoryRepository
+        .query(
+          `SELECT COUNT(DISTINCT cats.category_id) FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
          INNER JOIN geography_filter AS geo
@@ -369,15 +371,15 @@ export class CategoryService {
          AND cats.excluded = 0
          AND leaf.ancestors = $6
          AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))`
-        ,
-        [paginationDto.DataSet, searchTerm.length, searchTerm,
-        paginationDto.Frequency, paginationDto.Region, parent_category_id,
-        paginationDto.HistorProj, hist_or_proj_names
-        ])
-      } else if (paginationDto.Region === 'All'){
-       categories = await this.categoryRepository
-      .query(
-        `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm,
+          paginationDto.Frequency, paginationDto.Region, parent_category_id,
+          paginationDto.HistorProj, hist_or_proj_names
+          ])
+    } else if (paginationDto.Region === 'All') {
+      categories = await this.categoryRepository
+        .query(
+          `SELECT DISTINCT cats.category_id, cats.parent_category_id, cats.name, cats.childseries, 
           cats.dataset_name, cats.parent_name, cats.ancestor_names, cats.ancestors cats.has_children FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
@@ -393,15 +395,15 @@ export class CategoryService {
          ORDER BY cats.category_id
          LIMIT $6
          OFFSET $7`
-        ,
-        [paginationDto.DataSet, searchTerm.length, searchTerm,
-        paginationDto.Frequency, parent_category_id, 5, skippedItems,
-        paginationDto.HistorProj, hist_or_proj_names
-        ]) 
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm,
+          paginationDto.Frequency, parent_category_id, 5, skippedItems,
+          paginationDto.HistorProj, hist_or_proj_names
+          ])
 
-    count = await this.categoryRepository
-      .query(
-        `SELECT COUNT(cats.category_id) FROM categories AS cats
+      count = await this.categoryRepository
+        .query(
+          `SELECT COUNT(cats.category_id) FROM categories AS cats
          INNER JOIN frequency_filter AS freq
          ON freq.category_id = cats.category_id
         
@@ -414,13 +416,13 @@ export class CategoryService {
          AND cats.excluded = 0
          AND leaf.ancestors = $5
          AND (($6 = 'All') OR cats.dataset_name = any($7::TEXT[]))`
-        ,
-        [paginationDto.DataSet, searchTerm.length, searchTerm,
-        paginationDto.Frequency, parent_category_id,
-        paginationDto.HistorProj, hist_or_proj_names
-        ])
+          ,
+          [paginationDto.DataSet, searchTerm.length, searchTerm,
+          paginationDto.Frequency, parent_category_id,
+          paginationDto.HistorProj, hist_or_proj_names
+          ])
 
-      }
+    }
 
 
 
@@ -525,7 +527,7 @@ export class CategoryService {
     // if (dataset_id !== ) {
     //   country_matches = this.categoryRepository.query(
     // `SELECT DISTINCT(geography) FROM geography_filter WHERE category_id = $1`, [dataset_id]);
-  country_matches.unshift({ geography: "All" })
+    country_matches.unshift({ geography: "All" })
     return country_matches
   }
 }

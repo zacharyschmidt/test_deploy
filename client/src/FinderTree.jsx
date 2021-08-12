@@ -372,11 +372,11 @@ export default React.memo(function FinderTree() {
     let div = document.createElement('div');
     div.innerText = `${item.label}`;
     if (item.children && item.children[0].display) {
-      div.style.color = '#9e0202';
-    } 
+      div.style.color = '#03a11d';
+    }
     if (item.children && item.children.length > 1 && item.children[1].display) {
       //hybrid node
-      div.style.color = '#ff8e2b'
+      div.style.color = '#ff0000'
     }
 
 
@@ -385,7 +385,7 @@ export default React.memo(function FinderTree() {
       //if (item.childseries.length > 0) {
       div.style.border = '4px';
       div.style.color = '#2b32ff';
-      div.innerHTML = `<strong>Category: ${item.label}</strong>`;
+      div.innerHTML = `<strong style='color:#03a11d'>Category: ${item.label}</strong>`;
       let p = document.createElement('p')
       p.innerText = 'Time Series: '
       div.appendChild(p);

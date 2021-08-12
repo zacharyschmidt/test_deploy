@@ -749,7 +749,7 @@ export default function HomePage() {
   menu_options_logical.forEach((logical_key: any, index) => menu_options_full[logical_key] = menu_options_display[index])
   //let menu_options_full = menu_options_display.map((option, index) => [option, menu_options_logical[index]])
 
- 
+
 
   return (
     <React.Fragment>
@@ -759,10 +759,11 @@ export default function HomePage() {
           <br />
           <br />
           <Grid container className="sub-menu">
+            <p>We use the metaphor of a tree to discuss our data structure. The tree is composed of <strong>nodes</strong>, some of which are <strong>categories</strong> (branches of the tree), others of which are <strong style={{ color: '#03a11d' }}>leaves of the tree</strong> (containing <strong style={{ color: '#2b32ff' }}>data series</strong>).</p>
             <p>Click on a <strong>Category</strong> in the tree to drill-down or use Keyword Search to find time series data.</p>
-            <p>Each <strong>category</strong> has additional <strong>categories</strong> beneath it, but <strong style={{color: '#9e0202'}}>leaf categories</strong>, or <strong style={{color: '#9e0202'}}>DataGroups</strong>, instead hold a set of time series data.</p>
-            <p>There are also <strong style={{color: '#ff8e2b'}}>hybrid categories</strong> at some intermediate levels of the tree that hold time series data and also lead to lower tree levels.</p>
-            <p>Clicking on a <strong style={{color: '#9e0202'}}>leaf category</strong> or <strong style={{color: '#ff8e2b'}}>hybrid node</strong> will display <strong style={{color: '#2b32ff'}}>time series details</strong>. Click on this <strong style={{color: '#2b32ff'}}>details section</strong> to navigate to a details page and download Excel and RIS files.</p>
+            <p>Each <strong>category</strong> can have additional <strong>categories</strong> beneath it, but <strong style={{ color: '#03a11d' }}>leaves of the tree</strong>, or <strong style={{ color: '#03a11d' }}>datagroups</strong>, instead hold a set of <strong style={{ color: '#2b32ff' }}>time series data</strong>.</p>
+            <p>There are also <strong style={{ color: '#ff0000' }}>hybrid categories</strong> at some intermediate levels of the tree that hold <strong style={{ color: '#2b32ff' }}>time series data</strong> and also lead to lower tree levels.</p>
+            <p>Clicking on a <strong style={{ color: '#03a11d' }}>leaf</strong> or <strong style={{ color: '#ff0000' }}>hybrid category</strong> will display <strong style={{ color: '#2b32ff' }}>time series details</strong>. Click on this <strong style={{ color: '#2b32ff' }}>details section</strong> to navigate to a details page and download Excel and RIS files.</p>
             <p>Search Results appear below the Category Tree.</p>
             <p>Filter selections will restrict search results and the available categories in the tree.</p>
             <p>Currently searches will only return Annual data.</p>
@@ -912,9 +913,9 @@ export default function HomePage() {
 
 
                   <CatRowContainer
-                  toggleSelectAction={toggleSelectAction}
-                  selected={selected}
-                    />
+                    toggleSelectAction={toggleSelectAction}
+                    selected={selected}
+                  />
                   {/* {
                     row_ids.map((id) => {
                       return (<SeriesList
