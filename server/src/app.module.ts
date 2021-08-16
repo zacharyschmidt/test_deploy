@@ -13,7 +13,7 @@ import { TasksModule } from './tasks/tasks.module';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ScheduleModule } from '@nestjs/schedule';
-import { ConfigModule } from '@nestjs/config';
+//import { ConfigModule } from '@nestjs/config';
 
 import { HttpErrorFilter } from './shared/http-error.filter';
 import { ValidationPipe } from './shared/validation.pipe';
@@ -23,7 +23,7 @@ import { ValidationPipe } from './shared/validation.pipe';
   imports: [
     TypeOrmModule.forRoot(),
     ScheduleModule.forRoot(),
-    ConfigModule.forRoot(),
+    //ConfigModule.forRoot(),
     TodoModule,
     UserModule,
     SeriesModule,
