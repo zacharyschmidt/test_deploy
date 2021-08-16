@@ -14,11 +14,15 @@ import {
 import { SeriesService } from './series.service';
 import { PaginationDto } from './dto/Pagination.dto';
 
+import { LoginGuard } from 'src/shared/auth.guard';
+import { AuthGuard } from '@nestjs/passport';
+
 @Controller('series')
 export class SeriesController {
   constructor(private seriesService: SeriesService) {}
 
   @Get('search')
+  @UseGuards(new LoginGuard())
   getSearchedSeries(@Query() paginationDto: PaginationDto) {
     paginationDto.page = Number(paginationDto.page);
     paginationDto.limit = Number(paginationDto.limit);
@@ -29,6 +33,7 @@ export class SeriesController {
     });
   }
   @Get('childseries')
+  @UseGuards(new LoginGuard())
   getManySeries(@Query('category_id') category_id: number,
     @Query('frequency') frequency: string, @Query('geography') geography: string,
     @Query('custom_flag') custom_flag: string) {
@@ -53,7 +58,18 @@ export class SeriesController {
 
   // }
   @Get('dataset')
+  @UseGuards(new LoginGuard())
   getSeriesbyID(@Query('series_id') series_id: string) {
     return this.seriesService.getSeriesbyID(series_id);
   }
+  
+  @Get('rmi')
+  @UseGuards(AuthGuard('api-key'))
+  getPetData() {
+    
+    return this.seriesService.getRMI()
+  }
+
 }
+
+  

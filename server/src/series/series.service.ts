@@ -350,4 +350,15 @@ export class SeriesService {
       .getMany()
     return manySeries;
   };
+
+  getRMI = async (): Promise<SeriesSO> => {
+    const series_id = 'PET.MGFUPUS1.M';
+    const motorGasoline = 
+    await this.seriesRepository
+      .createQueryBuilder('series')
+      .where('series.series_id = :series_id', { series_id: series_id })
+      .getOne();
+    return motorGasoline;
+
+  }
 }

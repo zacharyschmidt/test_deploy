@@ -12,10 +12,10 @@ import {
 
 import { TodoService } from './todo.service';
 import { TodoDTO } from './todo.dto';
-import { AuthGuard } from 'src/shared/auth.guard';
+import { LoginGuard } from 'src/shared/auth.guard';
 
 @Controller('todo')
-@UseGuards(new AuthGuard())
+@UseGuards(new LoginGuard())
 export class TodoController {
   constructor(private todoService: TodoService) {}
 

@@ -1,7 +1,7 @@
 import { Controller, Post, Get, Body, UseGuards, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserDTO } from './user.dto';
-import { AuthGuard } from 'src/shared/auth.guard';
+import { LoginGuard } from 'src/shared/auth.guard';
 
 @Controller()
 export class UserController {
@@ -18,7 +18,7 @@ export class UserController {
   }
 
   @Get('profile')
-  @UseGuards(new AuthGuard())
+  @UseGuards(new LoginGuard())
   getProfile(@Req() req) {
     const userEmail = req.user.email;
     return this.userService.getProfile(userEmail);

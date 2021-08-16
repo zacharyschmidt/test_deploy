@@ -1,4 +1,4 @@
-import { Controller, Get, Header, HttpCode, Query, Req, Res } from '@nestjs/common';
+import { Controller, Get, Header, HttpCode, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { Response, Request } from 'express';
 
 import { CategoryService } from '../categories/category.service';
@@ -6,10 +6,13 @@ import { SeriesService } from '../series/series.service';
 import { DownloadService } from './download.service';
 import { PaginationDto } from '../categories/dto/Pagination.dto';
 
+import { LoginGuard } from 'src/shared/auth.guard';
+
 import * as Excel from 'exceljs';
 
 
 @Controller('download')
+@UseGuards(new LoginGuard())
 export class DownloadController {
     constructor(private categoryService: CategoryService,
         private seriesService: SeriesService,

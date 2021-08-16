@@ -11,13 +11,13 @@ import {
   Req,
 } from '@nestjs/common';
 
-import { AuthGuard } from 'src/shared/auth.guard'
+import { LoginGuard } from 'src/shared/auth.guard';
 
 import { CategoryService } from './category.service';
 import { PaginationDto } from './dto/Pagination.dto';
 
 @Controller('categories')
-@UseGuards(new AuthGuard())
+@UseGuards(new LoginGuard())
 export class CategoryController {
   constructor(private categoryService: CategoryService) { }
   @Get('cards')

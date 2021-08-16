@@ -9,7 +9,7 @@ import {
 import { verify } from 'jsonwebtoken';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class LoginGuard implements CanActivate {
   canActivate = async (context: ExecutionContext): Promise<boolean> => {
     const request = context.switchToHttp().getRequest();
     if (!request.headers.authorization) return false;
