@@ -35,7 +35,6 @@
     "class-validator": "^0.12.2",
     "exceljs": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
-    "nestjs-config": "^1.4.8",
     "passport": "^0.4.1",
     "passport-headerapikey": "^1.2.2",
     "pg": "^8.3.3",
