@@ -47,11 +47,12 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
   SuppDemand?: string,
   LastUpdate?: string
 }) => {
+  console.log('FETCH PARENT CATS')
   async function buildTree(ancestors: [number]) {
     const j = ancestors.length
     for (let i = 0; i < j; i++) {
 
-      await setTreeStructureAction(dispatch, '', ancestors[i], filters)
+      await setTreeStructureAction(dispatch, '', ancestors[i], filters, false)
     }
   }
   try {
@@ -64,7 +65,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
       }
     });
 
-    buildTree(response.data.ancestors)
+    await buildTree(response.data.ancestors)
     // response.data[0].ancestors.map((ancestor: number) => {
     //   console.log(ancestor)
     //   setTreeStructureAction(dispatch, ancestor, filters)
@@ -108,7 +109,7 @@ export const fetchCategoriesAction = async (
 
       },
     });
-    console.log('FetchCategorieAction', response)
+
     //const dataJSON = await data.json();
     if (response.data.length === 0) {
       alert('No Categories Found');
@@ -135,6 +136,7 @@ export const fetchDataAction = async (
   page: number,
   limit: number
 ) => {
+  console.log('FETCH DATA ACTION')
   // put this on the server to hide the api key
   //const URL = "https://api.eia.gov/search/?search_term=series_id&search_value=%22ELEC.CONS*%22&rows_per_page=1000"
   // https://api.eia.gov/search/?search_term=name&search_value=%22*%22&rows_per_page=100&page_num=0&data_set=ELEC&frequency=M&region=USA&units=thousand%20mcf&last_updated=2020-03-23T18:31:14Z
@@ -816,6 +818,7 @@ export const setCardRowsAction = async (
   page: number,
   limit: number = 5,
 ) => {
+  console.log('SET CARD ROWS ACTION')
   dispatch({ type: 'TREE_LOADING' });
   try {
     // I should change the category service to let me send an 
@@ -853,8 +856,8 @@ export const setCardRowsAction = async (
       },
     });
 
-     if (Object.keys(response.data[1]).length === 0) {
-      console.log('DISPATCHING SET ROW OF LEAVES')
+    if (Object.keys(response.data[1]).length === 0) {
+
       dispatch({
         type: 'SET_ROW_OF_LEAVES',
         payload: parent_category_id,
@@ -883,9 +886,10 @@ export const setTreeStructureAction = async (
   dispatch: any,
   searchTerm: string,
   category_id: number,
-  filters: any
+  filters: any,
+  includeRows: boolean = true
 ) => {
-  console.log('SET TREE STRUCTURE')
+  console.log('SET TREE STRUCTURE ACTION')
   dispatch({ type: 'TREE_LOADING' });
   try {
 
@@ -909,8 +913,8 @@ export const setTreeStructureAction = async (
         parent_category_id: category_id
       }
     });
-    console.log('FROM ACTION')
-    console.log(Object.keys(response.data[1]))
+
+
     if (response.data.length === 0) {
 
       console.log('No Categories Found');
@@ -920,6 +924,10 @@ export const setTreeStructureAction = async (
     dispatch({ type: 'TREE_FINISHED_LOADING' });
     // make sure the state is getting set correctly--then maybe the issue is with 
     // the tree parsing program in Finderjs (does one exist?) 
+    let rowCards = response.data[1];
+    if (!includeRows) {
+      rowCards = {};
+    }
     dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
@@ -930,17 +938,17 @@ export const setTreeStructureAction = async (
           return -1
         }),
         node_id: category_id,
-        rowCards: response.data[1],
+        rowCards: rowCards,
       }
     });
     if (Object.keys(response.data[1]).length === 0) {
-      console.log('DISPATCHING SET ROW OF LEAVES')
+
       dispatch({
         type: 'SET_ROW_OF_LEAVES',
         payload: category_id,
       }
       )
-    // get the cards for the row of leaves
+      // get the cards for the row of leaves
       fetchCategoriesAction(
         dispatch,
         searchTerm,
@@ -1047,6 +1055,7 @@ export const setMenuCatsAction = async (
 }
 
 export const setTreeSeriesAction = (dispatch: any, treeSeries: []) => {
+  console.log('SET TREE SERIES ACTION')
   return dispatch({
     type: 'SET_TREE_SERIES',
     payload: treeSeries

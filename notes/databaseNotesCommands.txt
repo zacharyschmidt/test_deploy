@@ -720,6 +720,8 @@ CREATE INDEX series_vec_index ON series USING gin(search_vec);
 CREATE INDEX geography_filter_category_id on geography_filter(category_id);
 CREATE INDEX frequency_filter_category_id on frequency_filter(category_id);
 
+create table apiUser (id UUID PRIMARY KEY, name TEXT UNIQUE, apiKey TEXT, createdOnTIMESTAMP);
+
 
 
 

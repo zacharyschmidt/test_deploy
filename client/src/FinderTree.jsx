@@ -62,7 +62,8 @@ export default React.memo(function FinderTree() {
   // should use store instead of state
   // const nodeVal = state.selectedTreeNode;
   //const searchVal = state.selectedSearchNode;
-  const flag = useRef();
+  const flag = {};
+  //useRef();
 
   // setItem will set this local variable to avoid rerender
 
@@ -207,6 +208,7 @@ export default React.memo(function FinderTree() {
   const onLeafSelected = (item) => {
 
     console.log('LEAF SELECTEC', item.label)
+    // should this go after the next two if statements?
     flag.current = false
     // how will we know ahead of time if the item has children?
     if (item.display) {
