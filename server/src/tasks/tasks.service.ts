@@ -10,13 +10,15 @@ const admZip = require('adm-zip');
 
 import { UpdateService } from '../update/update.service';
 import { CategoryEntity } from '../categories/category.entity';
+import { ApiUserService } from '../apiUser/apiUser.service';
 
 import { oilProdConsumptionList, oilProdImportTotalList, oilProdImportList, oilProdExportList } from '../download/utils/rmiSeries';
 import { SimpleConsoleLogger } from 'typeorm';
+import { thisTypeAnnotation } from '@babel/types';
 
 @Injectable()
 export class TasksService {
-    constructor(private httpService: HttpService, private updateService: UpdateService) { }
+    constructor(private httpService: HttpService, private updateService: UpdateService, private apiUserService: ApiUserService) { }
     private readonly logger = new Logger(TasksService.name);
 
     // make api call to eia, get updated series
@@ -302,6 +304,13 @@ export class TasksService {
         ...oilProdImportList,
         ...oilProdExportList])
         console.log('finished RMI update')
+    }
+
+    @Timeout(1000)
+    async insertRMIUser() {
+        console.log('Insert RMI User task')
+        let rmi = await this.apiUserService.insertApiUser({ name: 'RMI', apiKey: '1db2c2d4e7f61gb2cjd4e5f6' })
+        console.log(rmi)
     }
     async getSeriesFromIdList(seriesArray: Array<string>) {
         this.logger.debug('Called once after 5 seconds');

@@ -5,6 +5,8 @@ import { CategoryEntity } from 'src/categories/category.entity';
 import { UpdateModule } from 'src/update/update.module';
 import { UpdateService } from 'src/update/update.service';
 import { TasksService } from './tasks.service';
+import { ApiUserModule } from 'src/apiUser/apiUser.module';
+
 
 @Module({
     imports: [HttpModule
@@ -21,7 +23,7 @@ import { TasksService } from './tasks.service';
         //     }
         // })
         , UpdateModule, TypeOrmModule.forFeature([SeriesEntity]),
-        TypeOrmModule.forFeature([CategoryEntity])],
+        TypeOrmModule.forFeature([CategoryEntity]), ApiUserModule],
     providers: [TasksService, UpdateService],
 })
 export class TasksModule { }

@@ -9,6 +9,7 @@ import {
   Query,
   UseGuards,
   Req,
+  Logger,
 } from '@nestjs/common';
 
 import { SeriesService } from './series.service';
@@ -19,7 +20,8 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('series')
 export class SeriesController {
-  constructor(private seriesService: SeriesService) {}
+  constructor(private seriesService: SeriesService) { }
+  private readonly logger = new Logger(SeriesController.name);
 
   @Get('search')
   @UseGuards(new LoginGuard())
@@ -41,16 +43,16 @@ export class SeriesController {
     console.log(series);
     return series;
   }
-//  @Get('custom_childseries')
-//   getCustomSeries(@Query('category_id') category_id: number,
-//     @Query('frequency') frequency: string, @Query('geography') geography: string,
-//     @Query('custom_flag') custom_flag: string) {
-//     const series = this.seriesService.getCustomSeries(category_id, frequency, geography, custom_flag);
-//     console.log(series);
-//     return series;
-//   }
+  //  @Get('custom_childseries')
+  //   getCustomSeries(@Query('category_id') category_id: number,
+  //     @Query('frequency') frequency: string, @Query('geography') geography: string,
+  //     @Query('custom_flag') custom_flag: string) {
+  //     const series = this.seriesService.getCustomSeries(category_id, frequency, geography, custom_flag);
+  //     console.log(series);
+  //     return series;
+  //   }
 
-//don't need this
+  //don't need this
   // @Get('AEO2021Kaya')
   // getAEO2021Kaya(@Query('category_id') category_id: number,
   // @Query('frequency') frequency: string, @Query('geography') geography: string,
@@ -62,14 +64,14 @@ export class SeriesController {
   getSeriesbyID(@Query('series_id') series_id: string) {
     return this.seriesService.getSeriesbyID(series_id);
   }
-  
+
   @Get('rmi')
   @UseGuards(AuthGuard('api-key'))
-  getPetData() {
-    
+  getPetData(@Req() req) {
+    this.logger.log(req)
+
     return this.seriesService.getRMI()
   }
 
 }
 
-  

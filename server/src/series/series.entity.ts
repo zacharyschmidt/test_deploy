@@ -55,7 +55,7 @@ export class SeriesEntity {
   geosetID: string | null;
 
   @Column('jsonb', { name: 'data', nullable: true })
-  data: object | null;
+  data: Array<any> | null;
 
   @Column('text', {
     name: 'dataset_name',

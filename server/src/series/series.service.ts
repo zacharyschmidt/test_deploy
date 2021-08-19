@@ -353,11 +353,14 @@ export class SeriesService {
 
   getRMI = async (): Promise<SeriesSO> => {
     const series_id = 'PET.MGFUPUS1.M';
-    const motorGasoline = 
-    await this.seriesRepository
-      .createQueryBuilder('series')
-      .where('series.series_id = :series_id', { series_id: series_id })
-      .getOne();
+    const motorGasoline =
+      await this.seriesRepository
+        .createQueryBuilder('series')
+        .where('series.series_id = :series_id', { series_id: series_id })
+        .getOne();
+    //reverse data array
+    motorGasoline.data.reverse();
+
     return motorGasoline;
 
   }
