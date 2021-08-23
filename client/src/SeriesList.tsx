@@ -17,7 +17,8 @@ export default function SeriesList(props: any): JSX.Element {
   const dispatch = useDispatch()
 
   // change to render categories
-  let mapped_cats = categories.map((singleCat: ICategories) => {
+  let mapped_cats = categories.sort(//sort cards here
+    ).map((singleCat: ICategories) => {
     return (
       <Grid item key={singleCat.category_id}>
         <CatCard

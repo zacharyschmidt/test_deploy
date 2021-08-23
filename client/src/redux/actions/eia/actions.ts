@@ -1,8 +1,11 @@
 import axios from 'axios';
-import { ContactSupportOutlined, RestorePageRounded } from '@material-ui/icons';
+import { Category, ContactSupportOutlined, RestorePageRounded } from '@material-ui/icons';
 import store from '../../store/store';
 import { IAction, ISeries, IEIA, IStore } from '../../../types';
 import { responsiveFontSizes } from '@material-ui/core';
+
+
+
 
 //const key = process.env.REACT_APP_EIA_API_KEY;
 
@@ -48,12 +51,49 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
   LastUpdate?: string
 }) => {
   console.log('FETCH PARENT CATS')
-  async function buildTree(ancestors: [number]) {
-    const j = ancestors.length
+  const treeCats = store.getState().eia.treeCategories;
+  async function buildTree(ancestors: number[]) {
+    // eslint-disable-next-line no-param-reassign
+    ancestors = ancestors.concat(id)
+    console.log('ancestors', ancestors)
+    const j = ancestors.length;
+    let ancestorsAlreadyInTree: number[] = [];
+    let treeLevel: any[] = [];
     for (let i = 0; i < j; i++) {
-
-      await setTreeStructureAction(dispatch, '', ancestors[i], filters, false)
+      console.log('index', i)
+      if (ancestorsAlreadyInTree.length === 0) {
+          treeLevel = treeCats;
+      } else {
+        console.log('finding level')
+        console.log(treeLevel)
+        console.log('ancestors already in tree', ancestorsAlreadyInTree)
+        
+        
+       console.log(treeLevel) 
+        treeLevel = treeLevel[ancestorsAlreadyInTree.slice(-1)[0]].childCategories;
+       console.log(treeLevel)
+        
+      }
+      let index = treeLevel.findIndex((cat) => cat.category_id === ancestors[i]);
+      console.log(index)
+      if (index !== -1) {
+        console.log('treeLevel', treeLevel)
+        console.log('index', index)
+        ancestorsAlreadyInTree.push(index);
+      } else {
+        console.log('setTreeStructure')
+        treeLevel = await setTreeStructureAction(dispatch, '', ancestors[i-1], filters, false)
+         console.log(treeLevel)
+         let index = treeLevel.findIndex((cat) => cat.category_id === ancestors[i]);
+         ancestorsAlreadyInTree.push(index);
+      }
+      // if (ancestors[i] === selectedTreeNodes[i]) return;
+     
     }
+    console.log('TREELEVEL at END', treeLevel)
+    console.log('ANCESTORS ALREADY IN TREE AT END', ancestorsAlreadyInTree)
+    console.log('ANCESTORS', ancestors)
+    console.log('ID', id)
   }
   try {
 
@@ -74,6 +114,7 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
     //   console.log(ancestor)
     //   setTreeStructureAction(dispatch, ancestor, filters)
     // }
+    console.log('setting treenode', id)
     setSelectedTreeNodeAction(dispatch, id);
 
 
@@ -81,7 +122,9 @@ export const fetchParentCatsAction = async (dispatch: any, id: number, filters: 
     //   type: 'GET_PARENT_CATS',
     //   payload: { parents: response.data }
     // });
-  } catch (error) { }
+  } catch (error) {
+    console.log(error)
+   }
 };
 
 
@@ -118,7 +161,16 @@ export const fetchCategoriesAction = async (
     return dispatch({
       type: 'FETCH_CATS',
       payload: {
-        rowCategories: response.data.categories,
+        rowCategories: response.data.categories.sort((a: any, b: any) => {
+         if((a.name.slice(0,5) === 'Table') && (b.name.slice(0,5) === 'Table')) {
+            return Number(a.name.slice(6, 9).replace(/\W/g, '')) - Number(b.name.slice(6, 9).replace(/\W/g, '')) 
+           
+         } 
+          if (a.name > b.name) {
+            return 1
+          }
+          return -1
+        }),
         page: response.data.page,
         totalCount: response.data.totalCount,
         id: parent_category_id,
@@ -886,6 +938,8 @@ export const setTreeStructureAction = async (
   dispatch: any,
   searchTerm: string,
   category_id: number,
+  // need parent category id so we know if this 
+  //parent_category_id: number,
   filters: any,
   includeRows: boolean = true
 ) => {
@@ -928,10 +982,21 @@ export const setTreeStructureAction = async (
     if (!includeRows) {
       rowCards = {};
     }
+    console.log(response.data[0])
     dispatch({
       type: 'SET_TREE_STRUCTURE',
       payload: {
         tree_leaves: response.data[0].sort((a: any, b: any) => {
+          console.log(a.name)
+          console.log(b.name)
+          console.log(a.name.slice(0,5) === 'Table')
+          console.log(b.name.slice(0,5) === 'Table')
+          console.log(Number(a.name.slice(6, 9).replace(/\W/g, '')))
+          console.log(Number(b.name.slice(6, 9).replace(/\W/g, '')))
+          if((a.name.slice(0,5) === 'Table') && (b.name.slice(0,5) === 'Table')) {
+            return Number(a.name.slice(6, 9).replace(/\W/g, '')) - Number(b.name.slice(6, 9).replace(/\W/g, '')) 
+           
+         } 
           if (a.name > b.name) {
             return 1
           }
@@ -958,7 +1023,12 @@ export const setTreeStructureAction = async (
         5,
       );
     }
-
+    return response.data[0].sort((a: any, b: any) => {
+          if (a.name > b.name) {
+            return 1
+          }
+          return -1
+        })
   } catch (error) {
     console.log(error);
   }
@@ -1140,3 +1210,7 @@ export const toggleSelectAction = (
 
   return dispatch(dispatchObj);
 };
+function getState(): any {
+  throw new Error('Function not implemented.');
+}
+

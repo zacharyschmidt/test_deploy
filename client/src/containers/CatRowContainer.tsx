@@ -27,6 +27,7 @@ export default function CatRowContainer(props: any) {
   const classes = useStyles();
   const dispatch = useDispatch();
   const state = useSelector((state: IStore) => state.eia)
+  console.log(state.rowCards)
 
   let row_ids: Array<number> = []
   for (const [key, value] of Object.entries(state.rowCards)) {
@@ -35,57 +36,59 @@ export default function CatRowContainer(props: any) {
 
   return (
     <div className={classes.root}>
-        
-                    {row_ids.map((id: any) => {
-                    
-                      return (
-                      <Accordion expanded={state.rowCards[id].isOpen ? true : false} onChange={() => {
-                          // make a new action, if state.isOpen is false, 
-                          // do fetch cat action
-                          if(!state.rowCards[id].isOpen) {
-                              fetchCategoriesAction(
-                                dispatch,
-                                state.searchTerm,
-                                id,
-                                state.filters,
-                                1,
-                                5
-                            )}
-                          toggleRowAction(id, dispatch)
-                          
-                          }
-                      }
-                      key={id}
-                      title={state.rowCards[id].name}
-                     
-                      >
-                          
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography className={classes.heading}>{state.rowCards[id].name}</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Typography component={'span'}>
-             {state.treeLoading ? 'Loading'
-              : <SeriesList
-                        
-                        categories={state.rowCards[id].categories}
-                        toggleSelectAction={props.toggleSelectAction}
-                        selected={props.selected}
-                        name={state.rowCards[id].name}
-                        id={id} /> }
-          </Typography>
-        </AccordionDetails>
-      </Accordion>)}).sort((a: any, b: any) => {
-                      if (a.props.title > b.props.title) {
-                        return 1
-                      }
-                      return -1
-                    })
-                }
-                </div> 
+
+      {row_ids.map((id: any) => {
+
+        return (
+          <Accordion expanded={state.rowCards[id].isOpen ? true : false} onChange={() => {
+            // make a new action, if state.isOpen is false, 
+            // do fetch cat action
+            if (!state.rowCards[id].isOpen) {
+              fetchCategoriesAction(
+                dispatch,
+                state.searchTerm,
+                id,
+                state.filters,
+                1,
+                5
+              )
+            }
+            toggleRowAction(id, dispatch)
+
+          }
+          }
+            key={id}
+            title={state.rowCards[id].name}
+
+          >
+
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography className={classes.heading}>{state.rowCards[id].name}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography component={'span'}>
+                {state.treeLoading ? 'Loading'
+                  : <SeriesList
+
+                    categories={state.rowCards[id].categories}
+                    toggleSelectAction={props.toggleSelectAction}
+                    selected={props.selected}
+                    name={state.rowCards[id].name}
+                    id={id} />}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>)
+      }).sort((a: any, b: any) => {
+        if (a.props.title > b.props.title) {
+          return 1
+        }
+        return -1
+      })
+      }
+    </div>
   );
 }

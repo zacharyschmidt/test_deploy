@@ -157,7 +157,7 @@ export default React.memo(function FinderTree() {
   //   children: [{ id: 964135, label: "Annual Energy Outlook 2012", childseries: []}] },
   // { id: 963165, label: "Annual Energy Outlook 2015", childseries: [] }]
 
-  const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => {
+  const tree = treeCategories.map((cat) => recursiveMap(cat)).sort((a, b) => { 
     if (a.label > b.label) {
       return 1
     }
@@ -335,6 +335,9 @@ export default React.memo(function FinderTree() {
     // commented out for debugging
 
     // && item.id === nodeVal
+    console.log("CHECKING TO SEE IF WE SHOULD SET CARD ROWS")
+    console.log("flag: ", flag.current)
+    console.log("item: ", item)
     if (flag.current && !item.children[0].display) {
       console.log('ITEM SELECTED: flag.current is true, setCardRowsAction')
       console.log('setting card rows')

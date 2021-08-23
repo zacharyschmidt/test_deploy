@@ -127,8 +127,12 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
         // leaf nodes into the first level
         newTree = treeData;
       } else {
+        console.log('before testNode function')
+        console.log('node id', node_id)
         const testNode = (cat: ICategories) => {
           if (cat.category_id == node_id) {
+            console.log("FOUND PARENT CAT (from reducer")
+            console.log("node id", node_id)
             cat.childCategories = treeData;
             return cat;
           }
@@ -164,6 +168,7 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
       return {
         ...state,
         treeCategories: newTree,
+        // need to fixthis by checking parent 
         treeNodes: state.treeNodes.concat([Number(node_id)]),
         // problem here--treeLeaves is getting overwritten to an empty array when
         // i navigate down to a category with series as leaves. Or is the problem that
@@ -192,10 +197,10 @@ export const eiaReducer = (state = initialState, action: IAction): IEIA => {
       let newRowCards = {};
       let prevRowCards = {};
       if (state.rowCards[action.payload]) {
-          newRowCards = { [action.payload]: {...state.rowCards[action.payload], isOpen: true }};
-          prevRowCards = state.rowCards;
+        newRowCards = { [action.payload]: { ...state.rowCards[action.payload], isOpen: true } };
+        prevRowCards = state.rowCards;
       } else if (state.prevRowCards[action.payload]) {
-        newRowCards = { [action.payload]:{...state.prevRowCards[action.payload], isOpen: true }};
+        newRowCards = { [action.payload]: { ...state.prevRowCards[action.payload], isOpen: true } };
         prevRowCards = state.prevRowCards;
       }
       return {
