@@ -10,6 +10,7 @@ alter table "categories" add column "dataset_name" text
 
 I need to specify english when vectorizing. after that I don't need to
 specify english when making the query or the index (if I store the vectors in a column )
+
 update series set search_vec = to_tsvector('english',search_text);
 
 --should not work-- update series set search_vec = to_tsvector(search_text);
@@ -68,7 +69,6 @@ update series
             from (select * from categories limit 50) as sub_cat , jsonb_array_elements(childseries) as childseries_id) 
                 as subquery where series.series_id = cast(subquery.childseries_id as text);
 
-
 Drop index series_vec_index
 alter table "series" drop column "search_text";
 alter table "series" add column "search_text" text;
@@ -81,6 +81,12 @@ alter table "series" add column "search_vec" TSVECTOR;
 
 update series set search_vec = to_tsvector('english',search_text);
 CREATE INDEX series_vec_index ON series USING gin(search_vec); 
+
+
+
+
+
+
 
 
 needed to delect duplicate international energy outlook 2019 with no child categories:
@@ -723,6 +729,11 @@ CREATE INDEX frequency_filter_category_id on frequency_filter(category_id);
 create table apiUser (id UUID DEFAULT gen_random_uuid() PRIMARY KEY, name TEXT UNIQUE, apiKey TEXT, createdOn TIMESTAMP);
 
 
+########### For some reason 'Emissions' was not included in search_vec,
+########### although it was in search_text. solution is to rebuild search_vec and index.
+update categories set search_vec = to_tsvector('english', search_text);
+Drop index categories_vec_index;
+CREATE INDEX categories_vec_index ON categories USING gin(search_vec); 
 
 
 

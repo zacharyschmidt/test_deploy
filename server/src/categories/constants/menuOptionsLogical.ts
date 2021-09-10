@@ -1,4 +1,6 @@
-let menu_options_logical = ['USA', "AFG",
+let menu_options_logical = ["USA",
+	"USA-US", // alternate name for us used for 9 records in CO2 emissions dataset
+	"AFG",
 	"ALB",
 	"DZA",
 	"ASM",

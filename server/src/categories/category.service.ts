@@ -75,7 +75,13 @@ export class CategoryService {
 
   getTreeCategories = async (
     paginationDto: PaginationDto): Promise<Array<CategorySO>> => {
-    let region = 'USA';
+    let region = [];
+    if (paginationDto.Region == 'USA') {
+      region = ['USA', 'USA-US']
+    }
+    else {
+      region = [paginationDto.Region]
+    };
     let searchTerm = '';
     // we don't need to use the search term when we build the tree
     // if (paginationDto.searchTerm) {
@@ -100,6 +106,8 @@ export class CategoryService {
     }
     console.log('REGION')
     console.log(paginationDto.Region)
+
+
 
     let categories;
 
@@ -142,9 +150,9 @@ export class CategoryService {
          AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3))
          AND cats.parent_category_id = $4
          AND (series.series_id IS NULL OR series.f = $5)
-         AND (series.series_id IS NULL OR (series.geography = $6))
+         AND (series.series_id IS NULL OR (series.geography = any($6::TEXT[])))
          AND freq.f = $5
-         AND geo.geography = $6
+         AND geo.geography = any($6::TEXT[])
          AND cats.excluded = 0
          AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))
          GROUP BY cats.category_id, category_leaf_lookup.ancestors
@@ -176,7 +184,7 @@ export class CategoryService {
          AND (series.series_id IS NOT NULL )
          AND (series.series_id IS NOT NULL )
          AND freq.f = $5
-         AND geo.geography = $6
+         AND geo.geography = any($6::TEXT[])
          AND cats.excluded = 0
          AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))
          GROUP BY cats.category_id, category_leaf_lookup.ancestors
@@ -185,11 +193,11 @@ export class CategoryService {
 
         NOT (COALESCE($5 = any(ARRAY_AGG(DISTINCT series.f)), FALSE)
         AND
-        COALESCE($6 = any(ARRAY_AGG(DISTINCT series.geography)), FALSE))`
+        COALESCE($6 && (ARRAY_AGG(DISTINCT series.geography)), FALSE))`
 
           ,
           [paginationDto.DataSet, searchTerm.length, searchTerm, parent_category_id,
-          paginationDto.Frequency, paginationDto.Region,
+          paginationDto.Frequency, region,
           paginationDto.HistorProj, hist_or_proj_names,
           ])
     } else if (paginationDto.Region === 'All') {
@@ -282,7 +290,13 @@ export class CategoryService {
     const skippedItems = (paginationDto.page - 1) * 5;
 
 
-    let region = 'USA';
+    let region = [];
+    if (paginationDto.Region == 'USA') {
+      region = ['USA', 'USA-US']
+    }
+    else {
+      region = [paginationDto.Region]
+    };;
     let searchTerm = '';
     if (paginationDto.searchTerm) {
       searchTerm = paginationDto.searchTerm
@@ -342,7 +356,7 @@ export class CategoryService {
          WHERE (($1 = 'All') OR cats.dataset_name = $1)
          AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3)) 
          AND freq.f = $4
-         AND geo.geography = $5
+         AND geo.geography = any($5::TEXT[])
          AND cats.excluded = 0
          AND leaf.ancestors = $6
          AND (($9 = 'All') OR cats.dataset_name = any($10::TEXT[]))
@@ -351,7 +365,7 @@ export class CategoryService {
          OFFSET $8`
           ,
           [paginationDto.DataSet, searchTerm.length, searchTerm,
-          paginationDto.Frequency, paginationDto.Region, parent_category_id, 5, skippedItems,
+          paginationDto.Frequency, region, parent_category_id, 5, skippedItems,
           paginationDto.HistorProj, hist_or_proj_names
           ])
 
@@ -367,13 +381,13 @@ export class CategoryService {
          WHERE (($1 = 'All') OR cats.dataset_name = $1)
          AND (($2 = 0) OR cats.search_vec @@ phraseto_tsquery($3)) 
          AND freq.f = $4
-         AND geo.geography = $5
+         AND geo.geography = any($5::TEXT[])
          AND cats.excluded = 0
          AND leaf.ancestors = $6
          AND (($7 = 'All') OR cats.dataset_name = any($8::TEXT[]))`
           ,
           [paginationDto.DataSet, searchTerm.length, searchTerm,
-          paginationDto.Frequency, paginationDto.Region, parent_category_id,
+          paginationDto.Frequency, region, parent_category_id,
           paginationDto.HistorProj, hist_or_proj_names
           ])
     } else if (paginationDto.Region === 'All') {
@@ -528,6 +542,10 @@ export class CategoryService {
     //   country_matches = this.categoryRepository.query(
     // `SELECT DISTINCT(geography) FROM geography_filter WHERE category_id = $1`, [dataset_id]);
     country_matches.unshift({ geography: "All" })
+    let usa_us_index = country_matches.findIndex(element => element.geography === "USA-US")
+    if (usa_us_index) {
+      country_matches.splice(usa_us_index, 1, { geography: "USA" })
+    }
     return country_matches
   }
 }
