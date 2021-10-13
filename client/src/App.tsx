@@ -1,21 +1,21 @@
 import React, { useEffect } from 'react';
+import { Grid, makeStyles } from '@material-ui/core'
+import { Switch, Route, useHistory, Redirect, BrowserRouter as Router } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Home from './pages/Home';
 import Demo from './pages/Demo';
 import Navbar from './containers/Navbar';
 import IndexData from './IndexData';
 import CategoryDetails from './CategoryDetails';
 
-import { Switch, Route, useHistory, Redirect, BrowserRouter as Router } from 'react-router-dom';
 
 import SnackBar from './components/snackbar/SnackBar';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
-import { useDispatch, useSelector } from 'react-redux';
 import { getProfile, userLoggedOut } from './redux/actions/auth/actions';
 import { IStore } from './types';
 
-import { Grid, makeStyles } from '@material-ui/core'
 
 
 import './App.css';
